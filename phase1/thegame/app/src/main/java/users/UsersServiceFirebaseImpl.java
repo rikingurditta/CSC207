@@ -70,7 +70,7 @@ public class UsersServiceFirebaseImpl implements IUsersService {
    * @return Firebase Sign In Intent
    */
   @Override
-  public Intent signIn() {
+  public Intent initiateSignIn() {
     // Return the intent of the Sign in activity
     return firebaseAuthUI.createSignInIntentBuilder().setAvailableProviders(providers).build();
   }
@@ -87,7 +87,6 @@ public class UsersServiceFirebaseImpl implements IUsersService {
    * @param listener Method to perform OnComplete
    * @throws NoUserException If no user is signed in
    */
-  @Override
   public void delete(OnCompleteListener<Void> listener) throws NoUserException {
     if (!isUserConnected()) {
       throw new NoUserException("No IUser connected");
@@ -132,8 +131,18 @@ public class UsersServiceFirebaseImpl implements IUsersService {
    * @return LiveData encapsulation of current user data
    */
   @Override
-  public LiveData<IUser> getUser() {
+  public LiveData<IUser> getUserObservable() {
     return userLiveData;
+  }
+
+  /**
+   * Gets the currently logged in user
+   *
+   * @return current user data
+   */
+  @Override
+  public IUser getUser() {
+    return new UserFirebaseImp();
   }
 
   /** Set the value of the user LiveData to alert observers to change */

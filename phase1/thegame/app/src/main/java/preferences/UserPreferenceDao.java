@@ -1,6 +1,9 @@
 package preferences;
 
 import androidx.annotation.Nullable;
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MutableLiveData;
+import androidx.lifecycle.Observer;
 
 import java.util.List;
 
@@ -14,6 +17,7 @@ public class UserPreferenceDao implements IDao<UserPreference> {
 
   /**
    * Create a new UserPreferenceDao for the given user
+   *
    * @param currUser The given user
    */
   public UserPreferenceDao(String currUser) {
@@ -47,7 +51,7 @@ public class UserPreferenceDao implements IDao<UserPreference> {
    * @param value The object's new value
    */
   public void put(UserPreference value) {
-    repo.update(value.getPrefKey(), value);
+    repo.update(value.getPrefName(), value);
   }
 
   /**
@@ -80,5 +84,15 @@ public class UserPreferenceDao implements IDao<UserPreference> {
   @Override
   public List<UserPreference> getAll() {
     return repo.getAll();
+  }
+
+  /**
+   * Get the observable list of the items
+   *
+   * @return LiveData wrapper of the objects
+   */
+  @Override
+  public LiveData<List<UserPreference>> getObservableList() {
+    return this.repo.getObservable();
   }
 }

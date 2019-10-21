@@ -2,6 +2,8 @@ package preferences;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MutableLiveData;
 
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
@@ -19,9 +21,11 @@ class UserPreferencesFirebaseRepository implements IUserPreferencesRepository {
   /** A reference to the Firebase database */
   private DatabaseReference mDatabase;
 
-  // todo: make LiveData
   /** A list containing all preferences in runtime */
   private List<UserPreference> currentPreferences;
+
+  /** A LiveData object wrapper for the currentPreferences */
+  private MutableLiveData<List<UserPreference>> currentPreferencesLiveData;
 
   /**
    * Create a new UserPreferencesFirebaseRepository for the given user and set up all database event
@@ -33,38 +37,23 @@ class UserPreferencesFirebaseRepository implements IUserPreferencesRepository {
     this.mDatabase =
         FirebaseDatabase.getInstance().getReference().child("/users/" + currUser + "/preferences");
     currentPreferences = new ArrayList<>();
+    currentPreferencesLiveData = new MutableLiveData<>();
 
     this.mDatabase.addChildEventListener(
         new ChildEventListener() {
           @Override
           public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-            UserPreference preference = dataSnapshot.getValue(UserPreference.class);
-            currentPreferences.add(preference);
+            preferenceAdded(dataSnapshot);
           }
 
           @Override
           public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-            UserPreference preference = dataSnapshot.getValue(UserPreference.class);
-
-            for (UserPreference iterPref : currentPreferences) {
-              if (iterPref.getPrefKey().equals(preference.getPrefKey())) {
-                iterPref.setValue(preference.getPrefVal());
-                break;
-              }
-            }
+            preferenceChanged(dataSnapshot);
           }
 
           @Override
           public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
-            UserPreference preference = dataSnapshot.getValue(UserPreference.class);
-
-            Iterator<UserPreference> iter = currentPreferences.iterator();
-            while (iter.hasNext()) {
-              if (iter.next().getPrefKey().equals(preference.getPrefKey())) {
-                iter.remove();
-                break;
-              }
-            }
+            preferenceRemoved(dataSnapshot);
           }
 
           @Override
@@ -82,9 +71,10 @@ class UserPreferencesFirebaseRepository implements IUserPreferencesRepository {
    */
   @Override
   public void add(UserPreference value) {
-    DatabaseReference preferenceRef = mDatabase.push();
-    value.setKey(preferenceRef.getKey());
-    mDatabase.child(preferenceRef.getKey()).setValue(value);
+    mDatabase.child(value.getPrefName()).setValue(value.getPrefVal());
+    //    DatabaseReference preferenceRef = mDatabase.push();
+    //    value.setKey(preferenceRef.getKey());
+    //    mDatabase.child(preferenceRef.getKey()).setValue(value);
   }
 
   /**
@@ -97,7 +87,7 @@ class UserPreferencesFirebaseRepository implements IUserPreferencesRepository {
   public void update(String key, UserPreference value) {
     DatabaseReference ref = mDatabase.child(key);
 
-    ref.setValue(value);
+    ref.setValue(value.getPrefVal());
   }
 
   /**
@@ -122,7 +112,7 @@ class UserPreferencesFirebaseRepository implements IUserPreferencesRepository {
   @Nullable
   public UserPreference get(String key) {
     for (UserPreference pref : currentPreferences) {
-      if (pref.getPrefKey().equals(key)) {
+      if (pref.getPrefName().equals(key)) {
         return pref;
       }
     }
@@ -137,5 +127,66 @@ class UserPreferencesFirebaseRepository implements IUserPreferencesRepository {
   @Override
   public List<UserPreference> getAll() {
     return currentPreferences;
+  }
+
+  /**
+   * get the observable data of all user preferences
+   *
+   * @return The list of all data records wrapped in an observable LiveData
+   */
+  @Override
+  public LiveData<List<UserPreference>> getObservable() {
+    return currentPreferencesLiveData;
+  }
+
+  /**
+   * Remove preference from list and update LiveData
+   *
+   * @param dataSnapshot The snapshot of the db change
+   */
+  private void preferenceRemoved(@NonNull DataSnapshot dataSnapshot) {
+    String preferenceName = dataSnapshot.getKey();
+
+    Iterator<UserPreference> iter = currentPreferences.iterator();
+    while (iter.hasNext()) {
+      if (iter.next().getPrefName().equals(preferenceName)) {
+        iter.remove();
+        break;
+      }
+    }
+
+    currentPreferencesLiveData.setValue(currentPreferences);
+  }
+
+  /**
+   * Change preference in list and update LiveData
+   *
+   * @param dataSnapshot The snapshot of the db change
+   */
+  private void preferenceChanged(@NonNull DataSnapshot dataSnapshot) {
+    String preferenceName = dataSnapshot.getKey();
+    String preferenceValue = dataSnapshot.getValue(String.class);
+
+    for (UserPreference iterPref : currentPreferences) {
+      if (iterPref.getPrefName().equals(preferenceName)) {
+        iterPref.setValue(preferenceValue);
+        break;
+      }
+    }
+
+    currentPreferencesLiveData.setValue(currentPreferences);
+  }
+
+  /**
+   * Add preference to list and update LiveData
+   *
+   * @param dataSnapshot The snapshot of the db change
+   */
+  private void preferenceAdded(@NonNull DataSnapshot dataSnapshot) {
+    String name = dataSnapshot.getKey();
+    String value = dataSnapshot.getValue(String.class);
+    UserPreference preference = new UserPreference(name, value);
+    currentPreferences.add(preference);
+    currentPreferencesLiveData.setValue(currentPreferences);
   }
 }

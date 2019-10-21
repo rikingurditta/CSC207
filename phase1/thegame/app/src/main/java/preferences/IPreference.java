@@ -17,9 +17,9 @@ interface IPreference {
   String getPrefVal();
 
   /**
-   * Get the preference's key
+   * Set the preference's value
    *
-   * @return Preference key
+   * @param value New value
    */
-  String getPrefKey();
+  void setValue(String value);
 }

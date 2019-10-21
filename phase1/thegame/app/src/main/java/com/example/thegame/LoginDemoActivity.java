@@ -29,7 +29,7 @@ public class LoginDemoActivity extends AppCompatActivity {
         IUsersService = UsersServiceFirebaseImpl.getInstance();
 
         IUsersService
-                .getUser()
+                .getUserObservable()
                 .observe(
                         this,
                         new Observer<IUser>() {
@@ -51,7 +51,7 @@ public class LoginDemoActivity extends AppCompatActivity {
     }
 
     public void createSignInIntent(View view) {
-        Intent signInIntent = IUsersService.signIn();
+        Intent signInIntent = IUsersService.initiateSignIn();
 
         startActivityForResult(signInIntent, IUsersService.RC_SIGN_IN);
     }
@@ -78,7 +78,7 @@ public class LoginDemoActivity extends AppCompatActivity {
             if (resultCode == RESULT_OK) {
                 System.out.println("success");
                 // Successfully signed in
-                //        IUsersService.getUser();
+                //        IUsersService.getUserObservable();
                 // ...
             } else {
                 System.out.println("fail");

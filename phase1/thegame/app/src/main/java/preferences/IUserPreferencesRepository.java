@@ -1,6 +1,7 @@
 package preferences;
 
 import androidx.annotation.Nullable;
+import androidx.lifecycle.LiveData;
 
 import java.util.List;
 
@@ -43,4 +44,11 @@ interface IUserPreferencesRepository {
    * @return The list of all data records
    */
   List<UserPreference> getAll();
+
+  /**
+   * get the observable data of all user preferences
+   *
+   * @return The list of all data records wrapped in an observable LiveData
+   */
+  LiveData<List<UserPreference>> getObservable();
 }

@@ -1,6 +1,7 @@
 package dataAccess;
 
 import androidx.annotation.Nullable;
+import androidx.lifecycle.LiveData;
 
 import java.util.List;
 
@@ -44,4 +45,10 @@ public interface IDao<T> {
    * @return The list of all data records
    */
   List<T> getAll();
+
+  /**
+   * Get the observable list of the items
+   * @return LiveData wrapper of the objects
+   */
+  LiveData<List<T>> getObservableList();
 }
