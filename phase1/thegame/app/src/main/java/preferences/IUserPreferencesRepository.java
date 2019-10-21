@@ -1,0 +1,46 @@
+package preferences;
+
+import androidx.annotation.Nullable;
+
+import java.util.List;
+
+interface IUserPreferencesRepository {
+
+  /**
+   * Creates a new record in the DB and puts the given value inside
+   *
+   * @param value The object's value
+   */
+  void add(UserPreference value);
+
+  /**
+   * Updates an existing record with the given key by the given value
+   *
+   * @param key The existing data record ID
+   * @param value The object's new value
+   */
+  void update(String key, UserPreference value);
+
+  /**
+   * Deletes the data record with the given key
+   *
+   * @param key The data record key
+   */
+  void delete(String key);
+
+  /**
+   * Query the single item with given key
+   *
+   * @param key The data record key
+   * @return The data record's value
+   */
+  @Nullable
+  UserPreference get(String key);
+
+  /**
+   * Query all items of this type
+   *
+   * @return The list of all data records
+   */
+  List<UserPreference> getAll();
+}
