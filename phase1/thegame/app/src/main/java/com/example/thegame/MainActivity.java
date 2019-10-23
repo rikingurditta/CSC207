@@ -1,14 +1,13 @@
 package com.example.thegame;
 
-import androidx.appcompat.app.AppCompatActivity;
+import com.group0565.engine.android.GameActivity;
+import com.group0565.math.Vector;
 
-import android.os.Bundle;
+public class MainActivity extends GameActivity {
+    private static final String TAG = "MainActivity";
 
-public class MainActivity extends AppCompatActivity {
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+    public MainActivity() {
+        super(new MainObject(null, new Vector(), false));
     }
 }
