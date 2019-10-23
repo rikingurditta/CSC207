@@ -3,4 +3,7 @@
     <string name="sign_in_btn">sign in</string>
     <string name="delete_btn">delete</string>
     <string name="sign_out_btn">sign out</string>
+    <string name="Game1Name">Game 1</string>
+    <string name="Game2Name">Game 2</string>
+    <string name="Game3Name">Game 3</string>
 </resources>
