@@ -1,4 +1,4 @@
-package users;
+package com.group0565.users;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;

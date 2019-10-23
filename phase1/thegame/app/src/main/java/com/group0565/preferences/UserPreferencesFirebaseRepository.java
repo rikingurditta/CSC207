@@ -1,4 +1,4 @@
-package preferences;
+package com.group0565.preferences;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -21,7 +21,7 @@ class UserPreferencesFirebaseRepository implements IUserPreferencesRepository {
   /** A reference to the Firebase database */
   private DatabaseReference mDatabase;
 
-  /** A list containing all preferences in runtime */
+  /** A list containing all com.group0565.preferences in runtime */
   private List<UserPreference> currentPreferences;
 
   /** A LiveData object wrapper for the currentPreferences */
@@ -35,7 +35,7 @@ class UserPreferencesFirebaseRepository implements IUserPreferencesRepository {
    */
   UserPreferencesFirebaseRepository(String currUser) {
     this.mDatabase =
-        FirebaseDatabase.getInstance().getReference().child("/users/" + currUser + "/preferences");
+        FirebaseDatabase.getInstance().getReference().child("/com/group0565/users/" + currUser + "/com/group0565/preferences");
     currentPreferences = new ArrayList<>();
     currentPreferencesLiveData = new MutableLiveData<>();
 
@@ -130,7 +130,7 @@ class UserPreferencesFirebaseRepository implements IUserPreferencesRepository {
   }
 
   /**
-   * get the observable data of all user preferences
+   * get the observable data of all user com.group0565.preferences
    *
    * @return The list of all data records wrapped in an observable LiveData
    */

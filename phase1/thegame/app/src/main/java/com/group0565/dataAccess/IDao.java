@@ -1,18 +1,19 @@
-package preferences;
+package com.group0565.dataAccess;
 
 import androidx.annotation.Nullable;
 import androidx.lifecycle.LiveData;
 
 import java.util.List;
 
-interface IUserPreferencesRepository {
+/** Interface for a Database Access Object */
+public interface IDao<T> {
 
   /**
    * Creates a new record in the DB and puts the given value inside
    *
    * @param value The object's value
    */
-  void add(UserPreference value);
+  void post(T value);
 
   /**
    * Updates an existing record with the given key by the given value
@@ -20,7 +21,7 @@ interface IUserPreferencesRepository {
    * @param key The existing data record ID
    * @param value The object's new value
    */
-  void update(String key, UserPreference value);
+  void put(String key, T value);
 
   /**
    * Deletes the data record with the given key
@@ -36,19 +37,18 @@ interface IUserPreferencesRepository {
    * @return The data record's value
    */
   @Nullable
-  UserPreference get(String key);
+  T get(String key);
 
   /**
    * Query all items of this type
    *
    * @return The list of all data records
    */
-  List<UserPreference> getAll();
+  List<T> getAll();
 
   /**
-   * get the observable data of all user preferences
-   *
-   * @return The list of all data records wrapped in an observable LiveData
+   * Get the observable list of the items
+   * @return LiveData wrapper of the objects
    */
-  LiveData<List<UserPreference>> getObservable();
+  LiveData<List<T>> getObservableList();
 }

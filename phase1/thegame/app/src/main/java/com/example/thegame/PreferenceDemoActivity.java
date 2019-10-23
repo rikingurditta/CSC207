@@ -9,8 +9,8 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.List;
 
-import preferences.UserPreference;
-import preferences.UserPreferenceDao;
+import com.group0565.preferences.UserPreference;
+import com.group0565.preferences.UserPreferenceDao;
 
 public class PreferenceDemoActivity extends AppCompatActivity {
   private UserPreferenceDao myPrefDao;

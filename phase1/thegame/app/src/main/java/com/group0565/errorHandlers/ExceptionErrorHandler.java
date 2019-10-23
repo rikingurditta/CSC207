@@ -2,8 +2,26 @@ package com.group0565.errorHandlers;
 
 import android.util.Log;
 
-/** Exception IErrorHandler */
+/** Singleton Exception IErrorHandler */
 public class ExceptionErrorHandler implements IErrorHandler<Exception> {
+
+  /** The single instance */
+  private static ExceptionErrorHandler instance;
+
+  /** Private constructor */
+  private ExceptionErrorHandler() {}
+
+  /**
+   * Returns the single instance of the class and initiates if necessary
+   * @return The instance of the class
+   */
+  public static ExceptionErrorHandler getInstance() {
+    if (instance == null) {
+      instance = new ExceptionErrorHandler();
+    }
+
+    return instance;
+  }
 
   /**
    * Crash the app on severe error

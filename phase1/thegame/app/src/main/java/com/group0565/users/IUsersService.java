@@ -1,12 +1,10 @@
-package users;
+package com.group0565.users;
 
 import android.content.Intent;
 
 import androidx.lifecycle.LiveData;
 
-import com.google.android.gms.tasks.OnCompleteListener;
-
-/** Interface for users service */
+/** Interface for com.group0565.users service */
 public interface IUsersService {
 
   /** The Request Code */

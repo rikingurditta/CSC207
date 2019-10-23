@@ -11,10 +11,10 @@ import android.widget.TextView;
 
 import com.firebase.ui.auth.IdpResponse;
 
-import users.IUser;
-import users.IUsersService;
-import users.NoUserException;
-import users.UsersServiceFirebaseImpl;
+import com.group0565.users.IUser;
+import com.group0565.users.IUsersService;
+import com.group0565.users.NoUserException;
+import com.group0565.users.UsersServiceFirebaseImpl;
 
 public class LoginDemoActivity extends AppCompatActivity {
 

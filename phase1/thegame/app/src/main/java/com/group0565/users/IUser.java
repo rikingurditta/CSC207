@@ -1,4 +1,4 @@
-package users;
+package com.group0565.users;
 
 /** Interface of a IUser component */
 public interface IUser {

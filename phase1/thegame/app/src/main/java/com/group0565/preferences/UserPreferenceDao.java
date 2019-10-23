@@ -1,13 +1,11 @@
-package preferences;
+package com.group0565.preferences;
 
 import androidx.annotation.Nullable;
 import androidx.lifecycle.LiveData;
-import androidx.lifecycle.MutableLiveData;
-import androidx.lifecycle.Observer;
 
 import java.util.List;
 
-import dataAccess.IDao;
+import com.group0565.dataAccess.IDao;
 
 /** Implementation of IDao for UserPreference */
 public class UserPreferenceDao implements IDao<UserPreference> {

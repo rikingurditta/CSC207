@@ -1,4 +1,4 @@
-package users;
+package com.group0565.users;
 
 import android.content.Intent;
 
@@ -14,7 +14,7 @@ import com.google.firebase.auth.FirebaseUser;
 import java.util.Arrays;
 import java.util.List;
 
-/** Firebase implementation of users service interface - a singleton */
+/** Firebase implementation of com.group0565.users service interface - a singleton */
 public class UsersServiceFirebaseImpl implements IUsersService {
 
   /** Singleton instance */

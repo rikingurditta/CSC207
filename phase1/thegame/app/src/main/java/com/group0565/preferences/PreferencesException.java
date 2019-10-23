@@ -1,4 +1,4 @@
-package preferences;
+package com.group0565.preferences;
 
 /** An exception that occurred with Preferences Data access */
 public class PreferencesException extends Exception {

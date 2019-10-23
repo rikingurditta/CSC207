@@ -1,6 +1,6 @@
-package preferences;
+package com.group0565.preferences;
 
-/** An interface for game preferences */
+/** An interface for game com.group0565.preferences */
 interface IPreference {
   /**
    * Get the preference's name
