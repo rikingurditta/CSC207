@@ -29,4 +29,14 @@ public interface IUser {
    * @return True if a user is connected, false otherwise
    */
   boolean isConnected();
+
+  /** Sign the current user out */
+  void signOut();
+
+  /**
+   * Deletes the current user
+   *
+   * @throws NoUserException If no user is signed in
+   */
+  void delete() throws NoUserException;
 }

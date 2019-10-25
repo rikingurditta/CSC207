@@ -6,4 +6,6 @@
     <string name="Game1Name">Game 1</string>
     <string name="Game2Name">Game 2</string>
     <string name="Game3Name">Game 3</string>
+    <string name="no_user">No User Connected!</string>
+    <string name="login_btn">Login</string>
 </resources>

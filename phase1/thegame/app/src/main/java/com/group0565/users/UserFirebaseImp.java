@@ -52,4 +52,23 @@ public class UserFirebaseImp implements IUser {
   public boolean isConnected() {
     return user != null;
   }
+
+  /** Sign the current user out */
+  @Override
+  public void signOut() {
+    FirebaseAuth.getInstance().signOut();
+  }
+
+  /**
+   * Deletes the current user
+   *
+   * @throws NoUserException If no user is signed in
+   */
+  @Override
+  public void delete() throws NoUserException {
+    if (user == null) {
+      throw new NoUserException("User is not connected");
+    }
+    user.delete();
+  }
 }
