@@ -1,6 +1,10 @@
 package com.example.thegame.main;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
@@ -13,16 +17,15 @@ import com.example.thegame.R;
 import com.example.thegame.login.LoginClick;
 import com.example.thegame.main.MainMVP.MainPresenter;
 import com.example.thegame.main.MainMVP.MainView;
-import com.group0565.users.FirebaseUILoginInteractor;
+import com.example.thegame.main.enums.GameID;
+import com.example.thegame.main.enums.MenuOptionID;
+import com.example.thegame.settings.SettingsActivity;
 
 /** The MainActivity class */
 public class MainActivity extends AppCompatActivity implements MainView {
 
   /** The MainPresenter reference */
   MainPresenter mainPresenter;
-
-  /** The FirebaseUILoginInteractor reference */
-  FirebaseUILoginInteractor fireBaseLogin;
 
   /** Set references to all objects and instantiate presenter */
   @Override
@@ -31,7 +34,6 @@ public class MainActivity extends AppCompatActivity implements MainView {
     setContentView(R.layout.activity_main);
 
     mainPresenter = new MainPresenterImp(this);
-    fireBaseLogin = FirebaseUILoginInteractor.getInstance();
   }
 
   /** Destroy all references in this object */
@@ -74,6 +76,8 @@ public class MainActivity extends AppCompatActivity implements MainView {
   /** Show the "no user connected" screen */
   @Override
   public void showNoUserScreen() {
+    invalidateOptionsMenu();
+
     setContentView(R.layout.no_user_layout);
     Button signIn = (Button) findViewById(R.id.logInBtn);
     LoginClick lg = new LoginClick(this);
@@ -84,6 +88,8 @@ public class MainActivity extends AppCompatActivity implements MainView {
   /** Show the normal Main screen */
   @Override
   public void showNormalScreen() {
+    invalidateOptionsMenu();
+
     setContentView(R.layout.activity_main);
   }
 
@@ -109,5 +115,39 @@ public class MainActivity extends AppCompatActivity implements MainView {
     throw new UnsupportedOperationException("Operation not yet implemented");
     //    Intent intent = new Intent(this, new Class<>());
     //    startActivity(intent);
+  }
+
+  /** Redirect to settings activity */
+  @Override
+  public void goToSettings() {
+    Intent intent = new Intent(MainActivity.this, SettingsActivity.class);
+    startActivity(intent);
+  }
+
+  /**
+   * Create the options menu at the top right
+   *
+   * @param menu The given activity's menu
+   * @return True if menu is set and false otherwise
+   */
+  @Override
+  public boolean onCreateOptionsMenu(Menu menu) {
+    MenuInflater menuInflater = getMenuInflater();
+    menuInflater.inflate(R.menu.settings_menu, menu);
+
+    return mainPresenter.isMenuAvailable();
+  }
+
+  /**
+   * Manage MenuItem clicks in the options menu
+   *
+   * @param item The item clicked
+   * @return False to allow normal menu processing to proceed, true to consume it here.
+   */
+  @Override
+  public boolean onOptionsItemSelected(MenuItem item) {
+    int id = item.getItemId();
+
+    return mainPresenter.handleMenuClick(MenuOptionID.valueOf(id));
   }
 }

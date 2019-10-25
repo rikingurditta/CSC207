@@ -1,7 +1,6 @@
 package com.example.thegame.main.navigationCommands;
 
+import com.group0565.commands.ICommand;
+
 /** An interface for the Command Pattern for game navigation */
-interface NavigationCommand {
-  /** Execute the command */
-  void execute();
-}
+interface NavigationCommand extends ICommand {}

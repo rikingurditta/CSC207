@@ -1,13 +1,18 @@
 package com.example.thegame.main;
 
+import com.example.thegame.main.enums.GameID;
+import com.example.thegame.main.enums.MenuOptionID;
+import com.example.thegame.main.menuCommands.MenuDirector;
+import com.example.thegame.main.menuCommands.SettingsMenuCommand;
+import com.example.thegame.main.menuCommands.SignOutMenuCommand;
 import com.example.thegame.main.navigationCommands.Game1Command;
 import com.example.thegame.main.navigationCommands.Game2Command;
 import com.example.thegame.main.navigationCommands.Game3Command;
 import com.example.thegame.main.navigationCommands.NavigationDirector;
 import com.group0565.errorHandlers.ExceptionErrorHandler;
 import com.group0565.errorHandlers.IErrorHandler;
+import com.group0565.users.IUser;
 import com.group0565.users.IUsersInteractor;
-import com.group0565.users.UsersInteractorFirebaseImpl;
 
 import com.example.thegame.main.MainMVP.MainPresenter;
 import com.example.thegame.main.MainMVP.MainView;
@@ -21,17 +26,23 @@ public class MainPresenterImp implements MainPresenter {
   /** Reference to the Navigation Director for game selection */
   private NavigationDirector navDir;
 
+  /** Reference to the MenuDirector for menu options */
+  private MenuDirector menuDir;
+
   /** Reference to the UserService */
   private IUsersInteractor mUserInteractor;
 
   /** Reference to the ErrorHandler */
   private IErrorHandler<Exception> mErrorHandler;
 
+  /** Reference to the connected user object */
+  private IUser mUser;
+
   /**
    * Instantiate a new MainPresenterImp, fill navigational director, and listen for changes in User
    * Auth status
    *
-   * @param mainView
+   * @param mainView The calling MainView to attach to
    */
   MainPresenterImp(MainView mainView) {
     this.mainView = mainView;
@@ -41,7 +52,11 @@ public class MainPresenterImp implements MainPresenter {
     navDir.register(GameID.GAME2, new Game2Command(mainView));
     navDir.register(GameID.GAME3, new Game3Command(mainView));
 
-    this.mUserInteractor = UsersInteractorFirebaseImpl.getInstance();
+    menuDir = new MenuDirector();
+    menuDir.register(MenuOptionID.SETTINGS, new SettingsMenuCommand(mainView));
+    menuDir.register(MenuOptionID.SIGN_OUT, new SignOutMenuCommand(this));
+
+    this.mUserInteractor = IUsersInteractor.getInstance();
     this.mErrorHandler = ExceptionErrorHandler.getInstance();
 
     mUserInteractor
@@ -49,6 +64,7 @@ public class MainPresenterImp implements MainPresenter {
         .observe(
             mainView.getLifeCycleOwner(),
             iUser -> {
+              mUser = iUser;
               if (iUser.isConnected()) {
                 mainView.showNormalScreen();
               } else {
@@ -68,6 +84,41 @@ public class MainPresenterImp implements MainPresenter {
       navDir.execute(id);
     } catch (UnsupportedOperationException ex) {
       mErrorHandler.Alert(this.mainView, ex, "Operation not implemented");
+    }
+  }
+
+  /** Sign out the current user */
+  @Override
+  public void signOut() {
+    mUser.signOut();
+  }
+
+  /**
+   * Checks whether the menu should appear
+   *
+   * @return True if menu should appear and false otherwise
+   */
+  @Override
+  public boolean isMenuAvailable() {
+    return mUser.isConnected();
+  }
+
+  /**
+   * Choose which command to execute based on id of clicked menu item
+   *
+   * @param id The id of the clicked menu item
+   * @return True if action was handled and false otherwise
+   */
+  @Override
+  public boolean handleMenuClick(MenuOptionID id) {
+    try {
+      menuDir.execute(id);
+
+      return true;
+    } catch (UnsupportedOperationException ex) {
+      mErrorHandler.Alert(this.mainView, ex, "Operation not implemented");
+
+      return false;
     }
   }
 

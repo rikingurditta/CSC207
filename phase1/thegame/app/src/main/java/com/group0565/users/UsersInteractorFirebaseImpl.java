@@ -32,7 +32,7 @@ public class UsersInteractorFirebaseImpl implements IUsersInteractor {
    *
    * @return The instance of this class
    */
-  public static UsersInteractorFirebaseImpl getInstance() {
+  static IUsersInteractor getInstance() {
     if (instance == null) {
       instance = new UsersInteractorFirebaseImpl();
     }

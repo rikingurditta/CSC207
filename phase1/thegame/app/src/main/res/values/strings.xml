@@ -1,11 +1,12 @@
 <resources>
     <string name="app_name">TheGame</string>
-    <string name="sign_in_btn">sign in</string>
+    <string name="sign_in_btn">Sign In</string>
     <string name="delete_btn">delete</string>
-    <string name="sign_out_btn">sign out</string>
+    <string name="sign_out_btn">Sign Out</string>
     <string name="Game1Name">Game 1</string>
     <string name="Game2Name">Game 2</string>
     <string name="Game3Name">Game 3</string>
     <string name="no_user">No User Connected!</string>
     <string name="login_btn">Login</string>
+    <string name="action_settings">Settings</string>
 </resources>

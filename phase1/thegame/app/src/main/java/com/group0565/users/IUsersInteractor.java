@@ -6,6 +6,15 @@ import androidx.lifecycle.LiveData;
 public interface IUsersInteractor {
 
   /**
+   * Get a IUserInteractor object
+   *
+   * @return The Firebase implementation of IUserInteractor
+   */
+  static IUsersInteractor getInstance() {
+    return UsersInteractorFirebaseImpl.getInstance();
+  }
+
+  /**
    * Gets the LiveData observable with the currently logged in user
    *
    * @return LiveData encapsulation of current user data

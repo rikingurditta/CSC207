@@ -1,5 +1,7 @@
 package com.example.thegame.main;
 
+import com.example.thegame.main.enums.GameID;
+import com.example.thegame.main.enums.MenuOptionID;
 import com.group0565.mvp.BaseMVP;
 
 /** An interface for the Main module MVP */
@@ -12,6 +14,24 @@ public interface MainMVP {
      * @param id The ID of the target game
      */
     void selectGame(GameID id);
+
+    /** Sign out the current user */
+    void signOut();
+
+    /**
+     * Checks whether the menu should appear
+     *
+     * @return True if menu should appear and false otherwise
+     */
+    boolean isMenuAvailable();
+
+    /**
+     * Choose which command to execute based on id of clicked menu item
+     *
+     * @param id The id of the clicked menu item
+     * @return True if action was handled and false otherwise
+     */
+    boolean handleMenuClick(MenuOptionID id);
   }
 
   /** An interface for the Main view */
@@ -30,5 +50,8 @@ public interface MainMVP {
 
     /** Redirect to game 1 activity */
     void goToGame3();
+
+    /** Redirect to settings activity */
+    void goToSettings();
   }
 }
