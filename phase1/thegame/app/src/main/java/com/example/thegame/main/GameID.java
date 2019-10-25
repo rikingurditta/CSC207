@@ -6,7 +6,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 /** An Enum representation of Game ID using the xml ids */
-public enum GAMEID {
+public enum GameID {
   GAME1(R.id.CardGame1),
   GAME2(R.id.CardGame2),
   GAME3(R.id.CardGame3);
@@ -14,18 +14,18 @@ public enum GAMEID {
   private int value;
   private static Map map = new HashMap<>();
 
-  GAMEID(int value) {
+  GameID(int value) {
     this.value = value;
   }
 
   static {
-    for (GAMEID GameID : GAMEID.values()) {
+    for (com.example.thegame.main.GameID GameID : GameID.values()) {
       map.put(GameID.value, GameID);
     }
   }
 
-  public static GAMEID valueOf(int GameID) {
-    return (GAMEID) map.get(GameID);
+  public static GameID valueOf(int GameID) {
+    return (com.example.thegame.main.GameID) map.get(GameID);
   }
 
   public int getValue() {

@@ -11,7 +11,7 @@ public interface MainMVP {
      *
      * @param id The ID of the target game
      */
-    void selectGame(GAMEID id);
+    void selectGame(GameID id);
   }
 
   /** An interface for the Main view */

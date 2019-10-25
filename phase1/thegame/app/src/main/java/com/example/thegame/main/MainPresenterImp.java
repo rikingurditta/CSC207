@@ -37,9 +37,9 @@ public class MainPresenterImp implements MainPresenter {
     this.mainView = mainView;
 
     navDir = new NavigationDirector();
-    navDir.register(GAMEID.GAME1, new Game1Command(mainView));
-    navDir.register(GAMEID.GAME2, new Game2Command(mainView));
-    navDir.register(GAMEID.GAME3, new Game3Command(mainView));
+    navDir.register(GameID.GAME1, new Game1Command(mainView));
+    navDir.register(GameID.GAME2, new Game2Command(mainView));
+    navDir.register(GameID.GAME3, new Game3Command(mainView));
 
     this.mUserInteractor = UsersInteractorFirebaseImpl.getInstance();
     this.mErrorHandler = ExceptionErrorHandler.getInstance();
@@ -63,7 +63,7 @@ public class MainPresenterImp implements MainPresenter {
    * @param id The ID of the target game
    */
   @Override
-  public void selectGame(GAMEID id) {
+  public void selectGame(GameID id) {
     try {
       navDir.execute(id);
     } catch (UnsupportedOperationException ex) {

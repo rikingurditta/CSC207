@@ -48,7 +48,7 @@ public class MainActivity extends AppCompatActivity implements MainView {
    */
   public void onClick(View view) {
     CardView sendingCard = (CardView) view;
-    mainPresenter.selectGame(GAMEID.valueOf(sendingCard.getId()));
+    mainPresenter.selectGame(GameID.valueOf(sendingCard.getId()));
   }
 
   /**
