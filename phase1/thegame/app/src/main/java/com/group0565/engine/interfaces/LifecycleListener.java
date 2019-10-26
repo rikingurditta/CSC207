@@ -11,6 +11,6 @@ public interface LifecycleListener {
     default void pause() {
     }
 
-    default void wake() {
+    default void resume() {
     }
 }

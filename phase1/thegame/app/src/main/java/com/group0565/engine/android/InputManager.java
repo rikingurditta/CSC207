@@ -47,7 +47,7 @@ public class InputManager implements View.OnTouchListener {
                 Vector pos = new Vector(event.getX(pointerIndex), event.getY(pointerIndex));
                 eventManager.get(pointerID).setPos(pos);
             }
-        } else if (event.getActionMasked() == MotionEvent.ACTION_UP || event.getActionMasked() == MotionEvent.ACTION_POINTER_UP) {
+        } else if (event.getActionMasked() == MotionEvent.ACTION_POINTER_UP) {
             int pointerIndex = event.getActionIndex();
             int pointerID = event.getPointerId(pointerIndex);
             InputEvent inputEvent = eventManager.get(pointerID);
@@ -55,7 +55,14 @@ public class InputManager implements View.OnTouchListener {
             inputEvent.setPos(pos);
             inputEvent.deactivate();
             eventManager.remove(pointerID);
-        } else return false;
+        } else if (event.getActionMasked() == MotionEvent.ACTION_UP){
+            for (int i = 0; i < eventManager.size(); i ++) {
+                InputEvent e = eventManager.get(i);
+                if (e != null)
+                    e.deactivate();
+            }
+        }else
+            return false;
         return true;
     }
 
