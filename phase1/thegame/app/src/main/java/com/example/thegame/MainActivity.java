@@ -8,7 +8,7 @@ import com.group0565.errorHandlers.ExceptionErrorHandler;
 public class MainActivity extends GameActivity {
   private static final String TAG = "MainActivity";
 
-  public MainActivity() throws Exception {
+  public MainActivity() {
     super(new MainObject(null, new Vector(), false));
   }
 }
