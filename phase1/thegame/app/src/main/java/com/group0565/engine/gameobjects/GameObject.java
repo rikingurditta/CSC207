@@ -2,6 +2,7 @@ package com.group0565.engine.gameobjects;
 
 import android.graphics.Canvas;
 
+import com.group0565.engine.interfaces.GameEngine;
 import com.group0565.engine.interfaces.LifecycleListener;
 import com.group0565.math.Vector;
 
@@ -36,10 +37,6 @@ public class GameObject implements LifecycleListener {
      * by the uuid, the GameObject may be garbage collected even with strong references to it's uuid.
      */
     private final UUID uuid;
-    /**
-     * Object used to lock capturedEvents
-     */
-    private final Object eventLock = new Object();
     /**
      * Vector to repersent the position of this object
      */
@@ -77,12 +74,21 @@ public class GameObject implements LifecycleListener {
     /**
      * Set of captured events
      */
-    private HashSet<InputEvent> capturedEvents = new HashSet<>();
+    private final HashSet<InputEvent> capturedEvents = new HashSet<>();
+    /**
+     * Set of captured events
+     */
+    private final HashSet<InputEvent> capturingEvents = new HashSet<>();
     /**
      * A reference back to the parent of this object. This variable is null if this
      * Object is a top level GameObject.
      */
     private GameObject parent = null;
+
+    /**
+     * The GameEngine of this GameObject
+     */
+    private GameEngine engine;
 
     /**
      * Creates a new GameObject as a child of parent, located at position, either relative to its parent
@@ -103,7 +109,7 @@ public class GameObject implements LifecycleListener {
 
         if (parent != null)
             parent.adopt(this);
-        GameObject.reference.put(this.uuid, new WeakReference<GameObject>(this));
+        GameObject.reference.put(this.uuid, new WeakReference<>(this));
 
         if (relative)
             this.setRelativePosition(position);
@@ -153,19 +159,24 @@ public class GameObject implements LifecycleListener {
      * @param ms Milliseconds since last update
      */
     public void updateAll(long ms) {
-        synchronized (eventLock) {
-            Iterator<InputEvent> eventIterator = this.capturedEvents.iterator();
-            while (eventIterator.hasNext()) {
-                InputEvent e = eventIterator.next();
-                if (!e.isActive()) {
-                    this.onEventDisable(e);
-                    eventIterator.remove();
-                }
+        synchronized (capturingEvents){
+            for (InputEvent event : capturingEvents){
+                this.capturedEvents.add(event);
+                this.onEventCapture(event);
             }
-            this.update(ms);
-            for (GameObject child : this.getChildren().values())
-                child.updateAll(ms);
+            this.capturingEvents.clear();
         }
+        Iterator<InputEvent> eventIterator = this.capturedEvents.iterator();
+        while (eventIterator.hasNext()) {
+            InputEvent e = eventIterator.next();
+            if (!e.isActive()) {
+                this.onEventDisable(e);
+                eventIterator.remove();
+            }
+        }
+        this.update(ms);
+        for (GameObject child : this.getChildren().values())
+            child.updateAll(ms);
     }
 
     /**
@@ -205,6 +216,7 @@ public class GameObject implements LifecycleListener {
         if (obj.parent != null)
             obj.parent.getChildren().remove(obj.uuid);
         obj.parent = this;
+        obj.engine = this.engine;
         if (!this.getChildren().containsKey(obj.uuid))
             this.getChildren().put(obj.uuid, obj);
         obj.invalidateCache();
@@ -235,13 +247,22 @@ public class GameObject implements LifecycleListener {
     }
 
     /**
-     * Wakes this object. Call super.init() to wake children.
+     * Wakes this object. Call super.init() to resume children.
      */
-    public void wake() {
+    public void resume() {
         for (GameObject child : this.getChildren().values())
-            child.wake();
+            child.resume();
     }
 
+    /**
+     * Callback when an event has been captured. This is ran on the same thread as update.
+     * Use this to process events when the are captured, instead of using captureEvent
+     *
+     * @param event The event that has been captured.
+     */
+    protected void onEventCapture(InputEvent event) {
+
+    }
     /**
      * Callback when an event has ended. For example when a touched point is released.
      *
@@ -257,8 +278,8 @@ public class GameObject implements LifecycleListener {
      * @param event The event to be captured.
      */
     protected void captureEvent(InputEvent event) {
-        synchronized (eventLock) {
-            this.capturedEvents.add(event);
+        synchronized (capturingEvents) {
+            this.capturingEvents.add(event);
         }
     }
 
@@ -333,7 +354,7 @@ public class GameObject implements LifecycleListener {
      * Invalidates the cache of this object.
      */
     public void invalidateCache() {
-        this.invalidateCache(new HashSet<UUID>());
+        this.invalidateCache(new HashSet<>());
     }
 
     /**
@@ -405,6 +426,24 @@ public class GameObject implements LifecycleListener {
         if (parent != null)
             parent.adopt(this);
         this.invalidateCache();
+    }
+
+    /**
+     * Getter for the GameEngine of this object
+     * @return The GameEngine
+     */
+    public GameEngine getEngine() {
+        return engine;
+    }
+
+    /**
+     * Setter for the GameEngine of this GameObject and its children.
+     * @param engine The new GameEngine
+     */
+    public void setEngine(GameEngine engine) {
+        this.engine = engine;
+        for (GameObject child : this.children.values())
+            child.setEngine(engine);
     }
 
     /**
