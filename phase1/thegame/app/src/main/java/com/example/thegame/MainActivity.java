@@ -10,8 +10,5 @@ public class MainActivity extends GameActivity {
 
   public MainActivity() throws Exception {
     super(new MainObject(null, new Vector(), false));
-
-    ExceptionErrorHandler ex = new ExceptionErrorHandler();
-    ex.Alert(TheGameApplication.getInstance(), new Exception(), "bla");
   }
 }
