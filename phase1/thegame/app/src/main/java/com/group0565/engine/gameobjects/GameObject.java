@@ -91,30 +91,21 @@ public class GameObject implements LifecycleListener {
     private GameEngine engine;
 
     /**
-     * Creates a new GameObject as a child of parent, located at position, either relative to its parent
+     * Creates a new GameObject located at position, either relative to its parent
      * if relative is true, otherwise as an absolute position, character size charsize, and z-level z.
      * <p>
      * If parent is not null, this object is automatically added as a child to parent.
      * <p>
      * The z level determines the the rendering order of this object relative to its siblings.
      *
-     * @param parent   The parent of this object. Can be null if this is a top level object.
      * @param position The position (relative or absolute) of this object.
-     * @param relative Whether the position is relative or absolute.
      * @param z        The z-level of the object.
      */
-    public GameObject(GameObject parent, Vector position, boolean relative, double z) {
+    public GameObject(Vector position, double z) {
         this.uuid = UUID.randomUUID();
         this.z = z;
 
-        if (parent != null)
-            parent.adopt(this);
         GameObject.reference.put(this.uuid, new WeakReference<>(this));
-
-        if (relative)
-            this.setRelativePosition(position);
-        else
-            this.setAbsolutePosition(position);
     }
 
     /**
@@ -123,12 +114,10 @@ public class GameObject implements LifecycleListener {
      * For more information on other parameters see the javadoc of the constructer with signature
      * (GameObject parent, Vector position, boolean relative, Vector charsize, double z).
      *
-     * @param parent   The parent of this object. Can be null if this is a top level object.
      * @param position The position (relative or absolute) of this object.
-     * @param relative Whether the position is relative or absolute.
      */
-    public GameObject(GameObject parent, Vector position, boolean relative) {
-        this(parent, position, relative, 0);
+    public GameObject(Vector position) {
+        this(position, 0);
     }
 
     /**
@@ -311,10 +300,12 @@ public class GameObject implements LifecycleListener {
      * Sets the absolute position of this vector. This is stored as a relative position to its parent.
      *
      * @param absolutePosition The absolute position of this vector.
+     * @return This Object to allow chaining
      */
-    public void setAbsolutePosition(Vector absolutePosition) {
+    public GameObject setAbsolutePosition(Vector absolutePosition) {
         validateCache();
         setRelativePosition(absolutePosition.subtract(parentAbsolutePosition));
+        return this;
     }
 
     /**
@@ -331,11 +322,30 @@ public class GameObject implements LifecycleListener {
      * the absolute position.
      *
      * @param relativePosition The relative position of this vector.
+     * @return This Object to allow chaining
      */
-    public void setRelativePosition(Vector relativePosition) {
+    public GameObject setRelativePosition(Vector relativePosition) {
         this.relativePosition = relativePosition;
         invalidateCache();
+        return this;
     }
+
+    /**
+     * Sets the position either relative or absolute
+     *
+     * @param position The position
+     * @param relative Whether position is relative or absolute
+     * @return This Object to allow chaining
+     */
+    public GameObject setPosition(Vector position, boolean relative) {
+        if (relative)
+            this.setRelativePosition(position);
+        else
+            this.setAbsolutePosition(position);
+        invalidateCache();
+        return this;
+    }
+
 
     /**
      * Helper method to check if the parentAbsolutePosition variable needs updating, and update it
@@ -422,10 +432,11 @@ public class GameObject implements LifecycleListener {
      *
      * @param parent The new parent of this object. Can be null.
      */
-    public void setParent(GameObject parent) {
+    public GameObject setParent(GameObject parent) {
         if (parent != null)
             parent.adopt(this);
         this.invalidateCache();
+        return this;
     }
 
     /**
@@ -445,6 +456,8 @@ public class GameObject implements LifecycleListener {
         for (GameObject child : this.children.values())
             child.setEngine(engine);
     }
+
+
 
     /**
      * Getter for uuid
