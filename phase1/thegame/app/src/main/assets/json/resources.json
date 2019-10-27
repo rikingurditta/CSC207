@@ -13,5 +13,12 @@
       "Path": "audio.mp3",
       "Volume": 100
     }
+  },
+  "LanguagePack": {
+    "Test": {
+      "Name": "en_us",
+      "Path": "en_us.json",
+      "Default": "String Not Found"
+    }
   }
 }

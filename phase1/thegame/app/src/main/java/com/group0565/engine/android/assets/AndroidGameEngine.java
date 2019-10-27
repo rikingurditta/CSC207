@@ -1,12 +1,13 @@
-package com.group0565.engine.android;
+package com.group0565.engine.android.assets;
 
 import android.content.res.AssetManager;
 import android.graphics.Canvas;
 import android.util.Log;
 import android.view.SurfaceHolder;
 
-import com.group0565.engine.gameobjects.GameObject;
+import com.group0565.engine.android.InputManager;
 import com.group0565.engine.assets.GameAssetManager;
+import com.group0565.engine.gameobjects.GameObject;
 import com.group0565.engine.interfaces.GameEngine;
 
 public class AndroidGameEngine implements Runnable, GameEngine {

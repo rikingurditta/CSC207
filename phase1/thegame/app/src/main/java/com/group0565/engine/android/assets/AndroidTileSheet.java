@@ -1,4 +1,4 @@
-package com.group0565.engine.android;
+package com.group0565.engine.android.assets;
 
 import android.content.res.AssetManager;
 import android.graphics.Bitmap;

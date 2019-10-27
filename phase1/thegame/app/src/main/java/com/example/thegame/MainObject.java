@@ -3,9 +3,7 @@ package com.example.thegame;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Paint;
-import android.graphics.Rect;
 import android.graphics.RectF;
-import android.util.Log;
 
 import com.group0565.engine.assets.AudioAsset;
 import com.group0565.engine.gameobjects.GameObject;
@@ -98,6 +96,8 @@ public class MainObject extends GameObject {
         //Draw an rectangle at our touch position
         Bitmap bitmap = getEngine().getGameAssetManager().getTileSheet("Test", "Test1").getTile(captured%4, captured/4);
         canvas.drawBitmap(bitmap, null, new RectF(pos.getX(), pos.getY(), pos.getX() + 100, pos.getY() + 100), p);
+        canvas.drawText(getEngine().getGameAssetManager().getLanguagePack("Test", "en_us").getToken("Test"), 100, 100, p);
+        canvas.drawText(getEngine().getGameAssetManager().getLanguagePack("Test", "en_us").getToken("Non-existing Name"), 100, 200, p);
         renders++;
     }
 }
