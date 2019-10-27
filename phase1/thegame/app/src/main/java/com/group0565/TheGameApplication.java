@@ -1,4 +1,4 @@
-package com.example.thegame;
+package com.group0565;
 
 import android.app.Application;
 import android.widget.Toast;
