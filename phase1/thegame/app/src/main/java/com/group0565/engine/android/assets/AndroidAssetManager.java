@@ -4,6 +4,8 @@ import android.content.res.AssetManager;
 import android.util.JsonReader;
 import android.util.JsonToken;
 
+import com.group0565.engine.assets.Asset;
+import com.group0565.engine.assets.AssetType;
 import com.group0565.engine.assets.AudioAsset;
 import com.group0565.engine.assets.GameAssetManager;
 import com.group0565.engine.assets.JsonFile;
@@ -35,14 +37,22 @@ public class AndroidAssetManager extends GameAssetManager{
             reader.beginObject();
             while (reader.peek() == JsonToken.NAME){
                 String name = reader.nextName();
-                if (name.equals(TILESHEET_NAME))
-                    readTileSheetSet(reader);
-                else if(name.equals(AUDIO_NAME))
-                    readAudioSet(reader);
-                else if (name.equals(JSON_NAME))
-                    readJsonSet(reader);
-                else if (name.equals(LANGUAGE_NAME))
-                    readLanguagePackSet(reader);
+                AssetType type = null;
+                switch (name) {
+                    case TILESHEET_NAME:
+                        type = AssetType.TILESHEET;
+                        break;
+                    case AUDIO_NAME:
+                        type = AssetType.AUDIO;
+                        break;
+                    case JSON_NAME:
+                        type = AssetType.JSON;
+                        break;
+                    case LANGUAGE_NAME:
+                        type = AssetType.LANGUAGE;
+                        break;
+                }
+                readSet(reader, type);
             }
             reader.endObject();
         } catch (IOException e) {
@@ -51,27 +61,43 @@ public class AndroidAssetManager extends GameAssetManager{
         super.init();
     }
 
-    private void readTileSheetSet(JsonReader reader) throws IOException {
+    private void readSet(JsonReader reader, AssetType type) throws IOException {
         reader.beginObject();
-        while (reader.peek() == JsonToken.NAME){
-            String name = reader.nextName();
-            TileSheet sheet = readTileSheet(reader);
-            this.registerTileSheet(name, sheet);
+        while (reader.peek() == JsonToken.NAME) {
+            String setName = reader.nextName();
+            reader.beginObject();
+            while (reader.peek() == JsonToken.NAME) {
+                String sheetName = reader.nextName();
+                Asset asset = readAsset(sheetName, reader, type);
+                this.registerAsset(setName, asset, type);
+            }
+            reader.endObject();
         }
         reader.endObject();
     }
 
-    private TileSheet readTileSheet(JsonReader reader) throws IOException {
+    private Asset readAsset(String name, JsonReader reader, AssetType type) throws IOException {
+        switch (type) {
+            case TILESHEET:
+                return readTileSheet(name, reader);
+            case AUDIO:
+                return readAudio(name, reader);
+            case JSON:
+                return readJson(name, reader);
+            case LANGUAGE:
+                return readLanguagePack(name, reader);
+            default:
+                return null;
+        }
+    }
+
+    private TileSheet readTileSheet(String name, JsonReader reader) throws IOException {
         reader.beginObject();
-        String name = null;
         String path = null;
         int tileWidth = -1;
         int tileHeight = -1;
         while (reader.peek() != JsonToken.END_OBJECT){
             switch (reader.nextName()){
-                case "Name":
-                    name = reader.nextString();
-                    break;
                 case "Path":
                     path = reader.nextString();
                     break;
@@ -87,26 +113,12 @@ public class AndroidAssetManager extends GameAssetManager{
         return new AndroidTileSheet(name, path, tileWidth, tileHeight, assetManager);
     }
 
-    private void readAudioSet(JsonReader reader) throws IOException{
+    private AudioAsset readAudio(String name, JsonReader reader) throws IOException {
         reader.beginObject();
-        while (reader.peek() == JsonToken.NAME){
-            String name = reader.nextName();
-            AudioAsset audio = readAudio(reader);
-            this.registerAudioAsset(name, audio);
-        }
-        reader.endObject();
-    }
-
-    private AudioAsset readAudio(JsonReader reader) throws IOException {
-        reader.beginObject();
-        String name = null;
         String path = null;
         int volume = -1;
         while (reader.peek() != JsonToken.END_OBJECT){
             switch (reader.nextName()){
-                case "Name":
-                    name = reader.nextString();
-                    break;
                 case "Path":
                     path = reader.nextString();
                     break;
@@ -119,25 +131,11 @@ public class AndroidAssetManager extends GameAssetManager{
         return new AndroidAudioAsset(name, path, volume, assetManager);
     }
 
-    private void readJsonSet(JsonReader reader) throws IOException {
+    private JsonFile readJson(String name, JsonReader reader) throws IOException {
         reader.beginObject();
-        while (reader.peek() == JsonToken.NAME) {
-            String name = reader.nextName();
-            JsonFile jsonFile = readJson(reader);
-            this.registerJsonFile(name, jsonFile);
-        }
-        reader.endObject();
-    }
-
-    private JsonFile readJson(JsonReader reader) throws IOException {
-        reader.beginObject();
-        String name = null;
         String path = null;
         while (reader.peek() != JsonToken.END_OBJECT) {
             switch (reader.nextName()) {
-                case "Name":
-                    name = reader.nextString();
-                    break;
                 case "Path":
                     path = reader.nextString();
                     break;
@@ -147,26 +145,12 @@ public class AndroidAssetManager extends GameAssetManager{
         return new AndroidJsonFile(name, path, assetManager);
     }
 
-    private void readLanguagePackSet(JsonReader reader) throws IOException {
+    private LanguagePack readLanguagePack(String name, JsonReader reader) throws IOException {
         reader.beginObject();
-        while (reader.peek() == JsonToken.NAME) {
-            String name = reader.nextName();
-            LanguagePack languagePack = readLanguagePack(reader);
-            this.registerLanguagePack(name, languagePack);
-        }
-        reader.endObject();
-    }
-
-    private LanguagePack readLanguagePack(JsonReader reader) throws IOException {
-        reader.beginObject();
-        String name = null;
         String path = null;
         String defaultString = "String Not Found";
         while (reader.peek() != JsonToken.END_OBJECT) {
             switch (reader.nextName()) {
-                case "Name":
-                    name = reader.nextString();
-                    break;
                 case "Path":
                     path = reader.nextString();
                     break;

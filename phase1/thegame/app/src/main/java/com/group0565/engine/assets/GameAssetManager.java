@@ -27,6 +27,24 @@ public abstract class GameAssetManager implements LifecycleListener, Closeable {
                 languagePack.init();
     }
 
+    protected void registerAsset(String set, Asset asset, AssetType type) {
+        if (type.cls.isInstance(asset))
+            switch (type) {
+                case TILESHEET:
+                    registerTileSheet(set, (TileSheet) asset);
+                    break;
+                case AUDIO:
+                    registerAudioAsset(set, (AudioAsset) asset);
+                    break;
+                case JSON:
+                    registerJsonFile(set, (JsonFile) asset);
+                    break;
+                case LANGUAGE:
+                    registerLanguagePack(set, (LanguagePack) asset);
+                    break;
+            }
+    }
+
     protected void registerTileSheet(String set, TileSheet sheet){
         if (!tileSheetSets.containsKey(set))
             tileSheetSets.put(set, new HashMap<>());
