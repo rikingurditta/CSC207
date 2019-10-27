@@ -13,7 +13,7 @@
         android:theme="@style/Theme.AppCompat.DayNight">
         <activity
             android:name=".settings.SettingsActivity"
-            android:parentActivityName=".main.MainActivity">
+            android:parentActivityName=".main.MainActivity" android:launchMode="singleTop">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".main.MainActivity" />
@@ -28,7 +28,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".PreferenceDemoActivity" />
     </application>
 
 </manifest>

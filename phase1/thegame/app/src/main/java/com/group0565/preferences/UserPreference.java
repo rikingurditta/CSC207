@@ -1,13 +1,13 @@
 package com.group0565.preferences;
 
 /** An implementation of the IPreference interface for user-specific com.group0565.preferences */
-public class UserPreference implements IPreference {
+public class UserPreference<T> implements IPreference<T> {
 
   /** The preference's name */
   private String prefName;
 
   /** The preference's value */
-  private String prefVal;
+  private T prefVal;
 
   /** Default constructor - DO NOT USE! REQUIRED FOR FIREBASE DB */
   public UserPreference() {
@@ -20,7 +20,7 @@ public class UserPreference implements IPreference {
    * @param prefName Preference Name
    * @param prefVal Preference Value
    */
-  public UserPreference(String prefName, String prefVal) {
+  public UserPreference(String prefName, T prefVal) {
     this.prefName = prefName;
     this.prefVal = prefVal;
   }
@@ -41,7 +41,7 @@ public class UserPreference implements IPreference {
    * @return Preference value
    */
   @Override
-  public String getPrefVal() {
+  public T getPrefVal() {
     return this.prefVal;
   }
 
@@ -50,7 +50,8 @@ public class UserPreference implements IPreference {
    *
    * @param value New value
    */
-  public void setValue(String value) {
+  @Override
+  public void setValue(T value) {
     this.prefVal = value;
   }
 }
