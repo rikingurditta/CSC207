@@ -2,6 +2,9 @@ package com.group0565.bomberGame;
 
 import android.graphics.Canvas;
 
+import com.group0565.bomberGame.input.InputSystem;
+import com.group0565.bomberGame.input.JoystickInput;
+import com.group0565.bomberGame.input.RandomInput;
 import com.group0565.engine.gameobjects.GameObject;
 import com.group0565.math.Vector;
 
@@ -11,8 +14,10 @@ public class BomberGame extends GameObject {
 
     public BomberGame(GameObject parent, Vector position, boolean relative) {
         super(parent, position, relative);
-        this.adopt(new BomberMan(this, new Vector(100, 100), false));
-        this.adopt(new BomberMan(this, new Vector(200, 200), false));
+        InputSystem joystickInput = new JoystickInput(this, new Vector(), false);
+        InputSystem randomInput = new RandomInput(null, 1000);
+        this.adopt(new BomberMan(null, new Vector(100, 100), false, joystickInput));
+        this.adopt(new BomberMan(null, new Vector(750, 500), false, randomInput));
     }
 
     public void draw(Canvas canvas) {

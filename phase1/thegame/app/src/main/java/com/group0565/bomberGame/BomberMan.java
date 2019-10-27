@@ -1,41 +1,99 @@
 package com.group0565.bomberGame;
 
-
 import android.graphics.Canvas;
 import android.graphics.Paint;
-import android.util.Log;
 
+import com.group0565.bomberGame.input.BomberInput;
+import com.group0565.bomberGame.input.InputSystem;
 import com.group0565.engine.gameobjects.GameObject;
-import com.group0565.engine.gameobjects.InputEvent;
 import com.group0565.math.Vector;
 
+/**
+ * A BomberMan, aka a player in the game.
+ */
 public class BomberMan extends GameObject {
     /**
-     * Creates a new GameObject with z-level defaulting to 0.
-     * <p>
-     * For more information on other parameters see the javadoc of the constructer with signature
-     * (GameObject parent, Vector position, boolean relative, Vector charsize, double z).
-     *
-     * @param parent   The parent of this object. Can be null if this is a top level object.
-     * @param position The position (relative or absolute) of this object.
-     * @param relative Whether the position is relative or absolute.
+     * The object representing the state of the inputs for this player.
      */
-    public BomberMan(GameObject parent, Vector position, boolean relative) {
-        super(parent, position, relative);
-    }
-
+    private BomberInput input;
 
     /**
-     * Draws ONLY this object t o canvas. Its children is NOT drawn.
+     * The object processing the input for this player. Is adopted by this BomberMan, so all input
+     * events get passed down to it. (maybe get rid of this field because we p much never need it)
+     */
+    private InputSystem inputSystem;
+
+    /**
+     * Constructs a new BomberMan.
+     * @param parent        The parent object of this BomberMan.
+     * @param position      The position (relative or absolute) of this object.
+     * @param relative      Whether the construction position is relative or absolute.
+     * @param z             The z-level of the object.
+     * @param inputSystem   The object managing the inputs controlling this player.
+     */
+    public BomberMan(GameObject parent, Vector position, boolean relative, double z, InputSystem inputSystem) {
+        super(parent, position, relative, z);
+        this.inputSystem = inputSystem;
+        this.adopt(inputSystem);
+        this.input = inputSystem.getInput();
+    }
+
+    /**
+     * Constructs a new BomberMan.
+     * @param parent        The parent object of this BomberMan.
+     * @param position      The position (relative or absolute) of this object.
+     * @param relative      Whether the construction position is relative or absolute.
+     * @param inputSystem   The object managing the inputs controlling this player.
+     */
+    public BomberMan(GameObject parent, Vector position, boolean relative, InputSystem inputSystem) {
+        super(parent, position, relative);
+        this.inputSystem = inputSystem;
+        this.adopt(inputSystem);
+        this.input = inputSystem.getInput();
+    }
+
+    /**
+     * Draws ONLY this object to canvas. Its children are not drawn by this method.
      *
-     * @param canvas The Canvas on which to draw
+     * @param canvas The Canvas on which to draw this player.
      */
     @Override
     public void draw(Canvas canvas) {
-        //Set our color to Red
+        // Set our color to Red
         Paint p = new Paint();
         p.setARGB(255, 0, 255, 0);
-        //Draw an rectangle at our touch position
-        canvas.drawRect(getAbsolutePosition().getX(), getAbsolutePosition().getY(), getAbsolutePosition().getX() + 100, getAbsolutePosition().getY() + 100, p);
+        // Draw an rectangle at our touch position
+        canvas.drawRect(
+                getAbsolutePosition().getX(),
+                getAbsolutePosition().getY(),
+                getAbsolutePosition().getX() + 100,
+                getAbsolutePosition().getY() + 100,
+                p);
+    }
+
+    /**
+     * Updates the player based on input, as processed by this player's InputSystem.
+     *
+     * @param ms Elapsed time in milliseconds since last update.
+     */
+    @Override
+    public void update(long ms) {
+        Vector pos = this.getAbsolutePosition();
+        Vector delta = new Vector();
+        float speed = 0.1f;
+        if (input.up) delta = delta.add(new Vector(0, -speed));
+        if (input.down) delta = delta.add(new Vector(0, speed));
+        if (input.left) delta = delta.add(new Vector(-speed, 0));
+        if (input.right) delta = delta.add(new Vector(speed, 0));
+        delta = delta.multiply(ms);
+        this.setAbsolutePosition(pos.add(delta));
+
+        if (input.bomb) dropBomb();
+    }
+
+    /**
+     * Drops bomb at current location.
+     */
+    private void dropBomb() {
     }
 }
