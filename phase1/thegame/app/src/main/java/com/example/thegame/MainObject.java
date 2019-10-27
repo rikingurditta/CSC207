@@ -25,12 +25,10 @@ public class MainObject extends GameObject {
      * For more information on other parameters see the javadoc of the constructer with signature
      * (GameObject parent, Vector position, boolean relative, Vector charsize, double z).
      *
-     * @param parent   The parent of this object. Can be null if this is a top level object.
-     * @param position The position (relative or absolute) of this object.
-     * @param relative Whether the position is relative or absolute.
+     * @param position The position absolute of this object.
      */
-    public MainObject(GameObject parent, Vector position, boolean relative) {
-        super(parent, position, relative);
+    public MainObject(Vector position) {
+        super(position);
     }
 
     public void init(){
