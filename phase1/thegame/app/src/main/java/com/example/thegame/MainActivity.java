@@ -9,6 +9,6 @@ public class MainActivity extends GameActivity {
 
 
     public MainActivity() {
-        super(new MainObject(null, new Vector(), false));
+        super(new JoystickExample(null, new Vector(), false));
     }
 }
