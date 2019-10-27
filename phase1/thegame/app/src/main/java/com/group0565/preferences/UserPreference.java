@@ -20,7 +20,7 @@ public class UserPreference<T> implements IPreference<T> {
    * @param prefName Preference Name
    * @param prefVal Preference Value
    */
-  public UserPreference(String prefName, T prefVal) {
+  UserPreference(String prefName, T prefVal) {
     this.prefName = prefName;
     this.prefVal = prefVal;
   }

@@ -1,56 +1,61 @@
 package com.example.thegame.settings;
 
+import android.content.Context;
 import android.os.Bundle;
+import android.widget.Toast;
 
+import androidx.lifecycle.LifecycleOwner;
 import androidx.preference.PreferenceFragmentCompat;
 import androidx.preference.PreferenceManager;
 
-import com.example.thegame.R;
-import com.group0565.preferences.FirebasePreferenceDataStore;
-import com.group0565.users.IUsersInteractor;
-
 /** The fragment that displays User Preference Settings */
-public class MySettingsFragment extends PreferenceFragmentCompat {
+public class MySettingsFragment extends PreferenceFragmentCompat
+    implements SettingsMVP.SettingsView {
+
+  /** A context object for the preferences */
+  private Context preferenceContext;
+
+  private SettingsMVP.SettingsPresenter settingsPresenter;
+
   /**
    * Called upon creation of the Preferences fragment, sets up the DataStore object for the
    * Preferences
    *
-   * @param savedInstanceState
-   * @param rootKey
+   * @param savedInstanceState The saved state of the instance
+   * @param rootKey The preference root key
    */
   @Override
   public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
-    FirebasePreferenceDataStore dataStore =
-        new FirebasePreferenceDataStore(
-            IUsersInteractor.getInstance().getUserObservable().getValue().getUid(),
-            new MyOnGetDataListener(rootKey));
+    settingsPresenter = new SettingsPresenterImp(this);
 
-    PreferenceManager preferenceManager = getPreferenceManager();
-    preferenceManager.setPreferenceDataStore(dataStore);
+    setDataStore(rootKey);
   }
 
-  /** An implementation of the OnGetDataListener for FirebasePreferenceDataStore */
-  private class MyOnGetDataListener implements FirebasePreferenceDataStore.OnGetDataListener {
-    private final String rootKey;
+  /**
+   * Get a LifeCycleOwner to enable LiveData observation
+   *
+   * @return A LifeCycleOwner
+   */
+  @Override
+  public LifecycleOwner getLifeCycleOwner() {
+    return this;
+  }
 
-    /**
-     * Create a new listener
-     *
-     * @param rootKey The given root key
-     */
-    public MyOnGetDataListener(String rootKey) {
-      this.rootKey = rootKey;
-    }
+  /**
+   * Display a message to the UI with the given text
+   *
+   * @param message The text to be displayed
+   */
+  @Override
+  public void DisplayMessage(String message) {
+    Toast.makeText(preferenceContext, message, Toast.LENGTH_LONG).show();
+  }
 
-    /** The callback performed on successful call */
-    @Override
-    public void onSuccess() {
-      setPreferencesFromResource(R.xml.preferences, rootKey);
-    }
-
-    /** The callback performed upon failed call */
-    @Override
-    public void onFailure() {
-    }
+  /** Set the PreferenceDataStore for the preferences view */
+  @Override
+  public void setDataStore(String rootKey) {
+    PreferenceManager preferenceManager = getPreferenceManager();
+    preferenceManager.setPreferenceDataStore(settingsPresenter.getDataStore(rootKey));
+    preferenceContext = preferenceManager.getContext();
   }
 }

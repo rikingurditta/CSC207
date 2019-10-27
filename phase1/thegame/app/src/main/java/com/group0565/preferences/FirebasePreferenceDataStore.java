@@ -2,49 +2,61 @@ package com.group0565.preferences;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.preference.PreferenceDataStore;
 
+import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-
-import java.util.ArrayList;
-import java.util.List;
+import com.group0565.users.IUsersInteractor;
 
 /** An extension of PreferenceDataStore that saves the data in Firebase Realtime Database */
-public class FirebasePreferenceDataStore extends PreferenceDataStore {
+public class FirebasePreferenceDataStore extends AsyncPreferenceDataStore {
 
-  /** Interface for a Listener for the Firebase data query */
-  public interface OnGetDataListener {
-    /** The event to call after the data has been successfully received from Firebase */
-    void onSuccess();
-
-    /** The event to call in case of failure to receive data from Firebase */
-    void onFailure();
-  }
-
-  /** A local list to host the preferences received from the db */
-  private List<IPreference> userPreferences;
+  /** A reference to the single instance of the class */
+  private static FirebasePreferenceDataStore instance;
 
   /** A reference to the Firebase database */
   private DatabaseReference mDatabase;
 
-  /**
-   * Creates a new PreferenceDataStore
-   *
-   * @param currUser Current connected user
-   * @param completeListener The listener to db draw event
-   */
-  public FirebasePreferenceDataStore(String currUser, OnGetDataListener completeListener) {
+  /** A reference to the user interactor object */
+  private IUsersInteractor mUserInteractor;
 
-    userPreferences = new ArrayList<>();
+  /** Creates a new PreferenceDataStore */
+  private FirebasePreferenceDataStore() {
+    super();
+
+    mUserInteractor = IUsersInteractor.getInstance();
+
+    String currUser = mUserInteractor.getUserObservable().getValue().getUid();
 
     this.mDatabase =
         FirebaseDatabase.getInstance().getReference().child("users/" + currUser + "/preferences");
+  }
 
-    mDatabase.addListenerForSingleValueEvent(new MyValueEventListener(completeListener));
+  /**
+   * Gets the singleton instance of the class
+   *
+   * @param completeListener The listener to db draw event
+   * @return the instance
+   */
+  public static FirebasePreferenceDataStore getInstance(OnSingleGetDataListener completeListener) {
+    if (instance == null) {
+      instance = new FirebasePreferenceDataStore();
+    }
+
+    instance.addGetDataListener(completeListener);
+
+    return instance;
+  }
+
+  private void addGetDataListener(OnSingleGetDataListener completeListener) {
+    mDatabase.addListenerForSingleValueEvent(new MyValueSingleEventListener(completeListener));
+  }
+
+  public void addRealtimeChildChangesListener(OnRealtimeChildListener realTimeListener) {
+    mDatabase.addChildEventListener(new MyChildEventListener(realTimeListener));
   }
 
   /**
@@ -58,7 +70,7 @@ public class FirebasePreferenceDataStore extends PreferenceDataStore {
    */
   @Override
   public void putString(String key, @Nullable String value) {
-    userPreferences.add(new UserPreference<>(key, value));
+    super.putString(key, value);
     mDatabase.child(key).setValue(value);
   }
 
@@ -73,7 +85,7 @@ public class FirebasePreferenceDataStore extends PreferenceDataStore {
    */
   @Override
   public void putInt(String key, int value) {
-    userPreferences.add(new UserPreference<>(key, value));
+    super.putInt(key, value);
     mDatabase.child(key).setValue(value);
   }
 
@@ -88,7 +100,7 @@ public class FirebasePreferenceDataStore extends PreferenceDataStore {
    */
   @Override
   public void putFloat(String key, float value) {
-    userPreferences.add(new UserPreference<>(key, value));
+    super.putFloat(key, value);
     mDatabase.child(key).setValue(value);
   }
 
@@ -103,103 +115,105 @@ public class FirebasePreferenceDataStore extends PreferenceDataStore {
    */
   @Override
   public void putBoolean(String key, boolean value) {
-    userPreferences.add(new UserPreference<>(key, value));
+    super.putBoolean(key, value);
     mDatabase.child(key).setValue(value);
   }
 
-  /**
-   * Retrieves a {@link String} value from the data store.
-   *
-   * @param key The name of the preference to retrieve
-   * @param defValue Value to return if this preference does not exist in the storage
-   * @return The value from the data store or the default return value
-   * @see #putString(String, String)
-   */
-  @Nullable
-  @Override
-  public String getString(String key, @Nullable String defValue) {
-    for (IPreference pref : userPreferences) {
-      if (pref.getPrefName().equals(key)) {
-        return (String) pref.getPrefVal();
-      }
+  /** Instance class implementing ChildEventListener for realtime Firebase events */
+  private static class MyChildEventListener implements ChildEventListener {
+
+    /** A reference to the OnRealtimeChildListener with the callbacks */
+    private final OnRealtimeChildListener realTimeListener;
+
+    /**
+     * Creates a new MyChildEventListener
+     *
+     * @param realTimeListener The callbacks to perform
+     */
+    MyChildEventListener(OnRealtimeChildListener realTimeListener) {
+      this.realTimeListener = realTimeListener;
     }
 
-    // return default value
-    return super.getString(key, defValue);
-  }
+    /**
+     * Received data from Firebase - new preference was added
+     *
+     * @param dataSnapshot The db snapshot of the changed data
+     * @param s A string description of the change
+     */
+    @Override
+    public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+      String preferenceKey = dataSnapshot.getKey();
+      Object preferenceValue = dataSnapshot.getValue();
 
-  /**
-   * Retrieves an {@link Integer} value from the data store.
-   *
-   * @param key The name of the preference to retrieve
-   * @param defValue Value to return if this preference does not exist in the storage
-   * @return The value from the data store or the default return value
-   * @see #putInt(String, int)
-   */
-  @Override
-  public int getInt(String key, int defValue) {
-    for (IPreference pref : userPreferences) {
-      if (pref.getPrefName().equals(key)) {
-        return (int) pref.getPrefVal();
-      }
+      IPreference preference =
+          UserPreferenceFactory.getUserPreference(preferenceKey, preferenceValue);
+
+      realTimeListener.onPreferenceAdd(preference);
     }
 
-    // return default value
-    return super.getInt(key, defValue);
-  }
+    /**
+     * Received data from Firebase - a preference was changed
+     *
+     * @param dataSnapshot The db snapshot of the changed data
+     * @param s A string description of the change
+     */
+    @Override
+    public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+      String preferenceKey = dataSnapshot.getKey();
+      Object preferenceValue = dataSnapshot.getValue();
 
-  /**
-   * Retrieves a {@link Float} value from the data store.
-   *
-   * @param key The name of the preference to retrieve
-   * @param defValue Value to return if this preference does not exist in the storage
-   * @return The value from the data store or the default return value
-   * @see #putFloat(String, float)
-   */
-  @Override
-  public float getFloat(String key, float defValue) {
-    for (IPreference pref : userPreferences) {
-      if (pref.getPrefName().equals(key)) {
-        return (Float) pref.getPrefVal();
-      }
+      IPreference preference =
+          UserPreferenceFactory.getUserPreference(preferenceKey, preferenceValue);
+
+      realTimeListener.onPreferenceChanged(preference);
     }
 
-    // return default value
-    return super.getFloat(key, defValue);
-  }
+    /**
+     * Received data from Firebase - a preference was removed
+     *
+     * @param dataSnapshot The db snapshot of the changed data
+     */
+    @Override
+    public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
+      String preferenceKey = dataSnapshot.getKey();
+      Object preferenceValue = dataSnapshot.getValue();
 
-  /**
-   * Retrieves a {@link Boolean} value from the data store.
-   *
-   * @param key The name of the preference to retrieve
-   * @param defValue Value to return if this preference does not exist in the storage
-   * @return the value from the data store or the default return value
-   * @see #getBoolean(String, boolean)
-   */
-  @Override
-  public boolean getBoolean(String key, boolean defValue) {
-    for (IPreference pref : userPreferences) {
-      if (pref.getPrefName().equals(key)) {
-        return (Boolean) pref.getPrefVal();
-      }
+      IPreference preference =
+          UserPreferenceFactory.getUserPreference(preferenceKey, preferenceValue);
+
+      realTimeListener.onPreferenceRemoved(preference);
     }
 
-    // return default value
-    return super.getBoolean(key, defValue);
+    /**
+     * Received data from Firebase - a preference was moved
+     *
+     * @param dataSnapshot The db snapshot of the changed data
+     * @param s A string description of the change
+     */
+    @Override
+    public void onChildMoved(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {}
+
+    /**
+     * Received data from Firebase - error occurred on query
+     *
+     * @param databaseError The db error
+     */
+    @Override
+    public void onCancelled(@NonNull DatabaseError databaseError) {}
   }
 
   /** Instance class implementing ValueEventListener for events after Firebase data querying */
-  private class MyValueEventListener implements ValueEventListener {
+  private class MyValueSingleEventListener implements ValueEventListener {
 
-    /** A reference to the OnGetDataListener with the callbacks */
-    private final OnGetDataListener completeListener;
+    /** A reference to the OnSingleGetDataListener with the callbacks */
+    private final OnSingleGetDataListener completeListener;
 
     /**
-     * Creates a new MyValueEventListener
+     * Creates a new MyValueSingleEventListener
      *
      * @param completeListener The callbacks to perform
      */
-    MyValueEventListener(OnGetDataListener completeListener) {
+    MyValueSingleEventListener(OnSingleGetDataListener completeListener) {
       this.completeListener = completeListener;
     }
 
@@ -220,7 +234,7 @@ public class FirebasePreferenceDataStore extends PreferenceDataStore {
                 IPreference pref =
                     UserPreferenceFactory.getUserPreference(preferenceKey, preferenceValue);
 
-                userPreferences.add(pref);
+                updatePreference(pref);
               });
 
       completeListener.onSuccess();
