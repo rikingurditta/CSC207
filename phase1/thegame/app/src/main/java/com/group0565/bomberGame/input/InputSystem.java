@@ -3,6 +3,9 @@ package com.group0565.bomberGame.input;
 import com.group0565.engine.gameobjects.GameObject;
 import com.group0565.math.Vector;
 
+/**
+ * Abstract class for InputSystems, objects that process input to control a player.
+ */
 public abstract class InputSystem extends GameObject {
     /**
      * The BomberInput object that will be managed by this InputSystem.
@@ -11,23 +14,19 @@ public abstract class InputSystem extends GameObject {
 
     /**
      * Constructs a new InputSystem.
-     * @param parent        The parent object of this InputSystem.
      * @param position      The position (relative or absolute) of this object.
-     * @param relative      Whether the construction position is relative or absolute.
      * @param z             The z-level of the object.
      */
-    InputSystem(GameObject parent, Vector position, boolean relative, double z) {
-        super(parent, position, relative, z);
+    InputSystem(Vector position, double z) {
+        super(position, z);
     }
 
     /**
      * Constructs a new InputSystem.
-     * @param parent        The parent object of this InputSystem.
      * @param position      The position (relative or absolute) of this object.
-     * @param relative      Whether the construction position is relative or absolute.
      */
-    InputSystem(GameObject parent, Vector position, boolean relative) {
-        super(parent, position, relative);
+    InputSystem(Vector position) {
+        super(position);
     }
 
     /**

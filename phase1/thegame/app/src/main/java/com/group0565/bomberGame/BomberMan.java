@@ -25,14 +25,12 @@ public class BomberMan extends GameObject {
 
     /**
      * Constructs a new BomberMan.
-     * @param parent        The parent object of this BomberMan.
      * @param position      The position (relative or absolute) of this object.
-     * @param relative      Whether the construction position is relative or absolute.
      * @param z             The z-level of the object.
      * @param inputSystem   The object managing the inputs controlling this player.
      */
-    public BomberMan(GameObject parent, Vector position, boolean relative, double z, InputSystem inputSystem) {
-        super(parent, position, relative, z);
+    public BomberMan(Vector position, double z, InputSystem inputSystem) {
+        super(position, z);
         this.inputSystem = inputSystem;
         this.adopt(inputSystem);
         this.input = inputSystem.getInput();
@@ -40,13 +38,11 @@ public class BomberMan extends GameObject {
 
     /**
      * Constructs a new BomberMan.
-     * @param parent        The parent object of this BomberMan.
      * @param position      The position (relative or absolute) of this object.
-     * @param relative      Whether the construction position is relative or absolute.
      * @param inputSystem   The object managing the inputs controlling this player.
      */
-    public BomberMan(GameObject parent, Vector position, boolean relative, InputSystem inputSystem) {
-        super(parent, position, relative);
+    public BomberMan(Vector position, InputSystem inputSystem) {
+        super(position);
         this.inputSystem = inputSystem;
         this.adopt(inputSystem);
         this.input = inputSystem.getInput();

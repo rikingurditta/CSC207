@@ -1,6 +1,5 @@
 package com.group0565.bomberGame.input;
 
-import com.group0565.engine.gameobjects.GameObject;
 import com.group0565.math.Vector;
 
 /**
@@ -19,11 +18,10 @@ public class RandomInput extends InputSystem {
 
     /**
      * Constructs a new RandomInput.
-     * @param parent The parent object of this RandomInput.
      * @param period The period between changes of direction.
      */
-    public RandomInput(GameObject parent, long period) {
-        super(parent, new Vector(), false);
+    public RandomInput(long period) {
+        super(new Vector());
         this.period = period;
         this.timer = period - 1;
     }

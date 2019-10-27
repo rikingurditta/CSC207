@@ -2,7 +2,6 @@ package com.group0565.bomberGame.input;
 
 import android.graphics.Canvas;
 
-import com.group0565.engine.gameobjects.GameObject;
 import com.group0565.engine.gameobjects.InputEvent;
 import com.group0565.math.Vector;
 
@@ -12,23 +11,19 @@ import com.group0565.math.Vector;
 public class JoystickInput extends InputSystem {
     /**
      * Constructs a new JoystickInput.
-     * @param parent    The parent object of this JoystickInput.
      * @param position  The position (relative or absolute) of this object.
-     * @param relative  Whether the construction position is relative or absolute.
      * @param z         The z-level of the object.
      */
-    public JoystickInput(GameObject parent, Vector position, boolean relative, double z) {
-        super(parent, position, relative, z);
+    public JoystickInput(Vector position, double z) {
+        super(position, z);
     }
 
     /**
      * Constructs a new JoystickInput.
-     * @param parent    The parent object of this JoystickInput.
      * @param position  The position (relative or absolute) of this object.
-     * @param relative  Whether the construction position is relative or absolute.
      */
-    public JoystickInput(GameObject parent, Vector position, boolean relative) {
-        super(parent, position, relative);
+    public JoystickInput(Vector position) {
+        super(position);
     }
 
     /**
