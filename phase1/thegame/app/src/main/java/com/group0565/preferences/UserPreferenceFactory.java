@@ -19,6 +19,10 @@ public class UserPreferenceFactory {
       pref = new UserPreference<>(preferenceKey, (String) preferenceValue);
     } else if (preferenceValue instanceof Double) { // If Double -> Float
       pref = new UserPreference<>(preferenceKey, ((Double) preferenceValue).floatValue());
+    } else if (preferenceValue instanceof Float) { // If Float -> Float
+      pref = new UserPreference<>(preferenceKey, ((Float) preferenceValue));
+    } else if (preferenceValue instanceof Integer) { // If int -> int
+      pref = new UserPreference<>(preferenceKey, ((Integer) preferenceValue));
     } else if (preferenceValue instanceof Boolean) { // If Boolean -> Boolean
       pref = new UserPreference<>(preferenceKey, (Boolean) preferenceValue);
     } else { // Throw casting error if unexpected type
