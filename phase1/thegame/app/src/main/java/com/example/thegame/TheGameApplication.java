@@ -83,7 +83,7 @@ public class TheGameApplication extends Application implements IErrorDisplayer {
 
     listener = new MyOnSharedPreferenceChangeListener(rep);
 
-    rep.observeAllUserPreferences().observeForever(this::editSharedPreferences);
+    rep.getObservable().observeForever(this::editSharedPreferences);
 
     preferences.registerOnSharedPreferenceChangeListener(listener);
   }
@@ -143,11 +143,11 @@ public class TheGameApplication extends Application implements IErrorDisplayer {
      * Update the db preference based on the change in sharedPreferences
      *
      * @param sharedPreferences The SharedPreference object currently in use
-     * @param key The preference jey
+     * @param key The preference key
      */
     @Override
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
-      rep.updatePreference(
+      rep.put(
           UserPreferenceFactory.getUserPreference(key, sharedPreferences.getAll().get(key)));
     }
   }

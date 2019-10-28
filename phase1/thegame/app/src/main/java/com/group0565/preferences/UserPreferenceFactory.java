@@ -1,6 +1,6 @@
 package com.group0565.preferences;
 
-/** A factory to create the correct UserPreference based on runtime value type */
+/** A factory to createGameStatistic the correct UserPreference based on runtime value type */
 public class UserPreferenceFactory {
   /**
    * Create a new UserPreference with the given key and value, and with T dependant on

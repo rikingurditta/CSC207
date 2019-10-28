@@ -1,5 +1,10 @@
 package com.group0565.preferences;
 
+/**
+ * An interface for a Preference in the game
+ *
+ * @param <T> The type of value in the preference
+ */
 public interface IPreference<T> {
 
   /**

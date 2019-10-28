@@ -1,4 +1,4 @@
-package com.group0565.preferences;
+package com.group0565.statistics;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -15,71 +15,74 @@ import java.util.ArrayList;
 import java.util.List;
 
 /** A Firebase implementation of the IAsyncPreferencesRepository */
-public class FirebasePreferenceRepository implements IAsyncPreferencesRepository {
+public class FirebaseStatisticRepository implements IAsyncStatisticsRepository {
 
   /** A reference to the Firebase database */
   private DatabaseReference mDatabase;
 
   /** A collection of the user preferences */
-  private List<IPreference> userPreferences;
+  private List<IStatistic> userStatistics;
 
   /** An observable live collection of the user preferences */
-  private MutableLiveData<List<IPreference>> livePreferences;
+  private MutableLiveData<List<IStatistic>> liveStatistics;
 
   /**
    * Create a new repository for the given user
    *
    * @param currUser The current user
+   * @param gameName The current game
    */
-  FirebasePreferenceRepository(String currUser) {
+  FirebaseStatisticRepository(String currUser, String gameName) {
 
     this.mDatabase =
-        FirebaseDatabase.getInstance().getReference().child("users/" + currUser + "/preferences");
+        FirebaseDatabase.getInstance()
+            .getReference()
+            .child("users/" + currUser + "/statistics/" + gameName);
 
-    userPreferences = new ArrayList<>();
-    livePreferences = new MutableLiveData<>();
+    userStatistics = new ArrayList<>();
+    liveStatistics = new MutableLiveData<>();
 
-    mDatabase.addChildEventListener(new MyChildEventListener());
+    mDatabase.addChildEventListener(new FirebaseStatisticRepository.MyChildEventListener());
   }
 
   /**
-   * Gets the observable LiveData of all the IPreference objects in the database
+   * Gets the observable LiveData of all the IStatistic objects in the database
    *
-   * @return An observable object wrapping the list of IPreference with all preferences
+   * @return An observable object wrapping the list of IStatistic with all statistics
    */
   @Override
-  public LiveData<List<IPreference>> getObservable() {
-    return livePreferences;
+  public LiveData<List<IStatistic>> getObservable() {
+    return liveStatistics;
   }
 
   /**
-   * Updates a preference in the database
+   * Updates a stat in the database
    *
-   * @param preference The preference to update based on its key
+   * @param stat The stat to update based on its key
    */
   @Override
-  public void put(IPreference preference) {
-    mDatabase.child(preference.getPrefName()).setValue(preference.getPrefVal());
+  public void put(IStatistic stat) {
+    mDatabase.child(stat.getStatKey()).setValue(stat.getStatVal());
   }
 
   /**
-   * Add a preference to the database
+   * Add a stat to the database
    *
-   * @param preference The preference to add
+   * @param stat The stat to add
    */
   @Override
-  public void push(IPreference preference) {
-    mDatabase.child(preference.getPrefName()).setValue(preference.getPrefVal());
+  public void push(IStatistic stat) {
+    mDatabase.child(stat.getStatKey()).setValue(stat.getStatVal());
   }
 
   /**
-   * Remove a preference from the database
+   * Remove a stat from the database
    *
-   * @param preference The preference to remove
+   * @param stat The stat to remove
    */
   @Override
-  public void delete(IPreference preference) {
-    mDatabase.child(preference.getPrefName()).removeValue();
+  public void delete(IStatistic stat) {
+    mDatabase.child(stat.getStatKey()).removeValue();
   }
 
   /** An implementation of ChildEventListener for PreferenceRepository */
@@ -93,12 +96,12 @@ public class FirebasePreferenceRepository implements IAsyncPreferencesRepository
      */
     @Override
     public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-      String preferenceName = dataSnapshot.getKey();
-      Object preferenceValue = dataSnapshot.getValue();
+      String statKey = dataSnapshot.getKey();
+      Object statValue = dataSnapshot.getValue();
 
-      userPreferences.add(UserPreferenceFactory.getUserPreference(preferenceName, preferenceValue));
+      userStatistics.add(new GameStatistic<>(statKey, statValue));
 
-      livePreferences.setValue(userPreferences);
+      liveStatistics.setValue(userStatistics);
     }
 
     /**
@@ -109,16 +112,16 @@ public class FirebasePreferenceRepository implements IAsyncPreferencesRepository
      */
     @Override
     public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-      String preferenceName = dataSnapshot.getKey();
-      Object preferenceValue = dataSnapshot.getValue();
+      String statKey = dataSnapshot.getKey();
+      Object statValue = dataSnapshot.getValue();
 
-      for (IPreference iterPref : userPreferences) {
-        if (iterPref.getPrefName().equals(preferenceName)) {
-          iterPref.setValue(preferenceValue);
+      for (IStatistic iterStats : userStatistics) {
+        if (iterStats.getStatKey().equals(statKey)) {
+          iterStats.setValue(statValue);
         }
       }
 
-      livePreferences.setValue(userPreferences);
+      liveStatistics.setValue(userStatistics);
     }
 
     /**
@@ -128,11 +131,11 @@ public class FirebasePreferenceRepository implements IAsyncPreferencesRepository
      */
     @Override
     public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
-      String preferenceName = dataSnapshot.getKey();
+      String statKey = dataSnapshot.getKey();
 
-      userPreferences.removeIf(preference -> preference.getPrefName().equals(preferenceName));
+      userStatistics.removeIf(preference -> preference.getStatKey().equals(statKey));
 
-      livePreferences.setValue(userPreferences);
+      liveStatistics.setValue(userStatistics);
     }
 
     /**
