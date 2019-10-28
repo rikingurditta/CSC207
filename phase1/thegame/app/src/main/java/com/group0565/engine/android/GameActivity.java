@@ -8,7 +8,6 @@ import android.view.WindowManager;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.group0565.engine.android.assets.AndroidGameEngine;
 import com.group0565.engine.enums.Orientation;
 import com.group0565.engine.gameobjects.GameObject;
 
