@@ -26,6 +26,9 @@ public class TheGameApplication extends Application implements IErrorDisplayer {
   /** A reference to the SharedPreference in use */
   private SharedPreferences preferences;
 
+  /** A strong reference to the listener so it want get garbage collected */
+  private MyOnSharedPreferenceChangeListener listener;
+
   /**
    * Getter for the single instance
    *
@@ -73,9 +76,10 @@ public class TheGameApplication extends Application implements IErrorDisplayer {
    * @param userID The user ID of the target user
    */
   private void listenToPreferenceChanges(String userID) {
-    MyOnSharedPreferenceChangeListener listener;
-
     IAsyncPreferencesRepository rep = PreferenceRepositoryInjector.inject(userID);
+
+    // If already listening, remove the existing listener (sign out and sign in as another user)
+    preferences.unregisterOnSharedPreferenceChangeListener(listener);
 
     listener = new MyOnSharedPreferenceChangeListener(rep);
 
