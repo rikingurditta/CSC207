@@ -9,6 +9,6 @@ public class MainActivity extends GameActivity {
 
 
     public MainActivity() {
-        super(new MainObject(null, new Vector(), false));
+        super(new MainObject(new Vector()));
     }
 }

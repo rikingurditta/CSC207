@@ -53,13 +53,11 @@ public class Factory<E extends GameObject & FactoryObject> extends GameObject {
     /**
      * Creates a new BubbleFactory with parent, at location position.
      *
-     * @param parent   The parent of this object. Can be null if this is a top level object.
      * @param position The position (relative or absolute) of this object.
-     * @param relative Whether the position is relative or absolute.
      * @param cls      The Class Object for E
      */
-    public Factory(GameObject parent, Vector position, boolean relative, Class<E> cls) {
-        super(parent, position, relative);
+    public Factory(Vector position, Class<E> cls) {
+        super(position);
         this.cls = cls;
     }
 
