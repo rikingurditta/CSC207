@@ -1,0 +1,18 @@
+{
+  "Name": "Test",
+  "AudioSet": "Test",
+  "AudioFile": "AudioTest",
+  "Title": "Hello World",
+  "Artist": "Artist",
+  "Mapper": "Ethan",
+  "Difficulty": 5.0,
+  "LeadIn": 1000,
+  "HitObjects": [
+    {
+      "Time": 0,
+      "Duration": 1000,
+      "PositionStart": 0.0,
+      "PositionEnd": 1.0
+    }
+  ]
+}
