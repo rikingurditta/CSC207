@@ -1,4 +1,4 @@
-package com.example.thegame.main.enums;
+package com.thegame.main.enums;
 
 import com.example.thegame.R;
 
@@ -19,13 +19,13 @@ public enum GameID {
   }
 
   static {
-    for (com.example.thegame.main.enums.GameID GameID : GameID.values()) {
+    for (com.thegame.main.enums.GameID GameID : GameID.values()) {
       map.put(GameID.value, GameID);
     }
   }
 
   public static GameID valueOf(int GameID) {
-    return (com.example.thegame.main.enums.GameID) map.get(GameID);
+    return (com.thegame.main.enums.GameID) map.get(GameID);
   }
 
   public int getValue() {

@@ -1,6 +1,6 @@
-package com.example.thegame.main.navigationCommands;
+package com.thegame.main.navigationCommands;
 
-import com.example.thegame.main.MainMVP;
+import com.thegame.main.MainMVP;
 
 /** An implementation of NavigationCommand to move to Game 1 */
 public class Game1Command implements NavigationCommand {

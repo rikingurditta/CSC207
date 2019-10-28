@@ -1,4 +1,4 @@
-package com.example.thegame.main.navigationCommands;
+package com.thegame.main.navigationCommands;
 
 import com.group0565.commands.ICommand;
 

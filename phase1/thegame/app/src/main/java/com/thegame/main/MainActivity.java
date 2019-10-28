@@ -1,4 +1,4 @@
-package com.example.thegame.main;
+package com.thegame.main;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -14,12 +14,12 @@ import androidx.cardview.widget.CardView;
 import androidx.lifecycle.LifecycleOwner;
 
 import com.example.thegame.R;
-import com.example.thegame.login.LoginClick;
-import com.example.thegame.main.MainMVP.MainPresenter;
-import com.example.thegame.main.MainMVP.MainView;
-import com.example.thegame.main.enums.GameID;
-import com.example.thegame.main.enums.MenuOptionID;
-import com.example.thegame.settings.SettingsActivity;
+import com.thegame.login.LoginClick;
+import com.thegame.main.MainMVP.MainPresenter;
+import com.thegame.main.MainMVP.MainView;
+import com.thegame.main.enums.GameID;
+import com.thegame.main.enums.MenuOptionID;
+import com.thegame.settings.SettingsActivity;
 
 /** The MainActivity class */
 public class MainActivity extends AppCompatActivity implements MainView {
