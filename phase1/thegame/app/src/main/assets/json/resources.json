@@ -16,10 +16,17 @@
       }
     }
   },
+  "Json": {
+    "Tsu": {
+      "BeatMap": {
+        "Path": "beatmaps/test.json"
+      }
+    }
+  },
   "LanguagePack": {
-    "Test": {
+    "Tsu": {
       "en_us": {
-        "Path": "en_us.json",
+        "Path": "Tsu-en_us.json",
         "Default": "String Not Found"
       }
     }
