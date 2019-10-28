@@ -5,7 +5,7 @@ package com.group0565.statistics;
  *
  * @param <T> The type of value
  */
-public class GameStatistic<T> implements IStatistic<T> {
+class GameStatistic<T> implements IStatistic<T> {
 
   /** The key for the statistic */
   private String statKey;

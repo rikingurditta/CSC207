@@ -15,7 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /** A Firebase implementation of the IAsyncPreferencesRepository */
-public class FirebasePreferenceRepository implements IAsyncPreferencesRepository {
+class FirebasePreferenceRepository implements IAsyncPreferencesRepository {
 
   /** A reference to the Firebase database */
   private DatabaseReference mDatabase;

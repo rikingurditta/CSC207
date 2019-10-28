@@ -15,7 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /** A Firebase implementation of the IAsyncPreferencesRepository */
-public class FirebaseStatisticRepository implements IAsyncStatisticsRepository {
+class FirebaseStatisticRepository implements IAsyncStatisticsRepository {
 
   /** A reference to the Firebase database */
   private DatabaseReference mDatabase;
@@ -33,7 +33,6 @@ public class FirebaseStatisticRepository implements IAsyncStatisticsRepository {
    * @param gameName The current game
    */
   FirebaseStatisticRepository(String currUser, String gameName) {
-
     this.mDatabase =
         FirebaseDatabase.getInstance()
             .getReference()

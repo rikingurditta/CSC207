@@ -2,6 +2,9 @@ package com.example.thegame;
 
 import com.group0565.engine.android.GameActivity;
 import com.group0565.math.Vector;
+import com.group0565.preferences.IPreference;
+import com.group0565.preferences.IPreferenceInteractor;
+import com.group0565.preferences.PreferencesInjector;
 import com.group0565.statistics.IAsyncStatisticsRepository;
 import com.group0565.statistics.IStatistic;
 import com.group0565.statistics.IStatisticFactory;
@@ -22,9 +25,27 @@ public class StatsExampleActivity extends GameActivity {
   /** Create a STRONG reference to the listener so it won't get garbage collected */
   StatisticRepositoryInjector.RepositoryInjectionListener listener;
 
+  /** User language */
+  String lang;
+
+  /** User theme */
+  String theme;
+
+  /** User volume */
+  Integer volume;
+
   public StatsExampleActivity() {
     super(new MainObject(new Vector()));
 
+    // Preferences Example
+    IPreferenceInteractor prefInter = PreferencesInjector.inject();
+
+    lang = prefInter.getLanguage();
+    theme = prefInter.getTheme();
+    volume = prefInter.getVolume();
+    ///////////////////////
+
+    // Stats example
     listener =
         repository -> {
           myStatRepo = repository;

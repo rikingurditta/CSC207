@@ -6,7 +6,7 @@ import android.content.res.Resources;
 import com.example.thegame.R;
 import com.example.thegame.TheGameApplication;
 
-public class SPPreferencesInteractor implements IPreferenceInteractor {
+class SPPreferencesInteractor implements IPreferenceInteractor {
   /**
    * Get the current selected theme
    *

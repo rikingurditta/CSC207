@@ -2,7 +2,7 @@ package com.group0565.preferences;
 
 import android.content.SharedPreferences;
 
-public class PreferencePutStrategies {
+class PreferencePutStrategies {
   public static class PreferencePutFloat implements IPreferencePutStrategy<Float> {
     /**
      * Put the given value into the editor
