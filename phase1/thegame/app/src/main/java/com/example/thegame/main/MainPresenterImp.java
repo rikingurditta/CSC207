@@ -90,7 +90,11 @@ public class MainPresenterImp implements MainPresenter {
   /** Sign out the current user */
   @Override
   public void signOut() {
-    mUser.signOut();
+    try {
+      mUser.signOut();
+    } catch (NullPointerException ex) {
+      mErrorHandler.Ignore(ex);
+    }
   }
 
   /**
@@ -100,7 +104,12 @@ public class MainPresenterImp implements MainPresenter {
    */
   @Override
   public boolean isMenuAvailable() {
-    return mUser.isConnected();
+    try {
+      return mUser.isConnected();
+    } catch (NullPointerException ex) {
+      mErrorHandler.Ignore(ex);
+      return false;
+    }
   }
 
   /**

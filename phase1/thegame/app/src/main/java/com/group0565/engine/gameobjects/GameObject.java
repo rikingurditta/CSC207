@@ -2,6 +2,7 @@ package com.group0565.engine.gameobjects;
 
 import android.graphics.Canvas;
 
+import com.group0565.engine.interfaces.GameEngine;
 import com.group0565.engine.interfaces.LifecycleListener;
 import com.group0565.math.Vector;
 
@@ -36,10 +37,6 @@ public class GameObject implements LifecycleListener {
      * by the uuid, the GameObject may be garbage collected even with strong references to it's uuid.
      */
     private final UUID uuid;
-    /**
-     * Object used to lock capturedEvents
-     */
-    private final Object eventLock = new Object();
     /**
      * Vector to repersent the position of this object
      */
@@ -77,7 +74,11 @@ public class GameObject implements LifecycleListener {
     /**
      * Set of captured events
      */
-    private HashSet<InputEvent> capturedEvents = new HashSet<>();
+    private final HashSet<InputEvent> capturedEvents = new HashSet<>();
+    /**
+     * Set of captured events
+     */
+    private final HashSet<InputEvent> capturingEvents = new HashSet<>();
     /**
      * A reference back to the parent of this object. This variable is null if this
      * Object is a top level GameObject.
@@ -85,30 +86,26 @@ public class GameObject implements LifecycleListener {
     private GameObject parent = null;
 
     /**
-     * Creates a new GameObject as a child of parent, located at position, either relative to its parent
+     * The GameEngine of this GameObject
+     */
+    private GameEngine engine;
+
+    /**
+     * Creates a new GameObject located at position, either relative to its parent
      * if relative is true, otherwise as an absolute position, character size charsize, and z-level z.
      * <p>
      * If parent is not null, this object is automatically added as a child to parent.
      * <p>
      * The z level determines the the rendering order of this object relative to its siblings.
      *
-     * @param parent   The parent of this object. Can be null if this is a top level object.
      * @param position The position (relative or absolute) of this object.
-     * @param relative Whether the position is relative or absolute.
      * @param z        The z-level of the object.
      */
-    public GameObject(GameObject parent, Vector position, boolean relative, double z) {
+    public GameObject(Vector position, double z) {
         this.uuid = UUID.randomUUID();
         this.z = z;
 
-        if (parent != null)
-            parent.adopt(this);
-        GameObject.reference.put(this.uuid, new WeakReference<GameObject>(this));
-
-        if (relative)
-            this.setRelativePosition(position);
-        else
-            this.setAbsolutePosition(position);
+        GameObject.reference.put(this.uuid, new WeakReference<>(this));
     }
 
     /**
@@ -117,12 +114,10 @@ public class GameObject implements LifecycleListener {
      * For more information on other parameters see the javadoc of the constructer with signature
      * (GameObject parent, Vector position, boolean relative, Vector charsize, double z).
      *
-     * @param parent   The parent of this object. Can be null if this is a top level object.
      * @param position The position (relative or absolute) of this object.
-     * @param relative Whether the position is relative or absolute.
      */
-    public GameObject(GameObject parent, Vector position, boolean relative) {
-        this(parent, position, relative, 0);
+    public GameObject(Vector position) {
+        this(position, 0);
     }
 
     /**
@@ -153,19 +148,24 @@ public class GameObject implements LifecycleListener {
      * @param ms Milliseconds since last update
      */
     public void updateAll(long ms) {
-        synchronized (eventLock) {
-            Iterator<InputEvent> eventIterator = this.capturedEvents.iterator();
-            while (eventIterator.hasNext()) {
-                InputEvent e = eventIterator.next();
-                if (!e.isActive()) {
-                    this.onEventDisable(e);
-                    eventIterator.remove();
-                }
+        synchronized (capturingEvents){
+            for (InputEvent event : capturingEvents){
+                this.capturedEvents.add(event);
+                this.onEventCapture(event);
             }
-            this.update(ms);
-            for (GameObject child : this.getChildren().values())
-                child.updateAll(ms);
+            this.capturingEvents.clear();
         }
+        Iterator<InputEvent> eventIterator = this.capturedEvents.iterator();
+        while (eventIterator.hasNext()) {
+            InputEvent e = eventIterator.next();
+            if (!e.isActive()) {
+                this.onEventDisable(e);
+                eventIterator.remove();
+            }
+        }
+        this.update(ms);
+        for (GameObject child : this.getChildren().values())
+            child.updateAll(ms);
     }
 
     /**
@@ -205,6 +205,7 @@ public class GameObject implements LifecycleListener {
         if (obj.parent != null)
             obj.parent.getChildren().remove(obj.uuid);
         obj.parent = this;
+        obj.engine = this.engine;
         if (!this.getChildren().containsKey(obj.uuid))
             this.getChildren().put(obj.uuid, obj);
         obj.invalidateCache();
@@ -235,13 +236,22 @@ public class GameObject implements LifecycleListener {
     }
 
     /**
-     * Wakes this object. Call super.init() to wake children.
+     * Wakes this object. Call super.init() to resume children.
      */
-    public void wake() {
+    public void resume() {
         for (GameObject child : this.getChildren().values())
-            child.wake();
+            child.resume();
     }
 
+    /**
+     * Callback when an event has been captured. This is ran on the same thread as update.
+     * Use this to process events when the are captured, instead of using captureEvent
+     *
+     * @param event The event that has been captured.
+     */
+    protected void onEventCapture(InputEvent event) {
+
+    }
     /**
      * Callback when an event has ended. For example when a touched point is released.
      *
@@ -257,8 +267,8 @@ public class GameObject implements LifecycleListener {
      * @param event The event to be captured.
      */
     protected void captureEvent(InputEvent event) {
-        synchronized (eventLock) {
-            this.capturedEvents.add(event);
+        synchronized (capturingEvents) {
+            this.capturingEvents.add(event);
         }
     }
 
@@ -290,10 +300,12 @@ public class GameObject implements LifecycleListener {
      * Sets the absolute position of this vector. This is stored as a relative position to its parent.
      *
      * @param absolutePosition The absolute position of this vector.
+     * @return This Object to allow chaining
      */
-    public void setAbsolutePosition(Vector absolutePosition) {
+    public GameObject setAbsolutePosition(Vector absolutePosition) {
         validateCache();
         setRelativePosition(absolutePosition.subtract(parentAbsolutePosition));
+        return this;
     }
 
     /**
@@ -310,11 +322,30 @@ public class GameObject implements LifecycleListener {
      * the absolute position.
      *
      * @param relativePosition The relative position of this vector.
+     * @return This Object to allow chaining
      */
-    public void setRelativePosition(Vector relativePosition) {
+    public GameObject setRelativePosition(Vector relativePosition) {
         this.relativePosition = relativePosition;
         invalidateCache();
+        return this;
     }
+
+    /**
+     * Sets the position either relative or absolute
+     *
+     * @param position The position
+     * @param relative Whether position is relative or absolute
+     * @return This Object to allow chaining
+     */
+    public GameObject setPosition(Vector position, boolean relative) {
+        if (relative)
+            this.setRelativePosition(position);
+        else
+            this.setAbsolutePosition(position);
+        invalidateCache();
+        return this;
+    }
+
 
     /**
      * Helper method to check if the parentAbsolutePosition variable needs updating, and update it
@@ -333,7 +364,7 @@ public class GameObject implements LifecycleListener {
      * Invalidates the cache of this object.
      */
     public void invalidateCache() {
-        this.invalidateCache(new HashSet<UUID>());
+        this.invalidateCache(new HashSet<>());
     }
 
     /**
@@ -401,11 +432,32 @@ public class GameObject implements LifecycleListener {
      *
      * @param parent The new parent of this object. Can be null.
      */
-    public void setParent(GameObject parent) {
+    public GameObject setParent(GameObject parent) {
         if (parent != null)
             parent.adopt(this);
         this.invalidateCache();
+        return this;
     }
+
+    /**
+     * Getter for the GameEngine of this object
+     * @return The GameEngine
+     */
+    public GameEngine getEngine() {
+        return engine;
+    }
+
+    /**
+     * Setter for the GameEngine of this GameObject and its children.
+     * @param engine The new GameEngine
+     */
+    public void setEngine(GameEngine engine) {
+        this.engine = engine;
+        for (GameObject child : this.children.values())
+            child.setEngine(engine);
+    }
+
+
 
     /**
      * Getter for uuid

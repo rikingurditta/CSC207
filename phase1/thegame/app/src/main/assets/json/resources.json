@@ -1,0 +1,27 @@
+{
+  "TileSheets": {
+    "Test": {
+      "Test1": {
+      "Path": "Test1.png",
+      "TileWidth": 16,
+      "TileHeight": 16
+      }
+    }
+  },
+  "Audio": {
+    "Test": {
+      "AudioTest": {
+        "Path": "audio.mp3",
+        "Volume": 100
+      }
+    }
+  },
+  "LanguagePack": {
+    "Test": {
+      "en_us": {
+        "Path": "en_us.json",
+        "Default": "String Not Found"
+      }
+    }
+  }
+}

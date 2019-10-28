@@ -9,4 +9,7 @@
     <string name="no_user">No User Connected!</string>
     <string name="login_btn">Login</string>
     <string name="action_settings">Settings</string>
+    <string name="lan_pref">Language</string>
+    <string name="theme_pref">Theme</string>
+    <string name="vol_pref">Volume</string>
 </resources>

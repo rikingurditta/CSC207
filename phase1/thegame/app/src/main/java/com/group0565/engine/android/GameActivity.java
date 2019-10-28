@@ -2,20 +2,20 @@ package com.group0565.engine.android;
 
 import android.content.res.Configuration;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.SurfaceHolder;
 import android.view.Window;
 import android.view.WindowManager;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.group0565.engine.android.assets.AndroidGameEngine;
 import com.group0565.engine.enums.Orientation;
 import com.group0565.engine.gameobjects.GameObject;
 
 public abstract class GameActivity extends AppCompatActivity implements SurfaceHolder.Callback {
     private static final String TAG = "GameActivity";
     private Orientation orientation;
-    private GameEngine engine;
+    private AndroidGameEngine engine;
     private GameView view = null;
     private GameObject game;
     private int fps;
@@ -40,18 +40,16 @@ public abstract class GameActivity extends AppCompatActivity implements SurfaceH
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setRequestedOrientation(orientation.orientation);
-        this.engine = new GameEngine(game, fps);
+        this.engine = new AndroidGameEngine(game, fps, this.getResources().getAssets());
         this.view = new GameView(this, this, engine.getInputManager());
         setContentView(this.view);
-        Log.i(TAG, "onCreate");
     }
 
     @Override
     protected void onStart() {
-        Log.i(TAG, "onCreate");
         super.onStart();
         try {
-            this.engine.start(0);
+            this.engine.start();
         } catch (InterruptedException e) {
 
         }
@@ -59,43 +57,32 @@ public abstract class GameActivity extends AppCompatActivity implements SurfaceH
 
     @Override
     protected void onResume() {
-        Log.i(TAG, "onResume");
         super.onResume();
         this.engine.resume();
     }
 
     @Override
     protected void onPause() {
-        Log.i(TAG, "onPause");
         super.onPause();
-//        this.engine.pause();
+        this.engine.pause();
     }
 
     @Override
     protected void onStop() {
-        Log.i(TAG, "onStop");
         super.onStop();
-//        this.engine.stop();
+        this.engine.stop();
     }
 
     @Override
     protected void onDestroy() {
-        Log.i(TAG, "onDestroy");
-
-//        try {
-//            Thread.sleep(9999999999L);
-//        } catch (InterruptedException e) {
-//            e.printStackTrace();
-//        }
         super.onDestroy();
     }
 
     @Override
     protected void onRestart() {
-        Log.i(TAG, "onRestart");
         super.onRestart();
         try {
-            this.engine.start(0);
+            this.engine.start();
         } catch (InterruptedException e) {
 
         }
