@@ -9,7 +9,7 @@ public class RacerGame extends GameObject {
 
     RacerGame(Vector position) {
         super(position);
-        this.adopt(new Racer(new Vector(300,300), 1));
+        this.adopt(new Racer(new Vector(), 0).setAbsolutePosition(new Vector(200, 100)));
 
     }
 
@@ -17,4 +17,5 @@ public class RacerGame extends GameObject {
         super.draw(canvas);
         canvas.drawRGB(255, 255, 255);
     }
+
 }
