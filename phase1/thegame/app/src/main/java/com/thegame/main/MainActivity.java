@@ -33,7 +33,7 @@ public class MainActivity extends AppCompatActivity implements MainView {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_main);
 
-    mainPresenter = new MainPresenterImp(this);
+    mainPresenter = MainPresenterInjector.inject(this);
   }
 
   /** Destroy all references in this object */
