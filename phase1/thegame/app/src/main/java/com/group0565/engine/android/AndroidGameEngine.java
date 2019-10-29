@@ -97,7 +97,7 @@ public class AndroidGameEngine implements Runnable, GameEngine {
         }
     }
 
-    public synchronized boolean start() throws InterruptedException {
+    public synchronized boolean start() {
         if (running) return false;
         if (this.thread != null) {
             this.thread.interrupt();

@@ -116,14 +116,14 @@ public class AndroidAssetManager extends GameAssetManager{
     private AudioAsset readAudio(String name, JsonReader reader) throws IOException {
         reader.beginObject();
         String path = null;
-        int volume = -1;
+        float volume = -1;
         while (reader.peek() != JsonToken.END_OBJECT){
             switch (reader.nextName()){
                 case "Path":
                     path = reader.nextString();
                     break;
                 case "Volume":
-                    volume = reader.nextInt();
+                    volume = (float) reader.nextDouble();
                     break;
             }
         }

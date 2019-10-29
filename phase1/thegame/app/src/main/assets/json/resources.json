@@ -9,10 +9,10 @@
     }
   },
   "Audio": {
-    "Test": {
-      "AudioTest": {
-        "Path": "audio.mp3",
-        "Volume": 100
+    "Tsu": {
+      "Butterfly": {
+        "Path": "Butterfly_Perfect_Final_Version.mp3",
+        "Volume": 1.0
       }
     }
   },

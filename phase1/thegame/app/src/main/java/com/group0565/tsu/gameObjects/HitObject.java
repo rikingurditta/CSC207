@@ -1,5 +1,7 @@
 package com.group0565.tsu.gameObjects;
 
+import com.group0565.engine.gameobjects.InputEvent;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -8,9 +10,18 @@ public class HitObject {
     private double positionStart;
     private long msEnd;
     private double positionEnd;
-    private long hitTime = -1;
-    private long holdTime = -1;
-    private long releaseTime = -1;
+    private long hitTime = -1 << 31;
+    private long holdTime = -1 << 31;
+    private long releaseTime = -1 << 31;
+    private InputEvent inputEvent;
+
+    public InputEvent getInputEvent() {
+        return inputEvent;
+    }
+
+    public void setInputEvent(InputEvent inputEvent) {
+        this.inputEvent = inputEvent;
+    }
 
     public HitObject(JSONObject jsonObject) throws JSONException {
         super();
@@ -26,6 +37,12 @@ public class HitObject {
         this.positionStart = positionStart;
         this.msEnd = msEnd;
         this.positionEnd = positionEnd;
+    }
+
+    public Double calculatePosition(long ms) {
+        double t = (ms - msStart) / (msEnd - msStart);
+        t = Math.max(0, Math.min(1, t));
+        return positionStart * (1 - t) + positionEnd * t;
     }
 
     public long getMsStart() {

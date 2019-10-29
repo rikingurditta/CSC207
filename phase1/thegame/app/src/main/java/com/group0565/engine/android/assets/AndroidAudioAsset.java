@@ -16,7 +16,7 @@ public class AndroidAudioAsset extends AudioAsset {
     private MediaPlayer player;
     private AssetFileDescriptor fd;
 
-    public AndroidAudioAsset(String name, String path, int volume, AssetManager assetManager) {
+    public AndroidAudioAsset(String name, String path, float volume, AssetManager assetManager) {
         super(name, path, volume);
         this.assetManager = assetManager;
     }
@@ -25,7 +25,7 @@ public class AndroidAudioAsset extends AudioAsset {
     public void init() {
         super.init();
         try {
-            fd = assetManager.openFd( AUDIO_FOLDER + "audio.mp3");
+            fd = assetManager.openFd(AUDIO_FOLDER + getPath());
             player = new MediaPlayer();
             player.setDataSource(fd);
             player.prepare();
@@ -61,7 +61,7 @@ public class AndroidAudioAsset extends AudioAsset {
     }
 
     @Override
-    public void setVolume(int volume) {
+    public void setVolume(float volume) {
         super.setVolume(volume);
         player.setVolume(volume, volume);
     }
