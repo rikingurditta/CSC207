@@ -3,6 +3,7 @@ package com.group0565.bomberGame;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 
+import com.group0565.bomberGame.bombs.NormalBomb;
 import com.group0565.bomberGame.input.BomberInput;
 import com.group0565.bomberGame.input.InputSystem;
 import com.group0565.engine.gameobjects.GameObject;
@@ -16,6 +17,8 @@ public class BomberMan extends GameObject {
      * The object representing the state of the inputs for this player.
      */
     private BomberInput input = new BomberInput();
+
+    private BomberGame game;
 
     /**
      * The object processing the input for this player. Is adopted by this BomberMan, so all input
@@ -37,9 +40,10 @@ public class BomberMan extends GameObject {
      * @param z             The z-level of the object.
      * @param inputSystem   The object managing the inputs controlling this player.
      */
-    public BomberMan(Vector position, double z, InputSystem inputSystem) {
+    public BomberMan(Vector position, double z, InputSystem inputSystem, BomberGame game) {
         super(position, z);
         this.inputSystem = inputSystem;
+        this.game = game;
     }
 
     /**
@@ -47,9 +51,10 @@ public class BomberMan extends GameObject {
      * @param position      The position (relative or absolute) of this object.
      * @param inputSystem   The object managing the inputs controlling this player.
      */
-    public BomberMan(Vector position, InputSystem inputSystem) {
+    public BomberMan(Vector position, InputSystem inputSystem, BomberGame game) {
         super(position);
         this.inputSystem = inputSystem;
+        this.game = game;
     }
 
     /**
@@ -69,6 +74,8 @@ public class BomberMan extends GameObject {
                 getAbsolutePosition().getX() + 100,
                 getAbsolutePosition().getY() + 100,
                 p);
+
+
     }
 
     /**
@@ -95,6 +102,8 @@ public class BomberMan extends GameObject {
             if (input.right) direction = new Vector(dist, 0);
             target = pos.add(direction);
 
+            if (input.bomb) dropBomb();
+
             readyToMove = false;
         }
 
@@ -110,12 +119,13 @@ public class BomberMan extends GameObject {
         if (this.getAbsolutePosition().equals(target))
             readyToMove = true;
 
-        if (input.bomb) dropBomb();
     }
 
     /**
      * Drops bomb at current location.
      */
     private void dropBomb() {
+        GameObject bomb = new NormalBomb(null, -1).setAbsolutePosition(this.getAbsolutePosition());
+        this.game.adoptLater(bomb);
     }
 }

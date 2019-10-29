@@ -20,7 +20,8 @@ public class JoystickInput extends InputSystem {
     /**
      * Time before input expires.
      */
-    private long timerLimit = 200;
+    private long timerLimit = 100;
+    // was 200, i felt it was a bit too long so 100.
 
     /**
      * Constructs a new JoystickInput.
@@ -90,6 +91,7 @@ public class JoystickInput extends InputSystem {
         if (thisPos.getX() +1700 < pos.getX() && pos.getX() < thisPos.getX()+1800
                 && thisPos.getY()+100 < pos.getY() && pos.getY() < thisPos.getY()+200){
             input.bomb = true;
+            inputRecentTimer = 0;
             Log.i("input received", "Dropped Bomb");
         }
 

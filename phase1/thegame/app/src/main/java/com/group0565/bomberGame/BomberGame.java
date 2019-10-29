@@ -8,9 +8,12 @@ import com.group0565.bomberGame.input.RandomInput;
 import com.group0565.engine.gameobjects.GameObject;
 import com.group0565.math.Vector;
 
+import java.util.ArrayList;
+
 public class BomberGame extends GameObject {
 
-    //make a array list that holds all the bomber mans inside of this class
+    private ArrayList<GameObject> itemsToBeAdopted = new ArrayList<GameObject>();
+
 
     public BomberGame(Vector position) {
         super(position);
@@ -19,10 +22,10 @@ public class BomberGame extends GameObject {
         this.adopt(joystickInput);
         InputSystem randomInput = new RandomInput(1000);
         this.adopt(randomInput);
-        GameObject bm = new BomberMan(new Vector(100, 100), joystickInput);
+        GameObject bm = new BomberMan(new Vector(100, 100), joystickInput, this);
         bm.setAbsolutePosition(new Vector(300, 300));
         this.adopt(bm);
-        GameObject bm2 = new BomberMan(new Vector(750, 500), randomInput);
+        GameObject bm2 = new BomberMan(new Vector(750, 500), randomInput, this);
         bm2.setAbsolutePosition(new Vector(750, 500));
         this.adopt(bm2);
     }
@@ -31,6 +34,18 @@ public class BomberGame extends GameObject {
         super.draw(canvas);
         // Fill background with White
         canvas.drawRGB(255, 255, 255);
+    }
+
+    @Override
+    public void update(long ms) {
+        for (GameObject item : itemsToBeAdopted){
+            this.adopt(item);
+        }
+        itemsToBeAdopted.clear();
+    }
+
+    public void adoptLater(GameObject obj){
+        itemsToBeAdopted.add(obj);
     }
 
 
