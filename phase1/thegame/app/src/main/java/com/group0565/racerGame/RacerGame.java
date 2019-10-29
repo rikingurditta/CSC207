@@ -9,7 +9,9 @@ public class RacerGame extends GameObject {
 
     RacerGame(Vector position) {
         super(position);
-        this.adopt(new Racer(new Vector(), 0).setAbsolutePosition(new Vector(200, 100)));
+        this.adopt(new Racer(new Vector(), 0).setAbsolutePosition(new Vector(500, 100)));
+        this.adopt(new SquareObstacle(new Vector(), 0).setAbsolutePosition(new Vector(250, 100)));
+        this.adopt(new CircleObstacle(new Vector(), 0).setAbsolutePosition(new Vector(750, 100)));
 
     }
 
