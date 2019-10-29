@@ -1,4 +1,4 @@
-package com.example.thegame.login;
+package com.thegame.login;
 
 import android.content.Context;
 import android.view.View;

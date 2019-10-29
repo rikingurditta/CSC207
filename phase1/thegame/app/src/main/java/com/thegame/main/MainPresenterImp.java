@@ -1,21 +1,21 @@
-package com.example.thegame.main;
+package com.thegame.main;
 
-import com.example.thegame.main.enums.GameID;
-import com.example.thegame.main.enums.MenuOptionID;
-import com.example.thegame.main.menuCommands.MenuDirector;
-import com.example.thegame.main.menuCommands.SettingsMenuCommand;
-import com.example.thegame.main.menuCommands.SignOutMenuCommand;
-import com.example.thegame.main.navigationCommands.Game1Command;
-import com.example.thegame.main.navigationCommands.Game2Command;
-import com.example.thegame.main.navigationCommands.Game3Command;
-import com.example.thegame.main.navigationCommands.NavigationDirector;
+import com.thegame.main.enums.GameID;
+import com.thegame.main.enums.MenuOptionID;
+import com.thegame.main.menuCommands.MenuDirector;
+import com.thegame.main.menuCommands.SettingsMenuCommand;
+import com.thegame.main.menuCommands.SignOutMenuCommand;
+import com.thegame.main.navigationCommands.Game1Command;
+import com.thegame.main.navigationCommands.Game2Command;
+import com.thegame.main.navigationCommands.Game3Command;
+import com.thegame.main.navigationCommands.NavigationDirector;
 import com.group0565.errorHandlers.ExceptionErrorHandler;
 import com.group0565.errorHandlers.IErrorHandler;
 import com.group0565.users.IUser;
 import com.group0565.users.IUsersInteractor;
 
-import com.example.thegame.main.MainMVP.MainPresenter;
-import com.example.thegame.main.MainMVP.MainView;
+import com.thegame.main.MainMVP.MainPresenter;
+import com.thegame.main.MainMVP.MainView;
 
 /** Implementation of the MainPresenter */
 public class MainPresenterImp implements MainPresenter {

@@ -1,4 +1,4 @@
-package com.example.thegame.main.enums;
+package com.thegame.main.enums;
 
 import com.example.thegame.R;
 

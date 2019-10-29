@@ -1,6 +1,6 @@
-package com.example.thegame.main.menuCommands;
+package com.thegame.main.menuCommands;
 
-import com.example.thegame.main.MainMVP;
+import com.thegame.main.MainMVP;
 
 public class SignOutMenuCommand implements MenuCommand {
   /** A reference for the presenter that will sign the user out */

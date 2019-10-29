@@ -1,7 +1,7 @@
-package com.example.thegame.main;
+package com.thegame.main;
 
-import com.example.thegame.main.enums.GameID;
-import com.example.thegame.main.enums.MenuOptionID;
+import com.thegame.main.enums.GameID;
+import com.thegame.main.enums.MenuOptionID;
 import com.group0565.mvp.BaseMVP;
 
 /** An interface for the Main module MVP */

@@ -5,11 +5,11 @@
     android:id="@+id/settings_container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".settings.SettingsActivity">
+    tools:context="com.thegame.settings.SettingsActivity">
 
     <fragment
         android:id="@+id/preferences_view"
-        android:name="com.example.thegame.settings.MySettingsFragment"
+        android:name="com.thegame.settings.MySettingsFragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

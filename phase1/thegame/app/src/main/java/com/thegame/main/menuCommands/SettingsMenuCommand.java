@@ -1,6 +1,6 @@
-package com.example.thegame.main.menuCommands;
+package com.thegame.main.menuCommands;
 
-import com.example.thegame.main.MainMVP;
+import com.thegame.main.MainMVP;
 
 public class SettingsMenuCommand implements MenuCommand {
   /** A reference for the view that will switch activities */

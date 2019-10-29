@@ -1,4 +1,4 @@
-package com.example.thegame.settings;
+package com.thegame.settings;
 
 import android.os.Bundle;
 

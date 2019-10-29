@@ -1,4 +1,4 @@
-package com.example.thegame.main.menuCommands;
+package com.thegame.main.menuCommands;
 
 import com.group0565.commands.AbstractDirector;
 
