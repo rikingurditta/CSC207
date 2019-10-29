@@ -7,8 +7,9 @@ import com.group0565.math.Vector;
 
 public class RacerGame extends GameObject {
 
-    public RacerGame(Vector position) {
+    RacerGame(Vector position) {
         super(position);
+        this.adopt(new Racer(new Vector(300,300), 1));
 
     }
 
