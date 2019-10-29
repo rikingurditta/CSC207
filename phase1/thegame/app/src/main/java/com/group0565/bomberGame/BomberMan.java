@@ -31,8 +31,8 @@ public class BomberMan extends GameObject {
     private Vector direction = new Vector();
     private Vector target;
 
-
-    private float speed = 1.0f / 1000;
+    //was /1000 now 500
+    private float speed = 1.0f / 500;
 
     /**
      * Constructs a new BomberMan.
@@ -76,6 +76,7 @@ public class BomberMan extends GameObject {
                 p);
 
 
+
     }
 
     /**
@@ -85,6 +86,7 @@ public class BomberMan extends GameObject {
      */
     @Override
     public void update(long ms) {
+
         Vector pos = this.getAbsolutePosition();
 
         // if the player is ready for the next direction input
@@ -125,7 +127,7 @@ public class BomberMan extends GameObject {
      * Drops bomb at current location.
      */
     private void dropBomb() {
-        GameObject bomb = new NormalBomb(null, -1).setAbsolutePosition(this.getAbsolutePosition());
-        this.game.adoptLater(bomb);
+        GameObject bomb = new NormalBomb(null, -1, this.game).setAbsolutePosition(this.getAbsolutePosition());
+        game.adoptLater(bomb);
     }
 }

@@ -9,10 +9,13 @@ import com.group0565.engine.gameobjects.GameObject;
 import com.group0565.math.Vector;
 
 import java.util.ArrayList;
+import java.util.Map;
+import java.util.UUID;
 
 public class BomberGame extends GameObject {
 
     private ArrayList<GameObject> itemsToBeAdopted = new ArrayList<GameObject>();
+    private ArrayList<GameObject> itemsToBeRemoved = new ArrayList<GameObject>();
 
 
     public BomberGame(Vector position) {
@@ -42,10 +45,21 @@ public class BomberGame extends GameObject {
             this.adopt(item);
         }
         itemsToBeAdopted.clear();
+
+        for (GameObject item: itemsToBeRemoved){
+            UUID objID = item.getUUID();
+            Map<UUID, GameObject> gameChildren = this.getChildren();
+            gameChildren.remove(objID);
+        }
+        itemsToBeRemoved.clear();
+
     }
 
     public void adoptLater(GameObject obj){
         itemsToBeAdopted.add(obj);
+    }
+    public void removeLater(GameObject obj){
+        itemsToBeRemoved.add(obj);
     }
 
 

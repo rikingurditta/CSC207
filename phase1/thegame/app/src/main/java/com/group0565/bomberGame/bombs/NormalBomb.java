@@ -2,26 +2,42 @@ package com.group0565.bomberGame.bombs;
 
 import android.graphics.Canvas;
 import android.graphics.Paint;
+import android.util.Log;
 
+import com.group0565.bomberGame.BomberGame;
 import com.group0565.math.Vector;
 
-public class NormalBomb extends Bomb{
+public class NormalBomb extends Bomb {
 
-    public NormalBomb(Vector position, int z){
-        super(position, z);
+  public NormalBomb(Vector position, int z, BomberGame game) {
+    super(position, z, game);
+  }
+
+  @Override
+  public void draw(Canvas canvas) {
+    if (!duringExplosion) {
+      canvas.drawRect(
+          getAbsolutePosition().getX(),
+          getAbsolutePosition().getY(),
+          getAbsolutePosition().getX() + 100,
+          getAbsolutePosition().getY() + 100,
+          p);
     }
-
-    @Override
-    public void draw(Canvas canvas) {
-        // Set our color to Red
-        Paint p = new Paint();
-        p.setARGB(123, 255, 0, 255);
-        // Draw an rectangle at our touch position
+    else{
         canvas.drawRect(
-                getAbsolutePosition().getX(),
+                getAbsolutePosition().getX() - (getStrength()*100),
                 getAbsolutePosition().getY(),
-                getAbsolutePosition().getX() + 100,
+                getAbsolutePosition().getX() + (getStrength()*100) + 100,
                 getAbsolutePosition().getY() + 100,
                 p);
+        canvas.drawRect(
+                getAbsolutePosition().getX(),
+                getAbsolutePosition().getY() - (getStrength()*100),
+                getAbsolutePosition().getX()+100,
+                getAbsolutePosition().getY() + ((getStrength()*100) + 100),
+                p);
+
+
     }
+  }
 }
