@@ -11,6 +11,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.DayNight">
+        <activity android:name="com.thegame.statistics.StatisticsActivity"></activity>
         <activity
             android:name="com.thegame.settings.SettingsActivity"
             android:launchMode="singleTop"
