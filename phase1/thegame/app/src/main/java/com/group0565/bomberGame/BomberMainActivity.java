@@ -5,10 +5,7 @@ import com.group0565.math.Vector;
 
 public class BomberMainActivity extends GameActivity {
 
-
-    public BomberMainActivity() {
-        super(new BomberGame(new Vector()));
-
-    }
+  public BomberMainActivity() {
+    super(new BomberGame(new Vector()));
+  }
 }
-
