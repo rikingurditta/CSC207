@@ -23,7 +23,7 @@ public class BomberMan extends GameObject {
      */
     private InputSystem inputSystem;
 
-    private boolean readyForNextInput = true;
+    private boolean readyToMove = true;
 
     private Vector direction = new Vector();
     private Vector target;
@@ -81,7 +81,7 @@ public class BomberMan extends GameObject {
         Vector pos = this.getAbsolutePosition();
 
         // if the player is ready for the next direction input
-        if (readyForNextInput) {
+        if (readyToMove) {
             // get the next input from inputSystem
             input = inputSystem.nextInput();
 
@@ -95,7 +95,7 @@ public class BomberMan extends GameObject {
             if (input.right) direction = new Vector(dist, 0);
             target = pos.add(direction);
 
-            readyForNextInput = false;
+            readyToMove = false;
         }
 
         Vector newPos = pos.add(direction.multiply((float) ms * speed));
@@ -108,7 +108,7 @@ public class BomberMan extends GameObject {
         }
 
         if (this.getAbsolutePosition().equals(target))
-            readyForNextInput = true;
+            readyToMove = true;
 
         if (input.bomb) dropBomb();
     }
