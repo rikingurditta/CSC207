@@ -40,7 +40,10 @@ public class HitObject {
     }
 
     public Double calculatePosition(long ms) {
-        double t = (ms - msStart) / (msEnd - msStart);
+        double t;
+        if (msStart == msEnd)
+            t = 0;
+        t = (ms - msStart) / (msEnd - msStart);
         t = Math.max(0, Math.min(1, t));
         return positionStart * (1 - t) + positionEnd * t;
     }

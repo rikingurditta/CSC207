@@ -8,25 +8,13 @@ import com.group0565.math.Vector;
 import java.util.List;
 
 public class LinearTsuRenderer extends TsuRenderer {
-    private Paint paint1;
-    private Paint paint2;
-    private Paint paint3;
-    private Paint paint4;
+    private int hitwidth;
 
-    public LinearTsuRenderer(Vector position, Beatmap beatmap, Vector size, long window) {
+    public LinearTsuRenderer(Vector position, Beatmap beatmap, Vector size, long window, int hitwidth) {
         super(position, beatmap, size, window);
-        this.paint1 = new Paint();
-        this.paint1.setARGB(255, 255, 0, 0);
-        this.paint1.setStrokeWidth(10);
-        this.paint2 = new Paint();
-        this.paint2.setARGB(255, 168, 127, 50);
-        this.paint2.setStrokeWidth(10);
-        this.paint3 = new Paint();
-        this.paint3.setARGB(255, 212, 227, 73);
-        this.paint3.setStrokeWidth(10);
-        this.paint4 = new Paint();
-        this.paint4.setARGB(255, 73, 227, 81);
-        this.paint4.setStrokeWidth(10);
+        for (Scores score : Scores.values())
+            score.paint.setStrokeWidth(hitwidth);
+        this.hitwidth = hitwidth;
     }
 
     @Override
@@ -41,15 +29,25 @@ public class LinearTsuRenderer extends TsuRenderer {
             double xend = getAbsolutePosition().getX() + hitObject.getPositionEnd() * getSize().getX();
             double yend = getAbsolutePosition().getY() + (1 - (hitObject.getMsEnd() - getTimer()) / (double) getWindow()) * getSize().getY();
 
-            Paint paint = paint1;
+            Scores score = Scores.S0;
             long delta = Math.abs(hitObject.getMsStart() - hitObject.getHitTime());
             if (delta < distribution[0])
-                paint = paint4;
+                score = Scores.S300;
             else if (delta < distribution[1])
-                paint = paint3;
+                score = Scores.S150;
             else if (delta < distribution[2])
-                paint = paint2;
-            canvas.drawLine((float) xstart, (float) ystart, (float) xend, (float) yend, paint);
+                score = Scores.S50;
+            canvas.drawLine((float) xstart, (float) ystart, (float) xend, (float) yend, score.paint);
+        }
+    }
+
+    private enum Scores {
+        S300(73, 227, 81), S150(212, 227, 73), S50(168, 127, 50), S0(255, 0, 0);
+        private Paint paint;
+
+        Scores(int r, int g, int b) {
+            this.paint = new Paint();
+            paint.setARGB(255, r, g, b);
         }
     }
 }

@@ -1,8 +1,11 @@
 package com.group0565.tsu.gameObjects;
 
+import android.graphics.Bitmap;
 import android.graphics.Canvas;
-import android.util.Log;
+import android.graphics.Paint;
+import android.graphics.RectF;
 
+import com.group0565.engine.assets.TileSheet;
 import com.group0565.engine.gameobjects.GameObject;
 import com.group0565.engine.gameobjects.InputEvent;
 import com.group0565.math.Vector;
@@ -14,7 +17,10 @@ public class TsuEngine extends GameObject {
     private static final String BEATMAP_SET = "Tsu";
     private static final String BEATMAP_NAME = "BeatMap";
     private static final Vector MARGINS = new Vector(200, 250);
-    private static final double HIT_ERROR = 0.1;
+    private static final int HIT_WIDTH = 20;
+    private static final double HIT_ERROR = 0.075;
+    private static final float SCORE_WIDTH = 300;
+    private static final float SCORE_Y = 0.25f;
     private Beatmap beatmap;
     private List<HitObject> objects;
     private long timer = 0;
@@ -22,6 +28,10 @@ public class TsuEngine extends GameObject {
     private int lastActive = 0;
     private TsuRenderer renderer;
     private LinearJudgementLine judgementLine;
+    private TileSheet scoresTileSheet;
+
+    private Scores score = null;
+    private long lastScore = -1;
 
     public TsuEngine() {
         super(new Vector());
@@ -30,10 +40,15 @@ public class TsuEngine extends GameObject {
     public void init() {
         this.beatmap = new Beatmap(BEATMAP_SET, BEATMAP_NAME, this.getEngine().getGameAssetManager());
         this.objects = beatmap.getHitObjects();
-        this.renderer = new LinearTsuRenderer(new Vector(MARGINS.getX(), 0), beatmap, null, 1000);
+        this.renderer = new LinearTsuRenderer(new Vector(MARGINS.getX(), 0), beatmap, null, 1000, HIT_WIDTH);
         this.judgementLine = new LinearJudgementLine(MARGINS, 100, 20);
         adopt(renderer);
         adopt(judgementLine);
+        scoresTileSheet = getEngine().getGameAssetManager().getTileSheet("Tsu", "Score");
+        Scores.S300.bitmap = scoresTileSheet.getTile(0, 0);
+        Scores.S150.bitmap = scoresTileSheet.getTile(0, 1);
+        Scores.S50.bitmap = scoresTileSheet.getTile(0, 2);
+        Scores.S0.bitmap = scoresTileSheet.getTile(0, 3);
         this.startEngine();
     }
 
@@ -52,18 +67,23 @@ public class TsuEngine extends GameObject {
             }
             this.renderer.setTimer(timer);
 
-            while (lastActive < objects.size() && objects.get(lastActive).getMsEnd() < timer)
+            while (lastActive < objects.size() && objects.get(lastActive).getMsEnd() < timer) {
+                if (objects.get(lastActive).getHitTime() < 0)
+                    setHit(Scores.S0);
                 lastActive++;
-
-            if (timer / 1000 < (timer + ms) / 1000)
-                Log.i(TAG, String.valueOf(timer - this.beatmap.getAudio().progress()));
+            }
         }
+    }
+
+    private void setHit(Scores score) {
+        this.score = score;
     }
 
     @Override
     protected void onEventCapture(InputEvent event) {
         super.onEventCapture(event);
         Double hit = judgementLine.convert(event.getPos());
+        double width = judgementLine.convert(HIT_WIDTH);
         if (hit == null)
             return;
         for (int i = lastActive; i < objects.size(); i++) {
@@ -77,9 +97,18 @@ public class TsuEngine extends GameObject {
                 break;
             if (timer <= rightt) {
                 double pos = obj.calculatePosition(timer);
-                if (Math.abs(hit - pos) < HIT_ERROR) {
+                if (-HIT_ERROR < hit - pos && hit - (pos + width) < HIT_ERROR) {
                     obj.setInputEvent(event);
                     obj.setHitTime(timer);
+                    long[] distribution = beatmap.getDistribution();
+                    long delta = Math.abs(obj.getMsStart() - obj.getHitTime());
+                    if (delta < distribution[0])
+                        setHit(Scores.S300);
+                    else if (delta < distribution[1])
+                        setHit(Scores.S150);
+                    else if (delta < distribution[2])
+                        setHit(Scores.S50);
+                    lastScore = timer;
                     break;
                 }
             }
@@ -90,6 +119,19 @@ public class TsuEngine extends GameObject {
     public boolean processInput(InputEvent event) {
         captureEvent(event);
         return true;
+    }
+
+    @Override
+    public void renderAll(Canvas canvas) {
+        super.renderAll(canvas);
+        if (score != null) {
+            float width = canvas.getWidth();
+            float height = canvas.getHeight();
+            float bwidth = score.bitmap.getWidth();
+            float bheight = score.bitmap.getHeight();
+            float bscale = SCORE_WIDTH / bwidth;
+            canvas.drawBitmap(score.bitmap, null, new RectF((width - SCORE_WIDTH) / 2f, height * SCORE_Y, (width + SCORE_WIDTH) / 2f, height * SCORE_Y + bheight * bscale), new Paint());
+        }
     }
 
     @Override
@@ -145,5 +187,10 @@ public class TsuEngine extends GameObject {
     public void stopEngine() {
         this.beatmap.getAudio().stop();
         this.running = false;
+    }
+
+    private enum Scores {
+        S300, S150, S50, S0;
+        private Bitmap bitmap;
     }
 }

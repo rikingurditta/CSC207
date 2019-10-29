@@ -34,6 +34,11 @@ public class LinearJudgementLine extends JudgementLine {
     }
 
     @Override
+    public double convert(int size) {
+        return size / width;
+    }
+
+    @Override
     public void draw(Canvas canvas) {
         super.draw(canvas);
         canvas.drawLine(position.getX(), position.getY(), (float) (position.getX() + width), position.getY(), paint);
