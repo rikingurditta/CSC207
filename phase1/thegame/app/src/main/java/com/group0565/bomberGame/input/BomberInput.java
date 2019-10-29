@@ -21,4 +21,17 @@ public class BomberInput {
         right = false;
         bomb = false;
     }
+
+    /**
+     * @return a copy of this BomberInput.
+     */
+    BomberInput copy() {
+        BomberInput c = new BomberInput();
+        c.up = up;
+        c.down = down;
+        c.left = left;
+        c.right = right;
+        c.bomb = bomb;
+        return c;
+    }
 }

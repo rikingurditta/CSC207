@@ -15,13 +15,21 @@ public class BomberMan extends GameObject {
     /**
      * The object representing the state of the inputs for this player.
      */
-    private BomberInput input;
+    private BomberInput input = new BomberInput();
 
     /**
      * The object processing the input for this player. Is adopted by this BomberMan, so all input
      * events get passed down to it. (maybe get rid of this field because we p much never need it)
      */
     private InputSystem inputSystem;
+
+    private boolean readyForNextInput = true;
+
+    private Vector direction = new Vector();
+    private Vector target;
+
+
+    private float speed = 1.0f / 1000;
 
     /**
      * Constructs a new BomberMan.
@@ -32,8 +40,6 @@ public class BomberMan extends GameObject {
     public BomberMan(Vector position, double z, InputSystem inputSystem) {
         super(position, z);
         this.inputSystem = inputSystem;
-        this.adopt(inputSystem);
-        this.input = inputSystem.getInput();
     }
 
     /**
@@ -44,8 +50,6 @@ public class BomberMan extends GameObject {
     public BomberMan(Vector position, InputSystem inputSystem) {
         super(position);
         this.inputSystem = inputSystem;
-        this.adopt(inputSystem);
-        this.input = inputSystem.getInput();
     }
 
     /**
@@ -75,14 +79,36 @@ public class BomberMan extends GameObject {
     @Override
     public void update(long ms) {
         Vector pos = this.getAbsolutePosition();
-        Vector delta = new Vector();
-        float speed = 0.1f;
-        if (input.up) delta = delta.add(new Vector(0, -speed));
-        if (input.down) delta = delta.add(new Vector(0, speed));
-        if (input.left) delta = delta.add(new Vector(-speed, 0));
-        if (input.right) delta = delta.add(new Vector(speed, 0));
-        delta = delta.multiply(ms);
-        this.setAbsolutePosition(pos.add(delta));
+
+        // if the player is ready for the next direction input
+        if (readyForNextInput) {
+            // get the next input from inputSystem
+            input = inputSystem.nextInput();
+
+            float dist = 100; // temp, will be updated later to use actual distance between tiles
+
+            // calculate the position to move to
+            direction = new Vector();
+            if (input.up) direction = new Vector(0, -dist);
+            if (input.down) direction = new Vector(0, dist);
+            if (input.left) direction = new Vector(-dist, 0);
+            if (input.right) direction = new Vector(dist, 0);
+            target = pos.add(direction);
+
+            readyForNextInput = false;
+        }
+
+        Vector newPos = pos.add(direction.multiply((float) ms * speed));
+
+        // if the calculated position is past the target, only move to the target
+        if (newPos.subtract(pos).norm() <= target.subtract(pos).norm()) {
+            this.setAbsolutePosition(newPos);
+        } else {
+            this.setAbsolutePosition(target);
+        }
+
+        if (this.getAbsolutePosition().equals(target))
+            readyForNextInput = true;
 
         if (input.bomb) dropBomb();
     }

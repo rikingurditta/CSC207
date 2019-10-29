@@ -15,9 +15,16 @@ public class BomberGame extends GameObject {
     public BomberGame(Vector position) {
         super(position);
         InputSystem joystickInput = new JoystickInput(new Vector());
+        joystickInput.setAbsolutePosition(new Vector(100, 750));
+        this.adopt(joystickInput);
         InputSystem randomInput = new RandomInput(1000);
-        this.adopt(new BomberMan(new Vector(100, 100), joystickInput));
-        this.adopt(new BomberMan(new Vector(750, 500), randomInput));
+        this.adopt(randomInput);
+        GameObject bm = new BomberMan(new Vector(100, 100), joystickInput);
+        bm.setAbsolutePosition(new Vector(300, 300));
+        this.adopt(bm);
+        GameObject bm2 = new BomberMan(new Vector(750, 500), randomInput);
+        bm2.setAbsolutePosition(new Vector(750, 500));
+        this.adopt(bm2);
     }
 
     public void draw(Canvas canvas) {

@@ -14,8 +14,8 @@ public abstract class InputSystem extends GameObject {
 
     /**
      * Constructs a new InputSystem.
-     * @param position      The position (relative or absolute) of this object.
-     * @param z             The z-level of the object.
+     * @param position  The position (relative or absolute) of this object.
+     * @param z         The z-level of the object.
      */
     InputSystem(Vector position, double z) {
         super(position, z);
@@ -23,23 +23,14 @@ public abstract class InputSystem extends GameObject {
 
     /**
      * Constructs a new InputSystem.
-     * @param position      The position (relative or absolute) of this object.
+     * @param position  The position (relative or absolute) of this object.
      */
     InputSystem(Vector position) {
         super(position);
     }
 
     /**
-     * Setter for this InputSystem's BomberInput object.
+     * @return the next input.
      */
-    public void setInput(BomberInput input) {
-        this.input = input;
-    }
-
-    /**
-     * Getter for this InputSystem's BomberInput object.
-     */
-    public BomberInput getInput() {
-        return input;
-    }
+    public abstract BomberInput nextInput();
 }

@@ -13,6 +13,16 @@ import com.group0565.math.Vector;
 public class JoystickInput extends InputSystem {
 
     /**
+     * Timer since last input.
+     */
+    private long inputRecentTimer;
+
+    /**
+     * Time before input expires.
+     */
+    private long timerLimit = 200;
+
+    /**
      * Constructs a new JoystickInput.
      * @param position  The position (relative or absolute) of this object.
      * @param z         The z-level of the object.
@@ -30,6 +40,16 @@ public class JoystickInput extends InputSystem {
     }
 
     /**
+     * @return the last input if it has not expired.
+     */
+    @Override
+    public BomberInput nextInput() {
+        if (inputRecentTimer >= timerLimit)
+            input = new BomberInput();
+        return input;
+    }
+
+    /**
      * Processes touch-based input to check how the joystick has been interacted with.
      *
      * @param event The input to be processed.
@@ -37,32 +57,38 @@ public class JoystickInput extends InputSystem {
      */
     @Override
     public boolean processInput(InputEvent event) {
+        input.reset();
         Vector pos = event.getPos();
-        if (this.getAbsolutePosition().getX() < pos.getX() && pos.getX() < this.getAbsolutePosition().getX()+100
-        && this.getAbsolutePosition().getY() < pos.getY() && pos.getY() < this.getAbsolutePosition().getY()+100){
+        Vector thisPos = this.getAbsolutePosition();
+        if (thisPos.getX() < pos.getX() && pos.getX() < thisPos.getX()+100
+                && thisPos.getY() < pos.getY() && pos.getY() < thisPos.getY()+100){
             input.up = true;
+            inputRecentTimer = 0;
             Log.i("input received", "Up");
         }
-        else if (this.getAbsolutePosition().getX()-100 < pos.getX() && pos.getX() < this.getAbsolutePosition().getX()
-                && this.getAbsolutePosition().getY() + 100 < pos.getY() && pos.getY() < this.getAbsolutePosition().getY()+200){
+        else if (thisPos.getX()-100 < pos.getX() && pos.getX() < thisPos.getX()
+                && thisPos.getY() + 100 < pos.getY() && pos.getY() < thisPos.getY()+200){
             input.left = true;
+            inputRecentTimer = 0;
             Log.i("input received", "Left");
         }
-        else if (this.getAbsolutePosition().getX()+100 < pos.getX() && pos.getX() < this.getAbsolutePosition().getX()+200
-                && this.getAbsolutePosition().getY() + 100 < pos.getY() && pos.getY() < this.getAbsolutePosition().getY()+200){
+        else if (thisPos.getX()+100 < pos.getX() && pos.getX() < thisPos.getX()+200
+                && thisPos.getY() + 100 < pos.getY() && pos.getY() < thisPos.getY()+200){
             input.right = true;
+            inputRecentTimer = 0;
             Log.i("input received", "Right");
         }
-        else if (this.getAbsolutePosition().getX() < pos.getX() && pos.getX() < this.getAbsolutePosition().getX()+100
-                && this.getAbsolutePosition().getY()+200 < pos.getY() && pos.getY() < this.getAbsolutePosition().getY()+300){
+        else if (thisPos.getX() < pos.getX() && pos.getX() < thisPos.getX()+100
+                && thisPos.getY()+200 < pos.getY() && pos.getY() < thisPos.getY()+300){
             input.down = true;
+            inputRecentTimer = 0;
             Log.i("input received", "Down");
         }
 
 
         //drop bomb
-        if (this.getAbsolutePosition().getX() +1700 < pos.getX() && pos.getX() < this.getAbsolutePosition().getX()+1800
-                && this.getAbsolutePosition().getY()+100 < pos.getY() && pos.getY() < this.getAbsolutePosition().getY()+200){
+        if (thisPos.getX() +1700 < pos.getX() && pos.getX() < thisPos.getX()+1800
+                && thisPos.getY()+100 < pos.getY() && pos.getY() < thisPos.getY()+200){
             input.bomb = true;
             Log.i("input received", "Dropped Bomb");
         }
@@ -102,6 +128,7 @@ public class JoystickInput extends InputSystem {
 
         //DROP BOMB BUTTON
         Paint RED = new Paint();
+        RED.setTextSize(48);
         RED.setARGB(255, 255, 0, 0);
         canvas.drawRect(
                 getAbsolutePosition().getX()+1700,
@@ -109,6 +136,11 @@ public class JoystickInput extends InputSystem {
                 getAbsolutePosition().getX()+1800,
                 getAbsolutePosition().getY()+200,
                 RED);
+
+        String text = Long.toString(inputRecentTimer);
+        if (inputRecentTimer >= timerLimit)
+            text = "ready!";
+        canvas.drawText(text, this.getAbsolutePosition().getX(), this.getAbsolutePosition().getY(), RED);
 
 
     }
@@ -118,7 +150,7 @@ public class JoystickInput extends InputSystem {
      */
     @Override
     public void update(long ms) {
-        // not safe for use with multiple objects using the same input system
-        input.reset();
+        if (inputRecentTimer < timerLimit)
+            inputRecentTimer += ms;
     }
 }
