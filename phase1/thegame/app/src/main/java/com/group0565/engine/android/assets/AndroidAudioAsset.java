@@ -46,6 +46,11 @@ public class AndroidAudioAsset extends AudioAsset {
     }
 
     @Override
+    public long progress() {
+        return player.getCurrentPosition();
+    }
+
+    @Override
     public void pause() {
         player.pause();
     }

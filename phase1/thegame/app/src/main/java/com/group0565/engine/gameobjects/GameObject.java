@@ -90,6 +90,14 @@ public class GameObject implements LifecycleListener {
      */
     private GameEngine engine;
 
+    public GameObject() {
+        this(0);
+    }
+
+    public GameObject(double z) {
+        this(new Vector(), z);
+    }
+
     /**
      * Creates a new GameObject located at position, either relative to its parent
      * if relative is true, otherwise as an absolute position, character size charsize, and z-level z.
@@ -104,7 +112,7 @@ public class GameObject implements LifecycleListener {
     public GameObject(Vector position, double z) {
         this.uuid = UUID.randomUUID();
         this.z = z;
-
+        this.setAbsolutePosition(position);
         GameObject.reference.put(this.uuid, new WeakReference<>(this));
     }
 

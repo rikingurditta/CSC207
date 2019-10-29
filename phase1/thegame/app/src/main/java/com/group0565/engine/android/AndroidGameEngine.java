@@ -1,11 +1,11 @@
-package com.group0565.engine.android.assets;
+package com.group0565.engine.android;
 
 import android.content.res.AssetManager;
 import android.graphics.Canvas;
 import android.util.Log;
 import android.view.SurfaceHolder;
 
-import com.group0565.engine.android.InputManager;
+import com.group0565.engine.android.assets.AndroidAssetManager;
 import com.group0565.engine.assets.GameAssetManager;
 import com.group0565.engine.gameobjects.GameObject;
 import com.group0565.engine.interfaces.GameEngine;
@@ -97,7 +97,7 @@ public class AndroidGameEngine implements Runnable, GameEngine {
         }
     }
 
-    public synchronized boolean start() throws InterruptedException {
+    public synchronized boolean start() {
         if (running) return false;
         if (this.thread != null) {
             this.thread.interrupt();
