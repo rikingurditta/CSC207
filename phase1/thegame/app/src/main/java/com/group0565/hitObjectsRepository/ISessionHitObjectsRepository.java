@@ -1,6 +1,6 @@
 package com.group0565.hitObjectsRepository;
 
-import com.group0565.repository.IRepository;
+import com.group0565.basePatterns.repository.IRepository;
 
 import java.util.List;
 

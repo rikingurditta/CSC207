@@ -4,7 +4,7 @@
     package="com.example.thegame">
 
     <application
-        android:name="com.thegame.TheGameApplication"
+        android:name="com.menu.TheGameApplication"
         android:allowBackup="true"
         android:configChanges="keyboardHidden|orientation"
         android:fullBackupContent="@xml/backup_descriptor"
@@ -15,7 +15,7 @@
         android:theme="@style/Theme.AppCompat"
         tools:ignore="GoogleAppIndexingWarning">
 
-        <activity android:name="com.thegame.main.MainActivity">
+        <activity android:name="com.menu.main.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
@@ -23,13 +23,13 @@
         </activity>
 
         <activity
-            android:name="com.thegame.settings.SettingsActivity"
+            android:name="com.menu.settings.SettingsActivity"
             android:launchMode="singleTop"
-            android:parentActivityName="com.thegame.main.MainActivity"
+            android:parentActivityName="com.menu.main.MainActivity"
             android:screenOrientation="portrait">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.thegame.main.MainActivity" />
+                android:value="com.menu.main.MainActivity" />
         </activity>
 
         <activity
@@ -40,7 +40,7 @@
             android:theme="@style/Theme.AppCompat.NoActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.thegame.main.MainActivity" />
+                android:value="com.menu.main.MainActivity" />
         </activity>
 
         <activity
@@ -51,7 +51,7 @@
             android:theme="@style/Theme.AppCompat.NoActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.thegame.main.MainActivity" />
+                android:value="com.menu.main.MainActivity" />
         </activity>
 
         <activity
@@ -62,7 +62,7 @@
             android:theme="@style/Theme.AppCompat.NoActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.thegame.main.MainActivity" />
+                android:value="com.menu.main.MainActivity" />
         </activity>
 
     </application>
