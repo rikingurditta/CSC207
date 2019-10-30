@@ -11,6 +11,10 @@ import com.group0565.math.Vector;
 import com.group0565.tsu.enums.Align;
 import com.group0565.tsu.enums.Scores;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.HashMap;
 import java.util.List;
 
@@ -85,9 +89,10 @@ public class TsuEngine extends GameObject {
                     this.beatmap.getAudio().seekTo((int) timer);
                     this.beatmap.getAudio().setVolume(1.0f);
                 }
-            } else {
+            } else if (timer < this.beatmap.getAudio().progress()) {
                 timer = this.beatmap.getAudio().progress();
-            }
+            } else
+                timer += ms;
             this.renderer.setTimer(timer);
             for (int i = lastActive; i < objects.size() && timer > objects.get(i).getMsStart() + beatmap.getDistribution()[2]; i++) {
                 objects.get(i).setPassed(true);
@@ -96,6 +101,10 @@ public class TsuEngine extends GameObject {
                 if (objects.get(lastActive).getHitTime() < 0)
                     setHit(Scores.S0);
                 lastActive++;
+            }
+
+            if (timer > objects.get(objects.size() - 1).getMsEnd() + 2000) {
+                endGame();
             }
         }
     }
@@ -107,6 +116,21 @@ public class TsuEngine extends GameObject {
         else
             combo = 0;
         totalScore += score.getScore() * combo;
+    }
+
+    private void endGame() {
+        try {
+            JSONArray array = new JSONArray();
+            for (HitObject object : objects) {
+                JSONObject jsonObject = new JSONObject();
+                jsonObject.put("HitTime", object.getHitTime());
+                jsonObject.put("ReleaseTime", object.getReleaseTime());
+                array.put(jsonObject);
+            }
+            System.out.println(array.toString());
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override

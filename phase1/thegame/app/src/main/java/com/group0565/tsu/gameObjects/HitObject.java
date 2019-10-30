@@ -45,7 +45,8 @@ public class HitObject {
         double t;
         if (msStart == msEnd)
             t = 0;
-        t = (ms - msStart) / (msEnd - msStart);
+        else
+            t = (ms - msStart) / (msEnd - msStart);
         t = Math.max(0, Math.min(1, t));
         return positionStart * (1 - t) + positionEnd * t;
     }
