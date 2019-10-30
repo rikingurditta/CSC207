@@ -42,7 +42,7 @@ public class LinearTsuRenderer extends TsuRenderer {
     }
 
     private enum Scores {
-        S300(73, 227, 81), S150(212, 227, 73), S50(168, 127, 50), S0(255, 0, 0);
+        S300(29, 255, 0), S150(208, 255, 0), S50(255, 170, 0), S0(255, 0, 0);
         private Paint paint;
 
         Scores(int r, int g, int b) {
