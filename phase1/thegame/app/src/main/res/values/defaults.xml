@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="def_lan_pref" translatable="false">en</string>
-    <string name="def_theme_pref" translatable="false">light</string>
+    <string name="def_theme_pref" translatable="false">LIGHT</string>
     <integer name="def_vol_pref">100</integer>
 </resources>

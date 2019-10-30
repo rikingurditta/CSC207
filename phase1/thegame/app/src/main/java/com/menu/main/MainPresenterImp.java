@@ -18,7 +18,7 @@ import com.group0565.users.IUsersInteractor;
 
 import com.menu.main.MainMVP.MainPresenter;
 import com.menu.main.MainMVP.MainView;
-import com.menu.theme.ThemeManager;
+import com.group0565.theme.ThemeManager;
 
 /** Implementation of the MainPresenter */
 public class MainPresenterImp implements MainPresenter {

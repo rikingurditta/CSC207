@@ -2,7 +2,7 @@ package com.menu.settings;
 
 import com.group0565.preferences.IPreferenceInteractor;
 import com.group0565.preferences.PreferencesInjector;
-import com.menu.theme.ThemeManager;
+import com.group0565.theme.ThemeManager;
 
 /**
  * Implementation of the SettingsPresenter
