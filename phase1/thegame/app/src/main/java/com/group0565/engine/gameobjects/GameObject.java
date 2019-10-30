@@ -86,6 +86,11 @@ public class GameObject implements LifecycleListener {
     private GameObject parent = null;
 
     /**
+     * Whether or not this GameObject is enabled
+     */
+    private boolean enable = true;
+
+    /**
      * The GameEngine of this GameObject
      */
     private GameEngine engine;
@@ -99,22 +104,9 @@ public class GameObject implements LifecycleListener {
     }
 
     /**
-     * Creates a new GameObject located at position, either relative to its parent
-     * if relative is true, otherwise as an absolute position, character size charsize, and z-level z.
-     * <p>
-     * If parent is not null, this object is automatically added as a child to parent.
-     * <p>
-     * The z level determines the the rendering order of this object relative to its siblings.
-     *
-     * @param position The position (relative or absolute) of this object.
-     * @param z        The z-level of the object.
+     * The global preferences
      */
-    public GameObject(Vector position, double z) {
-        this.uuid = UUID.randomUUID();
-        this.z = z;
-        this.setAbsolutePosition(position);
-        GameObject.reference.put(this.uuid, new WeakReference<>(this));
-    }
+    private GlobalPreferences globalPreferences;
 
     /**
      * Creates a new GameObject with z-level defaulting to 0.
@@ -151,11 +143,32 @@ public class GameObject implements LifecycleListener {
     }
 
     /**
+     * Creates a new GameObject located at position, either relative to its parent
+     * if relative is true, otherwise as an absolute position, character size charsize, and z-level z.
+     * <p>
+     * If parent is not null, this object is automatically added as a child to parent.
+     * <p>
+     * The z level determines the the rendering order of this object relative to its siblings.
+     *
+     * @param position The position (relative or absolute) of this object.
+     * @param z        The z-level of the object.
+     */
+    public GameObject(Vector position, double z) {
+        this.uuid = UUID.randomUUID();
+        this.z = z;
+        this.setAbsolutePosition(position);
+        this.setGlobalPreferences(new GlobalPreferences());
+        GameObject.reference.put(this.uuid, new WeakReference<>(this));
+    }
+
+    /**
      * Update the object and its children by one time unit
      *
      * @param ms Milliseconds since last update
      */
     public void updateAll(long ms) {
+        if (!enable)
+            return;
         synchronized (capturingEvents){
             for (InputEvent event : capturingEvents){
                 this.capturedEvents.add(event);
@@ -190,6 +203,8 @@ public class GameObject implements LifecycleListener {
      * @param canvas The Canvas on which to draw and render
      */
     public void renderAll(Canvas canvas) {
+        if (!enable)
+            return;
         this.draw(canvas);
         for (GameObject child : this.getChildren().values())
             child.renderAll(canvas);
@@ -217,6 +232,7 @@ public class GameObject implements LifecycleListener {
         if (!this.getChildren().containsKey(obj.uuid))
             this.getChildren().put(obj.uuid, obj);
         obj.invalidateCache();
+        obj.setGlobalPreferences(this.globalPreferences);
     }
 
     /**
@@ -288,6 +304,8 @@ public class GameObject implements LifecycleListener {
      * @return Whether or not the event has been captured.
      */
     public boolean processInput(InputEvent event) {
+        if (!enable)
+            return false;
         for (GameObject child : this.getChildren().values())
             if (child.processInput(event))
                 return true;
@@ -483,6 +501,47 @@ public class GameObject implements LifecycleListener {
      */
     protected HashSet<InputEvent> getCapturedEvents() {
         return capturedEvents;
+    }
+
+    /**
+     * Return whether or not  his object is enabled.
+     *
+     * @return Whether or not  his object is enabled.
+     */
+    public boolean isEnable() {
+        return enable;
+    }
+
+    /**
+     * Sets whether or not this object is enabled.
+     *
+     * @param enable whther or not this object is enabled
+     */
+    public void setEnable(boolean enable) {
+        this.enable = enable;
+    }
+
+    /**
+     * Getter for the GlobalPreferences
+     *
+     * @return The global preferences
+     */
+    public GlobalPreferences getGlobalPreferences() {
+        return globalPreferences;
+    }
+
+    /**
+     * Setter for global preferences
+     *
+     * @param globalPreferences The new Global Preferences
+     * @return This object to allow chaining
+     */
+    public GameObject setGlobalPreferences(GlobalPreferences globalPreferences) {
+        this.globalPreferences = globalPreferences;
+        for (GameObject child : this.children.values()) {
+            child.setGlobalPreferences(globalPreferences);
+        }
+        return this;
     }
 
     /**
