@@ -1,25 +1,37 @@
 {
   "TileSheets": {
-    "Test": {
-      "Test1": {
-      "Path": "Test1.png",
-      "TileWidth": 16,
-      "TileHeight": 16
+    "Tsu": {
+      "Score": {
+        "Path": "Score.png",
+        "TileWidth": 300,
+        "TileHeight": 100
+      },
+      "Numbers": {
+        "Path": "Numbers.png",
+        "TileWidth": 50,
+        "TileHeight": 50
       }
     }
   },
   "Audio": {
-    "Test": {
-      "AudioTest": {
-        "Path": "audio.mp3",
-        "Volume": 100
+    "Tsu": {
+      "Butterfly": {
+        "Path": "Butterfly_Perfect_Final_Version.mp3",
+        "Volume": 1.0
+      }
+    }
+  },
+  "Json": {
+    "Tsu": {
+      "BeatMap": {
+        "Path": "beatmaps/test.json"
       }
     }
   },
   "LanguagePack": {
-    "Test": {
+    "Tsu": {
       "en_us": {
-        "Path": "en_us.json",
+        "Path": "Tsu-en_us.json",
         "Default": "String Not Found"
       }
     }

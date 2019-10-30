@@ -9,9 +9,10 @@ public class LoginClick implements View.OnClickListener {
 
     private final Context mContext;
 
-    public LoginClick(Context context){
+    public LoginClick(Context context) {
         this.mContext = context;
     }
+
     /**
      * Called when a view has been clicked.
      *

@@ -1,9 +1,9 @@
 package com.group0565.engine.assets;
 
 public abstract class AudioAsset extends Asset {
-    private int volume;
+    private float volume;
 
-    public AudioAsset(String name, String path, int volume) {
+    public AudioAsset(String name, String path, float volume) {
         super(name, path);
         if (volume < 0 || volume > 100)
             throw new IllegalAssetException("Illegal Volume " + volume + " For Audio " + name);
@@ -17,11 +17,11 @@ public abstract class AudioAsset extends Asset {
 
     public abstract long progress();
 
-    public int getVolume() {
+    public float getVolume() {
         return volume;
     }
 
-    public void setVolume(int volume) {
+    public void setVolume(float volume) {
         this.volume = volume;
     }
 

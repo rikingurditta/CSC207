@@ -31,6 +31,7 @@ public class InputManager implements View.OnTouchListener {
     @Override
     public boolean onTouch(View v, MotionEvent event) {
         //        Log.i(TAG, event.toString());
+        v.getParent().requestDisallowInterceptTouchEvent(true);
         if (event.getActionMasked() == MotionEvent.ACTION_DOWN || event.getActionMasked() == MotionEvent.ACTION_POINTER_DOWN) {
             int pointerIndex = event.getActionIndex();
             int pointerID = event.getPointerId(pointerIndex);

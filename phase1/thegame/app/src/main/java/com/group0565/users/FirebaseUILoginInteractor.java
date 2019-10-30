@@ -9,41 +9,51 @@ import java.util.List;
 
 public class FirebaseUILoginInteractor implements ILoginInteractor {
 
-  /** Singleton instance */
-  private static FirebaseUILoginInteractor instance;
+    /**
+     * Singleton instance
+     */
+    private static FirebaseUILoginInteractor instance;
 
-  /** Reference to AuthUI.Instance */
-  private AuthUI firebaseAuthUI;
+    /**
+     * Reference to AuthUI.Instance
+     */
+    private AuthUI firebaseAuthUI;
 
-  /** A list of the used log in providers */
-  private List<AuthUI.IdpConfig> providers =
-      Arrays.asList(
-          new AuthUI.IdpConfig.EmailBuilder().build()
-          //          ,new AuthUI.IdpConfig.GoogleBuilder().build()
-          );
+    /**
+     * A list of the used log in providers
+     */
+    private List<AuthUI.IdpConfig> providers =
+            Arrays.asList(
+                    new AuthUI.IdpConfig.EmailBuilder().build()
+                    //          ,new AuthUI.IdpConfig.GoogleBuilder().build()
+            );
 
-  /** Initialize the interactor and get reference to Firebase UI */
-  private FirebaseUILoginInteractor() {
-    firebaseAuthUI = AuthUI.getInstance();
-  }
-
-  /**
-   * Returns the singleton instance of this class, instantiates if needed
-   *
-   * @return The instance of this class
-   */
-  public static FirebaseUILoginInteractor getInstance() {
-    if (instance == null) {
-      instance = new FirebaseUILoginInteractor();
+    /**
+     * Initialize the interactor and get reference to Firebase UI
+     */
+    private FirebaseUILoginInteractor() {
+        firebaseAuthUI = AuthUI.getInstance();
     }
 
-    return instance;
-  }
+    /**
+     * Returns the singleton instance of this class, instantiates if needed
+     *
+     * @return The instance of this class
+     */
+    public static FirebaseUILoginInteractor getInstance() {
+        if (instance == null) {
+            instance = new FirebaseUILoginInteractor();
+        }
 
-  /** Creates the Firebase UI SignIn Intent - opens the UI built-in auth window */
-  public void initiateSignIn(Context activity) {
-    // Starts a new login activity from the given activity
-    activity.startActivity(
-        firebaseAuthUI.createSignInIntentBuilder().setAvailableProviders(providers).build());
-  }
+        return instance;
+    }
+
+    /**
+     * Creates the Firebase UI SignIn Intent - opens the UI built-in auth window
+     */
+    public void initiateSignIn(Context activity) {
+        // Starts a new login activity from the given activity
+        activity.startActivity(
+                firebaseAuthUI.createSignInIntentBuilder().setAvailableProviders(providers).build());
+    }
 }

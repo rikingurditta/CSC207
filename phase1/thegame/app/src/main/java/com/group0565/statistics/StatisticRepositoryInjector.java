@@ -1,17 +1,17 @@
 package com.group0565.statistics;
 
-import com.group0565.users.IUsersInteractor;
-
-/** An injector that creates a Statistics Repository */
+/**
+ * An injector that creates a Statistics Repository
+ */
 public class StatisticRepositoryInjector {
 
-  /**
-   * Inject the caller with the statistics repository after getting user id from server
-   *
-   * @param gameName The caller game's name
-   * @param listener A listener for success of injection
-   */
-  public static void inject(String gameName, RepositoryInjectionListener listener) {
+    /**
+     * Inject the caller with the statistics repository after getting user id from server
+     *
+     * @param gameName The caller game's name
+     * @param listener A listener for success of injection
+     */
+    public static void inject(String gameName, RepositoryInjectionListener listener) {
 //    IUsersInteractor.getInstance()
 //        .getUserObservable()
 //        .observeForever(
@@ -21,16 +21,18 @@ public class StatisticRepositoryInjector {
 //              }
 //            });
 
-      listener.onSuccess(new MockStatisticRepository());
-  }
+        listener.onSuccess(new MockStatisticRepository());
+    }
 
-  /** The listener interface for the injection */
-  public interface RepositoryInjectionListener {
     /**
-     * Action to perform on successful return of repository
-     *
-     * @param repository The returned repository from the injector
+     * The listener interface for the injection
      */
-    void onSuccess(IAsyncStatisticsRepository repository);
-  }
+    public interface RepositoryInjectionListener {
+        /**
+         * Action to perform on successful return of repository
+         *
+         * @param repository The returned repository from the injector
+         */
+        void onSuccess(IAsyncStatisticsRepository repository);
+    }
 }

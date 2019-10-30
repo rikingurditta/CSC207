@@ -7,24 +7,24 @@ package com.group0565.statistics;
  */
 public interface IStatistic<T> {
 
-  /**
-   * Get the statistic's name
-   *
-   * @return Statistic name
-   */
-  String getStatKey();
+    /**
+     * Get the statistic's name
+     *
+     * @return Statistic name
+     */
+    String getStatKey();
 
-  /**
-   * Get the statistic's value
-   *
-   * @return Statistic value
-   */
-  T getStatVal();
+    /**
+     * Get the statistic's value
+     *
+     * @return Statistic value
+     */
+    T getStatVal();
 
-  /**
-   * Set the statistic's value
-   *
-   * @param value New value
-   */
-  void setValue(T value);
+    /**
+     * Set the statistic's value
+     *
+     * @param value New value
+     */
+    void setValue(T value);
 }

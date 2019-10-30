@@ -14,144 +14,156 @@ import com.google.firebase.database.FirebaseDatabase;
 import java.util.ArrayList;
 import java.util.List;
 
-/** A Firebase implementation of the IAsyncPreferencesRepository */
+/**
+ * A Firebase implementation of the IAsyncPreferencesRepository
+ */
 class FirebaseStatisticRepository implements IAsyncStatisticsRepository {
 
-  /** A reference to the Firebase database */
-  private DatabaseReference mDatabase;
-
-  /** A collection of the user preferences */
-  private List<IStatistic> userStatistics;
-
-  /** An observable live collection of the user preferences */
-  private MutableLiveData<List<IStatistic>> liveStatistics;
-
-  /**
-   * Create a new repository for the given user
-   *
-   * @param currUser The current user
-   * @param gameName The current game
-   */
-  FirebaseStatisticRepository(String currUser, String gameName) {
-    this.mDatabase =
-        FirebaseDatabase.getInstance()
-            .getReference()
-            .child("users/" + currUser + "/statistics/" + gameName);
-
-    userStatistics = new ArrayList<>();
-    liveStatistics = new MutableLiveData<>();
-
-    mDatabase.addChildEventListener(new FirebaseStatisticRepository.MyChildEventListener());
-  }
-
-  /**
-   * Gets the observable LiveData of all the IStatistic objects in the database
-   *
-   * @return An observable object wrapping the list of IStatistic with all statistics
-   */
-  @Override
-  public LiveData<List<IStatistic>> getObservable() {
-    return liveStatistics;
-  }
-
-  /**
-   * Updates a stat in the database
-   *
-   * @param stat The stat to update based on its key
-   */
-  @Override
-  public void put(IStatistic stat) {
-    mDatabase.child(stat.getStatKey()).setValue(stat.getStatVal());
-  }
-
-  /**
-   * Add a stat to the database
-   *
-   * @param stat The stat to add
-   */
-  @Override
-  public void push(IStatistic stat) {
-    mDatabase.child(stat.getStatKey()).setValue(stat.getStatVal());
-  }
-
-  /**
-   * Remove a stat from the database
-   *
-   * @param stat The stat to remove
-   */
-  @Override
-  public void delete(IStatistic stat) {
-    mDatabase.child(stat.getStatKey()).removeValue();
-  }
-
-  /** An implementation of ChildEventListener for PreferenceRepository */
-  private class MyChildEventListener implements ChildEventListener {
+    /**
+     * A reference to the Firebase database
+     */
+    private DatabaseReference mDatabase;
 
     /**
-     * A child was added to DB - add to LiveData to notify listeners
-     *
-     * @param dataSnapshot The snapshot of the changed data
-     * @param s A string description of the change
+     * A collection of the user preferences
      */
-    @Override
-    public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-      String statKey = dataSnapshot.getKey();
-      Object statValue = dataSnapshot.getValue();
+    private List<IStatistic> userStatistics;
 
-      userStatistics.add(new GameStatistic<>(statKey, statValue));
+    /**
+     * An observable live collection of the user preferences
+     */
+    private MutableLiveData<List<IStatistic>> liveStatistics;
 
-      liveStatistics.setValue(userStatistics);
+    /**
+     * Create a new repository for the given user
+     *
+     * @param currUser The current user
+     * @param gameName The current game
+     */
+    FirebaseStatisticRepository(String currUser, String gameName) {
+        this.mDatabase =
+                FirebaseDatabase.getInstance()
+                        .getReference()
+                        .child("users/" + currUser + "/statistics/" + gameName);
+
+        userStatistics = new ArrayList<>();
+        liveStatistics = new MutableLiveData<>();
+
+        mDatabase.addChildEventListener(new FirebaseStatisticRepository.MyChildEventListener());
     }
 
     /**
-     * A child was changed in DB - change LiveData to notify listeners
+     * Gets the observable LiveData of all the IStatistic objects in the database
      *
-     * @param dataSnapshot The snapshot of the changed data
-     * @param s A string description of the change
+     * @return An observable object wrapping the list of IStatistic with all statistics
      */
     @Override
-    public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-      String statKey = dataSnapshot.getKey();
-      Object statValue = dataSnapshot.getValue();
+    public LiveData<List<IStatistic>> getObservable() {
+        return liveStatistics;
+    }
 
-      for (IStatistic iterStats : userStatistics) {
-        if (iterStats.getStatKey().equals(statKey)) {
-          iterStats.setValue(statValue);
+    /**
+     * Updates a stat in the database
+     *
+     * @param stat The stat to update based on its key
+     */
+    @Override
+    public void put(IStatistic stat) {
+        mDatabase.child(stat.getStatKey()).setValue(stat.getStatVal());
+    }
+
+    /**
+     * Add a stat to the database
+     *
+     * @param stat The stat to add
+     */
+    @Override
+    public void push(IStatistic stat) {
+        mDatabase.child(stat.getStatKey()).setValue(stat.getStatVal());
+    }
+
+    /**
+     * Remove a stat from the database
+     *
+     * @param stat The stat to remove
+     */
+    @Override
+    public void delete(IStatistic stat) {
+        mDatabase.child(stat.getStatKey()).removeValue();
+    }
+
+    /**
+     * An implementation of ChildEventListener for PreferenceRepository
+     */
+    private class MyChildEventListener implements ChildEventListener {
+
+        /**
+         * A child was added to DB - add to LiveData to notify listeners
+         *
+         * @param dataSnapshot The snapshot of the changed data
+         * @param s            A string description of the change
+         */
+        @Override
+        public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+            String statKey = dataSnapshot.getKey();
+            Object statValue = dataSnapshot.getValue();
+
+            userStatistics.add(new GameStatistic<>(statKey, statValue));
+
+            liveStatistics.setValue(userStatistics);
         }
-      }
 
-      liveStatistics.setValue(userStatistics);
+        /**
+         * A child was changed in DB - change LiveData to notify listeners
+         *
+         * @param dataSnapshot The snapshot of the changed data
+         * @param s            A string description of the change
+         */
+        @Override
+        public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+            String statKey = dataSnapshot.getKey();
+            Object statValue = dataSnapshot.getValue();
+
+            for (IStatistic iterStats : userStatistics) {
+                if (iterStats.getStatKey().equals(statKey)) {
+                    iterStats.setValue(statValue);
+                }
+            }
+
+            liveStatistics.setValue(userStatistics);
+        }
+
+        /**
+         * A child was removed from DB - remove from LiveData to notify listeners
+         *
+         * @param dataSnapshot The snapshot of the changed data
+         */
+        @Override
+        public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
+            String statKey = dataSnapshot.getKey();
+
+            userStatistics.removeIf(preference -> preference.getStatKey().equals(statKey));
+
+            liveStatistics.setValue(userStatistics);
+        }
+
+        /**
+         * A child was moved in DB - ignore
+         *
+         * @param dataSnapshot The snapshot of the changed data
+         * @param s            A string description of the change
+         */
+        @Override
+        public void onChildMoved(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+        }
+
+        /**
+         * Operation was cancelled - ignore
+         *
+         * @param databaseError The cancellation error
+         */
+        @Override
+        public void onCancelled(@NonNull DatabaseError databaseError) {
+        }
     }
-
-    /**
-     * A child was removed from DB - remove from LiveData to notify listeners
-     *
-     * @param dataSnapshot The snapshot of the changed data
-     */
-    @Override
-    public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
-      String statKey = dataSnapshot.getKey();
-
-      userStatistics.removeIf(preference -> preference.getStatKey().equals(statKey));
-
-      liveStatistics.setValue(userStatistics);
-    }
-
-    /**
-     * A child was moved in DB - ignore
-     *
-     * @param dataSnapshot The snapshot of the changed data
-     * @param s A string description of the change
-     */
-    @Override
-    public void onChildMoved(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {}
-
-    /**
-     * Operation was cancelled - ignore
-     *
-     * @param databaseError The cancellation error
-     */
-    @Override
-    public void onCancelled(@NonNull DatabaseError databaseError) {}
-  }
 }
