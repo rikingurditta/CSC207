@@ -1,10 +1,5 @@
 {
   "TileSheets": {
-    "Test": {
-      "Test1": {
-        "Path": "Test1.png",
-        "TileWidth": 16,
-        "TileHeight": 16
     "Tsu": {
       "Score": {
         "Path": "Score.png",
