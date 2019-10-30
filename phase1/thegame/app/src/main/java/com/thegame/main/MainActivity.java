@@ -15,8 +15,6 @@ import androidx.cardview.widget.CardView;
 import androidx.lifecycle.LifecycleOwner;
 
 import com.example.thegame.R;
-import com.group0565.tsu.TsuActivity;
-import com.thegame.locale.LocaleManager;
 import com.thegame.login.LoginClick;
 import com.thegame.main.MainMVP.MainPresenter;
 import com.thegame.main.MainMVP.MainView;
@@ -33,19 +31,6 @@ public class MainActivity extends AppCompatActivity implements MainView {
      * The MainPresenter reference
      */
     MainPresenter mainPresenter;
-
-    /**
-     * On attach of base context, set language for user selected language
-     *
-     * @param base The base context
-     */
-    @Override
-    protected void attachBaseContext(Context base) {
-        mainPresenter = MainPresenterInjector.inject(this);
-
-        super.attachBaseContext(
-                LocaleManager.updateResources(base, mainPresenter.getDisplayLanguage()));
-    }
 
     /**
      * Set references to all objects and instantiate presenter
@@ -124,8 +109,10 @@ public class MainActivity extends AppCompatActivity implements MainView {
      */
     @Override
     public void goToGame1() {
-        Intent intent = new Intent(this, TsuActivity.class);
-        startActivity(intent);
+        throw new UnsupportedOperationException("Operation not yet implemented");
+
+//        Intent intent = new Intent(this, TsuActivity.class);
+//        startActivity(intent);
     }
 
     /**
