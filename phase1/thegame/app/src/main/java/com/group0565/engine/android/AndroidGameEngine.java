@@ -1,14 +1,15 @@
-package com.group0565.engine.android.assets;
+package com.group0565.engine.android;
 
 import android.content.res.AssetManager;
 import android.graphics.Canvas;
 import android.util.Log;
 import android.view.SurfaceHolder;
 
-import com.group0565.engine.android.InputManager;
+import com.group0565.engine.android.assets.AndroidAssetManager;
 import com.group0565.engine.assets.GameAssetManager;
 import com.group0565.engine.gameobjects.GameObject;
 import com.group0565.engine.interfaces.GameEngine;
+import com.group0565.math.Vector;
 
 public class AndroidGameEngine implements Runnable, GameEngine {
     private static final String TAG = "AndroidGameEngine";
@@ -24,6 +25,7 @@ public class AndroidGameEngine implements Runnable, GameEngine {
     private GameObject game;
     private InputManager inputManager;
     private GameAssetManager gameAssetManager;
+    private Vector size;
 
     public AndroidGameEngine(GameObject game, int fps, AssetManager assetManager) {
         this.surfaceHolder = null;
@@ -36,6 +38,14 @@ public class AndroidGameEngine implements Runnable, GameEngine {
 
     @Override
     public void run() {
+        synchronized (this) {
+            while (surfaceHolder == null) {
+                try {
+                    this.wait();
+                } catch (InterruptedException e) {
+                }
+            }
+        }
         gameAssetManager.init();
         game.init();
         long lastupdate = System.nanoTime();
@@ -88,8 +98,10 @@ public class AndroidGameEngine implements Runnable, GameEngine {
         Canvas canvas = null;
         try {
             canvas = this.surfaceHolder.lockCanvas();
-            if (canvas != null)
+            if (canvas != null) {
+                size = new Vector(canvas.getWidth(), canvas.getHeight());
                 this.game.renderAll(canvas);
+            }
         } finally {
             if (canvas != null) {
                 surfaceHolder.unlockCanvasAndPost(canvas);
@@ -97,7 +109,7 @@ public class AndroidGameEngine implements Runnable, GameEngine {
         }
     }
 
-    public synchronized boolean start() throws InterruptedException {
+    public synchronized boolean start() {
         if (running) return false;
         if (this.thread != null) {
             this.thread.interrupt();
@@ -147,6 +159,16 @@ public class AndroidGameEngine implements Runnable, GameEngine {
     public synchronized void setSurfaceHolder(SurfaceHolder surfaceHolder) {
         synchronized (surfaceLock) {
             this.surfaceHolder = surfaceHolder;
+            Canvas canvas = null;
+            try {
+                canvas = this.surfaceHolder.lockCanvas();
+                if (canvas != null)
+                    size = new Vector(canvas.getWidth(), canvas.getHeight());
+            } finally {
+                if (canvas != null) {
+                    surfaceHolder.unlockCanvasAndPost(canvas);
+                }
+            }
         }
         this.notifyAll();
     }
@@ -166,5 +188,10 @@ public class AndroidGameEngine implements Runnable, GameEngine {
 
     public GameAssetManager getGameAssetManager(){
         return gameAssetManager;
+    }
+
+    @Override
+    public Vector getSize() {
+        return size;
     }
 }

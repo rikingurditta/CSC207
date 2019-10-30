@@ -3,7 +3,7 @@
     package="com.example.thegame">
 
     <application
-        android:name=".TheGameApplication"
+        android:name="com.thegame.TheGameApplication"
         android:allowBackup="true"
         android:configChanges="keyboardHidden|orientation"
         android:icon="@mipmap/ic_launcher"
@@ -12,8 +12,16 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.DayNight.NoActionBar">
         <activity
-            android:name=".MainActivity"
-            android:configChanges="keyboardHidden|orientation"
+            android:name="com.thegame.settings.SettingsActivity"
+            android:launchMode="singleTop"
+            android:parentActivityName="com.thegame.main.MainActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.thegame.main.MainActivity" />
+        </activity>
+        <activity
+            android:name="com.group0565.racerGame.RacerMainActivity"
+            android:launchMode="singleTop"
             android:persistent="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -21,5 +29,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".StatsExampleActivity" />
     </application>
+
 </manifest>
