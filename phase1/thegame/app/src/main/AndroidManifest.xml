@@ -14,6 +14,14 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat"
         tools:ignore="GoogleAppIndexingWarning">
+
+        <activity android:name="com.thegame.main.MainActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
         <activity
             android:name="com.thegame.settings.SettingsActivity"
             android:launchMode="singleTop"
@@ -22,24 +30,29 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.thegame.main.MainActivity" />
         </activity>
-        <activity android:name="com.thegame.main.MainActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
+
         <activity
             android:name="com.group0565.tsu.TsuActivity"
             android:configChanges="keyboardHidden|orientation"
             android:launchMode="singleTop"
             android:persistent="true"
-            android:theme="@style/Theme.AppCompat.NoActionBar" />
+            android:theme="@style/Theme.AppCompat.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.thegame.main.MainActivity" />
+        </activity>
+
         <activity
             android:name="com.group0565.bomberGame.BomberMainActivity"
             android:configChanges="keyboardHidden|orientation"
             android:launchMode="singleTop"
             android:persistent="true"
-            android:theme="@style/Theme.AppCompat.NoActionBar"/>
+            android:theme="@style/Theme.AppCompat.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.thegame.main.MainActivity" />
+        </activity>
+
     </application>
 
 </manifest>
