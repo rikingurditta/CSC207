@@ -10,6 +10,11 @@
         "Path": "Numbers.png",
         "TileWidth": 50,
         "TileHeight": 50
+      },
+      "Title": {
+        "Path": "Title.png",
+        "TileWidth": 500,
+        "TileHeight": 500
       }
     }
   },

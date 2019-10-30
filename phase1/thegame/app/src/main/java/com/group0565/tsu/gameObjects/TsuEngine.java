@@ -76,7 +76,6 @@ public class TsuEngine extends GameObject {
         Scores.S0.setBitmap(scoresTileSheet.getTile(0, 3));
         Scores.SU.setBitmap(scoresTileSheet.getTile(0, 3));
         super.init();
-        this.startEngine();
     }
 
     @Override
@@ -177,8 +176,11 @@ public class TsuEngine extends GameObject {
 
     @Override
     public boolean processInput(InputEvent event) {
-        captureEvent(event);
-        return true;
+        if (isEnable()) {
+            captureEvent(event);
+            return true;
+        }
+        return super.processInput(event);
     }
 
     @Override
