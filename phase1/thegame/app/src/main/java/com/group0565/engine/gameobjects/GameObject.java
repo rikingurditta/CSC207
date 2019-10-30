@@ -86,6 +86,11 @@ public class GameObject implements LifecycleListener {
     private GameObject parent = null;
 
     /**
+     * Whether or not this GameObject is enabled
+     */
+    private boolean enable = true;
+
+    /**
      * The GameEngine of this GameObject
      */
     private GameEngine engine;
@@ -156,6 +161,8 @@ public class GameObject implements LifecycleListener {
      * @param ms Milliseconds since last update
      */
     public void updateAll(long ms) {
+        if (!enable)
+            return;
         synchronized (capturingEvents){
             for (InputEvent event : capturingEvents){
                 this.capturedEvents.add(event);
@@ -190,6 +197,8 @@ public class GameObject implements LifecycleListener {
      * @param canvas The Canvas on which to draw and render
      */
     public void renderAll(Canvas canvas) {
+        if (!enable)
+            return;
         this.draw(canvas);
         for (GameObject child : this.getChildren().values())
             child.renderAll(canvas);
@@ -288,6 +297,8 @@ public class GameObject implements LifecycleListener {
      * @return Whether or not the event has been captured.
      */
     public boolean processInput(InputEvent event) {
+        if (!enable)
+            return false;
         for (GameObject child : this.getChildren().values())
             if (child.processInput(event))
                 return true;
@@ -483,6 +494,24 @@ public class GameObject implements LifecycleListener {
      */
     protected HashSet<InputEvent> getCapturedEvents() {
         return capturedEvents;
+    }
+
+    /**
+     * Return whether or not  his object is enabled.
+     *
+     * @return Whether or not  his object is enabled.
+     */
+    public boolean isEnable() {
+        return enable;
+    }
+
+    /**
+     * Sets whether or not this object is enabled.
+     *
+     * @param enable whther or not this object is enabled
+     */
+    public void setEnable(boolean enable) {
+        this.enable = enable;
     }
 
     /**
