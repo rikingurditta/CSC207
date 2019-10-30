@@ -15,6 +15,8 @@ public abstract class AudioAsset extends Asset {
     public abstract void pause();
     public abstract void stop();
 
+    public abstract long progress();
+
     public int getVolume() {
         return volume;
     }
@@ -22,7 +24,6 @@ public abstract class AudioAsset extends Asset {
     public void setVolume(int volume) {
         this.volume = volume;
     }
-
 
     @Override
     public void close(){

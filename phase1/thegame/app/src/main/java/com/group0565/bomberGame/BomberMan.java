@@ -123,7 +123,7 @@ public class BomberMan extends GameObject {
   /** Drops bomb at current location. */
   private void dropBomb() {
     GameObject bomb =
-        new NormalBomb(null, -1, this.game).setAbsolutePosition(this.getAbsolutePosition());
+        new NormalBomb(getAbsolutePosition(), -1, this.game);
     game.adoptLater(bomb);
   }
 }

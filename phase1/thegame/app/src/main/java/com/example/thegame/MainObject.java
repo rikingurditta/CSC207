@@ -4,6 +4,7 @@ import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.RectF;
+import android.util.Log;
 
 import com.group0565.engine.assets.AudioAsset;
 import com.group0565.engine.gameobjects.GameObject;
@@ -33,6 +34,7 @@ public class MainObject extends GameObject {
 
     public void init(){
         audio = getEngine().getGameAssetManager().getAudioAsset("Test", "AudioTest");
+        Log.i(TAG, getEngine().getSize().toString());
     }
 
     public void update(long ms) {

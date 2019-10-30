@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com">
+    package="com.example.thegame">
 
     <application
-        android:name=".example.thegame.TheGameApplication"
+        android:name="com.thegame.TheGameApplication"
         android:allowBackup="true"
         android:configChanges="keyboardHidden|orientation"
         android:icon="@mipmap/ic_launcher"
@@ -12,7 +12,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.DayNight.NoActionBar">
         <activity
-            android:name=".group0565.bomberGame.BomberMainActivity"
+            android:name="com.group0565.bomberGame.BomberMainActivity"
             android:configChanges="keyboardHidden|orientation"
             android:persistent="true">
             <intent-filter>
