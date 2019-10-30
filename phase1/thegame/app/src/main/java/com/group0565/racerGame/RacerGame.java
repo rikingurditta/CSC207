@@ -11,9 +11,18 @@ public class RacerGame extends GameObject {
     RacerGame(Vector position) {
         super(position);
         this.adopt(new Racer(new Vector(500, 100), 0).setAbsolutePosition(new Vector(500, 100)));
-        this.adopt(new SquareObstacle(1, 0));
-        this.adopt(new CircleObstacle(2, 0));
+        spawnObstacle();
+    }
 
+    private void spawnObstacle() {
+        double d = Math.random();
+        int lane = getRNG().nextInt(3) + 1;
+        if (d < 0.5) {
+            this.adopt(new SquareObstacle(lane, 0));
+        }
+        else {
+            this.adopt(new CircleObstacle(lane, 0));
+        }
     }
 
     public void draw(Canvas canvas) {
