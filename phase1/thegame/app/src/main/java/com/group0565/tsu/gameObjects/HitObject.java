@@ -1,6 +1,7 @@
 package com.group0565.tsu.gameObjects;
 
 import com.group0565.engine.gameobjects.InputEvent;
+import com.group0565.tsu.enums.Scores;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -10,6 +11,7 @@ public class HitObject {
     private double positionStart;
     private long msEnd;
     private double positionEnd;
+    private boolean passed;
     private long hitTime = -1 << 31;
     private long holdTime = -1 << 31;
     private long releaseTime = -1 << 31;
@@ -46,6 +48,17 @@ public class HitObject {
         t = (ms - msStart) / (msEnd - msStart);
         t = Math.max(0, Math.min(1, t));
         return positionStart * (1 - t) + positionEnd * t;
+    }
+
+    public Scores computeScore(long[] distribution) {
+        long delta = Math.abs(msStart - hitTime);
+        if (delta < distribution[0])
+            return (Scores.S300);
+        else if (delta < distribution[1])
+            return (Scores.S150);
+        else if (delta < distribution[2])
+            return (Scores.S50);
+        return passed ? Scores.S0 : Scores.SU;
     }
 
     public long getMsStart() {
@@ -106,5 +119,13 @@ public class HitObject {
 
     public void setReleaseTime(long releaseTime) {
         this.releaseTime = releaseTime;
+    }
+
+    public boolean isPassed() {
+        return passed;
+    }
+
+    public void setPassed(boolean passed) {
+        this.passed = passed;
     }
 }

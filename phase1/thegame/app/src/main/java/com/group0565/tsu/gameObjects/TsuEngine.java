@@ -1,6 +1,5 @@
 package com.group0565.tsu.gameObjects;
 
-import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.RectF;
@@ -9,6 +8,7 @@ import com.group0565.engine.assets.TileSheet;
 import com.group0565.engine.gameobjects.GameObject;
 import com.group0565.engine.gameobjects.InputEvent;
 import com.group0565.math.Vector;
+import com.group0565.tsu.enums.Scores;
 
 import java.util.List;
 
@@ -45,10 +45,11 @@ public class TsuEngine extends GameObject {
         adopt(renderer);
         adopt(judgementLine);
         scoresTileSheet = getEngine().getGameAssetManager().getTileSheet("Tsu", "Score");
-        Scores.S300.bitmap = scoresTileSheet.getTile(0, 0);
-        Scores.S150.bitmap = scoresTileSheet.getTile(0, 1);
-        Scores.S50.bitmap = scoresTileSheet.getTile(0, 2);
-        Scores.S0.bitmap = scoresTileSheet.getTile(0, 3);
+        Scores.S300.setBitmap(scoresTileSheet.getTile(0, 0));
+        Scores.S150.setBitmap(scoresTileSheet.getTile(0, 1));
+        Scores.S50.setBitmap(scoresTileSheet.getTile(0, 2));
+        Scores.S0.setBitmap(scoresTileSheet.getTile(0, 3));
+        Scores.SU.setBitmap(scoresTileSheet.getTile(0, 3));
         this.startEngine();
     }
 
@@ -66,7 +67,9 @@ public class TsuEngine extends GameObject {
                 timer = this.beatmap.getAudio().progress();
             }
             this.renderer.setTimer(timer);
-
+            for (int i = lastActive; i < objects.size() && timer > objects.get(i).getMsStart() + beatmap.getDistribution()[2]; i++) {
+                objects.get(i).setPassed(true);
+            }
             while (lastActive < objects.size() && objects.get(lastActive).getMsEnd() < timer) {
                 if (objects.get(lastActive).getHitTime() < 0)
                     setHit(Scores.S0);
@@ -100,19 +103,17 @@ public class TsuEngine extends GameObject {
                 if (-HIT_ERROR < hit - pos && hit - (pos + width) < HIT_ERROR) {
                     obj.setInputEvent(event);
                     obj.setHitTime(timer);
-                    long[] distribution = beatmap.getDistribution();
-                    long delta = Math.abs(obj.getMsStart() - obj.getHitTime());
-                    if (delta < distribution[0])
-                        setHit(Scores.S300);
-                    else if (delta < distribution[1])
-                        setHit(Scores.S150);
-                    else if (delta < distribution[2])
-                        setHit(Scores.S50);
+                    setHit(obj.computeScore(beatmap.getDistribution()));
                     lastScore = timer;
                     break;
                 }
             }
         }
+    }
+
+    @Override
+    protected void onEventDisable(InputEvent event) {
+        super.onEventDisable(event);
     }
 
     @Override
@@ -125,12 +126,13 @@ public class TsuEngine extends GameObject {
     public void renderAll(Canvas canvas) {
         super.renderAll(canvas);
         if (score != null) {
+            float sw = (float) (SCORE_WIDTH * (1 / 3d * Math.exp(-3 * Math.sqrt((timer - lastScore) / 250D)) + 1));
             float width = canvas.getWidth();
             float height = canvas.getHeight();
-            float bwidth = score.bitmap.getWidth();
-            float bheight = score.bitmap.getHeight();
-            float bscale = SCORE_WIDTH / bwidth;
-            canvas.drawBitmap(score.bitmap, null, new RectF((width - SCORE_WIDTH) / 2f, height * SCORE_Y, (width + SCORE_WIDTH) / 2f, height * SCORE_Y + bheight * bscale), new Paint());
+            float bwidth = score.getBitmap().getWidth();
+            float bheight = score.getBitmap().getHeight();
+            float bscale = sw / bwidth;
+            canvas.drawBitmap(score.getBitmap(), null, new RectF((width - sw) / 2f, height * SCORE_Y, (width + sw) / 2f, height * SCORE_Y + bheight * bscale), new Paint());
         }
     }
 
@@ -187,10 +189,5 @@ public class TsuEngine extends GameObject {
     public void stopEngine() {
         this.beatmap.getAudio().stop();
         this.running = false;
-    }
-
-    private enum Scores {
-        S300, S150, S50, S0;
-        private Bitmap bitmap;
     }
 }
