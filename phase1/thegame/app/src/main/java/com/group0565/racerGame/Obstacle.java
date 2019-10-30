@@ -8,8 +8,11 @@ import com.group0565.math.Vector;
 
 public abstract class Obstacle extends GameObject {
 
-    public Obstacle(Vector position, double z) {
-        super(position, z);
+    int lane;
+
+    public Obstacle(double z, int lane) {
+        super(new Vector(lane * 500, 0), z);
+        this.lane = lane;
     }
 
     @Override

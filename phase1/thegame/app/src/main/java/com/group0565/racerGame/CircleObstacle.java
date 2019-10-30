@@ -7,8 +7,8 @@ import com.group0565.math.Vector;
 
 public class CircleObstacle extends Obstacle {
 
-    CircleObstacle(Vector position, double z) {
-        super(position, z);
+    CircleObstacle(int lane, double z) {
+        super(z, lane);
     }
 
     @Override
@@ -18,6 +18,6 @@ public class CircleObstacle extends Obstacle {
 
         canvas.drawCircle(getAbsolutePosition().getX(),
                 getAbsolutePosition().getY(),
-                100, colour);
+                75, colour);
     }
 }
