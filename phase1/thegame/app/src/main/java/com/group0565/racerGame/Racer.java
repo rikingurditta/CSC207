@@ -4,7 +4,6 @@ import android.graphics.Canvas;
 import android.graphics.Paint;
 
 import com.group0565.engine.gameobjects.GameObject;
-import com.group0565.engine.gameobjects.InputEvent;
 import com.group0565.math.Vector;
 
 import java.util.HashSet;
@@ -27,11 +26,11 @@ public class Racer extends GameObject {
 
     @Override
     public void update(long ms) {
-        Vector position = this.getAbsolutePosition();
-        Vector delta = new Vector();
-        float speed = 0.1f;
-        delta = delta.add(new Vector(-speed, 0));
-        delta = delta.multiply(ms);
-        this.setAbsolutePosition(position.add(delta));
+//        Vector position = this.getAbsolutePosition();
+//        Vector delta = new Vector();
+//        float speed = 0.1f;
+//        delta = delta.add(new Vector(-speed, 0));
+//        delta = delta.multiply(ms);
+//        this.setAbsolutePosition(position.add(delta));
     }
 }
