@@ -2,6 +2,7 @@ package com.thegame.settings;
 
 import com.group0565.preferences.IPreferenceInteractor;
 import com.group0565.preferences.PreferencesInjector;
+import com.thegame.theme.ThemeManager;
 
 /**
  * Implementation of the SettingsPresenter
@@ -47,9 +48,9 @@ class SettingsPresenterImp implements SettingsMVP.SettingsPresenter {
      * @return The current display theme
      */
     @Override
-    public String getAppTheme() {
+    public int getAppTheme() {
         IPreferenceInteractor prefInteractor = PreferencesInjector.inject();
 
-        return prefInteractor.getTheme();
-    }
+        return ThemeManager.getTheme(prefInteractor.getTheme());
+  }
 }

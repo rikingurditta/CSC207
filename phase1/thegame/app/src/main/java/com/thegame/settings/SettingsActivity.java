@@ -36,6 +36,7 @@ public class SettingsActivity extends AppCompatActivity implements SettingsMVP.S
      */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        setActivityTheme();
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings);
     }
@@ -69,8 +70,18 @@ public class SettingsActivity extends AppCompatActivity implements SettingsMVP.S
         settingsPresenter.onDestroy();
     }
 
+    /**
+     * Refresh the view
+     */
     @Override
     public void refresh() {
         recreate();
+    }
+
+    /**
+     * Sets the activity's theme to the given theme ID
+     */
+    public void setActivityTheme() {
+        setTheme(settingsPresenter.getAppTheme());
     }
 }

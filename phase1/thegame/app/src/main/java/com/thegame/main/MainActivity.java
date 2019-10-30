@@ -52,6 +52,7 @@ public class MainActivity extends AppCompatActivity implements MainView {
      */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        setActivityTheme();
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
     }
@@ -93,6 +94,13 @@ public class MainActivity extends AppCompatActivity implements MainView {
     @Override
     public LifecycleOwner getLifeCycleOwner() {
         return this;
+    }
+
+    /**
+     * Sets the activity's theme by querying the
+     */
+    public void setActivityTheme() {
+        setTheme(mainPresenter.getAppTheme());
     }
 
     /**
@@ -182,5 +190,5 @@ public class MainActivity extends AppCompatActivity implements MainView {
         int id = item.getItemId();
 
         return mainPresenter.handleMenuClick(MenuOptionID.valueOf(id));
-    }
+  }
 }

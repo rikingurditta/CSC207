@@ -19,11 +19,11 @@ public interface BaseMVP {
     String getDisplayLanguage();
 
     /**
-     * Gets the current display theme
+     * Gets the current display theme id
      *
      * @return The current display theme
      */
-    String getAppTheme();
+    int getAppTheme();
   }
 
   /** Base interface for view */

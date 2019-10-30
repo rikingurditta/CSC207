@@ -18,6 +18,7 @@ import com.group0565.users.IUsersInteractor;
 
 import com.thegame.main.MainMVP.MainPresenter;
 import com.thegame.main.MainMVP.MainView;
+import com.thegame.theme.ThemeManager;
 
 /** Implementation of the MainPresenter */
 public class MainPresenterImp implements MainPresenter {
@@ -157,9 +158,9 @@ public class MainPresenterImp implements MainPresenter {
    * @return The current display theme
    */
   @Override
-  public String getAppTheme() {
+  public int getAppTheme() {
     IPreferenceInteractor prefInteractor = PreferencesInjector.inject();
 
-    return prefInteractor.getTheme();
+    return ThemeManager.getTheme(prefInteractor.getTheme());
   }
 }
