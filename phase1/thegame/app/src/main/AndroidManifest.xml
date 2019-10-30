@@ -53,6 +53,17 @@
                 android:value="com.thegame.main.MainActivity" />
         </activity>
 
+        <activity
+            android:name="com.group0565.racerGame.RacerMainActivity"
+            android:configChanges="keyboardHidden|orientation"
+            android:launchMode="singleTop"
+            android:persistent="true"
+            android:theme="@style/Theme.AppCompat.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.thegame.main.MainActivity" />
+        </activity>
+
     </application>
 
 </manifest>
