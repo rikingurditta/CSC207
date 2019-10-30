@@ -42,7 +42,7 @@ public class Button extends GameObject implements Observable {
                 }
             }
         }
-        if (!f) {
+        if (!f && pressed) {
             setPressed(false);
             notifyObservers();
         }

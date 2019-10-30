@@ -112,6 +112,6 @@ public class MainObject extends GameObject implements Observer {
 
     @Override
     public void observe(Observable observable) {
-
+        Log.i(TAG, "Ran");
     }
 }
