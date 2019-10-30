@@ -11,18 +11,18 @@ import com.group0565.math.Vector;
 
 public class RacerGame extends GameObject implements Observer {
 
-    Button leftButton;
-    Button middleButton;
-    Button rightButton;
+    private Button leftButton;
+    private Button middleButton;
+    private Button rightButton;
 
     RacerGame(Vector position) {
         super(position);
     }
 
     public void init(){
-        leftButton = new Button(new Vector(100, 1750), new Vector(150, 150), getEngine().getGameAssetManager().getTileSheet("Test", "Test1").getTile(0, 0), getEngine().getGameAssetManager().getTileSheet("Test", "Test1").getTile(0, 1));
-        middleButton = new Button(new Vector(500, 1750), new Vector(150, 150), getEngine().getGameAssetManager().getTileSheet("Test", "Test1").getTile(0, 0), getEngine().getGameAssetManager().getTileSheet("Test", "Test1").getTile(0, 1));
-        rightButton = new Button(new Vector(900, 1750), new Vector(150, 150), getEngine().getGameAssetManager().getTileSheet("Test", "Test1").getTile(0, 0), getEngine().getGameAssetManager().getTileSheet("Test", "Test1").getTile(0, 1));
+        leftButton = new Button(new Vector(100, 1750), new Vector(150, 150), getEngine().getGameAssetManager().getTileSheet("RacerButton", "RacerButton").getTile(0, 0), getEngine().getGameAssetManager().getTileSheet("RacerButton", "RacerButton").getTile(0, 0));
+        middleButton = new Button(new Vector(475, 1750), new Vector(150, 150), getEngine().getGameAssetManager().getTileSheet("RacerButton", "RacerButton").getTile(0, 0), getEngine().getGameAssetManager().getTileSheet("RacerButton", "RacerButton").getTile(0, 0));
+        rightButton = new Button(new Vector(850, 1750), new Vector(150, 150), getEngine().getGameAssetManager().getTileSheet("RacerButton", "RacerButton").getTile(0, 0), getEngine().getGameAssetManager().getTileSheet("RacerButton", "RacerButton").getTile(0, 0));
         this.adopt(leftButton);
         this.adopt(middleButton);
         this.adopt(rightButton);
