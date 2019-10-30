@@ -8,8 +8,10 @@ import com.group0565.engine.assets.TileSheet;
 import com.group0565.engine.gameobjects.GameObject;
 import com.group0565.engine.gameobjects.InputEvent;
 import com.group0565.math.Vector;
+import com.group0565.tsu.enums.Align;
 import com.group0565.tsu.enums.Scores;
 
+import java.util.HashMap;
 import java.util.List;
 
 public class TsuEngine extends GameObject {
@@ -20,7 +22,9 @@ public class TsuEngine extends GameObject {
     private static final int HIT_WIDTH = 20;
     private static final double HIT_ERROR = 0.075;
     private static final float SCORE_WIDTH = 300;
-    private static final float SCORE_Y = 0.25f;
+    private static final float TSCORE_HEIGHT = 50;
+    private static final float COMBO_HEIGHT = 75;
+    private static final float SCORE_Y = 0.10f;
     private Beatmap beatmap;
     private List<HitObject> objects;
     private long timer = 0;
@@ -29,9 +33,16 @@ public class TsuEngine extends GameObject {
     private TsuRenderer renderer;
     private LinearJudgementLine judgementLine;
     private TileSheet scoresTileSheet;
+    private NumberRenderer comboRenderer;
+    private NumberRenderer scoreRenderer;
 
     private Scores score = null;
     private long lastScore = -1;
+
+    private int combo = 0;
+    private int totalScore = 0;
+
+    private HashMap<InputEvent, HitObject> eventToHitObject = new HashMap<>();
 
     public TsuEngine() {
         super(new Vector());
@@ -42,14 +53,25 @@ public class TsuEngine extends GameObject {
         this.objects = beatmap.getHitObjects();
         this.renderer = new LinearTsuRenderer(new Vector(MARGINS.getX(), 0), beatmap, null, 1000, HIT_WIDTH);
         this.judgementLine = new LinearJudgementLine(MARGINS, 100, 20);
+        this.comboRenderer = new NumberRenderer(COMBO_HEIGHT, Align.CENTER, new Vector(0, MARGINS.getY()));
+        this.comboRenderer.setNumber(combo);
+        this.comboRenderer.setZ(1);
+
+        this.scoreRenderer = new NumberRenderer(TSCORE_HEIGHT, Align.RIGHT, new Vector(50, 50));
+        this.scoreRenderer.setNumber(totalScore);
+        this.scoreRenderer.setZ(1);
+
         adopt(renderer);
         adopt(judgementLine);
+        adopt(comboRenderer);
+        adopt(scoreRenderer);
         scoresTileSheet = getEngine().getGameAssetManager().getTileSheet("Tsu", "Score");
         Scores.S300.setBitmap(scoresTileSheet.getTile(0, 0));
         Scores.S150.setBitmap(scoresTileSheet.getTile(0, 1));
         Scores.S50.setBitmap(scoresTileSheet.getTile(0, 2));
         Scores.S0.setBitmap(scoresTileSheet.getTile(0, 3));
         Scores.SU.setBitmap(scoresTileSheet.getTile(0, 3));
+        super.init();
         this.startEngine();
     }
 
@@ -80,6 +102,11 @@ public class TsuEngine extends GameObject {
 
     private void setHit(Scores score) {
         this.score = score;
+        if (score != Scores.S0)
+            combo += 1;
+        else
+            combo = 0;
+        totalScore += score.getScore() * combo;
     }
 
     @Override
@@ -102,6 +129,7 @@ public class TsuEngine extends GameObject {
                 double pos = obj.calculatePosition(timer);
                 if (-HIT_ERROR < hit - pos && hit - (pos + width) < HIT_ERROR) {
                     obj.setInputEvent(event);
+                    eventToHitObject.put(event, obj);
                     obj.setHitTime(timer);
                     setHit(obj.computeScore(beatmap.getDistribution()));
                     lastScore = timer;
@@ -114,6 +142,13 @@ public class TsuEngine extends GameObject {
     @Override
     protected void onEventDisable(InputEvent event) {
         super.onEventDisable(event);
+        HitObject object = eventToHitObject.get(event);
+        if (object == null)
+            return;
+        Scores lastscore = object.computeScore(beatmap.getDistribution());
+        object.setReleaseTime(timer);
+        if (lastscore != Scores.S0 && object.computeScore(beatmap.getDistribution()) == Scores.S0)
+            setHit(Scores.S0);
     }
 
     @Override
@@ -145,6 +180,11 @@ public class TsuEngine extends GameObject {
             this.judgementLine.setWidth(canvas.getWidth() - 2 * MARGINS.getX());
         }
         canvas.drawRGB(255, 255, 255);
+        this.comboRenderer.setNumber(combo);
+        double sh = (1 / 3d * Math.exp(-3 * Math.sqrt((timer - lastScore) / 250D)) + 1);
+        this.comboRenderer.setHeight((float) (sh * COMBO_HEIGHT));
+        this.scoreRenderer.setNumber(totalScore);
+        this.scoreRenderer.setHeight((float) (sh * TSCORE_HEIGHT));
     }
 
     public void startEngine() {

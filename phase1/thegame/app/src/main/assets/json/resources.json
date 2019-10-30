@@ -5,6 +5,11 @@
         "Path": "Score.png",
         "TileWidth": 300,
         "TileHeight": 100
+      },
+      "Numbers": {
+        "Path": "Numbers.png",
+        "TileWidth": 50,
+        "TileHeight": 50
       }
     }
   },

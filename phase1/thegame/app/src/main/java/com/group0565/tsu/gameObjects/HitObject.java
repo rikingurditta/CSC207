@@ -52,13 +52,22 @@ public class HitObject {
 
     public Scores computeScore(long[] distribution) {
         long delta = Math.abs(msStart - hitTime);
+        Scores score = null;
         if (delta < distribution[0])
-            return (Scores.S300);
+            score = Scores.S300;
         else if (delta < distribution[1])
-            return (Scores.S150);
+            score = Scores.S150;
         else if (delta < distribution[2])
-            return (Scores.S50);
-        return passed ? Scores.S0 : Scores.SU;
+            score = Scores.S50;
+        else
+            score = passed ? Scores.S0 : Scores.SU;
+        if (score != Scores.S0 && score != Scores.SU) {
+            if (releaseTime > 0) {
+                if (Math.abs(releaseTime - msEnd) > distribution[2])
+                    return Scores.S0;
+            }
+        }
+        return score;
     }
 
     public long getMsStart() {
