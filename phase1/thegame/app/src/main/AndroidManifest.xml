@@ -34,7 +34,12 @@
             android:launchMode="singleTop"
             android:persistent="true"
             android:theme="@style/Theme.AppCompat.NoActionBar" />
-        <activity android:name=".StatsExampleActivity" />
+        <activity
+            android:name="com.group0565.bomberGame.BomberMainActivity"
+            android:configChanges="keyboardHidden|orientation"
+            android:launchMode="singleTop"
+            android:persistent="true"
+            android:theme="@style/Theme.AppCompat.NoActionBar"/>
     </application>
 
 </manifest>
