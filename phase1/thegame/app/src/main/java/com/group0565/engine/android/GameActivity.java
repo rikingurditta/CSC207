@@ -79,6 +79,10 @@ public abstract class GameActivity extends AppCompatActivity implements SurfaceH
         this.engine.start();
     }
 
+    public GameObject getGame() {
+        return game;
+    }
+
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);

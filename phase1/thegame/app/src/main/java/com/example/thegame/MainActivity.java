@@ -1,6 +1,7 @@
 package com.example.thegame;
 
 import com.group0565.engine.android.GameActivity;
+import com.group0565.engine.gameobjects.GlobalPreferences;
 import com.group0565.math.Vector;
 
 
@@ -9,6 +10,6 @@ public class MainActivity extends GameActivity {
 
 
     public MainActivity() {
-        super(new MainObject(new Vector()));
+        super(new MainObject(new Vector()).setGlobalPreferences(new GlobalPreferences()));
     }
 }
