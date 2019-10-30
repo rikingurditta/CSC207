@@ -232,6 +232,7 @@ public class GameObject implements LifecycleListener {
         if (!this.getChildren().containsKey(obj.uuid))
             this.getChildren().put(obj.uuid, obj);
         obj.invalidateCache();
+        obj.setGlobalPreferences(this.globalPreferences);
     }
 
     /**
