@@ -34,17 +34,22 @@ public class BomberMan extends GameObject {
   /** The speed at which this player moves, in units per millisecond. */
   private float speed = 2.0f / 1000;
 
+  private SquareGrid grid;
+
   /**
    * Constructs a new BomberMan.
    *
    * @param position The position (relative or absolute) of this object.
    * @param z The z-level of the object.
    * @param inputSystem The object managing the inputs controlling this player.
+   * @param grid
    */
-  public BomberMan(Vector position, double z, InputSystem inputSystem, BomberGame game) {
+  public BomberMan(
+      Vector position, double z, InputSystem inputSystem, BomberGame game, SquareGrid grid) {
     super(position, z);
     this.inputSystem = inputSystem;
     this.game = game;
+    this.grid = grid;
   }
 
   /**
@@ -53,10 +58,11 @@ public class BomberMan extends GameObject {
    * @param position The position (relative or absolute) of this object.
    * @param inputSystem The object managing the inputs controlling this player.
    */
-  public BomberMan(Vector position, InputSystem inputSystem, BomberGame game) {
+  public BomberMan(Vector position, InputSystem inputSystem, BomberGame game, SquareGrid grid) {
     super(position);
     this.inputSystem = inputSystem;
     this.game = game;
+    this.grid = grid;
   }
 
   /**
@@ -102,6 +108,7 @@ public class BomberMan extends GameObject {
       if (input.left) direction = new Vector(-dist, 0);
       if (input.right) direction = new Vector(dist, 0);
       target = pos.add(direction);
+      if (!grid.isValidMove(target)) target = this.getAbsolutePosition();
 
       if (input.bomb) dropBomb();
 
@@ -122,8 +129,7 @@ public class BomberMan extends GameObject {
 
   /** Drops bomb at current location. */
   private void dropBomb() {
-    GameObject bomb =
-        new NormalBomb(getAbsolutePosition(), -1, this.game);
+    GameObject bomb = new NormalBomb(getAbsolutePosition(), -1, this.game);
     game.adoptLater(bomb);
   }
 }
