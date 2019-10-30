@@ -2,9 +2,11 @@ package com.group0565.tsu.gameObjects;
 
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
+import android.graphics.Paint;
 
 import com.group0565.engine.gameobjects.Button;
 import com.group0565.engine.gameobjects.GameObject;
+import com.group0565.engine.gameobjects.GlobalPreferences;
 import com.group0565.engine.interfaces.Observable;
 import com.group0565.engine.interfaces.Observer;
 import com.group0565.math.Vector;
@@ -14,6 +16,7 @@ public class TsuMenu extends GameObject implements Observer, Observable {
     private Bitmap title;
     private Button titleButton;
     private boolean started;
+    private Paint titlePaint;
 
     @Override
     public void init() {
@@ -24,6 +27,8 @@ public class TsuMenu extends GameObject implements Observer, Observable {
                 title, title);
         this.adopt(titleButton);
         titleButton.registerObserver(this);
+        this.titlePaint = new Paint();
+        this.titlePaint.setARGB(255, 255, 0, 0);
         super.init();
     }
 
@@ -40,7 +45,11 @@ public class TsuMenu extends GameObject implements Observer, Observable {
     @Override
     public void draw(Canvas canvas) {
         super.draw(canvas);
-        canvas.drawRGB(255, 255, 255);
+        if (getGlobalPreferences().theme == GlobalPreferences.Theme.LIGHT)
+            canvas.drawRGB(255, 255, 255);
+        else if (getGlobalPreferences().theme == GlobalPreferences.Theme.DARK)
+            canvas.drawRGB(0, 0, 0);
+
     }
 
     public boolean hasStarted() {

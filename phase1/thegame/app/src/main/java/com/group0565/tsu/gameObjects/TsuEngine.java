@@ -6,6 +6,7 @@ import android.graphics.RectF;
 
 import com.group0565.engine.assets.TileSheet;
 import com.group0565.engine.gameobjects.GameObject;
+import com.group0565.engine.gameobjects.GlobalPreferences;
 import com.group0565.engine.gameobjects.InputEvent;
 import com.group0565.math.Vector;
 import com.group0565.tsu.enums.Align;
@@ -86,7 +87,7 @@ public class TsuEngine extends GameObject {
                 timer += ms;
                 if (timer >= 0) {
                     this.beatmap.getAudio().seekTo((int) timer);
-                    this.beatmap.getAudio().setVolume(1.0f);
+                    this.beatmap.getAudio().setVolume((float) getGlobalPreferences().volume);
                 }
             } else if (timer < this.beatmap.getAudio().progress()) {
                 timer = this.beatmap.getAudio().progress();
@@ -205,7 +206,10 @@ public class TsuEngine extends GameObject {
             this.judgementLine.setPosition(new Vector(MARGINS.getX(), canvas.getHeight() - MARGINS.getY()));
             this.judgementLine.setWidth(canvas.getWidth() - 2 * MARGINS.getX());
         }
-        canvas.drawRGB(255, 255, 255);
+        if (getGlobalPreferences().theme == GlobalPreferences.Theme.LIGHT)
+            canvas.drawRGB(255, 255, 255);
+        else if (getGlobalPreferences().theme == GlobalPreferences.Theme.DARK)
+            canvas.drawRGB(0, 0, 0);
         this.comboRenderer.setNumber(combo);
         double sh = (1 / 3d * Math.exp(-3 * Math.sqrt((timer - lastScore) / 250D)) + 1);
         this.comboRenderer.setHeight((float) (sh * COMBO_HEIGHT));

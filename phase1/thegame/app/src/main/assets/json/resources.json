@@ -35,8 +35,8 @@
   },
   "LanguagePack": {
     "Tsu": {
-      "en_us": {
-        "Path": "Tsu-en_us.json",
+      "en": {
+        "Path": "Tsu/en.json",
         "Default": "String Not Found"
       }
     }
