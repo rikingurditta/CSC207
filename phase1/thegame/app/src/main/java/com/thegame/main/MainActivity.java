@@ -16,6 +16,7 @@ import androidx.lifecycle.LifecycleOwner;
 
 import com.example.thegame.R;
 import com.group0565.bomberGame.BomberMainActivity;
+import com.group0565.racerGame.RacerMainActivity;
 import com.group0565.tsu.TsuActivity;
 import com.thegame.locale.LocaleManager;
 import com.thegame.login.LoginClick;
@@ -151,9 +152,8 @@ public class MainActivity extends AppCompatActivity implements MainView {
      */
     @Override
     public void goToGame3() {
-        throw new UnsupportedOperationException("Operation not yet implemented");
-        //    Intent intent = new Intent(this, new Class<>());
-        //    startActivity(intent);
+        Intent intent = new Intent(this, RacerMainActivity.class);
+        startActivity(intent);
     }
 
     /**
