@@ -7,7 +7,7 @@ import java.util.ArrayList;
 public class ObstacleManager extends GameObject {
 
 
-    long time;
+    long time = 0;
     RacerGame parent;
     ArrayList obstacleList;
 
@@ -16,22 +16,20 @@ public class ObstacleManager extends GameObject {
         this.obstacleList = new ArrayList();
     }
 
-    private void spawnObstacle() {
+     void spawnObstacle() {
         double d = Math.random();
-        int lane = getRNG().nextInt(3) + 1;
         if (d < 0.5) {
-            SquareObstacle obs = new SquareObstacle(lane, 0);
-            parent.adopt(new SquareObstacle(lane, 0));
+            this.adopt(new SquareObstacle(1, 0));
         }
         else {
-            parent.adopt(new CircleObstacle(lane, 0));
+            this.adopt(new CircleObstacle(2, 0));
         }
     }
 
     @Override
     public void update(long ms) {
         this.time += ms;
-        if (this.time >= 3000) {
+        if (this.time >= 2000) {
             spawnObstacle();
             this.time = 0;
         }

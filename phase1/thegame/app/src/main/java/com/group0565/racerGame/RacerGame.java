@@ -14,6 +14,7 @@ public class RacerGame extends GameObject implements Observer {
     private Button leftButton;
     private Button middleButton;
     private Button rightButton;
+    private ObstacleManager obsManager;
 
     RacerGame(Vector position) {
         super(position);
@@ -23,25 +24,15 @@ public class RacerGame extends GameObject implements Observer {
         leftButton = new Button(new Vector(100, 1750), new Vector(150, 150), getEngine().getGameAssetManager().getTileSheet("RacerButton", "RacerButton").getTile(0, 0), getEngine().getGameAssetManager().getTileSheet("RacerButton", "RacerButton").getTile(0, 0));
         middleButton = new Button(new Vector(475, 1750), new Vector(150, 150), getEngine().getGameAssetManager().getTileSheet("RacerButton", "RacerButton").getTile(0, 0), getEngine().getGameAssetManager().getTileSheet("RacerButton", "RacerButton").getTile(0, 0));
         rightButton = new Button(new Vector(850, 1750), new Vector(150, 150), getEngine().getGameAssetManager().getTileSheet("RacerButton", "RacerButton").getTile(0, 0), getEngine().getGameAssetManager().getTileSheet("RacerButton", "RacerButton").getTile(0, 0));
+        obsManager = new ObstacleManager(this);
         this.adopt(leftButton);
         this.adopt(middleButton);
         this.adopt(rightButton);
         leftButton.registerObserver(this);
         middleButton.registerObserver(this);
         rightButton.registerObserver(this);
-        this.adopt(new Racer(new Vector(500, 100), 0).setAbsolutePosition(new Vector(500, 100)));
-        spawnObstacle();
-    }
-
-    private void spawnObstacle() {
-        double d = Math.random();
-        int lane = getRNG().nextInt(3) + 1;
-        if (d < 0.5) {
-            this.adopt(new SquareObstacle(lane, 0));
-        }
-        else {
-            this.adopt(new CircleObstacle(lane, 0));
-        }
+        this.adopt(new Racer(new Vector(500, 1000), 0));
+        this.adopt(obsManager);
     }
 
     public void draw(Canvas canvas) {
