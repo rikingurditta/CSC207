@@ -6,6 +6,8 @@ import java.util.ArrayList;
 
 public class ObstacleManager extends GameObject {
 
+
+    long time;
     RacerGame parent;
     ArrayList obstacleList;
 
@@ -19,10 +21,19 @@ public class ObstacleManager extends GameObject {
         int lane = getRNG().nextInt(3) + 1;
         if (d < 0.5) {
             SquareObstacle obs = new SquareObstacle(lane, 0);
-            this.adopt(new SquareObstacle(lane, 0));
+            parent.adopt(new SquareObstacle(lane, 0));
         }
         else {
-            this.adopt(new CircleObstacle(lane, 0));
+            parent.adopt(new CircleObstacle(lane, 0));
+        }
+    }
+
+    @Override
+    public void update(long ms) {
+        this.time += ms;
+        if (this.time >= 3000) {
+            spawnObstacle();
+            this.time = 0;
         }
     }
 
