@@ -10,6 +10,20 @@ public interface BaseMVP {
   interface BasePresenter {
     /** Destroy all references in this object */
     void onDestroy();
+
+    /**
+     * Gets the current display language
+     *
+     * @return The current display language
+     */
+    String getDisplayLanguage();
+
+    /**
+     * Gets the current display theme
+     *
+     * @return The current display theme
+     */
+    String getAppTheme();
   }
 
   /** Base interface for view */

@@ -1,5 +1,6 @@
 package com.thegame.main;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
@@ -14,6 +15,7 @@ import androidx.cardview.widget.CardView;
 import androidx.lifecycle.LifecycleOwner;
 
 import com.example.thegame.R;
+import com.thegame.locale.LocaleManager;
 import com.thegame.login.LoginClick;
 import com.thegame.main.MainMVP.MainPresenter;
 import com.thegame.main.MainMVP.MainView;
@@ -27,13 +29,24 @@ public class MainActivity extends AppCompatActivity implements MainView {
   /** The MainPresenter reference */
   MainPresenter mainPresenter;
 
+    /**
+     * On attach of base context, set language for user selected language
+     *
+     * @param base The base context
+     */
+    @Override
+    protected void attachBaseContext(Context base) {
+        mainPresenter = MainPresenterInjector.inject(this);
+
+        super.attachBaseContext(
+                LocaleManager.updateResources(base, mainPresenter.getDisplayLanguage()));
+    }
+
   /** Set references to all objects and instantiate presenter */
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_main);
-
-    mainPresenter = MainPresenterInjector.inject(this);
   }
 
   /** Destroy all references in this object */

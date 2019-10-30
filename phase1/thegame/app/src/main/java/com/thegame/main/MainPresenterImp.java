@@ -1,5 +1,7 @@
 package com.thegame.main;
 
+import com.group0565.preferences.IPreferenceInteractor;
+import com.group0565.preferences.PreferencesInjector;
 import com.thegame.main.enums.GameID;
 import com.thegame.main.enums.MenuOptionID;
 import com.thegame.main.menuCommands.MenuDirector;
@@ -135,5 +137,29 @@ public class MainPresenterImp implements MainPresenter {
   @Override
   public void onDestroy() {
     this.mainView = null;
+  }
+
+  /**
+   * Gets the current display language
+   *
+   * @return The current display language
+   */
+  @Override
+  public String getDisplayLanguage() {
+    IPreferenceInteractor prefInteractor = PreferencesInjector.inject();
+
+    return prefInteractor.getLanguage();
+  }
+
+  /**
+   * Gets the current display theme
+   *
+   * @return The current display theme
+   */
+  @Override
+  public String getAppTheme() {
+    IPreferenceInteractor prefInteractor = PreferencesInjector.inject();
+
+    return prefInteractor.getTheme();
   }
 }
