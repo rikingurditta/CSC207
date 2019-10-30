@@ -15,7 +15,7 @@ public class HitObjectsRepositoryInjector {
                 .observeForever(
                         iUser -> {
                             if (iUser.isConnected()) {
-                                listener.onSuccess(new FirebaseHitObjectsRepository(iUser.getUid()));
+                                listener.onSuccess(new FirebaseSessionHitObjectsRepository(iUser.getUid()));
                             }
                         });
     }
@@ -29,6 +29,6 @@ public class HitObjectsRepositoryInjector {
          *
          * @param repository The returned repository from the injector
          */
-        void onSuccess(IHitObjectsRepository repository);
+        void onSuccess(ISessionHitObjectsRepository repository);
     }
 }
