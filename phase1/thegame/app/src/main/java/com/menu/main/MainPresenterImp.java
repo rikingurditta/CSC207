@@ -1,6 +1,5 @@
 package com.menu.main;
 
-import com.group0565.preferences.IPreferenceInteractor;
 import com.group0565.preferences.PreferencesInjector;
 import com.menu.main.enums.GameID;
 import com.menu.main.enums.MenuOptionID;
@@ -147,20 +146,17 @@ public class MainPresenterImp implements MainPresenter {
    */
   @Override
   public String getDisplayLanguage() {
-    IPreferenceInteractor prefInteractor = PreferencesInjector.inject();
-
-    return prefInteractor.getLanguage();
+      return PreferencesInjector.inject().getLanguage();
   }
 
   /**
-   * Gets the current display theme
+   * Gets the current display theme id
    *
    * @return The current display theme
    */
   @Override
   public int getAppTheme() {
-    IPreferenceInteractor prefInteractor = PreferencesInjector.inject();
-
-    return ThemeManager.getTheme(prefInteractor.getTheme());
+      int themeID = ThemeManager.getTheme(PreferencesInjector.inject().getTheme());
+      return themeID;
   }
 }
