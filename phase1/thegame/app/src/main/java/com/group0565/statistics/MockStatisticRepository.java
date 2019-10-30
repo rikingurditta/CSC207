@@ -20,7 +20,7 @@ public class MockStatisticRepository implements IAsyncStatisticsRepository {
      */
     private MutableLiveData<List<IStatistic>> liveStatistics;
 
-    public MockStatisticRepository() {
+    MockStatisticRepository() {
         userStatistics = new ArrayList<>();
         liveStatistics = new MutableLiveData<>();
     }
@@ -33,6 +33,16 @@ public class MockStatisticRepository implements IAsyncStatisticsRepository {
     @Override
     public LiveData<List<IStatistic>> getObservable() {
         return liveStatistics;
+    }
+
+    /**
+     * Gets the non-observable list of all objects using a callback
+     *
+     * @param callback The callback to execute on success
+     */
+    @Override
+    public void getAll(AsyncDataListCallBack<IStatistic> callback) {
+        callback.onDataReceived(userStatistics);
     }
 
     /**
@@ -79,5 +89,14 @@ public class MockStatisticRepository implements IAsyncStatisticsRepository {
         Log.d(
                 "MockStatisticRepository",
                 "delete: " + obj.getStatKey() + " with value " + obj.getStatVal());
+    }
+
+    /**
+     * Remove all child objects
+     */
+    @Override
+    public void deleteAll() {
+        userStatistics = new ArrayList<>();
+        liveStatistics.setValue(userStatistics);
     }
 }

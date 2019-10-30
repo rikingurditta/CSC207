@@ -10,6 +10,7 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -63,6 +64,32 @@ class FirebaseStatisticRepository implements IAsyncStatisticsRepository {
     }
 
     /**
+     * Gets the non-observable list of all objects using a callback
+     *
+     * @param callback The callback to execute on success
+     */
+    @Override
+    public void getAll(AsyncDataListCallBack<IStatistic> callback) {
+        this.mDatabase.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                userStatistics = new ArrayList<>();
+
+                dataSnapshot.getChildren().forEach(child -> {
+                    IStatistic preference = IStatisticFactory.createGameStatistic(child.getKey(), child.getValue());
+                    userStatistics.add(preference);
+                });
+
+                callback.onDataReceived(userStatistics);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+            }
+        });
+    }
+
+    /**
      * Updates a stat in the database
      *
      * @param stat The stat to update based on its key
@@ -90,6 +117,14 @@ class FirebaseStatisticRepository implements IAsyncStatisticsRepository {
     @Override
     public void delete(IStatistic stat) {
         mDatabase.child(stat.getStatKey()).removeValue();
+    }
+
+    /**
+     * Remove all child objects
+     */
+    @Override
+    public void deleteAll() {
+        mDatabase.removeValue();
     }
 
     /**

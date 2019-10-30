@@ -25,6 +25,13 @@ public class HitObject {
         this.inputEvent = inputEvent;
     }
 
+    /**
+     * Default constructor - DO NOT USE! REQUIRED FOR FIREBASE DB
+     */
+    public HitObject() {
+        // Default constructor required for calls to DataSnapshot.getStatVal(HitObject.class)
+    }
+
     public HitObject(JSONObject jsonObject) throws JSONException {
         super();
         this.msStart = jsonObject.getLong("Time");

@@ -10,6 +10,7 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,7 +18,7 @@ import java.util.List;
 /**
  * A Firebase implementation of the IAsyncPreferencesRepository
  */
-class FirebasePreferenceRepository implements IAsyncPreferencesRepository {
+public class FirebasePreferenceRepository implements IAsyncPreferencesRepository {
 
     /**
      * A reference to the Firebase database
@@ -61,6 +62,32 @@ class FirebasePreferenceRepository implements IAsyncPreferencesRepository {
     }
 
     /**
+     * Gets the non-observable list of all objects using a callback
+     *
+     * @param callback The callback to execute on success
+     */
+    @Override
+    public void getAll(AsyncDataListCallBack<IPreference> callback) {
+        this.mDatabase.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                userPreferences = new ArrayList<>();
+
+                dataSnapshot.getChildren().forEach(child -> {
+                    IPreference preference = UserPreferenceFactory.getUserPreference(child.getKey(), child.getValue());
+                    userPreferences.add(preference);
+                });
+
+                callback.onDataReceived(userPreferences);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+            }
+        });
+    }
+
+    /**
      * Updates a preference in the database
      *
      * @param preference The preference to update based on its key
@@ -88,6 +115,14 @@ class FirebasePreferenceRepository implements IAsyncPreferencesRepository {
     @Override
     public void delete(IPreference preference) {
         mDatabase.child(preference.getPrefName()).removeValue();
+    }
+
+    /**
+     * Remove all child objects
+     */
+    @Override
+    public void deleteAll() {
+        mDatabase.removeValue();
     }
 
     /**
