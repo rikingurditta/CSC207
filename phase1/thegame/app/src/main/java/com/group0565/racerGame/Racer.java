@@ -18,7 +18,7 @@ public class Racer extends GameObject {
     @Override
     public void draw(Canvas canvas) {
         Paint colour = new Paint();
-        colour.setARGB(255,0,0,0);
+        colour.setARGB(255,77,166,255);
 
         canvas.drawCircle(getAbsolutePosition().getX(),
                 getAbsolutePosition().getY(),
@@ -30,7 +30,7 @@ public class Racer extends GameObject {
         Vector position = this.getAbsolutePosition();
         Vector delta = new Vector();
         float speed = 0.1f;
-        delta = delta.add(new Vector(0, speed));
+        delta = delta.add(new Vector(-speed, 0));
         delta = delta.multiply(ms);
         this.setAbsolutePosition(position.add(delta));
     }

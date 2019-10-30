@@ -1,5 +1,10 @@
 {
   "TileSheets": {
+    "Test": {
+      "Test1": {
+        "Path": "Test1.png",
+        "TileWidth": 16,
+        "TileHeight": 16
     "Tsu": {
       "Score": {
         "Path": "Score.png",
@@ -15,6 +20,13 @@
         "Path": "Title.png",
         "TileWidth": 500,
         "TileHeight": 500
+      }
+    },
+    "RacerButton": {
+      "RacerButton": {
+        "Path": "Button.png",
+        "TileWidth": 256,
+        "TileHeight": 256
       }
     }
   },
