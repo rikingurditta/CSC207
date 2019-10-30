@@ -7,11 +7,14 @@ import android.graphics.RectF;
 import android.util.Log;
 
 import com.group0565.engine.assets.AudioAsset;
+import com.group0565.engine.gameobjects.Button;
 import com.group0565.engine.gameobjects.GameObject;
 import com.group0565.engine.gameobjects.InputEvent;
+import com.group0565.engine.interfaces.Observable;
+import com.group0565.engine.interfaces.Observer;
 import com.group0565.math.Vector;
 
-public class MainObject extends GameObject {
+public class MainObject extends GameObject implements Observer {
     private static final String TAG = "MainObject";
     private long total = 0;
     private int updates = 0;
@@ -19,6 +22,7 @@ public class MainObject extends GameObject {
     private Vector pos = new Vector();
     private int captured = 0;
     private AudioAsset audio;
+    private Button button;
 
     /**
      * Creates a new GameObject with z-level defaulting to 0.
@@ -34,8 +38,12 @@ public class MainObject extends GameObject {
 
     public void init(){
         audio = getEngine().getGameAssetManager().getAudioAsset("Test", "AudioTest");
+        button = new Button(this.getAbsolutePosition(), new Vector(50, 50), getEngine().getGameAssetManager().getTileSheet("Test", "Test1").getTile(0, 0), getEngine().getGameAssetManager().getTileSheet("Test", "Test1").getTile(0, 1));
+        button.registerObserver(this);
+        adopt(button);
         Log.i(TAG, getEngine().getSize().toString());
     }
+
 
     public void update(long ms) {
         //Increment our total time
@@ -75,8 +83,9 @@ public class MainObject extends GameObject {
 
     @Override
     public boolean processInput(InputEvent event) {
-        //Capture the event no matter what
-        captureEvent(event);
+        if (!super.processInput(event))
+            //Capture the event no matter what
+            captureEvent(event);
         return true;
     }
 
@@ -99,5 +108,10 @@ public class MainObject extends GameObject {
         canvas.drawText(getEngine().getGameAssetManager().getLanguagePack("Test", "en_us").getToken("Test"), 100, 100, p);
         canvas.drawText(getEngine().getGameAssetManager().getLanguagePack("Test", "en_us").getToken("Non-existing Name"), 100, 200, p);
         renders++;
+    }
+
+    @Override
+    public void observe(Observable observable) {
+        Log.i(TAG, "Ran");
     }
 }
