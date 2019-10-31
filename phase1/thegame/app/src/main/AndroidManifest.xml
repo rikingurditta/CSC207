@@ -33,6 +33,15 @@
         </activity>
 
         <activity
+            android:name="com.menu.statistics.StatisticsActivity"
+            android:parentActivityName="com.menu.main.MainActivity"
+            android:screenOrientation="portrait">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.menu.main.MainActivity" />
+        </activity>
+
+        <activity
             android:name="com.group0565.tsu.TsuActivity"
             android:configChanges="keyboardHidden|orientation"
             android:launchMode="singleTop"

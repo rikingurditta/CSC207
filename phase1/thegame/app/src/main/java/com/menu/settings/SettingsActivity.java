@@ -14,7 +14,7 @@ import com.menu.locale.LocaleManager;
 public class SettingsActivity extends AppCompatActivity implements SettingsMVP.SettingsView {
 
     /**
-     * The MainPresenter reference
+     * The StatisticsPresenter reference
      */
     SettingsMVP.SettingsPresenter settingsPresenter;
 

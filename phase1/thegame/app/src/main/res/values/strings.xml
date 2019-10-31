@@ -12,4 +12,5 @@
     <string name="lan_pref">Language</string>
     <string name="theme_pref">Theme</string>
     <string name="vol_pref">Volume</string>
+    <string name="action_statistics">Statistics</string>
 </resources>

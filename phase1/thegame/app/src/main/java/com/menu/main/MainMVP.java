@@ -44,34 +44,25 @@ public interface MainMVP {
      * An interface for the Main view
      */
     interface MainView extends BaseMVP.BaseView {
-        /**
-         * Show the "no user connected" screen
-         */
+        /** Show the "no user connected" screen */
         void showNoUserScreen();
 
-        /**
-         * Show the normal Main screen
-         */
+        /** Show the normal Main screen */
         void showNormalScreen();
 
-        /**
-         * Redirect to game 1 activity
-         */
+        /** Redirect to game 1 activity */
         void goToGame1();
 
-        /**
-         * Redirect to game 1 activity
-         */
+        /** Redirect to game 1 activity */
         void goToGame2();
 
-        /**
-         * Redirect to game 1 activity
-         */
+        /** Redirect to game 1 activity */
         void goToGame3();
 
-        /**
-         * Redirect to settings activity
-         */
+        /** Redirect to settings activity */
         void goToSettings();
-    }
+
+        /** Redirect to statistics activity */
+        void goToStatistics();
+  }
 }

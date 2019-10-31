@@ -1,5 +1,7 @@
 package com.group0565.statistics;
 
+import com.group0565.users.IUsersInteractor;
+
 /**
  * An injector that creates a Statistics Repository
  */
@@ -12,16 +14,16 @@ public class StatisticRepositoryInjector {
      * @param listener A listener for success of injection
      */
     public static void inject(String gameName, RepositoryInjectionListener listener) {
-//    IUsersInteractor.getInstance()
-//        .getUserObservable()
-//        .observeForever(
-//            iUser -> {
-//              if (iUser.isConnected()) {
-//                listener.onSuccess(new FirebaseStatisticRepository(iUser.getUid(), gameName));
-//              }
-//            });
+        IUsersInteractor.getInstance()
+                .getUserObservable()
+                .observeForever(
+                        iUser -> {
+                            if (iUser.isConnected()) {
+                                listener.onSuccess(new FirebaseStatisticRepository(iUser.getUid(), gameName));
+                            }
+                        });
 
-        listener.onSuccess(new MockStatisticRepository());
+//        listener.onSuccess(new MockStatisticRepository());
     }
 
     /**

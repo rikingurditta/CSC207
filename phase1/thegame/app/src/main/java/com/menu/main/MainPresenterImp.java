@@ -6,6 +6,7 @@ import com.menu.main.enums.MenuOptionID;
 import com.menu.main.menuCommands.MenuDirector;
 import com.menu.main.menuCommands.SettingsMenuCommand;
 import com.menu.main.menuCommands.SignOutMenuCommand;
+import com.menu.main.menuCommands.StatisticsMenuCommand;
 import com.menu.main.navigationCommands.Game1Command;
 import com.menu.main.navigationCommands.Game2Command;
 import com.menu.main.navigationCommands.Game3Command;
@@ -56,6 +57,7 @@ public class MainPresenterImp implements MainPresenter {
 
     menuDir = new MenuDirector();
     menuDir.register(MenuOptionID.SETTINGS, new SettingsMenuCommand(mainView));
+      menuDir.register(MenuOptionID.STATISTICS, new StatisticsMenuCommand(mainView));
     menuDir.register(MenuOptionID.SIGN_OUT, new SignOutMenuCommand(this));
 
     this.mUserInteractor = IUsersInteractor.getInstance();
