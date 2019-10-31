@@ -1,10 +1,12 @@
 package com.group0565.tsu.gameObjects;
 
 import com.group0565.engine.gameobjects.InputEvent;
-//import com.group0565.tsu.enums.Scores;
+import com.group0565.tsu.enums.Scores;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+
+//import com.group0565.tsu.enums.Scores;
 
 public class HitObject {
     private long msStart;
@@ -58,25 +60,25 @@ public class HitObject {
         return positionStart * (1 - t) + positionEnd * t;
     }
 
-//    public Scores computeScore(long[] distribution) {
-//        long delta = Math.abs(msStart - hitTime);
-//        Scores score = null;
-//        if (delta < distribution[0])
-//            score = Scores.S300;
-//        else if (delta < distribution[1])
-//            score = Scores.S150;
-//        else if (delta < distribution[2])
-//            score = Scores.S50;
-//        else
-//            score = passed ? Scores.S0 : Scores.SU;
-//        if (score != Scores.S0 && score != Scores.SU) {
-//            if (releaseTime > 0) {
-//                if (Math.abs(releaseTime - msEnd) > distribution[2])
-//                    return Scores.S0;
-//            }
-//        }
-//        return score;
-//    }
+    public Scores computeScore(long[] distribution) {
+        long delta = Math.abs(msStart - hitTime);
+        Scores score = null;
+        if (delta < distribution[0])
+            score = Scores.S300;
+        else if (delta < distribution[1])
+            score = Scores.S150;
+        else if (delta < distribution[2])
+            score = Scores.S50;
+        else
+            score = passed ? Scores.S0 : Scores.SU;
+        if (score != Scores.S0 && score != Scores.SU) {
+            if (releaseTime > 0) {
+                if (Math.abs(releaseTime - msEnd) > distribution[2])
+                    return Scores.S0;
+            }
+        }
+        return score;
+    }
 
     public long getMsStart() {
         return msStart;

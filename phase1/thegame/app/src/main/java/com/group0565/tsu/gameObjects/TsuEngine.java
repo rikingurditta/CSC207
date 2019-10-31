@@ -1,14 +1,18 @@
 package com.group0565.tsu.gameObjects;
 
+import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.RectF;
 
 import com.group0565.engine.assets.TileSheet;
+import com.group0565.engine.gameobjects.Button;
 import com.group0565.engine.gameobjects.GameObject;
-import com.group0565.engine.gameobjects.GlobalPreferences;
 import com.group0565.engine.gameobjects.InputEvent;
+import com.group0565.engine.interfaces.Observable;
+import com.group0565.engine.interfaces.Observer;
 import com.group0565.math.Vector;
+import com.group0565.theme.Themes;
 import com.group0565.tsu.enums.Align;
 import com.group0565.tsu.enums.Scores;
 
@@ -19,7 +23,7 @@ import org.json.JSONObject;
 import java.util.HashMap;
 import java.util.List;
 
-public class TsuEngine extends GameObject {
+public class TsuEngine extends GameObject implements Observer, Observable {
     private static final String TAG = "TsuEngine";
     private static final String BEATMAP_SET = "Tsu";
     private static final String BEATMAP_NAME = "BeatMap";
@@ -30,6 +34,11 @@ public class TsuEngine extends GameObject {
     private static final float TSCORE_HEIGHT = 50;
     private static final float COMBO_HEIGHT = 75;
     private static final float SCORE_Y = 0.10f;
+    private static final float BUTTON_SIZE = 75;
+    private static final float MARGIN = 75;
+    private static final float PAUSE_W = 500;
+    private static final float PAUSE_H = 300;
+    private Button pause;
     private Beatmap beatmap;
     private List<HitObject> objects;
     private long timer = 0;
@@ -40,6 +49,9 @@ public class TsuEngine extends GameObject {
     private TileSheet scoresTileSheet;
     private NumberRenderer comboRenderer;
     private NumberRenderer scoreRenderer;
+    private PauseMenu pauseMenu;
+    private boolean ended = false;
+    private boolean paused = false;
 
     private Scores score = null;
     private long lastScore = -1;
@@ -76,6 +88,21 @@ public class TsuEngine extends GameObject {
         Scores.S50.setBitmap(scoresTileSheet.getTile(0, 2));
         Scores.S0.setBitmap(scoresTileSheet.getTile(0, 3));
         Scores.SU.setBitmap(scoresTileSheet.getTile(0, 3));
+
+        Bitmap backBitmap = getEngine().getGameAssetManager().getTileSheet("Tsu", "Buttons").getTile(9, 0);
+        this.pause = new Button(this.getAbsolutePosition().add(new Vector(MARGIN, MARGIN)),
+                new Vector(BUTTON_SIZE, BUTTON_SIZE), backBitmap, backBitmap);
+        pause.registerObserver(this);
+        adopt(pause);
+
+        float cx = getEngine().getSize().getX();
+        float cy = getEngine().getSize().getY();
+        this.pauseMenu = new PauseMenu(new Vector((cx - PAUSE_W) / 2, (cy - PAUSE_H) / 2),
+                new Vector(PAUSE_W, PAUSE_H));
+        this.pauseMenu.registerObserver(this);
+        this.pauseMenu.setEnable(false);
+        this.pauseMenu.setZ(1);
+        adopt(pauseMenu);
         super.init();
     }
 
@@ -104,7 +131,26 @@ public class TsuEngine extends GameObject {
             }
 
             if (timer > objects.get(objects.size() - 1).getMsEnd() + 2000) {
-                endGame();
+                endGame(true);
+            }
+        }
+    }
+
+    @Override
+    public void observe(Observable observable) {
+        if (observable == pause) {
+            if (pause.isPressed()) {
+                this.pauseEngine();
+                this.pauseMenu.setEnable(true);
+            }
+        } else if (observable == pauseMenu) {
+            if (pauseMenu.isResume()) {
+                this.resumeEngine();
+                this.pauseMenu.setResume(false);
+                this.pauseMenu.setEnable(false);
+            } else if (pauseMenu.isExit()) {
+                this.pauseMenu.setExit(false);
+                endGame(false);
             }
         }
     }
@@ -118,19 +164,24 @@ public class TsuEngine extends GameObject {
         totalScore += score.getScore() * combo;
     }
 
-    private void endGame() {
-        try {
-            JSONArray array = new JSONArray();
-            for (HitObject object : objects) {
-                JSONObject jsonObject = new JSONObject();
-                jsonObject.put("HitTime", object.getHitTime());
-                jsonObject.put("ReleaseTime", object.getReleaseTime());
-                array.put(jsonObject);
+    private void endGame(boolean finished) {
+        if (finished) {
+            try {
+                JSONArray array = new JSONArray();
+                for (HitObject object : objects) {
+                    JSONObject jsonObject = new JSONObject();
+                    jsonObject.put("HitTime", object.getHitTime());
+                    jsonObject.put("ReleaseTime", object.getReleaseTime());
+                    array.put(jsonObject);
+                }
+                System.out.println(array.toString());
+            } catch (JSONException e) {
+                e.printStackTrace();
             }
-            System.out.println(array.toString());
-        } catch (JSONException e) {
-            e.printStackTrace();
         }
+        ended = true;
+        this.pauseEngine();
+        this.notifyObservers();
     }
 
     @Override
@@ -178,10 +229,14 @@ public class TsuEngine extends GameObject {
     @Override
     public boolean processInput(InputEvent event) {
         if (isEnable()) {
-            captureEvent(event);
-            return true;
+            if (super.processInput(event))
+                return true;
+            if (!pauseMenu.isEnable()) {
+                captureEvent(event);
+                return true;
+            }
         }
-        return super.processInput(event);
+        return false;
     }
 
     @Override
@@ -206,9 +261,9 @@ public class TsuEngine extends GameObject {
             this.judgementLine.setPosition(new Vector(MARGINS.getX(), canvas.getHeight() - MARGINS.getY()));
             this.judgementLine.setWidth(canvas.getWidth() - 2 * MARGINS.getX());
         }
-        if (getGlobalPreferences().theme == GlobalPreferences.Theme.LIGHT)
+        if (getGlobalPreferences().theme == Themes.LIGHT)
             canvas.drawRGB(255, 255, 255);
-        else if (getGlobalPreferences().theme == GlobalPreferences.Theme.DARK)
+        else if (getGlobalPreferences().theme == Themes.DARK)
             canvas.drawRGB(0, 0, 0);
         this.comboRenderer.setNumber(combo);
         double sh = (1 / 3d * Math.exp(-3 * Math.sqrt((timer - lastScore) / 250D)) + 1);
@@ -224,18 +279,29 @@ public class TsuEngine extends GameObject {
         this.beatmap.getAudio().setVolume(0);
         this.beatmap.getAudio().play();
         this.running = true;
+        this.paused = false;
     }
 
     public void pauseEngine() {
         this.running = false;
         this.beatmap.getAudio().pause();
         this.beatmap.getAudio().seekTo((int) timer);
+        this.paused = true;
     }
 
     public void resumeEngine() {
         this.beatmap.getAudio().seekTo((int) timer);
         this.beatmap.getAudio().play();
         this.running = true;
+        this.paused = false;
+    }
+
+    public void restartEngine() {
+        this.beatmap.getAudio().seekTo(0);
+        this.getChildren().clear();
+        this.init();
+        this.startEngine();
+        this.paused = false;
     }
 
     @Override
@@ -259,5 +325,22 @@ public class TsuEngine extends GameObject {
     public void stopEngine() {
         this.beatmap.getAudio().stop();
         this.running = false;
+        this.paused = false;
+    }
+
+    public boolean hasEnded() {
+        return ended;
+    }
+
+    public void setEnded(boolean ended) {
+        this.ended = ended;
+    }
+
+    public boolean isPaused() {
+        return paused;
+    }
+
+    public void setPaused(boolean paused) {
+        this.paused = paused;
     }
 }

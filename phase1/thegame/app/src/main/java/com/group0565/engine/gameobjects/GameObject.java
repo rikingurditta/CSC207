@@ -308,7 +308,7 @@ public class GameObject implements LifecycleListener {
     public boolean processInput(InputEvent event) {
         if (!enable)
             return false;
-        for (GameObject child : this.getChildren().values())
+        for (GameObject child : this.children.descendingMap().values())
             if (child.processInput(event))
                 return true;
         return false;

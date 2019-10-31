@@ -1,3 +1,5 @@
 {
-  "StartButton": "Tap To Start"
+  "StartButton": "Tap To Start",
+  "Volume": "Volume",
+  "Difficulty": "Difficulty"
 }

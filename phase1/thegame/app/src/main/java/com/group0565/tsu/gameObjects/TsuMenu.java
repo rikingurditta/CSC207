@@ -7,19 +7,26 @@ import android.graphics.Rect;
 
 import com.group0565.engine.gameobjects.Button;
 import com.group0565.engine.gameobjects.GameObject;
-import com.group0565.engine.gameobjects.GlobalPreferences;
 import com.group0565.engine.interfaces.Observable;
 import com.group0565.engine.interfaces.Observer;
 import com.group0565.math.Vector;
+import com.group0565.theme.Themes;
+
 
 public class TsuMenu extends GameObject implements Observer, Observable {
     private static final float TITLE_SIZE = 500;
     private static final float SETTINGS_SIZE = 900;
+    private static final float BUTTON_SIZE = 75;
+    private static final float MARGIN = 75;
     private Bitmap title;
     private Button titleButton;
-    private boolean started;
+    private boolean started = false;
     private Paint titlePaint;
     private SettingsMenu settingsMenu;
+    private Button settingsButton;
+    private Button languageButton;
+    private Button statsButton;
+    private boolean stats = false;
 
     @Override
     public void init() {
@@ -36,7 +43,27 @@ public class TsuMenu extends GameObject implements Observer, Observable {
 
         this.settingsMenu = new SettingsMenu(new Vector((cx - SETTINGS_SIZE) / 2, (cy - SETTINGS_SIZE) / 2),
                 new Vector(SETTINGS_SIZE, SETTINGS_SIZE));
+        this.settingsMenu.setZ(1);
+        this.settingsMenu.setEnable(false);
         this.adopt(settingsMenu);
+
+        Bitmap settingsButtonBitmap = getEngine().getGameAssetManager().getTileSheet("Tsu", "Buttons").getTile(1, 0);
+        this.settingsButton = new Button(new Vector(cx - BUTTON_SIZE - MARGIN, cy - BUTTON_SIZE - MARGIN),
+                new Vector(BUTTON_SIZE, BUTTON_SIZE), settingsButtonBitmap, settingsButtonBitmap);
+        settingsButton.registerObserver(this);
+        adopt(settingsButton);
+
+        Bitmap languageButtonBitmap = getEngine().getGameAssetManager().getTileSheet("Tsu", "Buttons").getTile(4, 0);
+        this.languageButton = new Button(new Vector(cx - BUTTON_SIZE - MARGIN, MARGIN),
+                new Vector(BUTTON_SIZE, BUTTON_SIZE), languageButtonBitmap, languageButtonBitmap);
+        languageButton.registerObserver(this);
+        adopt(languageButton);
+
+        Bitmap statsBitmap = getEngine().getGameAssetManager().getTileSheet("Tsu", "Buttons").getTile(7, 0);
+        this.statsButton = new Button(new Vector(MARGIN, cy - BUTTON_SIZE - MARGIN),
+                new Vector(BUTTON_SIZE, BUTTON_SIZE), statsBitmap, statsBitmap);
+        statsButton.registerObserver(this);
+        adopt(statsButton);
         super.init();
     }
 
@@ -47,15 +74,32 @@ public class TsuMenu extends GameObject implements Observer, Observable {
                 started = true;
                 this.notifyObservers();
             }
+        } else if (observable == settingsButton) {
+            if (settingsButton.isPressed()) {
+                settingsMenu.setEnable(true);
+            }
+        } else if (observable == languageButton) {
+            if (languageButton.isPressed()) {
+                if (getGlobalPreferences().language.equals("en")) {
+                    getGlobalPreferences().language = "fr";
+                } else if (getGlobalPreferences().language.equals("fr")) {
+                    getGlobalPreferences().language = "en";
+                }
+            }
+        } else if (observable == statsButton) {
+            if (statsButton.isPressed()) {
+                stats = true;
+                this.notifyObservers();
+            }
         }
     }
 
     @Override
     public void draw(Canvas canvas) {
         super.draw(canvas);
-        if (getGlobalPreferences().theme == GlobalPreferences.Theme.LIGHT)
+        if (getGlobalPreferences().theme == Themes.LIGHT)
             canvas.drawRGB(255, 255, 255);
-        else if (getGlobalPreferences().theme == GlobalPreferences.Theme.DARK)
+        else if (getGlobalPreferences().theme == Themes.DARK)
             canvas.drawRGB(0, 0, 0);
         String text = getEngine().getGameAssetManager().getLanguagePack("Tsu", getGlobalPreferences().language).getToken("StartButton");
         Rect rect = new Rect();
@@ -71,5 +115,13 @@ public class TsuMenu extends GameObject implements Observer, Observable {
 
     public void setStarted(boolean started) {
         this.started = started;
+    }
+
+    public boolean isStats() {
+        return stats;
+    }
+
+    public void setStats(boolean stats) {
+        this.stats = stats;
     }
 }
