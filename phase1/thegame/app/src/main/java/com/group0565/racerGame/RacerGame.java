@@ -13,6 +13,7 @@ import com.group0565.math.Vector;
 import com.group0565.statistics.IAsyncStatisticsRepository;
 import com.group0565.statistics.IStatisticFactory;
 import com.group0565.statistics.StatisticRepositoryInjector;
+import com.group0565.theme.Themes;
 
 import java.util.Date;
 
@@ -59,7 +60,7 @@ public class RacerGame extends GameObject implements Observer {
 
     public void draw(Canvas canvas) {
         super.draw(canvas);
-        if (getGlobalPreferences().theme == GlobalPreferences.Theme.LIGHT) {
+        if (getGlobalPreferences().theme == Themes.LIGHT) {
             // Set background to white
             canvas.drawRGB(255, 255, 255);
         } else {
