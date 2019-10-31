@@ -1,7 +1,6 @@
 package com.group0565.racerGame;
 
 import android.graphics.Canvas;
-import android.graphics.Paint;
 
 import com.group0565.engine.gameobjects.GameObject;
 import com.group0565.math.Vector;
@@ -31,6 +30,8 @@ public abstract class Obstacle extends GameObject {
         if (Math.abs(thisY - racerY) <= 50 && lane == obsManager.parent.getRacer().getLane()){
             collided = true;
             obsManager.update(obsManager.parent.getTotalTime() + obsManager.parent.getSpawnTime());
+            obsManager.parent.setLive();
+            obsManager.parent.disableAll();
         }
     }
 

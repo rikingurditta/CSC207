@@ -23,6 +23,7 @@ public class RacerGame extends GameObject implements Observer {
     private long startTime;
     private long totalTime = 0;
     private long spawnTime = 0;
+    private boolean live = true;
     private Button leftButton;
     private Button middleButton;
     private Button rightButton;
@@ -127,8 +128,18 @@ public class RacerGame extends GameObject implements Observer {
         return spawnTime;
     }
 
+    void setLive() {
+        live = !live;
+    }
+
+    void disableAll() {
+        racer.setEnable(false);
+        obsManager.setEnable(false);
+    }
+
     @Override
     public void update(long ms) {
+        if (live) {
         this.spawnTime += ms;
         this.totalTime += ms;
         if (this.spawnTime >= 2000) {
@@ -138,6 +149,7 @@ public class RacerGame extends GameObject implements Observer {
                 // You can always use put (also for new objects) because of the way that Firebase DB works
                 myStatRepo.put(IStatisticFactory.createGameStatistic("TimeSurvived" + startTime, totalTime));
             }
+        }
         }
     }
 }
