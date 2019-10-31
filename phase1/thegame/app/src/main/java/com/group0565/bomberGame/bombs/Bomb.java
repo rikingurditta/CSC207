@@ -3,13 +3,14 @@ package com.group0565.bomberGame.bombs;
 import android.graphics.Paint;
 
 import com.group0565.bomberGame.BomberGame;
-import com.group0565.engine.gameobjects.GameObject;
-import com.group0565.math.Vector;
+import com.group0565.bomberGame.Coords;
+import com.group0565.bomberGame.GridObject;
+import com.group0565.bomberGame.SquareGrid;
 
-public abstract class Bomb extends GameObject {
+public abstract class Bomb extends GridObject {
 
   private int strength = 2;
-  private int simotanousNumBomb = 1;
+  private int numSimultaneousBombs = 1;
   private long bombExplodeTime = 5000;
   private long explosionDuration = 1000;
   boolean duringExplosion = false;
@@ -18,35 +19,35 @@ public abstract class Bomb extends GameObject {
 
   private BomberGame game;
 
-  public Bomb(Vector position, int z, BomberGame game) {
-    super(position, z);
+  public Bomb(Coords position, int z, BomberGame game, SquareGrid grid) {
+    super(position, z, grid);
     this.game = game;
     this.p = new Paint();
     p.setARGB(123, 255, 213, 0);
   }
 
-  public void increaseStregth() {
+  public void increaseStrength() {
     strength += 1;
   }
 
-  public void decreaseStregth() {
+  public void decreaseStrength() {
     strength -= 1;
   }
 
-  public void increasesimotanousNumBomb() {
-    simotanousNumBomb += 1;
+  public void increaseNumSumultaneousBombs() {
+    numSimultaneousBombs += 1;
   }
 
-  public void decreasesimotanousNumBomb() {
-    simotanousNumBomb -= 1;
+  public void decreaseNumSumultaneousBombs() {
+    numSimultaneousBombs -= 1;
   }
 
   public int getStrength() {
     return strength;
   }
 
-  public int getSimotanousNumBomb() {
-    return simotanousNumBomb;
+  public int getNumSimultaneousBombs() {
+    return numSimultaneousBombs;
   }
 
   @Override
@@ -60,13 +61,24 @@ public abstract class Bomb extends GameObject {
         p.setARGB(180, 243, 114, 32);
       }
     } else if (bombTimer < bombExplodeTime + explosionDuration) {
+      if (!duringExplosion) {
+        System.out.println("explosion " + this.getUUID());
+        explode();
+      }
       // actual explosion
       p.setARGB(200, 255, 30, 32);
       bombTimer += ms;
       duringExplosion = true;
     } else {
       // remove from game
+      grid.remove(this);
       game.removeLater(this);
     }
+  }
+
+  public abstract void explode();
+
+  public boolean isBomb() {
+    return false;
   }
 }

@@ -1,6 +1,7 @@
 package com.group0565.bomberGame;
 
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.Paint;
 
 import com.group0565.bomberGame.bombs.NormalBomb;
@@ -10,10 +11,9 @@ import com.group0565.engine.gameobjects.GameObject;
 import com.group0565.math.Vector;
 
 /** A BomberMan, aka a player in the game. */
-public class BomberMan extends GameObject {
-  /** The object representing the state of the inputs for this player. */
-  private BomberInput input = new BomberInput();
+public class BomberMan extends GridObject {
 
+  /** The game this BomberMan belongs to. */
   private BomberGame game;
 
   /**
@@ -34,35 +34,44 @@ public class BomberMan extends GameObject {
   /** The speed at which this player moves, in units per millisecond. */
   private float speed = 2.0f / 1000;
 
-  private SquareGrid grid;
+  private int hp;
 
   /**
    * Constructs a new BomberMan.
    *
-   * @param position The position (relative or absolute) of this object.
+   * @param position The position of this object on the grid.
    * @param z The z-level of the object.
    * @param inputSystem The object managing the inputs controlling this player.
-   * @param grid
+   * @param game The game this player belongs to.
+   * @param grid The grid this player is within.
    */
   public BomberMan(
-      Vector position, double z, InputSystem inputSystem, BomberGame game, SquareGrid grid) {
-    super(position, z);
+      Coords position,
+      double z,
+      InputSystem inputSystem,
+      BomberGame game,
+      SquareGrid grid,
+      int hp) {
+    super(position, z, grid);
     this.inputSystem = inputSystem;
     this.game = game;
-    this.grid = grid;
+    this.hp = hp;
   }
 
   /**
    * Constructs a new BomberMan.
    *
-   * @param position The position (relative or absolute) of this object.
+   * @param position The position of this object on the grid.
    * @param inputSystem The object managing the inputs controlling this player.
+   * @param game The game this player belongs to.
+   * @param grid The grid this player is within.
    */
-  public BomberMan(Vector position, InputSystem inputSystem, BomberGame game, SquareGrid grid) {
-    super(position);
+  public BomberMan(
+      Coords position, InputSystem inputSystem, BomberGame game, SquareGrid grid, int hp) {
+    super(position, grid);
     this.inputSystem = inputSystem;
     this.game = game;
-    this.grid = grid;
+    this.hp = hp;
   }
 
   /**
@@ -72,16 +81,15 @@ public class BomberMan extends GameObject {
    */
   @Override
   public void draw(Canvas canvas) {
-    // Set our color to Red
+    Vector pos = getAbsolutePosition();
     Paint p = new Paint();
-    p.setARGB(255, 0, 255, 0);
+    p.setColor(Color.GREEN);
     // Draw an rectangle at our touch position
-    canvas.drawRect(
-        getAbsolutePosition().getX(),
-        getAbsolutePosition().getY(),
-        getAbsolutePosition().getX() + 100,
-        getAbsolutePosition().getY() + 100,
-        p);
+    canvas.drawRect(pos.getX(), pos.getY(),pos.getX() + 100, pos.getY() + 100, p);
+    Paint textPaint = new Paint();
+    textPaint.setTextSize(50);
+    textPaint.setColor(Color.BLACK);
+    canvas.drawText(Integer.toString(hp), pos.getX(), pos.getY(), textPaint);
   }
 
   /**
@@ -92,24 +100,34 @@ public class BomberMan extends GameObject {
   @Override
   public void update(long ms) {
 
+    if (hp <= 0) {
+      grid.remove(this);
+      game.removeLater(this);
+    }
+
     Vector pos = this.getAbsolutePosition();
 
     // if the player is ready for the next direction input
     if (readyToMove) {
       // get the next input from inputSystem
-      input = inputSystem.nextInput();
+      BomberInput input = inputSystem.nextInput();
 
-      float dist = 100; // temp, will be updated later to use actual distance between tiles
+      // calculate the grid position to move to
+      Coords gridDir = new Coords();
+      if (input.up) gridDir = new Coords(0, -1);
+      if (input.down) gridDir = new Coords(0, 1);
+      if (input.left) gridDir = new Coords(-1, 0);
+      if (input.right) gridDir = new Coords(1, 0);
 
-      // calculate the position to move to
-      direction = new Vector();
-      if (input.up) direction = new Vector(0, -dist);
-      if (input.down) direction = new Vector(0, dist);
-      if (input.left) direction = new Vector(-dist, 0);
-      if (input.right) direction = new Vector(dist, 0);
-      target = pos.add(direction);
-      if (!grid.isValidMove(target)) target = this.getAbsolutePosition();
-
+      Coords targetGridCoords = gridCoords.add(gridDir);
+      if (!grid.isValidMove(this, targetGridCoords)) {
+        target = this.getAbsolutePosition();
+        direction = new Vector();
+      } else {
+        target = grid.gridCoordsToAbsolutePosition(targetGridCoords);
+        gridCoords = targetGridCoords;
+        direction = target.subtract(this.getAbsolutePosition());
+      }
       if (input.bomb) dropBomb();
 
       readyToMove = false;
@@ -128,8 +146,21 @@ public class BomberMan extends GameObject {
   }
 
   /** Drops bomb at current location. */
-  private void dropBomb() {
-    GameObject bomb = new NormalBomb(getAbsolutePosition(), -1, this.game);
+  private boolean dropBomb() {
+    if (!grid.canPlaceBomb(gridCoords)) {
+      return false;
+    }
+    GameObject bomb = new NormalBomb(gridCoords, -1, this.game, grid);
     game.adoptLater(bomb);
+    return true;
+  }
+
+  public void damage(int d) {
+    hp -= d;
+  }
+
+  @Override
+  public boolean isBomb() {
+    return false;
   }
 }
