@@ -10,11 +10,12 @@ public abstract class Obstacle extends GameObject {
 
     private int lane;
     private ObstacleManager obsManager;
+    // Need to add falling faster over time functionality
     private float speed = 0.1f;
     private boolean collided = false;
 
-    Obstacle(double z, int lane, ObstacleManager parent) {
-        super(new Vector(lane * 500, 0), z);
+    Obstacle(int lane, double z, ObstacleManager parent) {
+        super(new Vector(lane * 275, 0), z);
         this.lane = lane;
         this.obsManager = parent;
     }

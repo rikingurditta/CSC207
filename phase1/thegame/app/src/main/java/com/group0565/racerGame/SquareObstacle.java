@@ -8,7 +8,7 @@ import com.group0565.math.Vector;
 public class SquareObstacle extends Obstacle {
 
     SquareObstacle(int lane, double z, ObstacleManager parent) {
-        super(z, lane, parent);
+        super(lane, z, parent);
     }
 
     @Override

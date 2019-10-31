@@ -2,8 +2,6 @@ package com.group0565.racerGame;
 
 import com.group0565.engine.gameobjects.GameObject;
 
-import java.util.ArrayList;
-
 public class ObstacleManager extends GameObject {
 
 
@@ -16,11 +14,12 @@ public class ObstacleManager extends GameObject {
 
      private void spawnObstacle() {
         double d = Math.random();
+        int randomLane = 1 + (int)(Math.random() * ((3 - 1) + 1));
         if (d < 0.5) {
-            this.adopt(new SquareObstacle(1, 0, this));
+            this.adopt(new SquareObstacle(randomLane, 0, this));
         }
         else {
-            this.adopt(new CircleObstacle(2, 0, this));
+            this.adopt(new CircleObstacle(randomLane, 0, this));
         }
     }
 
