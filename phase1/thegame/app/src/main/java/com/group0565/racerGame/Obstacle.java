@@ -10,6 +10,8 @@ public abstract class Obstacle extends GameObject {
 
     private int lane;
     private ObstacleManager obsManager;
+    private float speed = 0.1f;
+    private boolean collided = false;
 
     Obstacle(double z, int lane, ObstacleManager parent) {
         super(new Vector(lane * 500, 0), z);
@@ -22,14 +24,20 @@ public abstract class Obstacle extends GameObject {
      * collided.
      * @return Returns True or False depending on whether or not the Obstacle has hit the Racer.
      * */
-    public boolean checkCollision() {
-        float y = obsManager.parent.getRacer().getAbsolutePosition().getY();
-        if (3 == 3){
-            return true;
+    private void checkCollision() {
+        float racerY = obsManager.parent.getRacer().getAbsolutePosition().getY();
+        float thisY = this.getAbsolutePosition().getY();
+        if (Math.abs(thisY - racerY) <= 50 && lane == obsManager.parent.getRacer().getLane()){
+            collided = true;
         }
-        else {
-            return false;
-        }
+    }
+
+    /**
+     * getter method that returns whether or not this object has been collided with
+     * @return
+     */
+    public boolean isCollided() {
+        return collided;
     }
 
     @Override
@@ -39,9 +47,9 @@ public abstract class Obstacle extends GameObject {
     public void update(long ms) {
         Vector position = this.getAbsolutePosition();
         Vector delta = new Vector();
-        float speed = 0.1f;
         delta = delta.add(new Vector(0, speed));
         delta = delta.multiply(ms);
         this.setAbsolutePosition(position.add(delta));
+        checkCollision();
     }
 }

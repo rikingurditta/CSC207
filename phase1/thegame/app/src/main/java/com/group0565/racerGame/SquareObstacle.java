@@ -14,7 +14,13 @@ public class SquareObstacle extends Obstacle {
     @Override
     public void draw(Canvas canvas) {
         Paint colour = new Paint();
-        colour.setARGB(255,0,0,0);
+
+        if (isCollided()) {
+            colour.setARGB(255, 0, 255, 0);
+        }
+        else {
+            colour.setARGB(255, 255,0,0);
+        }
 
         canvas.drawRect(getAbsolutePosition().getX() - 75,
                 getAbsolutePosition().getY() - 75, getAbsolutePosition().getX() + 75,
