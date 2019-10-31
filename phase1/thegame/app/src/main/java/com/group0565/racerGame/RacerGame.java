@@ -33,6 +33,12 @@ public class RacerGame extends GameObject implements Observer {
 
     RacerGame(Vector position) {
         super(position);
+
+        listener =
+                repository -> {
+                    myStatRepo = repository;
+                };
+        StatisticRepositoryInjector.inject(TAG, listener);
     }
 
     public void init(){
@@ -51,11 +57,7 @@ public class RacerGame extends GameObject implements Observer {
         obsManager = new ObstacleManager(this);
         this.adopt(obsManager);
         super.init();
-        listener =
-                repository -> {
-                    myStatRepo = repository;
-                };
-        StatisticRepositoryInjector.inject(TAG, listener);
+
     }
 
     public void draw(Canvas canvas) {
