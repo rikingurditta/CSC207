@@ -7,14 +7,19 @@ import com.group0565.math.Vector;
 
 public class CircleObstacle extends Obstacle {
 
-    CircleObstacle(int lane, double z) {
-        super(z, lane);
+    CircleObstacle(int lane, double z, ObstacleManager parent) {
+        super(lane, z, parent);
     }
 
     @Override
     public void draw(Canvas canvas) {
         Paint colour = new Paint();
-        colour.setARGB(255,0,0,0);
+        if (isCollided()) {
+            colour.setARGB(255, 0, 255, 0);
+        }
+        else {
+            colour.setARGB(255, 255,0,0);
+        }
 
         canvas.drawCircle(getAbsolutePosition().getX(),
                 getAbsolutePosition().getY(),

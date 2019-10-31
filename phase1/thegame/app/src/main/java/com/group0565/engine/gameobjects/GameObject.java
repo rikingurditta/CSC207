@@ -104,22 +104,9 @@ public class GameObject implements LifecycleListener {
     }
 
     /**
-     * Creates a new GameObject located at position, either relative to its parent
-     * if relative is true, otherwise as an absolute position, character size charsize, and z-level z.
-     * <p>
-     * If parent is not null, this object is automatically added as a child to parent.
-     * <p>
-     * The z level determines the the rendering order of this object relative to its siblings.
-     *
-     * @param position The position (relative or absolute) of this object.
-     * @param z        The z-level of the object.
+     * The global preferences
      */
-    public GameObject(Vector position, double z) {
-        this.uuid = UUID.randomUUID();
-        this.z = z;
-        this.setAbsolutePosition(position);
-        GameObject.reference.put(this.uuid, new WeakReference<>(this));
-    }
+    private GlobalPreferences globalPreferences;
 
     /**
      * Creates a new GameObject with z-level defaulting to 0.
@@ -153,6 +140,25 @@ public class GameObject implements LifecycleListener {
      */
     public static Random getRNG() {
         return RNG;
+    }
+
+    /**
+     * Creates a new GameObject located at position, either relative to its parent
+     * if relative is true, otherwise as an absolute position, character size charsize, and z-level z.
+     * <p>
+     * If parent is not null, this object is automatically added as a child to parent.
+     * <p>
+     * The z level determines the the rendering order of this object relative to its siblings.
+     *
+     * @param position The position (relative or absolute) of this object.
+     * @param z        The z-level of the object.
+     */
+    public GameObject(Vector position, double z) {
+        this.uuid = UUID.randomUUID();
+        this.z = z;
+        this.setAbsolutePosition(position);
+        this.setGlobalPreferences(new GlobalPreferences());
+        GameObject.reference.put(this.uuid, new WeakReference<>(this));
     }
 
     /**
@@ -226,6 +232,7 @@ public class GameObject implements LifecycleListener {
         if (!this.getChildren().containsKey(obj.uuid))
             this.getChildren().put(obj.uuid, obj);
         obj.invalidateCache();
+        obj.setGlobalPreferences(this.globalPreferences);
     }
 
     /**
@@ -512,6 +519,29 @@ public class GameObject implements LifecycleListener {
      */
     public void setEnable(boolean enable) {
         this.enable = enable;
+    }
+
+    /**
+     * Getter for the GlobalPreferences
+     *
+     * @return The global preferences
+     */
+    public GlobalPreferences getGlobalPreferences() {
+        return globalPreferences;
+    }
+
+    /**
+     * Setter for global preferences
+     *
+     * @param globalPreferences The new Global Preferences
+     * @return This object to allow chaining
+     */
+    public GameObject setGlobalPreferences(GlobalPreferences globalPreferences) {
+        this.globalPreferences = globalPreferences;
+        for (GameObject child : this.children.values()) {
+            child.setGlobalPreferences(globalPreferences);
+        }
+        return this;
     }
 
     /**
