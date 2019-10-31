@@ -12,15 +12,18 @@ import com.group0565.engine.interfaces.Observer;
 import com.group0565.math.Vector;
 import com.group0565.statistics.IAsyncStatisticsRepository;
 import com.group0565.statistics.IStatisticFactory;
+import com.group0565.statistics.StatisticRepositoryInjector;
 
 public class RacerGame extends GameObject implements Observer {
 
+    private static final String TAG = "RacerGame";
     private Button leftButton;
     private Button middleButton;
     private Button rightButton;
     private ObstacleManager obsManager;
     private Racer racer;
     private IAsyncStatisticsRepository myStatRepo;
+    StatisticRepositoryInjector.RepositoryInjectionListener listener;
 
     RacerGame(Vector position) {
         super(position);
@@ -41,6 +44,11 @@ public class RacerGame extends GameObject implements Observer {
         obsManager = new ObstacleManager(this);
         this.adopt(obsManager);
         super.init();
+        listener =
+                repository -> {
+                    myStatRepo = repository;
+                };
+        StatisticRepositoryInjector.inject(TAG, listener);
     }
 
     public void draw(Canvas canvas) {
