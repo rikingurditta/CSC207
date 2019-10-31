@@ -70,23 +70,28 @@ class FirebaseStatisticRepository implements IAsyncStatisticsRepository {
      */
     @Override
     public void getAll(AsyncDataListCallBack<IStatistic> callback) {
-        this.mDatabase.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                userStatistics = new ArrayList<>();
+        this.mDatabase.addListenerForSingleValueEvent(
+                new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                        userStatistics = new ArrayList<>();
 
-                dataSnapshot.getChildren().forEach(child -> {
-                    IStatistic preference = IStatisticFactory.createGameStatistic(child.getKey(), child.getValue());
-                    userStatistics.add(preference);
+                        dataSnapshot
+                                .getChildren()
+                                .forEach(
+                                        child -> {
+                                            IStatistic preference =
+                                                    IStatisticFactory.createGameStatistic(child.getKey(), child.getValue());
+                                            userStatistics.add(preference);
+                                        });
+
+                        callback.onDataReceived(userStatistics);
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
+                    }
                 });
-
-                callback.onDataReceived(userStatistics);
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-            }
-        });
     }
 
     /**
@@ -136,7 +141,7 @@ class FirebaseStatisticRepository implements IAsyncStatisticsRepository {
          * A child was added to DB - add to LiveData to notify listeners
          *
          * @param dataSnapshot The snapshot of the changed data
-         * @param s            A string description of the change
+         * @param s A string description of the change
          */
         @Override
         public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
@@ -145,14 +150,14 @@ class FirebaseStatisticRepository implements IAsyncStatisticsRepository {
 
             userStatistics.add(new GameStatistic<>(statKey, statValue));
 
-            liveStatistics.setValue(userStatistics);
+            updateLiveData();
         }
 
         /**
          * A child was changed in DB - change LiveData to notify listeners
          *
          * @param dataSnapshot The snapshot of the changed data
-         * @param s            A string description of the change
+         * @param s A string description of the change
          */
         @Override
         public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
@@ -165,7 +170,7 @@ class FirebaseStatisticRepository implements IAsyncStatisticsRepository {
                 }
             }
 
-            liveStatistics.setValue(userStatistics);
+            updateLiveData();
         }
 
         /**
@@ -179,14 +184,14 @@ class FirebaseStatisticRepository implements IAsyncStatisticsRepository {
 
             userStatistics.removeIf(preference -> preference.getStatKey().equals(statKey));
 
-            liveStatistics.setValue(userStatistics);
+            updateLiveData();
         }
 
         /**
          * A child was moved in DB - ignore
          *
          * @param dataSnapshot The snapshot of the changed data
-         * @param s            A string description of the change
+         * @param s A string description of the change
          */
         @Override
         public void onChildMoved(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
@@ -199,6 +204,17 @@ class FirebaseStatisticRepository implements IAsyncStatisticsRepository {
          */
         @Override
         public void onCancelled(@NonNull DatabaseError databaseError) {
+        }
+
+        /**
+         * Safely updates the live data
+         */
+        private void updateLiveData() {
+            try {
+                liveStatistics.setValue(userStatistics);
+            } catch (IllegalStateException ex) {
+                liveStatistics.postValue(userStatistics);
+            }
         }
     }
 }
