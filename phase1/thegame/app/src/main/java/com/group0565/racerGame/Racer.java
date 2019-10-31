@@ -10,8 +10,20 @@ import java.util.HashSet;
 
 public class Racer extends GameObject {
 
+    private int lane;
+
     public Racer(Vector position, double z) {
         super(position, z);
+        this.lane = 0;
+    }
+
+
+    /**
+     * Setter method for the lane attribute of this Racer Object
+     * @param lane Set the lane attribute to parameter lane.
+     */
+    public void setLane(int lane) {
+        this.lane = lane;
     }
 
     @Override

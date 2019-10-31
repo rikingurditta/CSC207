@@ -15,6 +15,20 @@ public abstract class Obstacle extends GameObject {
         this.lane = lane;
     }
 
+    /**
+     * checks if this Obstacle object has collided with a Racer. Returns True if the object has
+     * collided.
+     * @return Returns True or False depending on whether or not the Obstacle has hit the Racer.
+     * */
+    public boolean checkCollision() {
+        if (this.getAbsolutePosition().getY() == 1750) {
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
+
     @Override
     public abstract void draw(Canvas canvas);
 

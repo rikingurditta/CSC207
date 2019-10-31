@@ -54,10 +54,13 @@ public class RacerGame extends GameObject implements Observer {
     public void observe(Observable observable) {
         if (observable == leftButton) {
             racer.setAbsolutePosition(new Vector(100, 1750));
+            racer.setLane(0);
         } else if (observable == middleButton) {
             racer.setAbsolutePosition(new Vector(475, 1750));
+            racer.setLane(1);
         } else if (observable == rightButton) {
             racer.setAbsolutePosition(new Vector(850, 1750));
+            racer.setLane(2);
         }
     }
 }
