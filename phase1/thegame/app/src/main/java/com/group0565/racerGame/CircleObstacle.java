@@ -7,8 +7,8 @@ import com.group0565.math.Vector;
 
 public class CircleObstacle extends Obstacle {
 
-    CircleObstacle(int lane, double z) {
-        super(z, lane);
+    CircleObstacle(int lane, double z, ObstacleManager parent) {
+        super(z, lane, parent);
     }
 
     @Override

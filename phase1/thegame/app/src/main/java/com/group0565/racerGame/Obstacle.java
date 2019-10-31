@@ -8,11 +8,13 @@ import com.group0565.math.Vector;
 
 public abstract class Obstacle extends GameObject {
 
-    int lane;
+    private int lane;
+    private ObstacleManager obsManager;
 
-    public Obstacle(double z, int lane) {
+    Obstacle(double z, int lane, ObstacleManager parent) {
         super(new Vector(lane * 500, 0), z);
         this.lane = lane;
+        this.obsManager = parent;
     }
 
     /**
@@ -21,7 +23,8 @@ public abstract class Obstacle extends GameObject {
      * @return Returns True or False depending on whether or not the Obstacle has hit the Racer.
      * */
     public boolean checkCollision() {
-        if (this.getAbsolutePosition().getY() == 1750) {
+        float y = obsManager.parent.getRacer().getAbsolutePosition().getY();
+        if (3 == 3){
             return true;
         }
         else {

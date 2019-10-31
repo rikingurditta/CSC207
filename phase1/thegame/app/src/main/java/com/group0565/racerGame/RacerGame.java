@@ -63,4 +63,13 @@ public class RacerGame extends GameObject implements Observer {
             racer.setLane(2);
         }
     }
+
+    /**
+     * Getter method that returns this game's Racer object
+     * @return Racer object
+     */
+
+    Racer getRacer() {
+        return racer;
+    }
 }
