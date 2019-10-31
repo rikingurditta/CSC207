@@ -34,6 +34,12 @@ public class BomberGame extends GameObject {
     for (int i = 0; i < 25; i++) grid.makeRandomCrate();
   }
 
+  @Override
+  public void init() {
+    updateChildren();
+    super.init();
+  }
+
   public void draw(Canvas canvas) {
     super.draw(canvas);
     // Fill background with White
@@ -42,6 +48,10 @@ public class BomberGame extends GameObject {
 
   @Override
   public void update(long ms) {
+    updateChildren();
+  }
+
+  private void updateChildren() {
     for (GameObject item : itemsToBeAdopted) {
       this.adopt(item);
     }
