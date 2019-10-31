@@ -3,6 +3,7 @@ package com.group0565.bomberGame;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 
+import com.group0565.bomberGame.obstacles.Crate;
 import com.group0565.engine.gameobjects.GameObject;
 import com.group0565.math.Vector;
 
@@ -28,38 +29,41 @@ public class SquareGrid extends GameObject {
   private final Set<GridObject> itemsToBeAdded = new HashSet<>();
   /** The items to be removed from the grid on the next update. */
   private final Set<GridObject> itemsToBeRemoved = new HashSet<>();
+  private BomberGame game;
 
   /**
    * Create a new SquareGrid.
-   *
-   * @param position The absolute position of this object.
+   *  @param position The absolute position of this object.
    * @param z The z-level of the object.
    * @param width How many tiles wide this grid is.
    * @param height How many tiles tall this grid is.
    * @param tileWidth How wide each tile is, in pixels.
+   * @param game
    */
-  public SquareGrid(Vector position, double z, int width, int height, int tileWidth) {
+  public SquareGrid(Vector position, double z, int width, int height, int tileWidth, BomberGame game) {
     super(position, z);
     this.width = width;
     this.height = height;
     this.tileWidth = tileWidth;
+    this.game = game;
     this.windowWidth = width * tileWidth;
     this.windowHeight = height * tileWidth;
   }
 
   /**
    * Create a new SquareGrid.
-   *
-   * @param position The absolute position of this object.
+   *  @param position The absolute position of this object.
    * @param width How many tiles wide this grid is.
    * @param height How many tiles tall this grid is.
    * @param tileWidth How wide each tile is, in pixels.
+   * @param game
    */
-  public SquareGrid(Vector position, int width, int height, int tileWidth) {
+  public SquareGrid(Vector position, int width, int height, int tileWidth, BomberGame game) {
     super(position);
     this.width = width;
     this.height = height;
     this.tileWidth = tileWidth;
+    this.game = game;
     this.windowWidth = width * tileWidth;
     this.windowHeight = height * tileWidth;
   }
@@ -159,5 +163,21 @@ public class SquareGrid extends GameObject {
       }
     }
     return true;
+  }
+
+  public void makeRandomCrate() {
+    boolean done;
+    Coords r;
+    do {
+      done = true;
+      r = Coords.random(0, 0, width, height);
+      for (GridObject g : items) {
+        if (g.gridCoords.equals(r)) {
+          done = false;
+        }
+      }
+    } while (!done);
+    Crate c = new Crate(r, 10, this, game);
+    game.adoptLater(c);
   }
 }
