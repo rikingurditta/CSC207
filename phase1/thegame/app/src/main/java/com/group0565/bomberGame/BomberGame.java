@@ -20,14 +20,14 @@ public class BomberGame extends GameObject {
   public BomberGame(Vector position) {
     super(position);
     InputSystem joystickInput = new JoystickInput(new Vector(100, 750));
-    this.adopt(joystickInput);
+    adopt(joystickInput);
     InputSystem randomInput = new RandomInput(1000);
     adopt(randomInput);
     SquareGrid grid = new SquareGrid(new Vector(100, 100), 0, 15, 8, 100);
     adopt(grid);
-    GameObject bm = new BomberMan(new Vector(100, 100), joystickInput, this, grid);
+    GameObject bm = new BomberMan(new Coords(0, 0), joystickInput, this, grid);
     adopt(bm);
-    GameObject bm2 = new BomberMan(new Vector(700, 500), randomInput, this, grid);
+    GameObject bm2 = new BomberMan(new Coords(10, 6), randomInput, this, grid);
     adopt(bm2);
   }
 

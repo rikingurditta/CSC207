@@ -3,12 +3,13 @@ package com.group0565.bomberGame.bombs;
 import android.graphics.Canvas;
 
 import com.group0565.bomberGame.BomberGame;
-import com.group0565.math.Vector;
+import com.group0565.bomberGame.Coords;
+import com.group0565.bomberGame.SquareGrid;
 
 public class NormalBomb extends Bomb {
 
-  public NormalBomb(Vector position, int z, BomberGame game) {
-    super(position, z, game);
+  public NormalBomb(Coords position, int z, BomberGame game, SquareGrid grid) {
+    super(position, z, game, grid);
   }
 
   @Override
