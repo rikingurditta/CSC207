@@ -1,6 +1,7 @@
 package com.group0565.bomberGame;
 
 import android.graphics.Canvas;
+import android.graphics.Color;
 
 import com.group0565.bomberGame.input.InputSystem;
 import com.group0565.bomberGame.input.JoystickInput;
@@ -16,6 +17,7 @@ public class BomberGame extends GameObject {
 
   private ArrayList<GameObject> itemsToBeAdopted = new ArrayList<GameObject>();
   private ArrayList<GameObject> itemsToBeRemoved = new ArrayList<GameObject>();
+  private int bgColor = Color.WHITE;
 
   public BomberGame(Vector position) {
     super(position);
@@ -26,9 +28,9 @@ public class BomberGame extends GameObject {
     adopt(randomInput);
     SquareGrid grid = new SquareGrid(new Vector(100, 100), 0, 15, 8, 100, this);
     adopt(grid);
-    GameObject bm = new BomberMan(new Coords(0, 0),20, joystickInput, this, grid, 10);
+    GameObject bm = new BomberMan(new Coords(0, 0), 20, joystickInput, this, grid, 10);
     adopt(bm);
-    GameObject bm2 = new BomberMan(new Coords(10, 6),20, randomInput, this, grid, 10);
+    GameObject bm2 = new BomberMan(new Coords(10, 6), 20, randomInput, this, grid, 10);
     adopt(bm2);
     // make 25 crates
     for (int i = 0; i < 25; i++) grid.makeRandomCrate();
@@ -43,7 +45,7 @@ public class BomberGame extends GameObject {
   public void draw(Canvas canvas) {
     super.draw(canvas);
     // Fill background with White
-    canvas.drawRGB(255, 255, 255);
+    canvas.drawColor(bgColor);
   }
 
   @Override

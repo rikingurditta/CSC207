@@ -8,6 +8,7 @@ import com.group0565.bomberGame.bombs.NormalBomb;
 import com.group0565.bomberGame.input.BomberInput;
 import com.group0565.bomberGame.input.InputSystem;
 import com.group0565.engine.gameobjects.GameObject;
+import com.group0565.engine.gameobjects.GlobalPreferences;
 import com.group0565.math.Vector;
 
 /** A BomberMan, aka a player in the game. */
@@ -35,6 +36,9 @@ public class BomberMan extends GridObject {
   private float speed = 2.0f / 1000;
 
   private int hp;
+
+  private Paint bodyPaint = new Paint();
+  private Paint textPaint = new Paint();
 
   /**
    * Constructs a new BomberMan.
@@ -74,6 +78,18 @@ public class BomberMan extends GridObject {
     this.hp = hp;
   }
 
+  @Override
+  public void init() {
+    super.init();
+    bodyPaint.setColor(Color.GREEN);
+    textPaint.setTextSize(50);
+    if (getGlobalPreferences().theme == GlobalPreferences.Theme.LIGHT) {
+      textPaint.setColor(Color.BLACK);
+    } else {
+      textPaint.setColor(Color.WHITE);
+    }
+  }
+
   /**
    * Draws ONLY this object to canvas. Its children are not drawn by this method.
    *
@@ -82,13 +98,8 @@ public class BomberMan extends GridObject {
   @Override
   public void draw(Canvas canvas) {
     Vector pos = getAbsolutePosition();
-    Paint p = new Paint();
-    p.setColor(Color.GREEN);
     // Draw an rectangle at our touch position
-    canvas.drawRect(pos.getX(), pos.getY(),pos.getX() + 100, pos.getY() + 100, p);
-    Paint textPaint = new Paint();
-    textPaint.setTextSize(50);
-    textPaint.setColor(Color.BLACK);
+    canvas.drawRect(pos.getX(), pos.getY(),pos.getX() + 100, pos.getY() + 100, bodyPaint);
     canvas.drawText(Integer.toString(hp), pos.getX(), pos.getY(), textPaint);
   }
 
