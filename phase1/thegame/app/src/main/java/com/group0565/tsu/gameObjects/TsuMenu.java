@@ -92,6 +92,7 @@ public class TsuMenu extends GameObject implements Observer, Observable {
                 } else if (getGlobalPreferences().language.equals("fr")) {
                     getGlobalPreferences().language = "en";
                 }
+                tsuGame.setPreferences(getGlobalPreferences());
             }
         } else if (observable == statsButton) {
             if (statsButton.isPressed()) {
