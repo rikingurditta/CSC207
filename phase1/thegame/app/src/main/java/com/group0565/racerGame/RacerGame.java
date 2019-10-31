@@ -10,6 +10,8 @@ import com.group0565.engine.gameobjects.InputEvent;
 import com.group0565.engine.interfaces.Observable;
 import com.group0565.engine.interfaces.Observer;
 import com.group0565.math.Vector;
+import com.group0565.statistics.IAsyncStatisticsRepository;
+import com.group0565.statistics.IStatisticFactory;
 
 public class RacerGame extends GameObject implements Observer {
 
@@ -18,6 +20,7 @@ public class RacerGame extends GameObject implements Observer {
     private Button rightButton;
     private ObstacleManager obsManager;
     private Racer racer;
+    private IAsyncStatisticsRepository myStatRepo;
 
     RacerGame(Vector position) {
         super(position);
@@ -77,5 +80,12 @@ public class RacerGame extends GameObject implements Observer {
 
     Racer getRacer() {
         return racer;
+    }
+
+    void updateDB(long totalTime) {
+        if (myStatRepo != null) {
+            // You can always use put (also for new objects) because of the way that Firebase DB works
+            myStatRepo.put(IStatisticFactory.createGameStatistic("TimeSurvived", totalTime));
+        }
     }
 }

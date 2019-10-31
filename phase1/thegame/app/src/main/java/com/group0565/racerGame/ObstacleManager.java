@@ -4,8 +4,8 @@ import com.group0565.engine.gameobjects.GameObject;
 
 public class ObstacleManager extends GameObject {
 
-
-    private long time = 0;
+    private long totalTime = 0;
+    private long spawnTime = 0;
     RacerGame parent;
 
     ObstacleManager(RacerGame parent) {
@@ -25,10 +25,12 @@ public class ObstacleManager extends GameObject {
 
     @Override
     public void update(long ms) {
-        this.time += ms;
-        if (this.time >= 2000) {
+        this.spawnTime += ms;
+        this.totalTime += ms;
+        if (this.spawnTime >= 2000) {
             spawnObstacle();
-            this.time = 0;
+            this.spawnTime = 0;
+            parent.updateDB(totalTime);
         }
     }
 
