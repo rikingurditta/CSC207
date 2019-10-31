@@ -11,7 +11,7 @@ import com.group0565.hitObjectsRepository.SessionHitObjects;
 import com.group0565.preferences.IPreferenceInteractor;
 import com.group0565.preferences.PreferencesInjector;
 import com.group0565.preferences.UserPreferenceFactory;
-import com.thegame.TheGameApplication;
+import com.menu.TheGameApplication;
 
 public class TsuGame extends GameObject implements Observer {
     private String ThemePrefName = "";
