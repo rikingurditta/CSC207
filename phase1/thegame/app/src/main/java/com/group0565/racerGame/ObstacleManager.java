@@ -23,6 +23,22 @@ public class ObstacleManager extends GameObject {
         }
     }
 
+    /**
+     * Getter method that returns totalTime attribute
+     * @return totalTime
+     */
+    public long getTotalTime() {
+        return totalTime;
+    }
+
+    /**
+     * Getter method that returns spawnTime attribute
+     * @return spawnTime
+     */
+    public long getSpawnTime() {
+        return spawnTime;
+    }
+
     @Override
     public void update(long ms) {
         this.spawnTime += ms;

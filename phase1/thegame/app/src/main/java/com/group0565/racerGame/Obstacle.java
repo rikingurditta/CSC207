@@ -30,6 +30,7 @@ public abstract class Obstacle extends GameObject {
         float thisY = this.getAbsolutePosition().getY();
         if (Math.abs(thisY - racerY) <= 50 && lane == obsManager.parent.getRacer().getLane()){
             collided = true;
+            obsManager.update(obsManager.getTotalTime() + obsManager.getSpawnTime());
         }
     }
 
