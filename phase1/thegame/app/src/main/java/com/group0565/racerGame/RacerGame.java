@@ -79,7 +79,7 @@ public class RacerGame extends GameObject implements Observer {
         // Draw the red lines that separate the lanes
         canvas.drawRect(canvas.getWidth() / 3 - 15, 0, canvas.getWidth() / 3 + 15, 2500, colour);
         canvas.drawRect(2 * canvas.getWidth() / 3 - 15, 0, 2 * canvas.getWidth() / 3 + 15, 2500, colour);
-        canvas.drawText(Long.toString(totalTime), 600, 200, time);
+        canvas.drawText(Long.toString(totalTime / 1000), 600, 200, time);
     }
 
     public void observe(Observable observable) {
@@ -115,7 +115,7 @@ public class RacerGame extends GameObject implements Observer {
      * Getter method that returns totalTime attribute
      * @return totalTime
      */
-    public long getTotalTime() {
+    long getTotalTime() {
         return totalTime;
     }
 
@@ -123,7 +123,7 @@ public class RacerGame extends GameObject implements Observer {
      * Getter method that returns spawnTime attribute
      * @return spawnTime
      */
-    public long getSpawnTime() {
+    long getSpawnTime() {
         return spawnTime;
     }
 
