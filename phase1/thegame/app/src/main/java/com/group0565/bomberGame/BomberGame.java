@@ -19,7 +19,8 @@ public class BomberGame extends GameObject {
 
   public BomberGame(Vector position) {
     super(position);
-    InputSystem joystickInput = new JoystickInput(new Vector(100, 750));
+    InputSystem joystickInput =
+        new JoystickInput(new Vector(150, 750), 100, new Vector(0, 0), new Vector(1700, 100), 100);
     adopt(joystickInput);
     InputSystem randomInput = new RandomInput(1000);
     adopt(randomInput);
@@ -29,8 +30,8 @@ public class BomberGame extends GameObject {
     adopt(bm);
     GameObject bm2 = new BomberMan(new Coords(10, 6), randomInput, this, grid, 10);
     adopt(bm2);
-    for (int i = 0; i < 25; i ++)
-      grid.makeRandomCrate();
+    // make 25 crates
+    for (int i = 0; i < 25; i++) grid.makeRandomCrate();
   }
 
   public void draw(Canvas canvas) {
