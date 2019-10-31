@@ -28,6 +28,11 @@ public class TsuMenu extends GameObject implements Observer, Observable {
     private Button statsButton;
     private double difficulty;
     private boolean stats = false;
+    private TsuGame tsuGame;
+
+    public TsuMenu(TsuGame tsuGame){
+        this.tsuGame = tsuGame;
+    }
 
     @Override
     public void init() {
@@ -96,6 +101,8 @@ public class TsuMenu extends GameObject implements Observer, Observable {
         } else if (observable == settingsMenu) {
             if (!settingsMenu.isEnable()) {
                 this.difficulty = settingsMenu.getDifficulty();
+                tsuGame.setPreferences(getGlobalPreferences());
+                tsuGame.setPreferences(tsuGame.getDifficultyPrefName(), this.difficulty);
             }
         }
     }

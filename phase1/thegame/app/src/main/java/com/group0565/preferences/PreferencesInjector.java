@@ -12,6 +12,6 @@ public class PreferencesInjector {
     public static IPreferenceInteractor inject() {
 //    return new SPPreferencesInteractor();
 
-        return new MockPreferencesInteractor();
+        return new SPPreferencesInteractor();
     }
 }

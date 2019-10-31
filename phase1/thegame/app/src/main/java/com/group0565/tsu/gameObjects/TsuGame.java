@@ -1,19 +1,36 @@
 package com.group0565.tsu.gameObjects;
 
+import android.content.res.Resources;
+
+import com.example.thegame.R;
 import com.group0565.engine.gameobjects.GameObject;
+import com.group0565.engine.gameobjects.GlobalPreferences;
 import com.group0565.engine.interfaces.Observable;
 import com.group0565.engine.interfaces.Observer;
 import com.group0565.hitObjectsRepository.SessionHitObjects;
+import com.group0565.preferences.IPreferenceInteractor;
 import com.group0565.preferences.PreferencesInjector;
+import com.group0565.preferences.UserPreferenceFactory;
+import com.thegame.TheGameApplication;
 
 public class TsuGame extends GameObject implements Observer {
+    private String ThemePrefName = "";
+    private String VolumePrefName = "";
+    private String LanguagePrefName = "";
+    private String DifficultyPrefName = "";
     private TsuMenu menu;
     private StatsMenu stats;
     private TsuEngine engine;
 
     @Override
     public void init() {
-        this.menu = new TsuMenu();
+        Resources resources = TheGameApplication.getInstance().getResources();
+        ThemePrefName = resources.getString(R.string.theme_pref_id);
+        LanguagePrefName = resources.getString(R.string.lan_pref_id);
+        VolumePrefName = resources.getString(R.string.vol_pref_id);
+        DifficultyPrefName = "tsu-difficulty";
+
+        this.menu = new TsuMenu(this);
         this.engine = new TsuEngine();
         this.engine.setEnable(false);
         this.stats = new StatsMenu();
@@ -64,7 +81,30 @@ public class TsuGame extends GameObject implements Observer {
         }
     }
 
-    public void setPreferences(String s) {
-//        PreferencesInjector.inject().updatePreference();
+    public void setPreferences(String name, Object value) {
+        IPreferenceInteractor interactor = PreferencesInjector.inject();
+        interactor.updatePreference(UserPreferenceFactory.getUserPreference(name, value));
+    }
+
+    public void setPreferences(GlobalPreferences preferences) {
+        setPreferences(ThemePrefName, preferences.theme.name());
+        setPreferences(VolumePrefName, preferences.volume);
+        setPreferences(LanguagePrefName, preferences.language);
+    }
+
+    public String getThemePrefName() {
+        return ThemePrefName;
+    }
+
+    public String getVolumePrefName() {
+        return VolumePrefName;
+    }
+
+    public String getLanguagePrefName() {
+        return LanguagePrefName;
+    }
+
+    public String getDifficultyPrefName() {
+        return DifficultyPrefName;
     }
 }
