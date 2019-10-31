@@ -88,7 +88,7 @@ public class TsuGame extends GameObject implements Observer {
 
     public void setPreferences(GlobalPreferences preferences) {
         setPreferences(ThemePrefName, preferences.theme.name());
-        setPreferences(VolumePrefName, preferences.volume);
+        setPreferences(VolumePrefName, (int)(preferences.volume * 100));
         setPreferences(LanguagePrefName, preferences.language);
     }
 

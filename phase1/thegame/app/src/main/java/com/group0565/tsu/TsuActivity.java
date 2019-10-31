@@ -15,6 +15,6 @@ public class TsuActivity extends GameActivity {
         this.getGame().setGlobalPreferences(
                 new GlobalPreferences(Themes.valueOf(prefInter.getTheme()),
                         prefInter.getLanguage(),
-                        prefInter.getVolume()));
+                        prefInter.getVolume()/100D));
     }
 }
