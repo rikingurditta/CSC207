@@ -18,8 +18,8 @@ public class NormalBomb extends Bomb {
     for (GridObject g : grid.getItems()) {
       Coords pos = gridCoords;
       Coords gPos = g.getGridCoords();
-      if ((Math.abs(gPos.x - pos.x) <= 2 && gPos.y == pos.y)
-          || (Math.abs(gPos.y - pos.y) <= 2 && gPos.x == pos.x)) {
+      if ((Math.abs(gPos.x - pos.x) <= getStrength() && gPos.y == pos.y)
+          || (Math.abs(gPos.y - pos.y) <= getStrength() && gPos.x == pos.x)) {
         g.damage(1);
       }
     }

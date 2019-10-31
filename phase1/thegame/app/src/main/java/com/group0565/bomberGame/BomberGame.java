@@ -26,9 +26,9 @@ public class BomberGame extends GameObject {
     adopt(randomInput);
     SquareGrid grid = new SquareGrid(new Vector(100, 100), 0, 15, 8, 100, this);
     adopt(grid);
-    GameObject bm = new BomberMan(new Coords(0, 0), joystickInput, this, grid, 10);
+    GameObject bm = new BomberMan(new Coords(0, 0),20, joystickInput, this, grid, 10);
     adopt(bm);
-    GameObject bm2 = new BomberMan(new Coords(10, 6), randomInput, this, grid, 10);
+    GameObject bm2 = new BomberMan(new Coords(10, 6),20, randomInput, this, grid, 10);
     adopt(bm2);
     // make 25 crates
     for (int i = 0; i < 25; i++) grid.makeRandomCrate();

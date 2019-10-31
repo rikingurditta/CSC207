@@ -176,6 +176,11 @@ public class SquareGrid extends GameObject {
           done = false;
         }
       }
+      for (GridObject g : itemsToBeAdded) {
+        if (g.gridCoords.equals(r)) {
+          done = false;
+        }
+      }
     } while (!done);
     Crate c = new Crate(r, 10, this, game);
     game.adoptLater(c);
