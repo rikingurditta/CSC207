@@ -15,6 +15,11 @@
         "Path": "Title.png",
         "TileWidth": 500,
         "TileHeight": 500
+      },
+      "Buttons": {
+        "Path": "buttons.png",
+        "TileWidth": 50,
+        "TileHeight": 50
       }
     }
   },
