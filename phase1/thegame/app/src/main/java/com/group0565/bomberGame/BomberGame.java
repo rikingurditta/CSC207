@@ -25,9 +25,9 @@ public class BomberGame extends GameObject {
     adopt(randomInput);
     SquareGrid grid = new SquareGrid(new Vector(100, 100), 0, 15, 8, 100);
     adopt(grid);
-    GameObject bm = new BomberMan(new Coords(0, 0), joystickInput, this, grid);
+    GameObject bm = new BomberMan(new Coords(0, 0), joystickInput, this, grid, 10);
     adopt(bm);
-    GameObject bm2 = new BomberMan(new Coords(10, 6), randomInput, this, grid);
+    GameObject bm2 = new BomberMan(new Coords(10, 6), randomInput, this, grid, 10);
     adopt(bm2);
   }
 

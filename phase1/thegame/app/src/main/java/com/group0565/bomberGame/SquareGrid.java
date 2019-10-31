@@ -142,4 +142,22 @@ public class SquareGrid extends GameObject {
     Vector pos = this.getAbsolutePosition();
     return new Vector(pos.getX() + p.x * tileWidth, pos.getY() + p.y * tileWidth);
   }
+
+  public Set<GridObject> getItems() {
+    return items;
+  }
+
+  public boolean canPlaceBomb(Coords p) {
+    for (GridObject g : items) {
+      if (g.gridCoords.equals(p) && g.isBomb()) {
+        return false;
+      }
+    }
+    for (GridObject g : itemsToBeAdded) {
+      if (g.gridCoords.equals(p) && g.isBomb()) {
+        return false;
+      }
+    }
+    return true;
+  }
 }

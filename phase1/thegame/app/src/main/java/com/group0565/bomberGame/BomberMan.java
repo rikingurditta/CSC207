@@ -1,6 +1,7 @@
 package com.group0565.bomberGame;
 
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.Paint;
 
 import com.group0565.bomberGame.bombs.NormalBomb;
@@ -33,6 +34,8 @@ public class BomberMan extends GridObject {
   /** The speed at which this player moves, in units per millisecond. */
   private float speed = 2.0f / 1000;
 
+  private int hp;
+
   /**
    * Constructs a new BomberMan.
    *
@@ -43,10 +46,16 @@ public class BomberMan extends GridObject {
    * @param grid The grid this player is within.
    */
   public BomberMan(
-      Coords position, double z, InputSystem inputSystem, BomberGame game, SquareGrid grid) {
+      Coords position,
+      double z,
+      InputSystem inputSystem,
+      BomberGame game,
+      SquareGrid grid,
+      int hp) {
     super(position, z, grid);
     this.inputSystem = inputSystem;
     this.game = game;
+    this.hp = hp;
   }
 
   /**
@@ -57,10 +66,12 @@ public class BomberMan extends GridObject {
    * @param game The game this player belongs to.
    * @param grid The grid this player is within.
    */
-  public BomberMan(Coords position, InputSystem inputSystem, BomberGame game, SquareGrid grid) {
+  public BomberMan(
+      Coords position, InputSystem inputSystem, BomberGame game, SquareGrid grid, int hp) {
     super(position, grid);
     this.inputSystem = inputSystem;
     this.game = game;
+    this.hp = hp;
   }
 
   /**
@@ -70,16 +81,15 @@ public class BomberMan extends GridObject {
    */
   @Override
   public void draw(Canvas canvas) {
-    // Set our color to Red
+    Vector pos = getAbsolutePosition();
     Paint p = new Paint();
-    p.setARGB(255, 0, 255, 0);
+    p.setColor(Color.GREEN);
     // Draw an rectangle at our touch position
-    canvas.drawRect(
-        getAbsolutePosition().getX(),
-        getAbsolutePosition().getY(),
-        getAbsolutePosition().getX() + 100,
-        getAbsolutePosition().getY() + 100,
-        p);
+    canvas.drawRect(pos.getX(), pos.getY(),pos.getX() + 100, pos.getY() + 100, p);
+    Paint textPaint = new Paint();
+    textPaint.setTextSize(50);
+    textPaint.setColor(Color.BLACK);
+    canvas.drawText(Integer.toString(hp), pos.getX(), pos.getY(), textPaint);
   }
 
   /**
@@ -89,6 +99,11 @@ public class BomberMan extends GridObject {
    */
   @Override
   public void update(long ms) {
+
+    if (hp <= 0) {
+      grid.remove(this);
+      game.removeLater(this);
+    }
 
     Vector pos = this.getAbsolutePosition();
 
@@ -131,8 +146,21 @@ public class BomberMan extends GridObject {
   }
 
   /** Drops bomb at current location. */
-  private void dropBomb() {
+  private boolean dropBomb() {
+    if (!grid.canPlaceBomb(gridCoords)) {
+      return false;
+    }
     GameObject bomb = new NormalBomb(gridCoords, -1, this.game, grid);
     game.adoptLater(bomb);
+    return true;
+  }
+
+  public void damage(int d) {
+    hp -= d;
+  }
+
+  @Override
+  public boolean isBomb() {
+    return false;
   }
 }

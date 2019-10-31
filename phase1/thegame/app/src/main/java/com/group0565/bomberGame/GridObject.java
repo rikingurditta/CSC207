@@ -2,7 +2,7 @@ package com.group0565.bomberGame;
 
 import com.group0565.engine.gameobjects.GameObject;
 
-public class GridObject extends GameObject {
+public abstract class GridObject extends GameObject {
   /** The grid this object belongs to. */
   protected final SquareGrid grid;
 
@@ -34,4 +34,12 @@ public class GridObject extends GameObject {
     this.grid = grid;
     grid.addItem(this, position);
   }
+
+  public Coords getGridCoords() {
+    return gridCoords;
+  }
+
+  public void damage(int d) {}
+
+  public abstract boolean isBomb();
 }

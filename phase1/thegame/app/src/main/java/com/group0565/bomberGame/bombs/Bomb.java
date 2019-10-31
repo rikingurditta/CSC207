@@ -61,6 +61,10 @@ public abstract class Bomb extends GridObject {
         p.setARGB(180, 243, 114, 32);
       }
     } else if (bombTimer < bombExplodeTime + explosionDuration) {
+      if (!duringExplosion) {
+        System.out.println("explosion " + this.getUUID());
+        explode();
+      }
       // actual explosion
       p.setARGB(200, 255, 30, 32);
       bombTimer += ms;
@@ -70,5 +74,11 @@ public abstract class Bomb extends GridObject {
       grid.remove(this);
       game.removeLater(this);
     }
+  }
+
+  public abstract void explode();
+
+  public boolean isBomb() {
+    return false;
   }
 }
