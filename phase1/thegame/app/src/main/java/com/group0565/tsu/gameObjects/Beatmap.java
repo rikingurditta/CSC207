@@ -28,7 +28,6 @@ public class Beatmap {
     private double difficulty;
     private long leadin;
     private List<HitObject> hitObjects;
-    private long[] distribution = new long[3];
 
 
     public Beatmap(String set, String name, GameAssetManager manager) {
@@ -54,13 +53,6 @@ public class Beatmap {
         } catch (JSONException e) {
             Log.e(TAG, "Parsing Beatmap Failed", e);
         }
-        calculateDistribution();
-    }
-
-    private void calculateDistribution() {
-        distribution[0] = 50 + (long) (30 * (1 - difficulty / 5D));
-        distribution[1] = 100 + (long) (30 * (1 - difficulty / 5D));
-        distribution[2] = 150 + (long) (30 * (1 - difficulty / 5D));
     }
 
     public JsonFile getJsonFile() {
@@ -113,9 +105,5 @@ public class Beatmap {
 
     public AudioAsset getAudio() {
         return audio;
-    }
-
-    public long[] getDistribution() {
-        return distribution;
     }
 }

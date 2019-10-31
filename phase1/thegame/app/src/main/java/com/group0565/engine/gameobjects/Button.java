@@ -69,6 +69,8 @@ public class Button extends GameObject implements Observable {
 
     @Override
     public boolean processInput(InputEvent event) {
+        if (!isEnable())
+            return super.processInput(event);
         Vector pos = event.getPos();
         float ex = pos.getX();
         float ey = pos.getY();

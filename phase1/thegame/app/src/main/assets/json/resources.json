@@ -15,6 +15,11 @@
         "Path": "Title.png",
         "TileWidth": 500,
         "TileHeight": 500
+      },
+      "Buttons": {
+        "Path": "buttons.png",
+        "TileWidth": 50,
+        "TileHeight": 50
       }
     },
     "RacerButton": {
@@ -42,9 +47,13 @@
   },
   "LanguagePack": {
     "Tsu": {
-      "en_us": {
-        "Path": "Tsu-en_us.json",
+      "en": {
+        "Path": "Tsu/en.json",
         "Default": "String Not Found"
+      },
+      "fr": {
+        "Path": "Tsu/fr.json",
+        "Default": "Chaîne Introuvable"
       }
     }
   }
