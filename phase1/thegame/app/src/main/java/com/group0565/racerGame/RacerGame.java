@@ -14,9 +14,14 @@ import com.group0565.statistics.IAsyncStatisticsRepository;
 import com.group0565.statistics.IStatisticFactory;
 import com.group0565.statistics.StatisticRepositoryInjector;
 
+import java.util.Date;
+
 public class RacerGame extends GameObject implements Observer {
 
     private static final String TAG = "RacerGame";
+    private long startTime;
+    private long totalTime = 0;
+    private long spawnTime = 0;
     private Button leftButton;
     private Button middleButton;
     private Button rightButton;
@@ -30,6 +35,7 @@ public class RacerGame extends GameObject implements Observer {
     }
 
     public void init(){
+        startTime = System.currentTimeMillis();
         leftButton = new Button(new Vector(100, 1750), new Vector(150, 150), getEngine().getGameAssetManager().getTileSheet("RacerButton", "RacerButton").getTile(0, 0), getEngine().getGameAssetManager().getTileSheet("RacerButton", "RacerButton").getTile(0, 0));
         middleButton = new Button(new Vector(475, 1750), new Vector(150, 150), getEngine().getGameAssetManager().getTileSheet("RacerButton", "RacerButton").getTile(0, 0), getEngine().getGameAssetManager().getTileSheet("RacerButton", "RacerButton").getTile(0, 0));
         rightButton = new Button(new Vector(850, 1750), new Vector(150, 150), getEngine().getGameAssetManager().getTileSheet("RacerButton", "RacerButton").getTile(0, 0), getEngine().getGameAssetManager().getTileSheet("RacerButton", "RacerButton").getTile(0, 0));
@@ -93,7 +99,37 @@ public class RacerGame extends GameObject implements Observer {
     void updateDB(long totalTime) {
         if (myStatRepo != null) {
             // You can always use put (also for new objects) because of the way that Firebase DB works
-            myStatRepo.put(IStatisticFactory.createGameStatistic("TimeSurvived", totalTime));
+            myStatRepo.put(IStatisticFactory.createGameStatistic("TimeSurvived" + startTime, totalTime));
+        }
+    }
+
+    /**
+     * Getter method that returns totalTime attribute
+     * @return totalTime
+     */
+    public long getTotalTime() {
+        return totalTime;
+    }
+
+    /**
+     * Getter method that returns spawnTime attribute
+     * @return spawnTime
+     */
+    public long getSpawnTime() {
+        return spawnTime;
+    }
+
+    @Override
+    public void update(long ms) {
+        this.spawnTime += ms;
+        this.totalTime += ms;
+        if (this.spawnTime >= 2000) {
+            obsManager.spawnObstacle();
+            this.spawnTime = 0;
+            if (myStatRepo != null) {
+                // You can always use put (also for new objects) because of the way that Firebase DB works
+                myStatRepo.put(IStatisticFactory.createGameStatistic("TimeSurvived" + startTime, totalTime));
+            }
         }
     }
 }
