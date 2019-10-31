@@ -10,8 +10,8 @@ import java.util.List;
 public class LinearTsuRenderer extends TsuRenderer {
     private int hitwidth;
 
-    public LinearTsuRenderer(Vector position, Beatmap beatmap, Vector size, long window, int hitwidth) {
-        super(position, beatmap, size, window);
+    public LinearTsuRenderer(TsuEngine engine, Vector position, Beatmap beatmap, Vector size, long window, int hitwidth) {
+        super(engine, position, beatmap, size, window);
         for (Scores score : Scores.values())
             score.getPaint().setStrokeWidth(hitwidth);
         this.hitwidth = hitwidth;
@@ -22,7 +22,7 @@ public class LinearTsuRenderer extends TsuRenderer {
         super.draw(canvas);
         List<HitObject> objects = getObjects();
         HitObject hitObject;
-        long[] distribution = getBeatmap().getDistribution();
+        long[] distribution = getTsuEngine().getDistribution();
         for (int i = getLastActive(); i < objects.size() && (hitObject = objects.get(i)).getMsStart() <= getTimer() + getWindow(); i++) {
             double xstart = getAbsolutePosition().getX() + hitObject.getPositionStart() * getSize().getX();
             double ystart = getAbsolutePosition().getY() + (1 - (hitObject.getMsStart() - getTimer()) / (double) getWindow()) * getSize().getY();

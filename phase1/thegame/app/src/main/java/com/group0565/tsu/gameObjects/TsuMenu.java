@@ -26,6 +26,7 @@ public class TsuMenu extends GameObject implements Observer, Observable {
     private Button settingsButton;
     private Button languageButton;
     private Button statsButton;
+    private double difficulty;
     private boolean stats = false;
 
     @Override
@@ -45,6 +46,7 @@ public class TsuMenu extends GameObject implements Observer, Observable {
                 new Vector(SETTINGS_SIZE, SETTINGS_SIZE));
         this.settingsMenu.setZ(1);
         this.settingsMenu.setEnable(false);
+        this.settingsMenu.registerObserver(this);
         this.adopt(settingsMenu);
 
         Bitmap settingsButtonBitmap = getEngine().getGameAssetManager().getTileSheet("Tsu", "Buttons").getTile(1, 0);
@@ -91,6 +93,10 @@ public class TsuMenu extends GameObject implements Observer, Observable {
                 stats = true;
                 this.notifyObservers();
             }
+        } else if (observable == settingsMenu) {
+            if (!settingsMenu.isEnable()) {
+                this.difficulty = settingsMenu.getDifficulty();
+            }
         }
     }
 
@@ -123,5 +129,9 @@ public class TsuMenu extends GameObject implements Observer, Observable {
 
     public void setStats(boolean stats) {
         this.stats = stats;
+    }
+
+    public double getDifficulty() {
+        return difficulty;
     }
 }

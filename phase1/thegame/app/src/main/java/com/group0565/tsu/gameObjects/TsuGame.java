@@ -3,6 +3,7 @@ package com.group0565.tsu.gameObjects;
 import com.group0565.engine.gameobjects.GameObject;
 import com.group0565.engine.interfaces.Observable;
 import com.group0565.engine.interfaces.Observer;
+import com.group0565.hitObjectsRepository.SessionHitObjects;
 import com.group0565.preferences.PreferencesInjector;
 
 public class TsuGame extends GameObject implements Observer {
@@ -32,6 +33,7 @@ public class TsuGame extends GameObject implements Observer {
             if (menu.hasStarted()) {
                 menu.setStarted(false);
                 menu.setEnable(false);
+                engine.setDifficulty(menu.getDifficulty());
                 engine.setEnable(true);
                 if (engine.isPaused())
                     engine.restartEngine();
@@ -50,9 +52,14 @@ public class TsuGame extends GameObject implements Observer {
             }
         } else if (observable == engine) {
             if (engine.hasEnded()) {
+                SessionHitObjects objects = engine.getSessionHitObjects();
                 engine.setEnable(false);
                 engine.setEnded(false);
-                menu.setEnable(true);
+                if (objects != null){
+                    stats.setActive(objects);
+                    stats.setEnable(true);
+                }else
+                    menu.setEnable(true);
             }
         }
     }

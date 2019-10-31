@@ -13,7 +13,7 @@ import com.group0565.engine.interfaces.Observer;
 import com.group0565.math.Vector;
 import com.group0565.theme.Themes;
 
-public class SettingsMenu extends GameObject implements Observer {
+public class SettingsMenu extends GameObject implements Observer, Observable {
     private static final float BUTTON_SIZE = 75;
     private static final float LEFT_MARGIN = 75;
     private static final float VOLUME_Y = 200;
@@ -171,8 +171,10 @@ public class SettingsMenu extends GameObject implements Observer {
     @Override
     public void observe(Observable observable) {
         if (observable == exit) {
-            if (exit.isPressed())
+              if (exit.isPressed()) {
                 this.setEnable(false);
+                this.notifyObservers();
+              }
         } else if (observable == light) {
             if (light.isPressed()) {
                 getGlobalPreferences().theme = Themes.LIGHT;
@@ -212,5 +214,21 @@ public class SettingsMenu extends GameObject implements Observer {
                     this.difficulty = 1;
             }
         }
+    }
+
+    public int getVolume() {
+        return volume;
+    }
+
+    public void setVolume(int volume) {
+        this.volume = volume;
+    }
+
+    public int getDifficulty() {
+        return difficulty;
+    }
+
+    public void setDifficulty(int difficulty) {
+        this.difficulty = difficulty;
     }
 }

@@ -10,13 +10,15 @@ import java.util.List;
 public class TsuRenderer extends GameObject {
     private Vector size;
     private Beatmap beatmap;
+    private TsuEngine engine;
     private long timer;
     private List<HitObject> objects;
     private int lastActive = 0;
     private long window;
 
-    public TsuRenderer(Vector position, Beatmap beatmap, Vector size, long window) {
+    public TsuRenderer(TsuEngine engine, Vector position, Beatmap beatmap, Vector size, long window) {
         super(position);
+        this.engine = engine;
         this.beatmap = beatmap;
         this.objects = beatmap.getHitObjects();
         this.size = size;
@@ -69,5 +71,13 @@ public class TsuRenderer extends GameObject {
 
     public void setWindow(long window) {
         this.window = window;
+    }
+
+    public TsuEngine getTsuEngine() {
+        return engine;
+    }
+
+    public void setTsuEngine(TsuEngine engine) {
+        this.engine = engine;
     }
 }

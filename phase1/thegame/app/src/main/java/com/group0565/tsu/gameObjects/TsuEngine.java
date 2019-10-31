@@ -11,6 +11,7 @@ import com.group0565.engine.gameobjects.GameObject;
 import com.group0565.engine.gameobjects.InputEvent;
 import com.group0565.engine.interfaces.Observable;
 import com.group0565.engine.interfaces.Observer;
+import com.group0565.hitObjectsRepository.SessionHitObjects;
 import com.group0565.math.Vector;
 import com.group0565.theme.Themes;
 import com.group0565.tsu.enums.Align;
@@ -52,12 +53,15 @@ public class TsuEngine extends GameObject implements Observer, Observable {
     private PauseMenu pauseMenu;
     private boolean ended = false;
     private boolean paused = false;
+    private long[] distribution;
+    private double difficulty;
 
     private Scores score = null;
     private long lastScore = -1;
 
     private int combo = 0;
     private int totalScore = 0;
+    private SessionHitObjects sessionHitObjects = null;
 
     private HashMap<InputEvent, HitObject> eventToHitObject = new HashMap<>();
 
@@ -66,9 +70,10 @@ public class TsuEngine extends GameObject implements Observer, Observable {
     }
 
     public void init() {
+        this.sessionHitObjects = null;
         this.beatmap = new Beatmap(BEATMAP_SET, BEATMAP_NAME, this.getEngine().getGameAssetManager());
         this.objects = beatmap.getHitObjects();
-        this.renderer = new LinearTsuRenderer(new Vector(MARGINS.getX(), 0), beatmap, null, 1000, HIT_WIDTH);
+        this.renderer = new LinearTsuRenderer(this, new Vector(MARGINS.getX(), 0), beatmap, null, 1000, HIT_WIDTH);
         this.judgementLine = new LinearJudgementLine(MARGINS, 100, 20);
         this.comboRenderer = new NumberRenderer(COMBO_HEIGHT, Align.CENTER, new Vector(0, MARGINS.getY()));
         this.comboRenderer.setNumber(combo);
@@ -121,7 +126,7 @@ public class TsuEngine extends GameObject implements Observer, Observable {
             } else
                 timer += ms;
             this.renderer.setTimer(timer);
-            for (int i = lastActive; i < objects.size() && timer > objects.get(i).getMsStart() + beatmap.getDistribution()[2]; i++) {
+            for (int i = lastActive; i < objects.size() && timer > objects.get(i).getMsStart() + distribution[2]; i++) {
                 objects.get(i).setPassed(true);
             }
             while (lastActive < objects.size() && objects.get(lastActive).getMsEnd() < timer) {
@@ -166,18 +171,7 @@ public class TsuEngine extends GameObject implements Observer, Observable {
 
     private void endGame(boolean finished) {
         if (finished) {
-            try {
-                JSONArray array = new JSONArray();
-                for (HitObject object : objects) {
-                    JSONObject jsonObject = new JSONObject();
-                    jsonObject.put("HitTime", object.getHitTime());
-                    jsonObject.put("ReleaseTime", object.getReleaseTime());
-                    array.put(jsonObject);
-                }
-                System.out.println(array.toString());
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
+            this.sessionHitObjects = ScoreCalculator.computeScore(objects, difficulty);
         }
         ended = true;
         this.pauseEngine();
@@ -196,8 +190,8 @@ public class TsuEngine extends GameObject implements Observer, Observable {
             if (obj.getInputEvent() != null)
                 continue;
             long start = obj.getMsStart();
-            long leftt = start - beatmap.getDistribution()[2];
-            long rightt = start + beatmap.getDistribution()[2];
+            long leftt = start - distribution[2];
+            long rightt = start + distribution[2];
             if (timer < leftt)
                 break;
             if (timer <= rightt) {
@@ -206,7 +200,7 @@ public class TsuEngine extends GameObject implements Observer, Observable {
                     obj.setInputEvent(event);
                     eventToHitObject.put(event, obj);
                     obj.setHitTime(timer);
-                    setHit(obj.computeScore(beatmap.getDistribution()));
+                    setHit(obj.computeScore(distribution));
                     lastScore = timer;
                     break;
                 }
@@ -220,9 +214,9 @@ public class TsuEngine extends GameObject implements Observer, Observable {
         HitObject object = eventToHitObject.get(event);
         if (object == null)
             return;
-        Scores lastscore = object.computeScore(beatmap.getDistribution());
+        Scores lastscore = object.computeScore(distribution);
         object.setReleaseTime(timer);
-        if (lastscore != Scores.S0 && object.computeScore(beatmap.getDistribution()) == Scores.S0)
+        if (lastscore != Scores.S0 && object.computeScore(distribution) == Scores.S0)
             setHit(Scores.S0);
     }
 
@@ -342,5 +336,26 @@ public class TsuEngine extends GameObject implements Observer, Observable {
 
     public void setPaused(boolean paused) {
         this.paused = paused;
+    }
+
+    public long[] getDistribution() {
+        return distribution;
+    }
+
+    public void setDistribution(long[] distribution) {
+        this.distribution = distribution;
+    }
+
+    public double getDifficulty() {
+        return difficulty;
+    }
+
+    public void setDifficulty(double difficulty) {
+        this.difficulty = difficulty;
+        this.distribution = ScoreCalculator.calculateDistribution(difficulty);
+    }
+
+    public SessionHitObjects getSessionHitObjects() {
+        return sessionHitObjects;
     }
 }

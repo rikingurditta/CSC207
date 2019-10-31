@@ -7,6 +7,7 @@ import com.group0565.engine.gameobjects.Button;
 import com.group0565.engine.gameobjects.GameObject;
 import com.group0565.engine.interfaces.Observable;
 import com.group0565.engine.interfaces.Observer;
+import com.group0565.hitObjectsRepository.SessionHitObjects;
 import com.group0565.math.Vector;
 import com.group0565.theme.Themes;
 
@@ -15,6 +16,7 @@ public class StatsMenu extends GameObject implements Observable, Observer {
     private static final float MARGIN = 75;
     private Button back;
     private boolean exit;
+    private SessionHitObjects active = null;
 
     @Override
     public void init() {
@@ -51,5 +53,13 @@ public class StatsMenu extends GameObject implements Observable, Observer {
 
     public void setExit(boolean exit) {
         this.exit = exit;
+    }
+
+    public SessionHitObjects getActive() {
+        return active;
+    }
+
+    public void setActive(SessionHitObjects active) {
+        this.active = active;
     }
 }
