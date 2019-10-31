@@ -1,5 +1,6 @@
 package com.thegame.main;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
@@ -38,7 +39,6 @@ public class MainActivity extends AppCompatActivity implements MainView {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
         mainPresenter = new MainPresenterImp(this);
     }
 
@@ -89,7 +89,7 @@ public class MainActivity extends AppCompatActivity implements MainView {
         invalidateOptionsMenu();
 
         setContentView(R.layout.no_user_layout);
-        Button signIn = (Button) findViewById(R.id.logInBtn);
+        Button signIn = findViewById(R.id.logInBtn);
         LoginClick lg = new LoginClick(this);
 
         signIn.setOnClickListener(lg);
@@ -111,8 +111,9 @@ public class MainActivity extends AppCompatActivity implements MainView {
     @Override
     public void goToGame1() {
         throw new UnsupportedOperationException("Operation not yet implemented");
-        //    Intent intent = new Intent(this, new Class<>());
-        //    startActivity(intent);
+
+//        Intent intent = new Intent(this, TsuActivity.class);
+//        startActivity(intent);
     }
 
     /**

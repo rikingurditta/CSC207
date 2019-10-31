@@ -79,7 +79,7 @@ public class Button extends GameObject implements Observable {
         float ax = getAbsolutePosition().getX();
         float ay = getAbsolutePosition().getY();
         if (ax <= ex && ex <= ax + sx) {
-            if (ay <= ey && ey <= ax + sy) {
+            if (ay <= ey && ey <= ay + sy) {
                 captureEvent(event);
                 return true;
             }
