@@ -36,6 +36,10 @@ public class BomberMan extends GridObject {
 
   private int hp;
 
+  private int numBombsPlaced;
+
+  private int damageDealt;
+
   /**
    * Constructs a new BomberMan.
    *
@@ -150,14 +154,29 @@ public class BomberMan extends GridObject {
     if (!grid.canPlaceBomb(gridCoords)) {
       return false;
     }
-    GameObject bomb = new NormalBomb(gridCoords, -1, this.game, grid);
+    GameObject bomb = new NormalBomb(gridCoords, -1, this.game, grid, this);
     game.adoptLater(bomb);
+    numBombsPlaced += 1;
     return true;
   }
 
   public void damage(int d) {
     hp -= d;
   }
+
+  public int getNumBombsPlaced() {
+    return numBombsPlaced;
+  }
+
+  public int getDamageDealt() {
+    return damageDealt;
+  }
+
+  public void increaseDamageDealt() {
+    System.out.println("dmaageDEalt() called");
+    damageDealt += 1;
+  }
+
 
   @Override
   public boolean isBomb() {

@@ -3,6 +3,7 @@ package com.group0565.bomberGame.bombs;
 import android.graphics.Paint;
 
 import com.group0565.bomberGame.BomberGame;
+import com.group0565.bomberGame.BomberMan;
 import com.group0565.bomberGame.Coords;
 import com.group0565.bomberGame.GridObject;
 import com.group0565.bomberGame.SquareGrid;
@@ -16,14 +17,16 @@ public abstract class Bomb extends GridObject {
   boolean duringExplosion = false;
   private long bombTimer = 0;
   Paint p;
+  BomberMan placedBy;
 
   private BomberGame game;
 
-  public Bomb(Coords position, int z, BomberGame game, SquareGrid grid) {
+  public Bomb(Coords position, int z, BomberGame game, SquareGrid grid, BomberMan placedBy) {
     super(position, z, grid);
     this.game = game;
     this.p = new Paint();
     p.setARGB(123, 255, 213, 0);
+    this.placedBy = placedBy;
   }
 
   public void increaseStrength() {
@@ -62,7 +65,7 @@ public abstract class Bomb extends GridObject {
       }
     } else if (bombTimer < bombExplodeTime + explosionDuration) {
       if (!duringExplosion) {
-        System.out.println("explosion " + this.getUUID());
+        //System.out.println("explosion " + this.getUUID());
         explode();
       }
       // actual explosion
@@ -79,6 +82,6 @@ public abstract class Bomb extends GridObject {
   public abstract void explode();
 
   public boolean isBomb() {
-    return false;
+    return true;
   }
 }
