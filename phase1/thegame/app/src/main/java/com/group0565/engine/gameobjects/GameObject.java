@@ -225,6 +225,7 @@ public class GameObject implements LifecycleListener {
      * @param obj The GameObject to adopt.
      */
     public void adopt(GameObject obj) {
+        Vector absolutePosition = obj.getAbsolutePosition();
         if (obj.parent != null)
             obj.parent.getChildren().remove(obj.uuid);
         obj.parent = this;
@@ -233,6 +234,7 @@ public class GameObject implements LifecycleListener {
             this.getChildren().put(obj.uuid, obj);
         obj.invalidateCache();
         obj.setGlobalPreferences(this.globalPreferences);
+        obj.setAbsolutePosition(absolutePosition);
     }
 
     /**
