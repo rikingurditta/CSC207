@@ -1,5 +1,7 @@
 package com.group0565.preferences;
 
+import java.util.List;
+
 public class MockPreferencesInteractor implements IPreferenceInteractor {
     /**
      * Get the current selected theme
@@ -29,5 +31,20 @@ public class MockPreferencesInteractor implements IPreferenceInteractor {
     @Override
     public int getVolume() {
         return 0;
+    }
+
+    @Override
+    public void updatePreference(IPreference pref) {
+        
+    }
+
+    @Override
+    public Object getPreference(String prefKey, Object defaultValue) {
+        return null;
+    }
+
+    @Override
+    public void updatePreferences(List<IPreference> prefs) {
+
     }
 }

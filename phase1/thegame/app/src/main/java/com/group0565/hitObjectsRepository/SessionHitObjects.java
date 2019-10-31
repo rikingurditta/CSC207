@@ -13,6 +13,10 @@ public class SessionHitObjects {
     private double difficulty;
     private String datetime;
     private int maxCombo;
+    private int S300;
+    private int S150;
+    private int S50;
+    private int S0;
 
     public SessionHitObjects(List<HitObject> hitObjects) {
         this.hitObjects = hitObjects;
@@ -72,5 +76,37 @@ public class SessionHitObjects {
 
     public void setMaxCombo(int maxCombo) {
         this.maxCombo = maxCombo;
+    }
+
+    public int getS300() {
+        return S300;
+    }
+
+    public void setS300(int s300) {
+        S300 = s300;
+    }
+
+    public int getS150() {
+        return S150;
+    }
+
+    public void setS150(int s150) {
+        S150 = s150;
+    }
+
+    public int getS50() {
+        return S50;
+    }
+
+    public void setS50(int s50) {
+        S50 = s50;
+    }
+
+    public int getS0() {
+        return S0;
+    }
+
+    public void setS0(int s0) {
+        S0 = s0;
     }
 }

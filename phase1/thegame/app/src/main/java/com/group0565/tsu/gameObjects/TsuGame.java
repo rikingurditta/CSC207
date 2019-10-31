@@ -65,6 +65,6 @@ public class TsuGame extends GameObject implements Observer {
     }
 
     public void setPreferences(String s) {
-        PreferencesInjector.inject();
+//        PreferencesInjector.inject().updatePreference();
     }
 }
