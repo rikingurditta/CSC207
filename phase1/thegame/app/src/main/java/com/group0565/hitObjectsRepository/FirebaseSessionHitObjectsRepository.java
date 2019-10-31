@@ -32,9 +32,7 @@ public class FirebaseSessionHitObjectsRepository implements ISessionHitObjectsRe
     FirebaseSessionHitObjectsRepository(String currUser) {
 
         this.mDatabase =
-                FirebaseDatabase.getInstance()
-                        .getReference()
-                        .child("users/" + currUser + "/tsu/hitObjects");
+                FirebaseDatabase.getInstance().getReference().child("users/" + currUser + "/tsu/sessions");
 
         userSessions = new ArrayList<>();
     }
@@ -69,12 +67,9 @@ public class FirebaseSessionHitObjectsRepository implements ISessionHitObjectsRe
      * @param session The snapshot
      */
     private void loopThroughSession(DataSnapshot session) {
-        List<HitObject> hitObjects = new ArrayList<>();
+        SessionHitObjects sessionHitObjects = session.getValue(SessionHitObjects.class);
 
-        // Add each specific HitObject to the list
-        session.getChildren().forEach(hitObject -> hitObjects.add(hitObject.getValue(HitObject.class)));
-
-        userSessions.add(new SessionHitObjects(hitObjects));
+        userSessions.add(sessionHitObjects);
     }
 
     /**
@@ -96,9 +91,7 @@ public class FirebaseSessionHitObjectsRepository implements ISessionHitObjectsRe
     @Override
     public void push(SessionHitObjects obj) {
         DatabaseReference ref = mDatabase.push();
-        for (HitObject hitObj : obj.getHitObjects()) {
-            ref.push().setValue(hitObj);
-        }
+        ref.setValue(obj);
     }
 
     /**
@@ -131,9 +124,7 @@ public class FirebaseSessionHitObjectsRepository implements ISessionHitObjectsRe
 
         for (SessionHitObjects session : sessionLists) {
             DatabaseReference ref = mDatabase.push();
-            for (HitObject obj : session.getHitObjects()) {
-                ref.push().setValue(obj);
-            }
+            ref.setValue(session);
         }
     }
 }
