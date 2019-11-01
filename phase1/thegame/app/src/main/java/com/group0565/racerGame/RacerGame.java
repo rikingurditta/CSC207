@@ -93,7 +93,7 @@ public class RacerGame extends GameObject implements Observer {
         // Draw the red lines that separate the lanes
         canvas.drawRect(canvas.getWidth() / 3 - 15, 0, canvas.getWidth() / 3 + 15, 2500, colour);
         canvas.drawRect(2 * canvas.getWidth() / 3 - 15, 0, 2 * canvas.getWidth() / 3 + 15, 2500, colour);
-        canvas.drawText(Long.toString(totalTime / 1000), 600, 200, time);
+        canvas.drawText(Long.toString(totalTime), 600, 200, time);
     }
 
     public void observe(Observable observable) {
@@ -167,10 +167,6 @@ public class RacerGame extends GameObject implements Observer {
         if (this.spawnTime >= 2000) {
             obsManager.spawnObstacle();
             this.spawnTime = 0;
-            if (myStatRepo != null) {
-                // You can always use put (also for new objects) because of the way that Firebase DB works
-                myStatRepo.put(IStatisticFactory.createGameStatistic("TimeSurvived" + startTime, totalTime));
-            }
         }
         }
     }
