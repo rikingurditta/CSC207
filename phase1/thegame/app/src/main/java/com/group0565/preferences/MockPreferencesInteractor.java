@@ -10,7 +10,7 @@ public class MockPreferencesInteractor implements IPreferenceInteractor {
    */
   @Override
   public String getTheme() {
-    return "Light";
+    return "LIGHT";
   }
 
   /**
@@ -20,7 +20,7 @@ public class MockPreferencesInteractor implements IPreferenceInteractor {
    */
   @Override
   public String getLanguage() {
-    return "EN";
+    return "en";
   }
 
   /**
