@@ -24,7 +24,7 @@ public abstract class Obstacle extends GameObject {
     /**
      * The current speed of the object, used for calculations in update method
      */
-    private float speed = 0.1f;
+    private float speed = 0.5f;
 
     /**
      * Boolean representing whether or not the Racer has hit this Obstacle
@@ -61,7 +61,7 @@ public abstract class Obstacle extends GameObject {
 
     /**
      * getter method that returns whether or not this object has been collided with
-     * @return
+     * @return boolean whether or not this object has been collided with
      */
     boolean isCollided() {
         return collided;

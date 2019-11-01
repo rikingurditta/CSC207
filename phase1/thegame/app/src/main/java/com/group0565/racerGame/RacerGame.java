@@ -56,7 +56,7 @@ public class RacerGame extends GameObject implements Observer {
         leftButton.registerObserver(this);
         middleButton.registerObserver(this);
         rightButton.registerObserver(this);
-        racer = new Racer(new Vector(500, 1000), 2);
+        racer = new Racer(new Vector(475, 1600), 2);
         this.adopt(racer);
         obsManager = new ObstacleManager(this);
         this.adopt(obsManager);
@@ -98,13 +98,13 @@ public class RacerGame extends GameObject implements Observer {
 
     public void observe(Observable observable) {
         if (observable == leftButton) {
-            racer.setAbsolutePosition(new Vector(100, 1750));
+            racer.setAbsolutePosition(new Vector(100, 1600));
             racer.setLane(1);
         } else if (observable == middleButton) {
-            racer.setAbsolutePosition(new Vector(475, 1750));
+            racer.setAbsolutePosition(new Vector(475, 1600));
             racer.setLane(2);
         } else if (observable == rightButton) {
-            racer.setAbsolutePosition(new Vector(850, 1750));
+            racer.setAbsolutePosition(new Vector(850, 1600));
             racer.setLane(3);
         }
     }
@@ -164,7 +164,7 @@ public class RacerGame extends GameObject implements Observer {
         if (live) {
         this.spawnTime += ms;
         this.totalTime += ms;
-        if (this.spawnTime >= 2000) {
+        if (this.spawnTime >= 750) {
             obsManager.spawnObstacle();
             this.spawnTime = 0;
         }
