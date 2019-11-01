@@ -183,7 +183,7 @@ public class StatsMenu extends GameObject implements Observable, Observer {
     }
 
     private void updateDisplayers() {
-        if (this.history != null) {
+        if (this.history != null && historyDisplayers != null) {
             for (int i = 0; i < historyDisplayers.size(); i++) {
                 historyDisplayers.get(i).setEnable(true);
                 if (scroll + i < history.size())
