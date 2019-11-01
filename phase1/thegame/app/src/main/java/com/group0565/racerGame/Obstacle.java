@@ -5,6 +5,9 @@ import android.graphics.Canvas;
 import com.group0565.engine.gameobjects.GameObject;
 import com.group0565.math.Vector;
 
+/**
+ * An Obstacle in the game
+ */
 public abstract class Obstacle extends GameObject {
 
     /**
@@ -31,9 +34,9 @@ public abstract class Obstacle extends GameObject {
     /**
      * Constructs a new Obstacle Object
      *
-     * @param lane
-     * @param z
-     * @param parent
+     * @param lane the lane that this object occupies
+     * @param z the rendering level of this object
+     * @param parent the ObstacleManager that this object is adopted by
      */
     Obstacle(int lane, double z, ObstacleManager parent) {
         super(new Vector(lane * 275, 0), z);

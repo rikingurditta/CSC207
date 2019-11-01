@@ -6,15 +6,24 @@ import android.graphics.Paint;
 import com.group0565.engine.gameobjects.GameObject;
 import com.group0565.math.Vector;
 
-import java.util.HashSet;
-
+/**
+ * A Racer object (Player-controlled)
+ */
 public class Racer extends GameObject {
 
+    /**
+     * The lane that this object occupies
+     */
     private int lane;
 
+    /**
+     * A constructor for a Racer object
+     * @param position a Vector representing the position of this object on the screen
+     * @param z the rendering level of this object
+     */
     Racer(Vector position, double z) {
         super(position, z);
-        this.lane = 0;
+        this.lane = 2;
     }
 
 
@@ -34,6 +43,10 @@ public class Racer extends GameObject {
         return lane;
     }
 
+    /**
+     * Renders this object on the screen
+     * @param canvas The Canvas on which to draw
+     */
     @Override
     public void draw(Canvas canvas) {
         Paint colour = new Paint();
@@ -42,15 +55,5 @@ public class Racer extends GameObject {
         canvas.drawCircle(getAbsolutePosition().getX(),
                 getAbsolutePosition().getY(),
                 50, colour);
-    }
-
-    @Override
-    public void update(long ms) {
-//        Vector position = this.getAbsolutePosition();
-//        Vector delta = new Vector();
-//        float speed = 0.1f;
-//        delta = delta.add(new Vector(-speed, 0));
-//        delta = delta.multiply(ms);
-//        this.setAbsolutePosition(position.add(delta));
     }
 }
