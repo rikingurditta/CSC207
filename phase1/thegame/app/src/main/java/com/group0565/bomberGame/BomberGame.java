@@ -23,7 +23,7 @@ public class BomberGame extends GameObject {
   private BomberMan meBomberMan;
   private String numBombStats;
   private String damageDealtStats;
-  private int gameTimer = 60000;
+  private int gameTimer = 0;
 
   public BomberGame(Vector position) {
     super(position);
@@ -53,9 +53,9 @@ public class BomberGame extends GameObject {
     textPaint.setTextSize(50);
     textPaint.setColor(Color.BLACK);
 
-    canvas.drawText("Time Left:" + Math.floor(gameTimer/1000) + "s", 1500, 50, textPaint);
-    canvas.drawText(numBombStats, 1500, 300, textPaint);
-    canvas.drawText(damageDealtStats, 1500, 350, textPaint);
+    canvas.drawText("Time Left:" + Math.floor(gameTimer/1000) + "s", 1600, 200, textPaint);
+    canvas.drawText(numBombStats, 1600, 250, textPaint);
+    canvas.drawText(damageDealtStats, 1600, 300, textPaint);
   }
 
   @Override
@@ -71,14 +71,14 @@ public class BomberGame extends GameObject {
       gameChildren.remove(objID);
     }
     itemsToBeRemoved.clear();
-    gameTimer -= ms;
+    gameTimer += ms;
     updateStats();
 
   }
 
   public void updateStats(){
-    numBombStats = "Num Bombs Placed: " + meBomberMan.getNumBombsPlaced();
-    damageDealtStats = "Damage Dealt: " + meBomberMan.getDamageDealt();
+    numBombStats = "Bombs Placed:" + meBomberMan.getNumBombsPlaced();
+    damageDealtStats = "Damage Dealt:" + meBomberMan.getDamageDealt();
   }
   public void adoptLater(GameObject obj) {
     itemsToBeAdopted.add(obj);

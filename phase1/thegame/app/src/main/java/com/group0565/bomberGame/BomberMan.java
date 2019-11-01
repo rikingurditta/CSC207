@@ -87,13 +87,13 @@ public class BomberMan extends GridObject {
   public void draw(Canvas canvas) {
     Vector pos = getAbsolutePosition();
     Paint p = new Paint();
-    p.setColor(Color.GREEN);
+    p.setARGB(180, 0, 255, 0);
     // Draw an rectangle at our touch position
     canvas.drawRect(pos.getX(), pos.getY(),pos.getX() + 100, pos.getY() + 100, p);
     Paint textPaint = new Paint();
     textPaint.setTextSize(50);
     textPaint.setColor(Color.BLACK);
-    canvas.drawText(Integer.toString(hp), pos.getX(), pos.getY(), textPaint);
+    canvas.drawText("hp: "+hp, pos.getX(), pos.getY(), textPaint);
   }
 
   /**
@@ -173,7 +173,7 @@ public class BomberMan extends GridObject {
   }
 
   public void increaseDamageDealt() {
-    System.out.println("dmaageDEalt() called");
+
     damageDealt += 1;
   }
 

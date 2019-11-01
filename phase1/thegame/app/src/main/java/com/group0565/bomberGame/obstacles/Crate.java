@@ -64,7 +64,7 @@ public class Crate extends GridObject {
   public void draw(Canvas canvas) {
     Vector pos = getAbsolutePosition();
     Paint p = new Paint();
-    p.setColor(Color.GRAY);
+    p.setARGB(255, 102, 46, 10);
     // Draw a rectangle at our touch position
     canvas.drawRect(pos.getX(), pos.getY(), pos.getX() + 100, pos.getY() + 100, p);
   }

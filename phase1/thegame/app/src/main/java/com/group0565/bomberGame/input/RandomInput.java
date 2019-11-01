@@ -22,11 +22,12 @@ public class RandomInput extends InputSystem {
   @Override
   public BomberInput nextInput() {
     input = new BomberInput();
-    int r = (int) (Math.random() * 4);
+    int r = (int) (Math.random() * 5);
     if (r == 0) input.up = true;
     else if (r == 1) input.down = true;
     else if (r == 2) input.left = true;
     else if (r == 3) input.right = true;
+    else if (r == 4) input.bomb = true;
     return input;
   }
 }
