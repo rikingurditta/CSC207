@@ -47,7 +47,7 @@ public class RacerGame extends GameObject implements Observer {
         leftButton.registerObserver(this);
         middleButton.registerObserver(this);
         rightButton.registerObserver(this);
-        racer = new Racer(new Vector(500, 1000), 0);
+        racer = new Racer(new Vector(500, 1000), 2);
         this.adopt(racer);
         obsManager = new ObstacleManager(this);
         this.adopt(obsManager);
