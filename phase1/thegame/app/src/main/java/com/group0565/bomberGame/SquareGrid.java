@@ -1,11 +1,13 @@
 package com.group0565.bomberGame;
 
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.Paint;
 
 import com.group0565.bomberGame.obstacles.Crate;
 import com.group0565.engine.gameobjects.GameObject;
 import com.group0565.math.Vector;
+import com.group0565.theme.Themes;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -29,18 +31,23 @@ public class SquareGrid extends GameObject {
   private final Set<GridObject> itemsToBeAdded = new HashSet<>();
   /** The items to be removed from the grid on the next update. */
   private final Set<GridObject> itemsToBeRemoved = new HashSet<>();
+
   private BomberGame game;
+
+  private Paint paint = new Paint();
 
   /**
    * Create a new SquareGrid.
-   *  @param position The absolute position of this object.
+   *
+   * @param position The absolute position of this object.
    * @param z The z-level of the object.
    * @param width How many tiles wide this grid is.
    * @param height How many tiles tall this grid is.
    * @param tileWidth How wide each tile is, in pixels.
    * @param game
    */
-  public SquareGrid(Vector position, double z, int width, int height, int tileWidth, BomberGame game) {
+  public SquareGrid(
+      Vector position, double z, int width, int height, int tileWidth, BomberGame game) {
     super(position, z);
     this.width = width;
     this.height = height;
@@ -52,7 +59,8 @@ public class SquareGrid extends GameObject {
 
   /**
    * Create a new SquareGrid.
-   *  @param position The absolute position of this object.
+   *
+   * @param position The absolute position of this object.
    * @param width How many tiles wide this grid is.
    * @param height How many tiles tall this grid is.
    * @param tileWidth How wide each tile is, in pixels.
@@ -66,6 +74,17 @@ public class SquareGrid extends GameObject {
     this.game = game;
     this.windowWidth = width * tileWidth;
     this.windowHeight = height * tileWidth;
+  }
+
+  @Override
+  public void init() {
+    super.init();
+    paint.setStrokeWidth(1f);
+    if (getGlobalPreferences().theme == Themes.LIGHT) {
+      paint.setColor(Color.BLACK);
+    } else {
+      paint.setColor(Color.WHITE);
+    }
   }
 
   /**
@@ -108,20 +127,17 @@ public class SquareGrid extends GameObject {
     float y = pos.getY();
     float endX = x + windowWidth;
     float endY = y + windowHeight;
-    Paint p = new Paint();
-    p.setARGB(255, 0, 0, 0);
-    p.setStrokeWidth(1f);
     // draw the grid border
-    canvas.drawLine(x, y, endX, y, p);
-    canvas.drawLine(endX, y, endX, endY, p);
-    canvas.drawLine(endX, endY, x, endY, p);
-    canvas.drawLine(x, endY, x, y, p);
+    canvas.drawLine(x, y, endX, y, paint);
+    canvas.drawLine(endX, y, endX, endY, paint);
+    canvas.drawLine(endX, endY, x, endY, paint);
+    canvas.drawLine(x, endY, x, y, paint);
     // draw the grid lines
     for (int i = 0; i < width; i += 1) {
-      canvas.drawLine(x + i * tileWidth, y, x + i * tileWidth, endY, p);
+      canvas.drawLine(x + i * tileWidth, y, x + i * tileWidth, endY, paint);
     }
     for (int j = 0; j < height; j += 1) {
-      canvas.drawLine(x, y + j * tileWidth, endX, y + j * tileWidth, p);
+      canvas.drawLine(x, y + j * tileWidth, endX, y + j * tileWidth, paint);
     }
   }
 
@@ -172,6 +188,11 @@ public class SquareGrid extends GameObject {
       done = true;
       r = Coords.random(0, 0, width, height);
       for (GridObject g : items) {
+        if (g.gridCoords.equals(r)) {
+          done = false;
+        }
+      }
+      for (GridObject g : itemsToBeAdded) {
         if (g.gridCoords.equals(r)) {
           done = false;
         }

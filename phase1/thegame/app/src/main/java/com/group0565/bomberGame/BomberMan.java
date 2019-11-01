@@ -9,6 +9,7 @@ import com.group0565.bomberGame.input.BomberInput;
 import com.group0565.bomberGame.input.InputSystem;
 import com.group0565.engine.gameobjects.GameObject;
 import com.group0565.math.Vector;
+import com.group0565.theme.Themes;
 
 /** A BomberMan, aka a player in the game. */
 public class BomberMan extends GridObject {
@@ -35,6 +36,13 @@ public class BomberMan extends GridObject {
   private float speed = 2.0f / 1000;
 
   private int hp;
+
+  private int numBombsPlaced;
+
+  private int damageDealt;
+
+  private Paint bodyPaint = new Paint();
+  private Paint textPaint = new Paint();
 
   /**
    * Constructs a new BomberMan.
@@ -74,6 +82,18 @@ public class BomberMan extends GridObject {
     this.hp = hp;
   }
 
+  @Override
+  public void init() {
+    super.init();
+    bodyPaint.setARGB(180, 0, 255, 0);
+    textPaint.setTextSize(50);
+    if (getGlobalPreferences().theme == Themes.LIGHT) {
+      textPaint.setColor(Color.BLACK);
+    } else {
+      textPaint.setColor(Color.WHITE);
+    }
+  }
+
   /**
    * Draws ONLY this object to canvas. Its children are not drawn by this method.
    *
@@ -82,14 +102,13 @@ public class BomberMan extends GridObject {
   @Override
   public void draw(Canvas canvas) {
     Vector pos = getAbsolutePosition();
-    Paint p = new Paint();
-    p.setColor(Color.GREEN);
     // Draw an rectangle at our touch position
-    canvas.drawRect(pos.getX(), pos.getY(),pos.getX() + 100, pos.getY() + 100, p);
-    Paint textPaint = new Paint();
-    textPaint.setTextSize(50);
-    textPaint.setColor(Color.BLACK);
-    canvas.drawText(Integer.toString(hp), pos.getX(), pos.getY(), textPaint);
+    canvas.drawRect(pos.getX(), pos.getY(), pos.getX() + 100, pos.getY() + 100, bodyPaint);
+    canvas.drawText("hp: " + hp, pos.getX(), pos.getY(), textPaint);
+  }
+
+  public int getHp() {
+    return hp;
   }
 
   /**
@@ -150,13 +169,27 @@ public class BomberMan extends GridObject {
     if (!grid.canPlaceBomb(gridCoords)) {
       return false;
     }
-    GameObject bomb = new NormalBomb(gridCoords, -1, this.game, grid);
+    GameObject bomb = new NormalBomb(gridCoords, -1, this.game, grid, this);
     game.adoptLater(bomb);
+    numBombsPlaced += 1;
     return true;
   }
 
   public void damage(int d) {
     hp -= d;
+  }
+
+  public int getNumBombsPlaced() {
+    return numBombsPlaced;
+  }
+
+  public int getDamageDealt() {
+    return damageDealt;
+  }
+
+  public void increaseDamageDealt() {
+
+    damageDealt += 1;
   }
 
   @Override

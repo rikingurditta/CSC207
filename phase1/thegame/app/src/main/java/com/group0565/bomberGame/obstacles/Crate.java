@@ -8,12 +8,16 @@ import com.group0565.bomberGame.BomberGame;
 import com.group0565.bomberGame.Coords;
 import com.group0565.bomberGame.GridObject;
 import com.group0565.bomberGame.SquareGrid;
+import com.group0565.engine.gameobjects.GlobalPreferences;
 import com.group0565.math.Vector;
+import com.group0565.theme.Themes;
 
 /** A destructable obstacle that takes up one grid block. */
 public class Crate extends GridObject {
   /** The game this Crate belongs to. */
   private BomberGame game;
+
+  private Paint paint = new Paint();
 
   /**
    * Constructs a new Crate.
@@ -41,6 +45,16 @@ public class Crate extends GridObject {
     this.game = game;
   }
 
+  @Override
+  public void init() {
+    super.init();
+    if (getGlobalPreferences().theme == Themes.LIGHT) {
+      paint.setARGB(255, 102, 46, 10);
+    } else {
+      paint.setARGB(255, 102, 46, 10);
+    }
+  }
+
   /** Destroy this crate if the damage done to it is positive. */
   @Override
   public void damage(int d) {
@@ -63,9 +77,7 @@ public class Crate extends GridObject {
   @Override
   public void draw(Canvas canvas) {
     Vector pos = getAbsolutePosition();
-    Paint p = new Paint();
-    p.setColor(Color.GRAY);
     // Draw a rectangle at our touch position
-    canvas.drawRect(pos.getX(), pos.getY(), pos.getX() + 100, pos.getY() + 100, p);
+    canvas.drawRect(pos.getX(), pos.getY(), pos.getX() + 100, pos.getY() + 100, paint);
   }
 }
