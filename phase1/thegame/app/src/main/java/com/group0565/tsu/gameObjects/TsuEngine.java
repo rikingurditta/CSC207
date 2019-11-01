@@ -3,6 +3,7 @@ package com.group0565.tsu.gameObjects;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Paint;
+import android.graphics.Rect;
 import android.graphics.RectF;
 
 import com.group0565.engine.assets.TileSheet;
@@ -16,10 +17,6 @@ import com.group0565.math.Vector;
 import com.group0565.theme.Themes;
 import com.group0565.tsu.enums.Align;
 import com.group0565.tsu.enums.Scores;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.util.HashMap;
 import java.util.List;
@@ -55,6 +52,9 @@ public class TsuEngine extends GameObject implements Observer, Observable {
     private boolean paused = false;
     private long[] distribution;
     private double difficulty;
+    private boolean auto = false;
+
+    private Paint paintText;
 
     private Scores score = null;
     private long lastScore = -1;
@@ -108,6 +108,10 @@ public class TsuEngine extends GameObject implements Observer, Observable {
         this.pauseMenu.setEnable(false);
         this.pauseMenu.setZ(1);
         adopt(pauseMenu);
+
+        this.paintText = new Paint();
+        this.paintText.setTextSize(75);
+        this.paintText.setARGB(255, 0, 0, 0);
         super.init();
     }
 
@@ -129,6 +133,21 @@ public class TsuEngine extends GameObject implements Observer, Observable {
             for (int i = lastActive; i < objects.size() && timer > objects.get(i).getMsStart() + distribution[2]; i++) {
                 objects.get(i).setPassed(true);
             }
+            if (auto)
+                for (int i = lastActive; i < objects.size(); i++) {
+                    HitObject object = objects.get(i);
+                    if (object.getMsStart() < timer && object.getInputEvent() == null) {
+                        object.setInputEvent(new InputEvent());
+                        object.setHitTime(object.getMsStart());
+                        setHit(Scores.S300);
+                        lastScore = timer;
+                    } else if (object.getMsEnd() < timer) {
+                        object.getInputEvent().deactivate();
+                        object.setReleaseTime(object.getMsEnd());
+                    }
+                    if (object.getMsStart() > timer)
+                        break;
+                }
             while (lastActive < objects.size() && objects.get(lastActive).getMsEnd() < timer) {
                 if (objects.get(lastActive).getHitTime() < 0)
                     setHit(Scores.S0);
@@ -172,6 +191,7 @@ public class TsuEngine extends GameObject implements Observer, Observable {
     private void endGame(boolean finished) {
         if (finished) {
             this.sessionHitObjects = ScoreCalculator.computeScore(objects, difficulty);
+            this.sessionHitObjects.setCheats(auto);
         }
         ended = true;
         this.pauseEngine();
@@ -225,7 +245,7 @@ public class TsuEngine extends GameObject implements Observer, Observable {
         if (isEnable()) {
             if (super.processInput(event))
                 return true;
-            if (!pauseMenu.isEnable()) {
+            if (!isAuto() && !pauseMenu.isEnable()) {
                 captureEvent(event);
                 return true;
             }
@@ -255,15 +275,57 @@ public class TsuEngine extends GameObject implements Observer, Observable {
             this.judgementLine.setPosition(new Vector(MARGINS.getX(), canvas.getHeight() - MARGINS.getY()));
             this.judgementLine.setWidth(canvas.getWidth() - 2 * MARGINS.getX());
         }
-        if (getGlobalPreferences().theme == Themes.LIGHT)
+        if (getGlobalPreferences().theme == Themes.LIGHT) {
             canvas.drawRGB(255, 255, 255);
-        else if (getGlobalPreferences().theme == Themes.DARK)
+            this.paintText.setARGB(255, 0, 0, 0);
+        } else if (getGlobalPreferences().theme == Themes.DARK) {
             canvas.drawRGB(0, 0, 0);
-        this.comboRenderer.setNumber(combo);
-        double sh = (1 / 3d * Math.exp(-3 * Math.sqrt((timer - lastScore) / 250D)) + 1);
-        this.comboRenderer.setHeight((float) (sh * COMBO_HEIGHT));
-        this.scoreRenderer.setNumber(totalScore);
-        this.scoreRenderer.setHeight((float) (sh * TSCORE_HEIGHT));
+            this.paintText.setARGB(255, 255, 255, 255);
+        }
+        if (timer < -2000) {
+            float y = canvas.getHeight() / 3;
+            {
+                String str = getEngine().getGameAssetManager().getLanguagePack("Tsu", getGlobalPreferences().language).getToken("Title") + ": " +
+                        beatmap.getTitle();
+                Rect rect = new Rect();
+                this.paintText.getTextBounds(str, 0, str.length(), rect);
+                canvas.drawText(str, (canvas.getWidth() - rect.width()) / 2, y, paintText);
+                y += rect.height() + 10;
+            }
+            {
+                String str = getEngine().getGameAssetManager().getLanguagePack("Tsu", getGlobalPreferences().language).getToken("Artist") + ": " +
+                        beatmap.getArtist();
+                Rect rect = new Rect();
+                this.paintText.getTextBounds(str, 0, str.length(), rect);
+                canvas.drawText(str, (canvas.getWidth() - rect.width()) / 2, y, paintText);
+                y += rect.height() + 10;
+            }
+            {
+                String str = getEngine().getGameAssetManager().getLanguagePack("Tsu", getGlobalPreferences().language).getToken("Arranger") + ": " +
+                        beatmap.getArranger();
+                Rect rect = new Rect();
+                this.paintText.getTextBounds(str, 0, str.length(), rect);
+                canvas.drawText(str, (canvas.getWidth() - rect.width()) / 2, y, paintText);
+                y += rect.height() + 10;
+            }
+            {
+                String str = getEngine().getGameAssetManager().getLanguagePack("Tsu", getGlobalPreferences().language).getToken("Mapper") + ": " +
+                        beatmap.getMapper();
+                Rect rect = new Rect();
+                this.paintText.getTextBounds(str, 0, str.length(), rect);
+                canvas.drawText(str, (canvas.getWidth() - rect.width()) / 2, y, paintText);
+            }
+            this.comboRenderer.setEnable(false);
+            this.scoreRenderer.setEnable(false);
+        } else {
+            this.comboRenderer.setEnable(true);
+            this.scoreRenderer.setEnable(true);
+            this.comboRenderer.setNumber(combo);
+            double sh = (1 / 3d * Math.exp(-3 * Math.sqrt((timer - lastScore) / 250D)) + 1);
+            this.comboRenderer.setHeight((float) (sh * COMBO_HEIGHT));
+            this.scoreRenderer.setNumber(totalScore);
+            this.scoreRenderer.setHeight((float) (sh * TSCORE_HEIGHT));
+        }
     }
 
     public void startEngine() {
@@ -357,5 +419,13 @@ public class TsuEngine extends GameObject implements Observer, Observable {
 
     public SessionHitObjects getSessionHitObjects() {
         return sessionHitObjects;
+    }
+
+    public boolean isAuto() {
+        return auto;
+    }
+
+    public void setAuto(boolean auto) {
+        this.auto = auto;
     }
 }

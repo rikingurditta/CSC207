@@ -11,16 +11,27 @@ import com.group0565.hitObjectsRepository.SessionHitObjects;
 import com.group0565.preferences.IPreferenceInteractor;
 import com.group0565.preferences.PreferencesInjector;
 import com.group0565.preferences.UserPreferenceFactory;
+import com.group0565.tsu.TsuActivity;
 import com.thegame.TheGameApplication;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class TsuGame extends GameObject implements Observer {
     private String ThemePrefName = "";
     private String VolumePrefName = "";
     private String LanguagePrefName = "";
     private String DifficultyPrefName = "";
+    private String AutoPrefName = "";
     private TsuMenu menu;
     private StatsMenu stats;
     private TsuEngine engine;
+    private TsuActivity activity;
+    private List<SessionHitObjects> mockStatsData = new ArrayList<>();
+
+    public void setActivity(TsuActivity activity) {
+        this.activity = activity;
+    }
 
     @Override
     public void init() {
@@ -29,11 +40,22 @@ public class TsuGame extends GameObject implements Observer {
         LanguagePrefName = resources.getString(R.string.lan_pref_id);
         VolumePrefName = resources.getString(R.string.vol_pref_id);
         DifficultyPrefName = "tsu-difficulty";
-
+        AutoPrefName = "tsu-auto";
+        IPreferenceInteractor prefInter = PreferencesInjector.inject();
         this.menu = new TsuMenu(this);
+        Object difficulty;
+        if (!((difficulty = prefInter.getPreference(DifficultyPrefName, 5)) instanceof Double) && !(difficulty instanceof Float))
+            difficulty = 5D;
+        this.menu.setDifficulty((float) difficulty);
+        Object auto;
+        if (!((auto = prefInter.getPreference(AutoPrefName, false)) instanceof Boolean))
+            auto = false;
+        this.menu.setAuto((boolean) auto);
+
         this.engine = new TsuEngine();
         this.engine.setEnable(false);
-        this.stats = new StatsMenu();
+        this.stats = new StatsMenu(this);
+        this.stats.setZ(1);
         this.stats.setEnable(false);
         this.adopt(engine);
         this.adopt(stats);
@@ -51,6 +73,7 @@ public class TsuGame extends GameObject implements Observer {
                 menu.setStarted(false);
                 menu.setEnable(false);
                 engine.setDifficulty(menu.getDifficulty());
+                engine.setAuto(menu.getAuto());
                 engine.setEnable(true);
                 if (engine.isPaused())
                     engine.restartEngine();
@@ -59,6 +82,7 @@ public class TsuGame extends GameObject implements Observer {
             } else if (menu.isStats()) {
                 menu.setStats(false);
                 menu.setEnable(false);
+                getStats();
                 stats.setEnable(true);
             }
         } else if (observable == stats) {
@@ -72,13 +96,31 @@ public class TsuGame extends GameObject implements Observer {
                 SessionHitObjects objects = engine.getSessionHitObjects();
                 engine.setEnable(false);
                 engine.setEnded(false);
+                updateStats(objects);
                 if (objects != null){
-                    stats.setActive(objects);
+                    getStats();
+                    stats.setSelectedObject(objects);
                     stats.setEnable(true);
                 }else
                     menu.setEnable(true);
             }
         }
+    }
+
+    public void getStats() {
+        this.stats.setHistory(mockStatsData);
+//        synchronized (this.activity) {
+//            this.activity.getStats(stats);
+//            this.activity.notifyAll();
+//        }
+    }
+
+    public void updateStats(SessionHitObjects newObject) {
+        this.mockStatsData.add(newObject);
+//        synchronized (this.activity) {
+//            this.activity.updateStats(newObject);
+//            this.activity.notifyAll();
+//        }
     }
 
     public void setPreferences(String name, Object value) {
@@ -106,5 +148,9 @@ public class TsuGame extends GameObject implements Observer {
 
     public String getDifficultyPrefName() {
         return DifficultyPrefName;
+    }
+
+    public String getAutoPrefName() {
+        return AutoPrefName;
     }
 }
