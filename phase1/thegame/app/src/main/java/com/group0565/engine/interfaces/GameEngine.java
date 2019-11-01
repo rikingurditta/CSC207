@@ -6,6 +6,7 @@ import com.group0565.math.Vector;
 
 public interface GameEngine {
     InputManager getInputManager();
+
     GameAssetManager getGameAssetManager();
 
     abstract Vector getSize();

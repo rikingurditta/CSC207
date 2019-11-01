@@ -12,5 +12,5 @@ class SettingsPresenterInjector {
      */
     public static SettingsMVP.SettingsPresenter inject(SettingsMVP.SettingsView view) {
         return new SettingsPresenterImp(view);
-    }
+  }
 }

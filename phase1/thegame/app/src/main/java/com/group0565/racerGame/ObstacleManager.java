@@ -14,6 +14,7 @@ public class ObstacleManager extends GameObject {
 
     /**
      * A constructor for this ObstacleManager object
+     *
      * @param parent the RacerGame that is this object's parent
      */
     ObstacleManager(RacerGame parent) {
@@ -23,17 +24,16 @@ public class ObstacleManager extends GameObject {
     /**
      * Randomly spawns a new Obstacle for the game
      */
-     void spawnObstacle() {
-         // Randomly decide which type of Obstacle to spawn
+    void spawnObstacle() {
+        // Randomly decide which type of Obstacle to spawn
         double d = Math.random();
         // Randomly decide which lane to spawn an Obstacle in
-        int randomLane = 1 + (int)(Math.random() * ((3 - 1) + 1));
+        int randomLane = 1 + (int) (Math.random() * ((3 - 1) + 1));
         // Spawn Obstacle object according to RNG values
         if (d < 0.5) {
             this.adopt(new SquareObstacle(randomLane, 0, this));
-        }
-        else {
+        } else {
             this.adopt(new CircleObstacle(randomLane, 0, this));
         }
-    }
+  }
 }

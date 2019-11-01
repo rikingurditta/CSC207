@@ -29,16 +29,16 @@ public class TsuRenderer extends GameObject {
         return size;
     }
 
+    public void setSize(Vector size) {
+        this.size = size;
+    }
+
     @Override
     public void draw(Canvas canvas) {
         super.draw(canvas);
         if (size == null) {
             size = new Vector(canvas.getWidth(), canvas.getHeight());
         }
-    }
-
-    public void setSize(Vector size) {
-        this.size = size;
     }
 
     public Beatmap getBeatmap() {
@@ -51,8 +51,7 @@ public class TsuRenderer extends GameObject {
 
     public void setTimer(long ms) {
         this.timer = ms;
-        if (timer <= 0)
-            lastActive = 0;
+        if (timer <= 0) lastActive = 0;
         while (lastActive < objects.size() && objects.get(lastActive).getMsEnd() < timer)
             lastActive++;
     }

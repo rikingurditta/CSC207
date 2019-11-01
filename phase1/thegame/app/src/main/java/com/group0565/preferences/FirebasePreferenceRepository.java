@@ -20,19 +20,13 @@ import java.util.List;
  */
 public class FirebasePreferenceRepository implements IAsyncPreferencesRepository {
 
-  /**
-   * A reference to the Firebase database
-   */
+    /** A reference to the Firebase database */
   private DatabaseReference mDatabase;
 
-  /**
-   * A collection of the user preferences
-   */
+    /** A collection of the user preferences */
   private List<IPreference> userPreferences;
 
-  /**
-   * An observable live collection of the user preferences
-   */
+    /** An observable live collection of the user preferences */
   private MutableLiveData<List<IPreference>> livePreferences;
 
   /**
@@ -70,25 +64,25 @@ public class FirebasePreferenceRepository implements IAsyncPreferencesRepository
   public void getAll(AsyncDataListCallBack<IPreference> callback) {
     this.mDatabase.addListenerForSingleValueEvent(
             new ValueEventListener() {
-              @Override
-              public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                userPreferences = new ArrayList<>();
+                @Override
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                    userPreferences = new ArrayList<>();
 
-                dataSnapshot
-                        .getChildren()
-                        .forEach(
-                                child -> {
-                                  IPreference preference =
-                                          UserPreferenceFactory.getUserPreference(child.getKey(), child.getValue());
-                                  userPreferences.add(preference);
-                                });
+                    dataSnapshot
+                            .getChildren()
+                            .forEach(
+                                    child -> {
+                                        IPreference preference =
+                                                UserPreferenceFactory.getUserPreference(child.getKey(), child.getValue());
+                                        userPreferences.add(preference);
+                                    });
 
-                callback.onDataReceived(userPreferences);
-              }
+                    callback.onDataReceived(userPreferences);
+                }
 
-              @Override
-              public void onCancelled(@NonNull DatabaseError databaseError) {
-              }
+                @Override
+                public void onCancelled(@NonNull DatabaseError databaseError) {
+                }
             });
   }
 
@@ -122,17 +116,13 @@ public class FirebasePreferenceRepository implements IAsyncPreferencesRepository
     mDatabase.child(preference.getPrefName()).removeValue();
   }
 
-  /**
-   * Remove all child objects
-   */
+    /** Remove all child objects */
   @Override
   public void deleteAll() {
     mDatabase.removeValue();
   }
 
-  /**
-   * An implementation of ChildEventListener for PreferenceRepository
-   */
+    /** An implementation of ChildEventListener for PreferenceRepository */
   private class MyChildEventListener implements ChildEventListener {
 
     /**
@@ -192,8 +182,7 @@ public class FirebasePreferenceRepository implements IAsyncPreferencesRepository
      * @param s A string description of the change
      */
     @Override
-    public void onChildMoved(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-    }
+    public void onChildMoved(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {}
 
     /**
      * Operation was cancelled - ignore
@@ -201,8 +190,7 @@ public class FirebasePreferenceRepository implements IAsyncPreferencesRepository
      * @param databaseError The cancellation error
      */
     @Override
-    public void onCancelled(@NonNull DatabaseError databaseError) {
-    }
+    public void onCancelled(@NonNull DatabaseError databaseError) {}
 
     /** Safely updates the live data */
     private void updateLiveData() {

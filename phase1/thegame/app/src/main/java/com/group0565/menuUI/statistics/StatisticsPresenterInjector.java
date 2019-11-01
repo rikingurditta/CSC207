@@ -12,5 +12,5 @@ public class StatisticsPresenterInjector {
      */
     public static StatisticsMVP.StatisticsPresenter inject(StatisticsMVP.StatisticsView view) {
         return new StatisticsPresenterImp(view);
-    }
+  }
 }

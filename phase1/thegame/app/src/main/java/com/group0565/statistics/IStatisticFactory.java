@@ -13,5 +13,5 @@ public class IStatisticFactory {
      */
     public static IStatistic createGameStatistic(String statisticName, Object statisticValue) {
         return new GameStatistic<>(statisticName, statisticValue);
-    }
+  }
 }

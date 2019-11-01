@@ -40,5 +40,5 @@ public class StatisticsRowsPresenterImp implements StatisticsMVP.StatisticsRowsP
     @Override
     public int getStatsCount() {
         return statistics.size();
-    }
+  }
 }

@@ -41,7 +41,6 @@ public class FullHistoryDisplayer extends GameObject implements Observer {
     private Paint datePaint;
     private GraphRenderer graphRenderer;
 
-
     public FullHistoryDisplayer(StatsMenu menu, Vector position, Vector size) {
         super(position);
         this.size = size;
@@ -76,8 +75,9 @@ public class FullHistoryDisplayer extends GameObject implements Observer {
         float w = size.getX();
         float h = size.getY();
         this.cheat = getEngine().getGameAssetManager().getTileSheet("Tsu", "Buttons").getTile(21, 0);
-        this.graphRenderer = new GraphRenderer(new Vector(x + w / 2, y + h / 2),
-                new Vector(w / 2 - XMAR, h / 2 - YMAR), SAMPLES);
+        this.graphRenderer =
+                new GraphRenderer(
+                        new Vector(x + w / 2, y + h / 2), new Vector(w / 2 - XMAR, h / 2 - YMAR), SAMPLES);
         adopt(graphRenderer);
         super.init();
     }
@@ -107,8 +107,7 @@ public class FullHistoryDisplayer extends GameObject implements Observer {
         }
         canvas.drawRoundRect(x + 10, y + 10, x + w - 10, y + h - 10, 50, 50, center);
 
-        if (objects == null)
-            return;
+        if (objects == null) return;
         float gyb = 0;
         {
             Grade grade = Grade.num2Grade(objects.getGrade());
@@ -119,18 +118,27 @@ public class FullHistoryDisplayer extends GameObject implements Observer {
             canvas.drawText(gradeStr, x + XMAR, y + YMAR + gradeRect.height(), gradePaint);
             gyb = y + YMAR + gradeRect.height();
             if (objects.hasCheats()) {
-                canvas.drawBitmap(cheat, null, new RectF(x + XMAR + gradeRect.width() + CHEAT_BUF,
-                        y + YMAR + gradeRect.height() - CHEAT_SIZE, x + XMAR + gradeRect.width() + CHEAT_BUF + CHEAT_SIZE, y + YMAR + gradeRect.height()), null);
+                canvas.drawBitmap(
+                        cheat,
+                        null,
+                        new RectF(
+                                x + XMAR + gradeRect.width() + CHEAT_BUF,
+                                y + YMAR + gradeRect.height() - CHEAT_SIZE,
+                                x + XMAR + gradeRect.width() + CHEAT_BUF + CHEAT_SIZE,
+                                y + YMAR + gradeRect.height()),
+                        null);
             }
         }
         {
             int i = 0;
             for (Scores scores : Scores.values()) {
-                if (scores == Scores.SU)
-                    continue;
+                if (scores == Scores.SU) continue;
                 float fy = gyb + SCORE_YBUFF + i * (SCORE_HEIGHT + SCORE_YBUFF);
-                canvas.drawBitmap(scores.getBitmap(), null, new RectF(x + XMAR, y + fy,
-                        x + XMAR + SCORE_WIDTH, y + fy + SCORE_HEIGHT), null);
+                canvas.drawBitmap(
+                        scores.getBitmap(),
+                        null,
+                        new RectF(x + XMAR, y + fy, x + XMAR + SCORE_WIDTH, y + fy + SCORE_HEIGHT),
+                        null);
                 int count = getScoreCount(scores);
                 String countStr = ": " + count;
                 Rect countRect = new Rect();
@@ -145,30 +153,62 @@ public class FullHistoryDisplayer extends GameObject implements Observer {
             canvas.drawText(dateStr, x + XMAR, y + fy + dateRect.height(), difficultyPaint);
         }
         {
-            String scoreStr = getEngine().getGameAssetManager().getLanguagePack("Tsu", getGlobalPreferences().language).getToken("Score") + ": " +
-                    objects.getScore();
+            String scoreStr =
+                    getEngine()
+                            .getGameAssetManager()
+                            .getLanguagePack("Tsu", getGlobalPreferences().language)
+                            .getToken("Score")
+                            + ": "
+                            + objects.getScore();
             Rect scoreRect = new Rect();
             this.scorePaint.getTextBounds(scoreStr, 0, scoreStr.length(), scoreRect);
-            canvas.drawText(scoreStr, x + size.getX() - scoreRect.width() - XMAR, y + YMAR + scoreRect.height(), scorePaint);
+            canvas.drawText(
+                    scoreStr,
+                    x + size.getX() - scoreRect.width() - XMAR,
+                    y + YMAR + scoreRect.height(),
+                    scorePaint);
 
-            String comboStr = getEngine().getGameAssetManager().getLanguagePack("Tsu", getGlobalPreferences().language).getToken("Combo") + ": " + objects.getMaxCombo();
+            String comboStr =
+                    getEngine()
+                            .getGameAssetManager()
+                            .getLanguagePack("Tsu", getGlobalPreferences().language)
+                            .getToken("Combo")
+                            + ": "
+                            + objects.getMaxCombo();
             Rect comboRect = new Rect();
             this.comboPaint.getTextBounds(comboStr, 0, comboStr.length(), comboRect);
-            canvas.drawText(comboStr, x + size.getX() - comboRect.width() - XMAR, y + YMAR + scoreRect.height() + comboRect.height() + SCORE_YBUFF, comboPaint);
+            canvas.drawText(
+                    comboStr,
+                    x + size.getX() - comboRect.width() - XMAR,
+                    y + YMAR + scoreRect.height() + comboRect.height() + SCORE_YBUFF,
+                    comboPaint);
 
-            String difficultyStr = String.format(getEngine().getGameAssetManager().getLanguagePack("Tsu", getGlobalPreferences().language).getToken("Difficulty")
-                            + ": %.1f",
-                    objects.getDifficulty());
+            String difficultyStr =
+                    String.format(
+                            getEngine()
+                                    .getGameAssetManager()
+                                    .getLanguagePack("Tsu", getGlobalPreferences().language)
+                                    .getToken("Difficulty")
+                                    + ": %.1f",
+                            objects.getDifficulty());
             Rect difficultyRect = new Rect();
             this.difficultyPaint.getTextBounds(difficultyStr, 0, difficultyStr.length(), difficultyRect);
-            canvas.drawText(difficultyStr, x + size.getX() - difficultyRect.width() - XMAR, y + YMAR + scoreRect.height() + comboRect.height() + SCORE_YBUFF
-                    + difficultyRect.height() + SCORE_YBUFF, difficultyPaint);
+            canvas.drawText(
+                    difficultyStr,
+                    x + size.getX() - difficultyRect.width() - XMAR,
+                    y
+                            + YMAR
+                            + scoreRect.height()
+                            + comboRect.height()
+                            + SCORE_YBUFF
+                            + difficultyRect.height()
+                            + SCORE_YBUFF,
+                    difficultyPaint);
         }
     }
 
     private int getScoreCount(Scores score) {
-        if (objects == null)
-            return 0;
+        if (objects == null) return 0;
         switch (score) {
             case S300:
                 return objects.getS300();
@@ -235,8 +275,12 @@ public class FullHistoryDisplayer extends GameObject implements Observer {
                 int count = 0;
                 double sum = 0;
                 HitObject hitObject;
-                while (counter < hitObjects.size() && (hitObject = hitObjects.get(counter++)).getMsStart() < iend) {
-                    sum += toPct(hitObject.computeScore(ScoreCalculator.calculateDistribution(objects.getDifficulty())));
+                while (counter < hitObjects.size()
+                        && (hitObject = hitObjects.get(counter++)).getMsStart() < iend) {
+                    sum +=
+                            toPct(
+                                    hitObject.computeScore(
+                                            ScoreCalculator.calculateDistribution(objects.getDifficulty())));
                     count++;
                 }
                 results[i] = Math.max(0, Math.max(1, count / sum));
@@ -246,8 +290,7 @@ public class FullHistoryDisplayer extends GameObject implements Observer {
         @Override
         public void draw(Canvas canvas) {
             super.draw(canvas);
-            if (this.results == null)
-                return;
+            if (this.results == null) return;
             float x = getAbsolutePosition().getX();
             float y = getAbsolutePosition().getY();
             float w = size.getX();
@@ -269,8 +312,10 @@ public class FullHistoryDisplayer extends GameObject implements Observer {
                     double u = Math.min(c, n);
                     double dy = (MIN - l) / (u - l);
                     double cx = ws + dy * (we - ws);
-                    canvas.drawLine((float) ws, (float) (c * h), (float) cx, (float) (MIN * h), c <= MIN ? red : green);
-                    canvas.drawLine((float) cx, (float) (MIN * h), (float) we, (float) (n * h), n <= MIN ? red : green);
+                    canvas.drawLine(
+                            (float) ws, (float) (c * h), (float) cx, (float) (MIN * h), c <= MIN ? red : green);
+                    canvas.drawLine(
+                            (float) cx, (float) (MIN * h), (float) we, (float) (n * h), n <= MIN ? red : green);
                 }
             }
         }

@@ -97,8 +97,7 @@ public class AndroidGameEngine implements Runnable, GameEngine {
     public void render() {
         Canvas canvas = null;
         try {
-            if (this.surfaceHolder == null)
-                return;
+            if (this.surfaceHolder == null) return;
             canvas = this.surfaceHolder.lockCanvas();
             if (canvas != null) {
                 size = new Vector(canvas.getWidth(), canvas.getHeight());
@@ -164,12 +163,12 @@ public class AndroidGameEngine implements Runnable, GameEngine {
             if (surfaceHolder != null) {
                 Canvas canvas = null;
                 try {
-                  canvas = this.surfaceHolder.lockCanvas();
-                  if (canvas != null) size = new Vector(canvas.getWidth(), canvas.getHeight());
+                    canvas = this.surfaceHolder.lockCanvas();
+                    if (canvas != null) size = new Vector(canvas.getWidth(), canvas.getHeight());
                 } finally {
-                  if (canvas != null) {
-                    surfaceHolder.unlockCanvasAndPost(canvas);
-                  }
+                    if (canvas != null) {
+                        surfaceHolder.unlockCanvasAndPost(canvas);
+                    }
                 }
             }
         }
@@ -189,7 +188,7 @@ public class AndroidGameEngine implements Runnable, GameEngine {
         return inputManager;
     }
 
-    public GameAssetManager getGameAssetManager(){
+    public GameAssetManager getGameAssetManager() {
         return gameAssetManager;
     }
 

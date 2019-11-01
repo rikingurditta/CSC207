@@ -14,11 +14,11 @@ public class BomberMainActivity extends GameActivity {
 
         super(new BomberGame(new Vector()));
         IPreferenceInteractor prefInter = PreferencesInjector.inject();
-        this.getGame().setGlobalPreferences(
-                new GlobalPreferences(
-                        Themes.valueOf(prefInter.getTheme()),
-                        prefInter.getLanguage(),
-                        prefInter.getVolume()));
-
+        this.getGame()
+                .setGlobalPreferences(
+                        new GlobalPreferences(
+                                Themes.valueOf(prefInter.getTheme()),
+                                prefInter.getLanguage(),
+                                prefInter.getVolume()));
     }
 }

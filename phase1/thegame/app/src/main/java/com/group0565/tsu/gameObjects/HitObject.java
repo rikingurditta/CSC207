@@ -6,7 +6,7 @@ import com.group0565.tsu.enums.Scores;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-//import com.group0565.tsu.enums.Scores;
+// import com.group0565.tsu.enums.Scores;
 
 public class HitObject {
     private long msStart;
@@ -18,14 +18,6 @@ public class HitObject {
     private long holdTime = -1 << 31;
     private long releaseTime = -1 << 31;
     private InputEvent inputEvent;
-
-    public InputEvent getInputEvent() {
-        return inputEvent;
-    }
-
-    public void setInputEvent(InputEvent inputEvent) {
-        this.inputEvent = inputEvent;
-    }
 
     /**
      * Default constructor - DO NOT USE! REQUIRED FOR FIREBASE DB
@@ -50,12 +42,18 @@ public class HitObject {
         this.positionEnd = positionEnd;
     }
 
+    public InputEvent getInputEvent() {
+        return inputEvent;
+    }
+
+    public void setInputEvent(InputEvent inputEvent) {
+        this.inputEvent = inputEvent;
+    }
+
     public Double calculatePosition(long ms) {
         double t;
-        if (msStart == msEnd)
-            t = 0;
-        else
-            t = (ms - msStart) / (msEnd - msStart);
+        if (msStart == msEnd) t = 0;
+        else t = (ms - msStart) / (msEnd - msStart);
         t = Math.max(0, Math.min(1, t));
         return positionStart * (1 - t) + positionEnd * t;
     }
@@ -63,18 +61,13 @@ public class HitObject {
     public Scores computeScore(long[] distribution) {
         long delta = Math.abs(msStart - hitTime);
         Scores score = null;
-        if (delta < distribution[0])
-            score = Scores.S300;
-        else if (delta < distribution[1])
-            score = Scores.S150;
-        else if (delta < distribution[2])
-            score = Scores.S50;
-        else
-            score = passed ? Scores.S0 : Scores.SU;
+        if (delta < distribution[0]) score = Scores.S300;
+        else if (delta < distribution[1]) score = Scores.S150;
+        else if (delta < distribution[2]) score = Scores.S50;
+        else score = passed ? Scores.S0 : Scores.SU;
         if (score != Scores.S0 && score != Scores.SU) {
             if (releaseTime > 0) {
-                if (Math.abs(releaseTime - msEnd) > distribution[2])
-                    return Scores.S0;
+                if (Math.abs(releaseTime - msEnd) > distribution[2]) return Scores.S0;
             }
         }
         return score;

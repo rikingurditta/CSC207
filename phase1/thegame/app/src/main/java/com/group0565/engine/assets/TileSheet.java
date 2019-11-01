@@ -27,7 +27,7 @@ public abstract class TileSheet extends Asset implements LifecycleListener {
     }
 }
 
-class IllegalTileSetException extends IllegalAssetException{
+class IllegalTileSetException extends IllegalAssetException {
     IllegalTileSetException(String message) {
         super(message);
     }

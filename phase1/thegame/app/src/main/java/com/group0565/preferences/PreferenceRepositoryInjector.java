@@ -12,5 +12,5 @@ public class PreferenceRepositoryInjector {
      */
     public static IAsyncPreferencesRepository inject(String currUser) {
         return new FirebasePreferenceRepository(currUser);
-    }
+  }
 }

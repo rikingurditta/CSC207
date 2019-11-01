@@ -33,5 +33,5 @@ public enum MenuOptionID {
 
     public int getValue() {
         return value;
-    }
+  }
 }

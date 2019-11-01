@@ -10,8 +10,9 @@ public class CircleObstacle extends Obstacle {
 
     /**
      * Constructor for a CircleObstacle object
-     * @param lane the lane that this obstacle occupies
-     * @param z the rendering level of this object
+     *
+     * @param lane   the lane that this obstacle occupies
+     * @param z      the rendering level of this object
      * @param parent the ObstacleManager that this Obstacle is adopted by
      */
     CircleObstacle(int lane, double z, ObstacleManager parent) {
@@ -20,6 +21,7 @@ public class CircleObstacle extends Obstacle {
 
     /**
      * Renders this object on the screen
+     *
      * @param canvas The Canvas on which to draw
      */
     @Override
@@ -32,11 +34,9 @@ public class CircleObstacle extends Obstacle {
         }
         // Otherwise it remains red.
         else {
-            colour.setARGB(255, 255,0,0);
+            colour.setARGB(255, 255, 0, 0);
         }
 
-        canvas.drawCircle(getAbsolutePosition().getX(),
-                getAbsolutePosition().getY(),
-                75, colour);
-    }
+        canvas.drawCircle(getAbsolutePosition().getX(), getAbsolutePosition().getY(), 75, colour);
+  }
 }

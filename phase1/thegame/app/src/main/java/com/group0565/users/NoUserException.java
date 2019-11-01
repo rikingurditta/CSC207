@@ -6,5 +6,5 @@ package com.group0565.users;
 public class NoUserException extends Exception {
     public NoUserException(String errorMessage) {
         super(errorMessage);
-    }
+  }
 }

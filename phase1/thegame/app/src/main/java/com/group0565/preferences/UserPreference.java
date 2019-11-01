@@ -61,5 +61,5 @@ class UserPreference<T> implements IPreference<T> {
     @Override
     public void setValue(T value) {
         this.prefVal = value;
-    }
+  }
 }

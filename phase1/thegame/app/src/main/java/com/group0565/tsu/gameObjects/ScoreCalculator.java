@@ -18,7 +18,7 @@ public class ScoreCalculator {
         return distribution;
     }
 
-    public static SessionHitObjects computeScore(List<HitObject> objs, double difficulty){
+    public static SessionHitObjects computeScore(List<HitObject> objs, double difficulty) {
         SessionHitObjects sessionHitObjects = new SessionHitObjects();
         sessionHitObjects.setDatetime(new SimpleDateFormat("yyyy/mm/dd hh:mm").format(new Date()));
         sessionHitObjects.setDifficulty(difficulty);
@@ -31,30 +31,30 @@ public class ScoreCalculator {
         int S150 = 0;
         int S50 = 0;
         int S0 = 0;
-        for (HitObject object : objs){
+        for (HitObject object : objs) {
             Scores objscore = object.computeScore(dist);
-              if (objscore != Scores.S0 && objscore != Scores.SU) {
+            if (objscore != Scores.S0 && objscore != Scores.SU) {
                 combo++;
                 score += combo * objscore.getScore();
-              }else{
-                  combo = 0;
-              }
-              mxc = Math.max(mxc, combo);
-              switch (objscore){
-                  case SU:
-                  case S0:
-                      S0 += 1;
-                      break;
-                  case S300:
-                      S300 += 1;
-                      break;
-                  case S150:
-                      S150 += 1;
-                      break;
-                  case S50:
-                      S50 += 1;
-                      break;
-              }
+            } else {
+                combo = 0;
+            }
+            mxc = Math.max(mxc, combo);
+            switch (objscore) {
+                case SU:
+                case S0:
+                    S0 += 1;
+                    break;
+                case S300:
+                    S300 += 1;
+                    break;
+                case S150:
+                    S150 += 1;
+                    break;
+                case S50:
+                    S50 += 1;
+                    break;
+            }
         }
         sessionHitObjects.setS300(S300);
         sessionHitObjects.setS150(S150);
@@ -65,5 +65,4 @@ public class ScoreCalculator {
         sessionHitObjects.setGrade(Grade.score2Grade(score).getValue());
         return sessionHitObjects;
     }
-
 }

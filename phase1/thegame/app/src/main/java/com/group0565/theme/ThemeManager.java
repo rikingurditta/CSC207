@@ -16,5 +16,5 @@ public class ThemeManager {
         } catch (Exception ex) {
             return Themes.getDefault().getValue();
         }
-    }
+  }
 }

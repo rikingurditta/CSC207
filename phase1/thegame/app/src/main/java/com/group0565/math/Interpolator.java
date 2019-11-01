@@ -9,8 +9,8 @@ public abstract class Interpolator {
      */
     private final Vector source, dest;
     /**
-     * The current progress of the Interpolator. 0 is source, 1 is dest. Can be out side this range
-     * to extend the interpolation.
+     * The current progress of the Interpolator. 0 is source, 1 is dest. Can be out side this range to
+     * extend the interpolation.
      */
     private double progress;
 
@@ -68,5 +68,5 @@ public abstract class Interpolator {
      */
     public Vector getDest() {
         return dest;
-    }
+  }
 }

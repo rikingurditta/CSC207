@@ -12,19 +12,15 @@ public abstract class GameAssetManager implements LifecycleListener, Closeable {
     private HashMap<String, HashMap<String, JsonFile>> jsonSets = new HashMap<>();
     private HashMap<String, HashMap<String, LanguagePack>> languagePackSets = new HashMap<>();
 
-    public void init(){
+    public void init() {
         for (HashMap<String, TileSheet> tileSet : this.tileSheetSets.values())
-            for (TileSheet tileSheet : tileSet.values())
-                tileSheet.init();
+            for (TileSheet tileSheet : tileSet.values()) tileSheet.init();
         for (HashMap<String, AudioAsset> audioSet : this.audioSets.values())
-            for (AudioAsset audioAsset : audioSet.values())
-                audioAsset.init();
+            for (AudioAsset audioAsset : audioSet.values()) audioAsset.init();
         for (HashMap<String, JsonFile> jsonSet : this.jsonSets.values())
-            for (JsonFile jsonFile : jsonSet.values())
-                jsonFile.init();
+            for (JsonFile jsonFile : jsonSet.values()) jsonFile.init();
         for (HashMap<String, LanguagePack> languagePackSet : this.languagePackSets.values())
-            for (LanguagePack languagePack : languagePackSet.values())
-                languagePack.init();
+            for (LanguagePack languagePack : languagePackSet.values()) languagePack.init();
     }
 
     protected void registerAsset(String set, Asset asset, AssetType type) {
@@ -45,80 +41,63 @@ public abstract class GameAssetManager implements LifecycleListener, Closeable {
             }
     }
 
-    protected void registerTileSheet(String set, TileSheet sheet){
-        if (!tileSheetSets.containsKey(set))
-            tileSheetSets.put(set, new HashMap<>());
+    protected void registerTileSheet(String set, TileSheet sheet) {
+        if (!tileSheetSets.containsKey(set)) tileSheetSets.put(set, new HashMap<>());
         HashMap<String, TileSheet> tileSet = tileSheetSets.get(set);
-        if (tileSet != null)
-            tileSet.put(sheet.getName(), sheet);
+        if (tileSet != null) tileSet.put(sheet.getName(), sheet);
     }
 
-    protected void registerAudioAsset(String set, AudioAsset audioAsset){
-        if (!audioSets.containsKey(set))
-            audioSets.put(set, new HashMap<>());
+    protected void registerAudioAsset(String set, AudioAsset audioAsset) {
+        if (!audioSets.containsKey(set)) audioSets.put(set, new HashMap<>());
         HashMap<String, AudioAsset> audioSet = audioSets.get(set);
-        if (audioSet != null)
-            audioSet.put(audioAsset.getName(), audioAsset);
+        if (audioSet != null) audioSet.put(audioAsset.getName(), audioAsset);
     }
 
     protected void registerJsonFile(String set, JsonFile jsonFile) {
-        if (!jsonSets.containsKey(set))
-            jsonSets.put(set, new HashMap<>());
+        if (!jsonSets.containsKey(set)) jsonSets.put(set, new HashMap<>());
         HashMap<String, JsonFile> jsonSet = jsonSets.get(set);
-        if (jsonSet != null)
-            jsonSet.put(jsonFile.getName(), jsonFile);
+        if (jsonSet != null) jsonSet.put(jsonFile.getName(), jsonFile);
     }
 
     protected void registerLanguagePack(String set, LanguagePack languagePack) {
-        if (!languagePackSets.containsKey(set))
-            languagePackSets.put(set, new HashMap<>());
+        if (!languagePackSets.containsKey(set)) languagePackSets.put(set, new HashMap<>());
         HashMap<String, LanguagePack> languagePackSet = languagePackSets.get(set);
-        if (languagePackSet != null)
-            languagePackSet.put(languagePack.getName(), languagePack);
+        if (languagePackSet != null) languagePackSet.put(languagePack.getName(), languagePack);
     }
 
-    public TileSheet getTileSheet(String set, String name){
+    public TileSheet getTileSheet(String set, String name) {
         HashMap<String, TileSheet> tileSet = tileSheetSets.get(set);
-        if (tileSet != null)
-            return tileSet.get(name);
+        if (tileSet != null) return tileSet.get(name);
         return null;
     }
 
-    public AudioAsset getAudioAsset(String set, String name){
+    public AudioAsset getAudioAsset(String set, String name) {
         HashMap<String, AudioAsset> audioSet = this.audioSets.get(set);
-        if (audioSet != null)
-            return audioSet.get(name);
+        if (audioSet != null) return audioSet.get(name);
         return null;
     }
 
     public JsonFile getJsonFile(String set, String name) {
         HashMap<String, JsonFile> jsonSet = this.jsonSets.get(set);
-        if (jsonSet != null)
-            return jsonSet.get(name);
+        if (jsonSet != null) return jsonSet.get(name);
         return null;
     }
 
     public LanguagePack getLanguagePack(String set, String name) {
         HashMap<String, LanguagePack> languagePackSet = this.languagePackSets.get(set);
-        if (languagePackSet != null)
-            return languagePackSet.get(name);
+        if (languagePackSet != null) return languagePackSet.get(name);
         return null;
     }
 
-
     @Override
-    public void close(){
+    public void close() {
         for (HashMap<String, TileSheet> tileSet : this.tileSheetSets.values())
-            for (TileSheet tileSheet : tileSet.values())
-                tileSheet.close();
+            for (TileSheet tileSheet : tileSet.values()) tileSheet.close();
         for (HashMap<String, AudioAsset> audioSet : this.audioSets.values())
-            for (AudioAsset audioAsset : audioSet.values())
-                audioAsset.close();
+            for (AudioAsset audioAsset : audioSet.values()) audioAsset.close();
         for (HashMap<String, JsonFile> jsonSet : this.jsonSets.values())
-            for (JsonFile jsonFile : jsonSet.values())
-                jsonFile.close();
+            for (JsonFile jsonFile : jsonSet.values()) jsonFile.close();
         for (HashMap<String, LanguagePack> languagePackSet : this.languagePackSets.values())
-            for (LanguagePack languagePack : languagePackSet.values())
-                languagePack.close();
+            for (LanguagePack languagePack : languagePackSet.values()) languagePack.close();
     }
 }

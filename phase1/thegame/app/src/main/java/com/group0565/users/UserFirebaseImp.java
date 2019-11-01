@@ -78,5 +78,5 @@ public class UserFirebaseImp implements IUser {
             throw new NoUserException("User is not connected");
         }
         user.delete();
-    }
+  }
 }

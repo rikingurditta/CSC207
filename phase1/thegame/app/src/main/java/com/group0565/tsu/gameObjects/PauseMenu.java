@@ -22,7 +22,6 @@ public class PauseMenu extends GameObject implements Observer, Observable {
     private boolean resume;
     private boolean exit;
 
-
     public PauseMenu(Vector position, Vector size) {
         super(position);
         this.size = size;
@@ -41,23 +40,33 @@ public class PauseMenu extends GameObject implements Observer, Observable {
         float w = size.getX();
         float h = size.getY();
 
-        Bitmap resumeBitmap = getEngine().getGameAssetManager().getTileSheet("Tsu", "Buttons").getTile(10, 0);
-        this.resumeButton = new Button(new Vector(cx + (w - 2 * BUTTON_SIZE) / 3, cy + (h - BUTTON_SIZE) / 2),
-                new Vector(BUTTON_SIZE, BUTTON_SIZE), resumeBitmap, resumeBitmap);
+        Bitmap resumeBitmap =
+                getEngine().getGameAssetManager().getTileSheet("Tsu", "Buttons").getTile(10, 0);
+        this.resumeButton =
+                new Button(
+                        new Vector(cx + (w - 2 * BUTTON_SIZE) / 3, cy + (h - BUTTON_SIZE) / 2),
+                        new Vector(BUTTON_SIZE, BUTTON_SIZE),
+                        resumeBitmap,
+                        resumeBitmap);
         resumeButton.registerObserver(this);
         adopt(resumeButton);
 
-        Bitmap exitBitmap = getEngine().getGameAssetManager().getTileSheet("Tsu", "Buttons").getTile(11, 0);
-        this.exitButton = new Button(new Vector(cx + 2 * (w - 2 * BUTTON_SIZE) / 3 + BUTTON_SIZE, cy + (h - BUTTON_SIZE) / 2),
-                new Vector(BUTTON_SIZE, BUTTON_SIZE), exitBitmap, exitBitmap);
+        Bitmap exitBitmap =
+                getEngine().getGameAssetManager().getTileSheet("Tsu", "Buttons").getTile(11, 0);
+        this.exitButton =
+                new Button(
+                        new Vector(
+                                cx + 2 * (w - 2 * BUTTON_SIZE) / 3 + BUTTON_SIZE, cy + (h - BUTTON_SIZE) / 2),
+                        new Vector(BUTTON_SIZE, BUTTON_SIZE),
+                        exitBitmap,
+                        exitBitmap);
         exitButton.registerObserver(this);
         adopt(exitButton);
     }
 
     @Override
     public boolean processInput(InputEvent event) {
-        if (!isEnable())
-            return false;
+        if (!isEnable()) return false;
         if (!super.processInput(event)) {
             float x = getAbsolutePosition().getX();
             float y = getAbsolutePosition().getY();
@@ -69,8 +78,7 @@ public class PauseMenu extends GameObject implements Observer, Observable {
                 captureEvent(event);
                 return true;
             }
-        } else
-            return true;
+        } else return true;
         return false;
     }
 
@@ -82,12 +90,9 @@ public class PauseMenu extends GameObject implements Observer, Observable {
         float w = size.getX();
         float h = size.getY();
         canvas.drawRoundRect(x, y, x + w, y + h, 50, 50, rim);
-        if (getGlobalPreferences().theme == Themes.LIGHT)
-            center.setARGB(255, 255, 255, 255);
-        else if (getGlobalPreferences().theme == Themes.DARK)
-            center.setARGB(255, 0, 0, 0);
+        if (getGlobalPreferences().theme == Themes.LIGHT) center.setARGB(255, 255, 255, 255);
+        else if (getGlobalPreferences().theme == Themes.DARK) center.setARGB(255, 0, 0, 0);
         canvas.drawRoundRect(x + 10, y + 10, x + w - 10, y + h - 10, 50, 50, center);
-
     }
 
     @Override

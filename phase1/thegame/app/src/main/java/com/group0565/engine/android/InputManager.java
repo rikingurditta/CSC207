@@ -8,7 +8,6 @@ import com.group0565.engine.gameobjects.GameObject;
 import com.group0565.engine.gameobjects.InputEvent;
 import com.group0565.math.Vector;
 
-
 public class InputManager implements View.OnTouchListener {
     private static final String TAG = "InputManager";
 
@@ -20,26 +19,25 @@ public class InputManager implements View.OnTouchListener {
     }
 
     /**
-     * Called when a touch event is dispatched to a view. This allows listeners to
-     * get a chance to respond before the target view.
+     * Called when a touch event is dispatched to a view. This allows listeners to get a chance to
+     * respond before the target view.
      *
      * @param v     The view the touch event has been dispatched to.
-     * @param event The MotionEvent object containing full information about
-     *              the event.
+     * @param event The MotionEvent object containing full information about the event.
      * @return True if the listener has consumed the event, false otherwise.
      */
     @Override
     public boolean onTouch(View v, MotionEvent event) {
         //        Log.i(TAG, event.toString());
         v.getParent().requestDisallowInterceptTouchEvent(true);
-        if (event.getActionMasked() == MotionEvent.ACTION_DOWN || event.getActionMasked() == MotionEvent.ACTION_POINTER_DOWN) {
+        if (event.getActionMasked() == MotionEvent.ACTION_DOWN
+                || event.getActionMasked() == MotionEvent.ACTION_POINTER_DOWN) {
             int pointerIndex = event.getActionIndex();
             int pointerID = event.getPointerId(pointerIndex);
             Vector pos = new Vector(event.getX(pointerIndex), event.getY(pointerIndex));
             InputEvent inputEvent = new InputEvent(pos);
             InputEvent prev = eventManager.get(pointerID, null);
-            if (prev != null)
-                prev.deactivate();
+            if (prev != null) prev.deactivate();
             eventManager.put(pointerID, inputEvent);
             game.processInput(inputEvent);
         } else if (event.getActionMasked() == MotionEvent.ACTION_MOVE) {
@@ -56,14 +54,12 @@ public class InputManager implements View.OnTouchListener {
             inputEvent.setPos(pos);
             inputEvent.deactivate();
             eventManager.remove(pointerID);
-        } else if (event.getActionMasked() == MotionEvent.ACTION_UP){
-            for (int i = 0; i < eventManager.size(); i ++) {
+        } else if (event.getActionMasked() == MotionEvent.ACTION_UP) {
+            for (int i = 0; i < eventManager.size(); i++) {
                 InputEvent e = eventManager.get(i);
-                if (e != null)
-                    e.deactivate();
+                if (e != null) e.deactivate();
             }
-        }else
-            return false;
+        } else return false;
         return true;
     }
 
@@ -71,4 +67,3 @@ public class InputManager implements View.OnTouchListener {
         this.game = game;
     }
 }
-

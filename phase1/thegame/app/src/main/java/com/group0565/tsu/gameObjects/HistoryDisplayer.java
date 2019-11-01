@@ -24,7 +24,8 @@ class HistoryDisplayer extends Button {
     private Paint comboPaint;
     private StatsMenu statsMenu;
 
-    public HistoryDisplayer(StatsMenu statsMenu, Vector position, Vector size, SessionHitObjects objects) {
+    public HistoryDisplayer(
+            StatsMenu statsMenu, Vector position, Vector size, SessionHitObjects objects) {
         super(position, size);
         this.statsMenu = statsMenu;
         this.objects = objects;
@@ -69,8 +70,7 @@ class HistoryDisplayer extends Button {
             this.scorePaint.setARGB(255, 255, 255, 255);
             this.comboPaint.setARGB(255, 255, 255, 255);
         }
-        if (this.objects == statsMenu.getSelectedObject())
-            this.center.setARGB(255, 128, 128, 128);
+        if (this.objects == statsMenu.getSelectedObject()) this.center.setARGB(255, 128, 128, 128);
         canvas.drawRect(x + 10, y + 10, x + w - 10, y + h - 10, center);
         if (objects != null) {
             {
@@ -81,8 +81,15 @@ class HistoryDisplayer extends Button {
                 this.letterPaint.getTextBounds(gradeStr, 0, gradeStr.length(), gradeRect);
                 canvas.drawText(gradeStr, x + 10, y + 15 + gradeRect.height(), letterPaint);
                 if (objects.hasCheats()) {
-                    canvas.drawBitmap(cheat, null, new RectF(x + 10 + gradeRect.width() + 10,
-                            y + 15 + gradeRect.height() - CHEAT_SIZE, x + 10 + gradeRect.width() + 10 + CHEAT_SIZE, y + 15 + gradeRect.height()), null);
+                    canvas.drawBitmap(
+                            cheat,
+                            null,
+                            new RectF(
+                                    x + 10 + gradeRect.width() + 10,
+                                    y + 15 + gradeRect.height() - CHEAT_SIZE,
+                                    x + 10 + gradeRect.width() + 10 + CHEAT_SIZE,
+                                    y + 15 + gradeRect.height()),
+                            null);
                 }
             }
             canvas.drawText(objects.getDatetime(), x + 10, y + getSize().getY() - 15, datePaint);
@@ -90,13 +97,21 @@ class HistoryDisplayer extends Button {
                 String scoreStr = String.valueOf(objects.getScore());
                 Rect scoreRect = new Rect();
                 this.scorePaint.getTextBounds(scoreStr, 0, scoreStr.length(), scoreRect);
-                canvas.drawText(scoreStr, x + getSize().getX() - scoreRect.width() - 25, y + 15 + scoreRect.height(), scorePaint);
+                canvas.drawText(
+                        scoreStr,
+                        x + getSize().getX() - scoreRect.width() - 25,
+                        y + 15 + scoreRect.height(),
+                        scorePaint);
             }
             {
                 String comboStr = String.valueOf(objects.getMaxCombo());
                 Rect comboRect = new Rect();
                 this.scorePaint.getTextBounds(comboStr, 0, comboStr.length(), comboRect);
-                canvas.drawText(comboStr, x + getSize().getX() - comboRect.width() - 25, y + getSize().getY() - 15, comboPaint);
+                canvas.drawText(
+                        comboStr,
+                        x + getSize().getX() - comboRect.width() - 25,
+                        y + getSize().getY() - 15,
+                        comboPaint);
             }
         }
     }

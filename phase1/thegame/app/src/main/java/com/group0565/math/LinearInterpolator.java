@@ -31,5 +31,5 @@ public class LinearInterpolator extends Interpolator {
         double p = this.getProgress() + dp;
         this.setProgress((float) p);
         return getDest().subtract(getSource()).multiply((float) p).add(getSource());
-    }
+  }
 }

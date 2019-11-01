@@ -68,5 +68,5 @@ public interface StatisticsMVP extends BaseMVP {
      */
     interface StatisticsView extends BaseMVP.BaseView {
         void setGameStats(String gameName, List<IStatistic> data);
-    }
+  }
 }

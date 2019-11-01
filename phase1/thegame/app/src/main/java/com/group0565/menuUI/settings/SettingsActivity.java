@@ -85,5 +85,5 @@ public class SettingsActivity extends AppCompatActivity implements SettingsMVP.S
      */
     public void setActivityTheme() {
         setTheme(settingsPresenter.getAppTheme());
-    }
+  }
 }

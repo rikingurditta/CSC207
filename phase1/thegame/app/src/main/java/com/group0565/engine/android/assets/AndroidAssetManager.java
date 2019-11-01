@@ -16,7 +16,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 
-public class AndroidAssetManager extends GameAssetManager{
+public class AndroidAssetManager extends GameAssetManager {
     private static final String TAG = "AndroidAssetManager";
     private static final String TILESHEET_NAME = "TileSheets";
     private static final String AUDIO_NAME = "Audio";
@@ -25,7 +25,7 @@ public class AndroidAssetManager extends GameAssetManager{
 
     private AssetManager assetManager;
 
-    public AndroidAssetManager(AssetManager assetManager){
+    public AndroidAssetManager(AssetManager assetManager) {
         this.assetManager = assetManager;
     }
 
@@ -35,7 +35,7 @@ public class AndroidAssetManager extends GameAssetManager{
             InputStream stream = assetManager.open("json/resources.json");
             JsonReader reader = new JsonReader(new InputStreamReader(stream));
             reader.beginObject();
-            while (reader.peek() == JsonToken.NAME){
+            while (reader.peek() == JsonToken.NAME) {
                 String name = reader.nextName();
                 AssetType type = null;
                 switch (name) {
@@ -96,8 +96,8 @@ public class AndroidAssetManager extends GameAssetManager{
         String path = null;
         int tileWidth = -1;
         int tileHeight = -1;
-        while (reader.peek() != JsonToken.END_OBJECT){
-            switch (reader.nextName()){
+        while (reader.peek() != JsonToken.END_OBJECT) {
+            switch (reader.nextName()) {
                 case "Path":
                     path = reader.nextString();
                     break;
@@ -117,8 +117,8 @@ public class AndroidAssetManager extends GameAssetManager{
         reader.beginObject();
         String path = null;
         float volume = -1;
-        while (reader.peek() != JsonToken.END_OBJECT){
-            switch (reader.nextName()){
+        while (reader.peek() != JsonToken.END_OBJECT) {
+            switch (reader.nextName()) {
                 case "Path":
                     path = reader.nextString();
                     break;

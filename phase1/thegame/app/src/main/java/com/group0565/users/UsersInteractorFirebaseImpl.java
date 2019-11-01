@@ -64,5 +64,5 @@ public class UsersInteractorFirebaseImpl implements IUsersInteractor {
      */
     private void updateUserOnAuthChange() {
         userLiveData.setValue(new UserFirebaseImp());
-    }
+  }
 }

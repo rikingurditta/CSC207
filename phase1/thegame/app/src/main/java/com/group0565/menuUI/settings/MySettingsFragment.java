@@ -67,9 +67,7 @@ public class MySettingsFragment extends PreferenceFragmentCompat {
      * An interface for callback to refresh caller
      */
     interface RefreshCallback {
-        /**
-         * Refresh the caller
-         */
+        /** Refresh the caller */
         void refresh();
-    }
+  }
 }

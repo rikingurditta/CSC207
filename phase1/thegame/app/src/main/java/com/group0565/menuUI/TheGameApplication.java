@@ -140,9 +140,7 @@ public class TheGameApplication extends Application implements IErrorDisplayer {
      */
     private static class MyOnSharedPreferenceChangeListener
             implements SharedPreferences.OnSharedPreferenceChangeListener {
-        /**
-         * An instance of the PreferenceRepository
-         */
+        /** An instance of the PreferenceRepository */
         private final IAsyncPreferencesRepository rep;
 
         /**
@@ -158,11 +156,11 @@ public class TheGameApplication extends Application implements IErrorDisplayer {
          * Update the db preference based on the change in sharedPreferences
          *
          * @param sharedPreferences The SharedPreference object currently in use
-         * @param key               The preference key
+         * @param key The preference key
          */
         @Override
         public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
             rep.put(UserPreferenceFactory.getUserPreference(key, sharedPreferences.getAll().get(key)));
         }
-    }
+  }
 }

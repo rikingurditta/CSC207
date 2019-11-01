@@ -64,12 +64,12 @@ public abstract class Bomb extends GridObject {
         p.setARGB(255, 255, 206, 0);
       } else if (bombTimer < bombExplodeTime / 5 * 4) {
         p.setARGB(255, 255, 154, 0);
-      }else{
+      } else {
         p.setARGB(250, 255, 90, 0);
       }
     } else if (bombTimer < bombExplodeTime + explosionDuration) {
       if (!duringExplosion) {
-        //System.out.println("explosion " + this.getUUID());
+          // System.out.println("explosion " + this.getUUID());
         explode();
       }
       // actual explosion

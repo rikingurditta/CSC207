@@ -11,14 +11,14 @@ public class HitObjectsRepositoryInjector {
    */
   public static void inject(RepositoryInjectionListener listener) {
 
-            IUsersInteractor.getInstance()
-                .getUserObservable()
-                .observeForever(
-                    iUser -> {
-                      if (iUser.isConnected()) {
-                        listener.onSuccess(new FirebaseSessionHitObjectsRepository(iUser.getUid()));
-                      }
-                    });
+      IUsersInteractor.getInstance()
+              .getUserObservable()
+              .observeForever(
+                      iUser -> {
+                          if (iUser.isConnected()) {
+                              listener.onSuccess(new FirebaseSessionHitObjectsRepository(iUser.getUid()));
+                          }
+                      });
   }
 
   /** The listener interface for the injection */

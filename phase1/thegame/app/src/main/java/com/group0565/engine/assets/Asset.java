@@ -7,15 +7,14 @@ public class Asset implements Closeable {
     private final String path;
 
     public Asset(String name, String path) {
-        if (name == null)
-            throw new IllegalAssetException("Name of TileSet is missing");
+        if (name == null) throw new IllegalAssetException("Name of TileSet is missing");
         this.name = name;
-        if (path == null)
-            throw new IllegalAssetException("Path of TileSet" + name + " is missing");
+        if (path == null) throw new IllegalAssetException("Path of TileSet" + name + " is missing");
         this.path = path;
     }
 
-    public void init(){}
+    public void init() {
+    }
 
     public String getName() {
         return name;
@@ -25,14 +24,12 @@ public class Asset implements Closeable {
         return path;
     }
 
-
     @Override
-    public void close(){
-
+    public void close() {
     }
 }
 
-class IllegalAssetException extends RuntimeException{
+class IllegalAssetException extends RuntimeException {
     IllegalAssetException(String message) {
         super(message);
     }

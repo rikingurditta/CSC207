@@ -9,7 +9,6 @@ public class JsonFile extends Asset {
         super(name, path);
     }
 
-
     public JSONObject getJsonObject() {
         return jsonObject;
     }

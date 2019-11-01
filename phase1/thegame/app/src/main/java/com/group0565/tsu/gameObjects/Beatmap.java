@@ -29,7 +29,6 @@ public class Beatmap {
     private long leadin;
     private List<HitObject> hitObjects;
 
-
     public Beatmap(String set, String name, GameAssetManager manager) {
         super();
         this.jsonFile = manager.getJsonFile(set, name);

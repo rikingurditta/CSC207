@@ -12,8 +12,9 @@ public class SquareObstacle extends Obstacle {
 
     /**
      * Constructor for a SquareObstacle Object
-     * @param lane the lane that this object occupies
-     * @param z the rendering level
+     *
+     * @param lane   the lane that this object occupies
+     * @param z      the rendering level
      * @param parent the ObstacleManager that this object is adopted by
      */
     SquareObstacle(int lane, double z, ObstacleManager parent) {
@@ -22,6 +23,7 @@ public class SquareObstacle extends Obstacle {
 
     /**
      * Renders this object on the screen
+     *
      * @param canvas The Canvas on which to draw
      */
     @Override
@@ -35,11 +37,14 @@ public class SquareObstacle extends Obstacle {
 
         // Otherwise it remains red
         else {
-            colour.setARGB(255, 255,0,0);
+            colour.setARGB(255, 255, 0, 0);
         }
 
-        canvas.drawRect(getAbsolutePosition().getX() - 75,
-                getAbsolutePosition().getY() - 75, getAbsolutePosition().getX() + 75,
-                getAbsolutePosition().getY() + 75, colour);
-    }
+        canvas.drawRect(
+                getAbsolutePosition().getX() - 75,
+                getAbsolutePosition().getY() - 75,
+                getAbsolutePosition().getX() + 75,
+                getAbsolutePosition().getY() + 75,
+                colour);
+  }
 }

@@ -15,12 +15,11 @@ public class GameView extends SurfaceView implements LifecycleListener {
     }
 
     /**
-     * Call this view's OnClickListener, if it is defined.  Performs all normal
-     * actions associated with clicking: reporting accessibility event, playing
-     * a sound, etc.
+     * Call this view's OnClickListener, if it is defined. Performs all normal actions associated with
+     * clicking: reporting accessibility event, playing a sound, etc.
      *
-     * @return True there was an assigned OnClickListener that was called, false
-     * otherwise is returned.
+     * @return True there was an assigned OnClickListener that was called, false otherwise is
+     * returned.
      */
     @Override
     public boolean performClick() {

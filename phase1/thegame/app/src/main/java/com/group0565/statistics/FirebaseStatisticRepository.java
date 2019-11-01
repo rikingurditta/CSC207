@@ -206,9 +206,7 @@ class FirebaseStatisticRepository implements IAsyncStatisticsRepository {
         public void onCancelled(@NonNull DatabaseError databaseError) {
         }
 
-        /**
-         * Safely updates the live data
-         */
+        /** Safely updates the live data */
         private void updateLiveData() {
             try {
                 liveStatistics.setValue(userStatistics);
@@ -216,5 +214,5 @@ class FirebaseStatisticRepository implements IAsyncStatisticsRepository {
                 liveStatistics.postValue(userStatistics);
             }
         }
-    }
+  }
 }

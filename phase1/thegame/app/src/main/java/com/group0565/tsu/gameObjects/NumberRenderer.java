@@ -33,20 +33,19 @@ public class NumberRenderer extends GameObject {
         super.draw(canvas);
         String str = String.valueOf(number);
         float left;
-        if (align == Align.LEFT)
-            left = this.margin.getX();
+        if (align == Align.LEFT) left = this.margin.getX();
         else if (align == Align.CENTER)
             left = (canvas.getWidth() - height * str.length()) / 2 + this.margin.getX();
-        else
-            left = canvas.getWidth() - height * str.length() - this.margin.getX();
+        else left = canvas.getWidth() - height * str.length() - this.margin.getX();
         for (int i = 0; i < str.length(); i++) {
             char c = str.charAt(i);
-            if (!Character.isDigit(c))
-                continue;
+            if (!Character.isDigit(c)) continue;
             int n = char2int(c);
-            canvas.drawBitmap(tileSheet.getTile(n, 0), null,
-                    new RectF(left, this.margin.getY(), left + height,
-                            this.margin.getY() + height), new Paint());
+            canvas.drawBitmap(
+                    tileSheet.getTile(n, 0),
+                    null,
+                    new RectF(left, this.margin.getY(), left + height, this.margin.getY() + height),
+                    new Paint());
             left += height * 0.8;
         }
     }

@@ -18,25 +18,18 @@ public class Racer extends GameObject {
 
     /**
      * A constructor for a Racer object
+     *
      * @param position a Vector representing the position of this object on the screen
-     * @param z the rendering level of this object
+     * @param z        the rendering level of this object
      */
     Racer(Vector position, double z) {
         super(position, z);
         this.lane = 2;
     }
 
-
-    /**
-     * Setter method for the lane attribute of this Racer Object
-     * @param lane Set the lane attribute to parameter lane.
-     */
-    void setLane(int lane) {
-        this.lane = lane;
-    }
-
     /**
      * Getter method for the lane attribute of this Racer Object
+     *
      * @return the integer value that this lane is assigned
      */
     public int getLane() {
@@ -44,16 +37,24 @@ public class Racer extends GameObject {
     }
 
     /**
+     * Setter method for the lane attribute of this Racer Object
+     *
+     * @param lane Set the lane attribute to parameter lane.
+     */
+    void setLane(int lane) {
+        this.lane = lane;
+    }
+
+    /**
      * Renders this object on the screen
+     *
      * @param canvas The Canvas on which to draw
      */
     @Override
     public void draw(Canvas canvas) {
         Paint colour = new Paint();
-        colour.setARGB(255,77,166,255);
+        colour.setARGB(255, 77, 166, 255);
 
-        canvas.drawCircle(getAbsolutePosition().getX(),
-                getAbsolutePosition().getY(),
-                50, colour);
-    }
+        canvas.drawCircle(getAbsolutePosition().getX(), getAbsolutePosition().getY(), 50, colour);
+  }
 }

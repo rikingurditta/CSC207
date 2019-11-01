@@ -67,8 +67,7 @@ public enum Grade {
             return B;
         } else if (score >= C.minScore) {
             return C;
-        } else
-            return F;
+        } else return F;
     }
 
     public int getMinScore() {

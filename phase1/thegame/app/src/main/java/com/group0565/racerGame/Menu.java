@@ -12,6 +12,7 @@ public abstract class Menu extends GameObject {
 
     /**
      * A constructor for an abstract Menu object
+     *
      * @param z The rendering level of this Menu object
      */
     Menu(double z) {

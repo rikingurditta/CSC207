@@ -42,6 +42,7 @@ public class TsuEngine extends GameObject implements Observer, Observable {
     private static final float MARGIN = 75;
     private static final float PAUSE_W = 500;
     private static final float PAUSE_H = 300;
+    IAsyncStatisticsRepository statsRepo;
     private Button pause;
     private Beatmap beatmap;
     private List<HitObject> objects;
@@ -59,19 +60,13 @@ public class TsuEngine extends GameObject implements Observer, Observable {
     private long[] distribution;
     private double difficulty;
     private boolean auto = false;
-
     private Paint paintText;
-
     private Scores score = null;
     private long lastScore = -1;
-
     private int combo = 0;
     private int totalScore = 0;
     private SessionHitObjects sessionHitObjects = null;
-
     private HashMap<InputEvent, HitObject> eventToHitObject = new HashMap<>();
-
-    IAsyncStatisticsRepository statsRepo;
 
     public TsuEngine() {
         super(new Vector());

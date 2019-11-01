@@ -26,5 +26,5 @@ public class Game1Command implements NavigationCommand {
     @Override
     public void execute() {
         mainView.goToGame1();
-    }
+  }
 }

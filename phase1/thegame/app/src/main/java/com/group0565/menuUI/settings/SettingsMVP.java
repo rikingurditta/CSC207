@@ -15,6 +15,5 @@ public interface SettingsMVP extends BaseMVP {
     /**
      * An interface for the Settings view
      */
-    interface SettingsView extends BaseMVP.BaseView, MySettingsFragment.RefreshCallback {
-    }
+    interface SettingsView extends BaseMVP.BaseView, MySettingsFragment.RefreshCallback {}
 }

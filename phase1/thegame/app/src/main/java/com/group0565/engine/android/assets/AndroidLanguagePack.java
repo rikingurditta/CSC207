@@ -16,7 +16,8 @@ public class AndroidLanguagePack extends LanguagePack {
     private static final String TAG = "AndroidLanguagePack";
     private AssetManager assetManager;
 
-    public AndroidLanguagePack(String name, String path, String defaultString, AssetManager assetManager) {
+    public AndroidLanguagePack(
+            String name, String path, String defaultString, AssetManager assetManager) {
         super(name, path, defaultString);
         this.assetManager = assetManager;
     }

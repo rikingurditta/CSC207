@@ -29,12 +29,13 @@ public class TsuGame extends GameObject implements Observer {
     private TsuEngine engine;
     private ISessionHitObjectsRepository repository;
 
-    public TsuGame(){
+    public TsuGame() {
         this.stats = new StatsMenu(this);
         HitObjectsRepositoryInjector.inject(
-                repository -> {this.repository = repository;
-                repository.getAll(stats::setHistory);}
-        );
+                repository -> {
+                    this.repository = repository;
+                    repository.getAll(stats::setHistory);
+                });
     }
 
     @Override
@@ -48,12 +49,10 @@ public class TsuGame extends GameObject implements Observer {
         IPreferenceInteractor prefInter = PreferencesInjector.inject();
         this.menu = new TsuMenu(this);
         Object difficulty;
-        if (!((difficulty = prefInter.getPreference(DifficultyPrefName, 5)) instanceof Double) && !(difficulty instanceof Float))
-            difficulty = 5D;
-        if (difficulty instanceof Double)
-            this.menu.setDifficulty((float)(double)difficulty);
-        else if (difficulty instanceof Float)
-            this.menu.setDifficulty((float)difficulty);
+        if (!((difficulty = prefInter.getPreference(DifficultyPrefName, 5)) instanceof Double)
+                && !(difficulty instanceof Float)) difficulty = 5D;
+        if (difficulty instanceof Double) this.menu.setDifficulty((float) (double) difficulty);
+        else if (difficulty instanceof Float) this.menu.setDifficulty((float) difficulty);
         Object auto;
         if (!((auto = prefInter.getPreference(AutoPrefName, false)) instanceof Boolean))
             auto = false;
@@ -81,10 +80,8 @@ public class TsuGame extends GameObject implements Observer {
                 engine.setDifficulty(menu.getDifficulty());
                 engine.setAuto(menu.getAuto());
                 engine.setEnable(true);
-                if (engine.isPaused())
-                    engine.restartEngine();
-                else
-                    engine.startEngine();
+                if (engine.isPaused()) engine.restartEngine();
+                else engine.startEngine();
             } else if (menu.isStats()) {
                 menu.setStats(false);
                 menu.setEnable(false);
@@ -101,22 +98,19 @@ public class TsuGame extends GameObject implements Observer {
                 SessionHitObjects objects = engine.getSessionHitObjects();
                 engine.setEnable(false);
                 engine.setEnded(false);
-                if (objects != null){
-                    if (stats.getHistory() == null)
-                        stats.setHistory(new ArrayList<>());
+                if (objects != null) {
+                    if (stats.getHistory() == null) stats.setHistory(new ArrayList<>());
                     stats.getHistory().add(objects);
                     updateStats(stats.getHistory());
                     stats.setSelectedObject(objects);
                     stats.setEnable(true);
-                }else
-                    menu.setEnable(true);
+                } else menu.setEnable(true);
             }
         }
     }
 
     public void updateStats(List<SessionHitObjects> newList) {
-        if (repository != null)
-            repository.pushList(newList);
+        if (repository != null) repository.pushList(newList);
     }
 
     public void setPreferences(String name, Object value) {
@@ -126,7 +120,7 @@ public class TsuGame extends GameObject implements Observer {
 
     public void setPreferences(GlobalPreferences preferences) {
         setPreferences(ThemePrefName, preferences.theme.name());
-        setPreferences(VolumePrefName, (int)(preferences.volume * 100));
+        setPreferences(VolumePrefName, (int) (preferences.volume * 100));
         setPreferences(LanguagePrefName, preferences.language);
     }
 

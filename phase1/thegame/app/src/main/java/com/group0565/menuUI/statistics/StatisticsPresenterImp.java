@@ -32,9 +32,7 @@ public class StatisticsPresenterImp implements StatisticsMVP.StatisticsPresenter
      */
     @Override
     public void getGameStatRepo(String gameName) {
-        StatisticRepositoryInjector.inject(
-                gameName,
-                repository -> setGameStats(gameName, repository));
+        StatisticRepositoryInjector.inject(gameName, repository -> setGameStats(gameName, repository));
     }
 
     /**
@@ -44,8 +42,7 @@ public class StatisticsPresenterImp implements StatisticsMVP.StatisticsPresenter
      * @param repository The repository to get the data from
      */
     private void setGameStats(String gameName, IAsyncStatisticsRepository repository) {
-        repository.getAll(
-                data -> statisticsView.setGameStats(gameName, data));
+        repository.getAll(data -> statisticsView.setGameStats(gameName, data));
     }
 
     /**
@@ -78,5 +75,5 @@ public class StatisticsPresenterImp implements StatisticsMVP.StatisticsPresenter
         IPreferenceInteractor prefInteractor = PreferencesInjector.inject();
 
         return ThemeManager.getTheme(prefInteractor.getTheme());
-    }
+  }
 }

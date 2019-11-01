@@ -22,12 +22,9 @@ public class LinearJudgementLine extends JudgementLine {
 
     @Override
     public Double convert(Vector target) {
-        if ((target.getY() - position.getY()) > box)
-            return null;
-        if (target.getX() < position.getX() - box)
-            return null;
-        if (target.getX() > position.getX() + width + box)
-            return null;
+        if ((target.getY() - position.getY()) > box) return null;
+        if (target.getX() < position.getX() - box) return null;
+        if (target.getX() > position.getX() + width + box) return null;
         double t = (target.getX() - position.getX()) / width;
         t = Math.max(0, Math.min(1, t));
         return t;
@@ -41,7 +38,12 @@ public class LinearJudgementLine extends JudgementLine {
     @Override
     public void draw(Canvas canvas) {
         super.draw(canvas);
-        canvas.drawLine(position.getX(), position.getY(), (float) (position.getX() + width), position.getY(), paint);
+        canvas.drawLine(
+                position.getX(),
+                position.getY(),
+                (float) (position.getX() + width),
+                position.getY(),
+                paint);
     }
 
     public Vector getPosition() {

@@ -11,8 +11,11 @@ public abstract class AudioAsset extends Asset {
     }
 
     public abstract void play();
+
     public abstract void seekTo(int msec);
+
     public abstract void pause();
+
     public abstract void stop();
 
     public abstract long progress();
@@ -26,13 +29,11 @@ public abstract class AudioAsset extends Asset {
     }
 
     @Override
-    public void close(){
-
+    public void close() {
     }
 }
 
-
-class IllegalAudioAssetException extends IllegalAssetException{
+class IllegalAudioAssetException extends IllegalAssetException {
     IllegalAudioAssetException(String message) {
         super(message);
     }

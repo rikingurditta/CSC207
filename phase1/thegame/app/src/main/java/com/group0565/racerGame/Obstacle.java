@@ -34,8 +34,8 @@ public abstract class Obstacle extends GameObject {
     /**
      * Constructs a new Obstacle Object
      *
-     * @param lane the lane that this object occupies
-     * @param z the rendering level of this object
+     * @param lane   the lane that this object occupies
+     * @param z      the rendering level of this object
      * @param parent the ObstacleManager that this object is adopted by
      */
     Obstacle(int lane, double z, ObstacleManager parent) {
@@ -47,13 +47,14 @@ public abstract class Obstacle extends GameObject {
     /**
      * checks if this Obstacle object has collided with a Racer. Returns True if the object has
      * collided.
-     * */
+     */
     private void checkCollision() {
         float racerY = obsManager.parent.getRacer().getAbsolutePosition().getY();
         float thisY = this.getAbsolutePosition().getY();
-        if (Math.abs(thisY - racerY) <= 50 && lane == obsManager.parent.getRacer().getLane()){
+        if (Math.abs(thisY - racerY) <= 50 && lane == obsManager.parent.getRacer().getLane()) {
             collided = true;
-            obsManager.parent.updateDB(obsManager.parent.getTotalTime() + obsManager.parent.getSpawnTime());
+            obsManager.parent.updateDB(
+                    obsManager.parent.getTotalTime() + obsManager.parent.getSpawnTime());
             obsManager.parent.setLive();
             obsManager.parent.disableAll();
         }
@@ -61,6 +62,7 @@ public abstract class Obstacle extends GameObject {
 
     /**
      * getter method that returns whether or not this object has been collided with
+     *
      * @return boolean whether or not this object has been collided with
      */
     boolean isCollided() {
@@ -69,6 +71,7 @@ public abstract class Obstacle extends GameObject {
 
     /**
      * Renders this object on the screen
+     *
      * @param canvas The Canvas on which to draw
      */
     @Override
@@ -76,6 +79,7 @@ public abstract class Obstacle extends GameObject {
 
     /**
      * Updates this object in the game
+     *
      * @param ms Milliseconds Since Last Update
      */
     @Override
@@ -86,5 +90,5 @@ public abstract class Obstacle extends GameObject {
         delta = delta.multiply(ms);
         this.setAbsolutePosition(position.add(delta));
         checkCollision();
-    }
+  }
 }

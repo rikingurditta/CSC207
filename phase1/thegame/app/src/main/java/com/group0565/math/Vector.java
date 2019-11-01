@@ -9,10 +9,10 @@ import static java.lang.Math.sqrt;
 
 /**
  * A Class to represent a two dimensional Vector.
- * <p>
- * Contains relevant functions to do vector computation.
- * <p>
- * Vectors are immutable. All methods return a new Vector Object.
+ *
+ * <p>Contains relevant functions to do vector computation.
+ *
+ * <p>Vectors are immutable. All methods return a new Vector Object.
  */
 public class Vector {
     private float x, y;
@@ -37,8 +37,8 @@ public class Vector {
 
     /**
      * Create a new random vector with x and y between 0 and 1.
-     * <p>
-     * If r is null, Math.random is used.
+     *
+     * <p>If r is null, Math.random is used.
      *
      * @param r The random number generator to use. Can be null.
      */
@@ -46,7 +46,6 @@ public class Vector {
         this.x = r == null ? (float) Math.random() : r.nextFloat();
         this.y = r == null ? (float) Math.random() : r.nextFloat();
     }
-
 
     /**
      * Add this vector and other together and return a new vector as the result
@@ -128,10 +127,7 @@ public class Vector {
     @NonNull
     @Override
     public String toString() {
-        return "Vector{" +
-                "x=" + x +
-                ", y=" + y +
-                '}';
+        return "Vector{" + "x=" + x + ", y=" + y + '}';
     }
 
     @Override
@@ -139,8 +135,7 @@ public class Vector {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Vector vector = (Vector) o;
-        return Float.compare(vector.x, x) == 0 &&
-                Float.compare(vector.y, y) == 0;
+        return Float.compare(vector.x, x) == 0 && Float.compare(vector.y, y) == 0;
     }
 
     @Override

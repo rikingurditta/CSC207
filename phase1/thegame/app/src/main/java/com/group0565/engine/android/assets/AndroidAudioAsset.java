@@ -10,8 +10,8 @@ import com.group0565.engine.assets.AudioAsset;
 import java.io.IOException;
 
 public class AndroidAudioAsset extends AudioAsset {
-    private static final String TAG = "AndroidAudioAsset";
     public static final String AUDIO_FOLDER = "media/";
+    private static final String TAG = "AndroidAudioAsset";
     private AssetManager assetManager;
     private MediaPlayer player;
     private AssetFileDescriptor fd;

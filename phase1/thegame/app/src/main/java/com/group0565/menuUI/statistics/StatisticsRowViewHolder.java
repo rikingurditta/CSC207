@@ -54,5 +54,5 @@ public class StatisticsRowViewHolder extends RecyclerView.ViewHolder
     @Override
     public void setValue(String value) {
         valueTextView.setText(value);
-    }
+  }
 }

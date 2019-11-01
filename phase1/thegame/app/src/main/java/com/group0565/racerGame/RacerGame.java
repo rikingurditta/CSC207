@@ -20,62 +20,51 @@ import java.util.Date;
 public class RacerGame extends GameObject implements Observer {
 
     private static final String TAG = "RacerGame";
-
+    /**
+     * Listener that updates database accordingly
+     */
+    StatisticRepositoryInjector.RepositoryInjectionListener listener;
     /**
      * Date that this RacerGame was created (up to millisecond, used as ID for database purposes)
      */
     private long startTime;
-
     /**
      * Time in milliseconds since game started
      */
     private long totalTime = 0;
-
     /**
      * Time in milliseconds since last object spawn
      */
     private long spawnTime = 0;
-
     /**
      * Boolean representing whether or not the player is still alive (The player is considered alive
      * until they collide with an object)
      */
     private boolean live = true;
-
     /**
      * The left button (moves racer object to left most lane)
      */
     private Button leftButton;
-
     /**
      * The middle button (moves racer object to middle lane)
      */
     private Button middleButton;
-
     /**
      * The right buttom (moves racer object to right most lane)
      */
     private Button rightButton;
-
     /**
      * ObstacleManager that spawns and manages all of this game's obstacles
      */
     private ObstacleManager obsManager;
-
     /**
      * The racer object that the player controls with
      */
     private Racer racer;
-
     /**
      * Database object for game statistics
      */
     private IAsyncStatisticsRepository myStatRepo;
-
-    /**
-     * Listener that updates database accordingly
-     */
-    StatisticRepositoryInjector.RepositoryInjectionListener listener;
 
     /**
      * A constructor for a RacerGame object
@@ -96,9 +85,42 @@ public class RacerGame extends GameObject implements Observer {
      */
     public void init() {
         startTime = System.currentTimeMillis();
-        leftButton = new Button(new Vector(100, 1750), new Vector(150, 150), getEngine().getGameAssetManager().getTileSheet("RacerButton", "RacerButton").getTile(0, 0), getEngine().getGameAssetManager().getTileSheet("RacerButton", "RacerButton").getTile(0, 0));
-        middleButton = new Button(new Vector(475, 1750), new Vector(150, 150), getEngine().getGameAssetManager().getTileSheet("RacerButton", "RacerButton").getTile(0, 0), getEngine().getGameAssetManager().getTileSheet("RacerButton", "RacerButton").getTile(0, 0));
-        rightButton = new Button(new Vector(850, 1750), new Vector(150, 150), getEngine().getGameAssetManager().getTileSheet("RacerButton", "RacerButton").getTile(0, 0), getEngine().getGameAssetManager().getTileSheet("RacerButton", "RacerButton").getTile(0, 0));
+        leftButton =
+                new Button(
+                        new Vector(100, 1750),
+                        new Vector(150, 150),
+                        getEngine()
+                                .getGameAssetManager()
+                                .getTileSheet("RacerButton", "RacerButton")
+                                .getTile(0, 0),
+                        getEngine()
+                                .getGameAssetManager()
+                                .getTileSheet("RacerButton", "RacerButton")
+                                .getTile(0, 0));
+        middleButton =
+                new Button(
+                        new Vector(475, 1750),
+                        new Vector(150, 150),
+                        getEngine()
+                                .getGameAssetManager()
+                                .getTileSheet("RacerButton", "RacerButton")
+                                .getTile(0, 0),
+                        getEngine()
+                                .getGameAssetManager()
+                                .getTileSheet("RacerButton", "RacerButton")
+                                .getTile(0, 0));
+        rightButton =
+                new Button(
+                        new Vector(850, 1750),
+                        new Vector(150, 150),
+                        getEngine()
+                                .getGameAssetManager()
+                                .getTileSheet("RacerButton", "RacerButton")
+                                .getTile(0, 0),
+                        getEngine()
+                                .getGameAssetManager()
+                                .getTileSheet("RacerButton", "RacerButton")
+                                .getTile(0, 0));
         this.adopt(leftButton);
         this.adopt(middleButton);
         this.adopt(rightButton);
@@ -137,7 +159,8 @@ public class RacerGame extends GameObject implements Observer {
         colour.setARGB(255, 255, 0, 0);
         // Draw the red lines that separate the lanes
         canvas.drawRect(canvas.getWidth() / 3 - 15, 0, canvas.getWidth() / 3 + 15, 2500, colour);
-        canvas.drawRect(2 * canvas.getWidth() / 3 - 15, 0, 2 * canvas.getWidth() / 3 + 15, 2500, colour);
+        canvas.drawRect(
+                2 * canvas.getWidth() / 3 - 15, 0, 2 * canvas.getWidth() / 3 + 15, 2500, colour);
         canvas.drawText(Long.toString(totalTime), 600, 200, time);
     }
 
