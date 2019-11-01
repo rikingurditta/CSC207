@@ -23,6 +23,11 @@ public class RacerGame extends GameObject implements Observer {
     private long startTime;
     private long totalTime = 0;
     private long spawnTime = 0;
+
+    /**
+     * Boolean representing whether or not the player is still alive (The player is considered alive
+     * until they collide with an object)
+     */
     private boolean live = true;
     private Button leftButton;
     private Button middleButton;
@@ -32,6 +37,10 @@ public class RacerGame extends GameObject implements Observer {
     private IAsyncStatisticsRepository myStatRepo;
     StatisticRepositoryInjector.RepositoryInjectionListener listener;
 
+    /**
+     * A constructor for a RacerGame object
+     * @param position A Vector representing the position of this object
+     */
     RacerGame(Vector position) {
         super(position);
     }
@@ -59,6 +68,10 @@ public class RacerGame extends GameObject implements Observer {
         StatisticRepositoryInjector.inject(TAG, listener);
     }
 
+    /**
+     * Renders this object on the screen
+     * @param canvas The Canvas on which to draw
+     */
     public void draw(Canvas canvas) {
         super.draw(canvas);
         Paint time = new Paint();
@@ -100,7 +113,6 @@ public class RacerGame extends GameObject implements Observer {
      * Getter method that returns this game's Racer object
      * @return Racer object
      */
-
     Racer getRacer() {
         return racer;
     }
@@ -128,15 +140,25 @@ public class RacerGame extends GameObject implements Observer {
         return spawnTime;
     }
 
+    /**
+     * Sets the live attribute of this variable to the opposite value
+     */
     void setLive() {
         live = !live;
     }
 
+    /**
+     * Disables the racer and obstacles from rendering on the screen when the user loses the game
+     */
     void disableAll() {
         racer.setEnable(false);
         obsManager.setEnable(false);
     }
 
+    /**
+     * Updates the game
+     * @param ms Milliseconds Since Last Update
+     */
     @Override
     public void update(long ms) {
         if (live) {
