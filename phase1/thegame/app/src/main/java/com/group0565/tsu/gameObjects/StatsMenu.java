@@ -229,10 +229,14 @@ public class StatsMenu extends GameObject implements Observable, Observer {
         this.sort = sort;
         if (history != null)
             Collections.sort(history, sort.comparator);
-        this.sortTime.setUp(sort.getTimeBitmap());
-        this.sortTime.setDown(sort.getTimeBitmap());
-        this.sortScore.setUp(sort.getScoreBitmap());
-        this.sortScore.setDown(sort.getScoreBitmap());
+        if (this.sortTime != null) {
+            this.sortTime.setUp(sort.getTimeBitmap());
+            this.sortTime.setDown(sort.getTimeBitmap());
+        }
+        if (this.sortScore != null) {
+            this.sortScore.setUp(sort.getScoreBitmap());
+            this.sortScore.setDown(sort.getScoreBitmap());
+        }
         this.updateDisplayers();
     }
 
