@@ -26,9 +26,16 @@ public class BomberGame extends GameObject {
   private BomberMan meBomberMan;
   private String numBombStats;
   private String damageDealtStats;
-  private int gameTimer = 10000;
+  private String currentHealth;
+  private int gameTimer = 60000;
   private int bgColor = Color.DKGRAY;
   boolean gameEnded = false;
+
+
+  String statisticName1 = "Bombs placed";
+  String statisticName2 = "Damage dealt";
+  String statisticName3 = "HP remaining";
+  String timeLeftinLang = "Time Left";
 
   /** The repository to interact with the stats DB */
   IAsyncStatisticsRepository myStatRepo;
@@ -70,6 +77,17 @@ public class BomberGame extends GameObject {
     } else if (getGlobalPreferences().theme == Themes.LIGHT) {
       bgColor = Color.WHITE;
     }
+
+    if (getGlobalPreferences().language == "fr") {
+      statisticName1 = "Bombs placed";
+      statisticName2 = "Damage dealt";
+      statisticName3 = "HP remaining";
+    } else if (getGlobalPreferences().language == "en") {
+      statisticName1 = "bombes placées";
+      statisticName2 = "dégâts infligés";
+      statisticName3 = "santé restante";
+      timeLeftinLang = "temps restant";
+    }
   }
 
   public void draw(Canvas canvas) {
@@ -81,7 +99,10 @@ public class BomberGame extends GameObject {
     textPaint.setTextSize(50);
     textPaint.setColor(Color.BLACK);
 
-    canvas.drawText("Time Left:" + Math.floor(gameTimer / 1000) + "s", 1600, 200, textPaint);
+    canvas.drawText(timeLeftinLang + Math.floor(gameTimer / 1000) + "s", 1600, 200, textPaint);
+    canvas.drawText(numBombStats, 1600, 250, textPaint);
+    canvas.drawText(damageDealtStats, 1600, 300, textPaint);
+    canvas.drawText(currentHealth, 1600, 350, textPaint);
   }
 
   @Override
@@ -89,7 +110,7 @@ public class BomberGame extends GameObject {
     updateChildren();
 
     if (gameTimer <= 0 && !gameEnded) {
-      updateStats();
+      sendStats();
       gameEnded = true;
 
     } else {
@@ -99,6 +120,7 @@ public class BomberGame extends GameObject {
       } else {
         // gameTimer > 0
         gameTimer -= ms;
+        updateStats();
       }
     }
   }
@@ -117,24 +139,13 @@ public class BomberGame extends GameObject {
     itemsToBeRemoved.clear();
   }
 
-  public void updateStats() {
+  public void updateStats(){
+    numBombStats = statisticName1 + ": "+ meBomberMan.getNumBombsPlaced();
+    damageDealtStats = statisticName2 + ": " + meBomberMan.getDamageDealt();
+    currentHealth = statisticName3 + ": " + meBomberMan.getHp();
+  }
 
-    String statisticName1 = "Bombs placed:";
-    String statisticName2 = "Damage dealt:";
-    String statisticName3 = "HP remaining:";
-
-    if (getGlobalPreferences().language == "en") {
-      statisticName1 = "Bombs placed:";
-      statisticName2 = "Damage dealt:";
-      statisticName3 = "HP remaining:";
-    } else if (getGlobalPreferences().language == "fr") {
-      statisticName1 = "bombes placées:";
-      statisticName2 = "dégâts infligés:";
-      statisticName3 = "santé restante:";
-    }
-
-    numBombStats = statisticName1 + meBomberMan.getNumBombsPlaced();
-    damageDealtStats = statisticName2 + meBomberMan.getDamageDealt();
+  public void sendStats() {
 
     if (myStatRepo != null) {
 
