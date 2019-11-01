@@ -3,7 +3,7 @@ package com.group0565.preferences;
 import android.content.res.Resources;
 
 import com.example.thegame.R;
-import com.menu.TheGameApplication;
+import com.group0565.menuUI.TheGameApplication;
 
 import java.util.List;
 

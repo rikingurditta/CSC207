@@ -4,10 +4,9 @@ import android.content.SharedPreferences;
 import android.content.res.Resources;
 
 import com.example.thegame.R;
-import com.menu.TheGameApplication;
+import com.group0565.menuUI.TheGameApplication;
 
 import java.util.List;
-import java.util.Objects;
 
 class SPPreferencesInteractor implements IPreferenceInteractor {
   /**

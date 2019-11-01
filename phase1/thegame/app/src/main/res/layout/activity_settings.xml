@@ -4,11 +4,11 @@
     android:id="@+id/settings_container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.menu.settings.SettingsActivity">
+    tools:context="com.group0565.menuUI.settings.SettingsActivity">
 
     <fragment
         android:id="@+id/preferences_view"
-        android:name="com.menu.settings.MySettingsFragment"
+        android:name="com.group0565.menuUI.settings.MySettingsFragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>
