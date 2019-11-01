@@ -3,8 +3,6 @@ package com.group0565.racerGame;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 
-import com.group0565.math.Vector;
-
 /**
  * A Circle-shaped Obstacle
  */
