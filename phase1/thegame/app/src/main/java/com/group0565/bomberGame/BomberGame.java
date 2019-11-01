@@ -37,6 +37,10 @@ public class BomberGame extends GameObject {
   private String statisticName3 = "HP remaining";
   private String timeLeftinLang = "Time Left";
 
+    String statisticKey1 = "Bombs_placed";
+    String statisticKey2 = "Damage_dealt";
+    String statisticKey3 = "HP_remaining";
+
   /** The repository to interact with the stats DB */
   IAsyncStatisticsRepository myStatRepo;
 
@@ -79,11 +83,11 @@ public class BomberGame extends GameObject {
       bgColor = Color.WHITE;
     }
 
-    if (getGlobalPreferences().language == "en") {
+      if (getGlobalPreferences().language.equals("en")) {
       statisticName1 = "Bombs placed";
       statisticName2 = "Damage dealt";
       statisticName3 = "HP remaining";
-    } else if (getGlobalPreferences().language == "fr") {
+      } else if (getGlobalPreferences().language.equals("fr")) {
       statisticName1 = "bombes placées";
       statisticName2 = "dégâts infligés";
       statisticName3 = "santé restante";
@@ -152,13 +156,13 @@ public class BomberGame extends GameObject {
     if (myStatRepo != null) {
 
       myStatRepo.put(
-          IStatisticFactory.createGameStatistic(
-              statisticName1 + startTime, meBomberMan.getNumBombsPlaced()));
+              IStatisticFactory.createGameStatistic(
+                      statisticKey1 + startTime, meBomberMan.getNumBombsPlaced()));
       myStatRepo.put(
-          IStatisticFactory.createGameStatistic(
-              statisticName2 + startTime, meBomberMan.getNumBombsPlaced()));
-      myStatRepo.put(
-          IStatisticFactory.createGameStatistic(statisticName3 + startTime, meBomberMan.getHp()));
+              IStatisticFactory.createGameStatistic(
+                      statisticKey2 + startTime, meBomberMan.getNumBombsPlaced()));
+        myStatRepo.put(
+                IStatisticFactory.createGameStatistic(statisticKey3 + startTime, meBomberMan.getHp()));
     }
   }
 
