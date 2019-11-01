@@ -6,8 +6,8 @@ import android.graphics.Paint;
 
 import com.group0565.bomberGame.obstacles.Crate;
 import com.group0565.engine.gameobjects.GameObject;
-import com.group0565.engine.gameobjects.GlobalPreferences;
 import com.group0565.math.Vector;
+import com.group0565.theme.Themes;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -80,7 +80,7 @@ public class SquareGrid extends GameObject {
   public void init() {
     super.init();
     paint.setStrokeWidth(1f);
-    if (getGlobalPreferences().theme == GlobalPreferences.Theme.LIGHT) {
+    if (getGlobalPreferences().theme == Themes.LIGHT) {
       paint.setColor(Color.BLACK);
     } else {
       paint.setColor(Color.WHITE);

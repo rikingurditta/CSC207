@@ -10,10 +10,14 @@ import java.util.List;
 
 public class MockStatisticRepository implements IAsyncStatisticsRepository {
 
-  /** A collection of the user preferences */
+  /**
+   * A collection of the user preferences
+   */
   private List<IStatistic> userStatistics;
 
-  /** An observable live collection of the user preferences */
+  /**
+   * An observable live collection of the user preferences
+   */
   private MutableLiveData<List<IStatistic>> liveStatistics;
 
   public MockStatisticRepository() {
@@ -32,6 +36,16 @@ public class MockStatisticRepository implements IAsyncStatisticsRepository {
   }
 
   /**
+   * Gets the non-observable list of all objects using a callback
+   *
+   * @param callback The callback to execute on success
+   */
+  @Override
+  public void getAll(AsyncDataListCallBack<IStatistic> callback) {
+    callback.onDataReceived(userStatistics);
+  }
+
+  /**
    * Updates an object in the database for the user
    *
    * @param obj The object to update based on its key
@@ -40,10 +54,10 @@ public class MockStatisticRepository implements IAsyncStatisticsRepository {
   public void put(IStatistic obj) {
     userStatistics.add(obj);
 
-    liveStatistics.setValue(userStatistics);
+    updateLiveData();
 
     Log.d(
-        "MockStatisticRepository", "put: " + obj.getStatKey() + " with value " + obj.getStatVal());
+            "MockStatisticRepository", "put: " + obj.getStatKey() + " with value " + obj.getStatVal());
   }
 
   /**
@@ -55,10 +69,10 @@ public class MockStatisticRepository implements IAsyncStatisticsRepository {
   public void push(IStatistic obj) {
     userStatistics.add(obj);
 
-    liveStatistics.setValue(userStatistics);
+    updateLiveData();
 
     Log.d(
-        "MockStatisticRepository", "push: " + obj.getStatKey() + " with value " + obj.getStatVal());
+            "MockStatisticRepository", "push: " + obj.getStatKey() + " with value " + obj.getStatVal());
   }
 
   /**
@@ -70,10 +84,30 @@ public class MockStatisticRepository implements IAsyncStatisticsRepository {
   public void delete(IStatistic obj) {
     userStatistics.add(obj);
 
-    liveStatistics.setValue(userStatistics);
-    
+    updateLiveData();
+
     Log.d(
-        "MockStatisticRepository",
-        "delete: " + obj.getStatKey() + " with value " + obj.getStatVal());
+            "MockStatisticRepository",
+            "delete: " + obj.getStatKey() + " with value " + obj.getStatVal());
+  }
+
+  /**
+   * Remove all child objects
+   */
+  @Override
+  public void deleteAll() {
+    userStatistics = new ArrayList<>();
+    liveStatistics.setValue(userStatistics);
+  }
+
+  /**
+   * Safely updates the live data
+   */
+  private void updateLiveData() {
+    try {
+      liveStatistics.setValue(userStatistics);
+    } catch (IllegalStateException ex) {
+      liveStatistics.postValue(userStatistics);
+    }
   }
 }
