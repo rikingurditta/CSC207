@@ -8,6 +8,7 @@ import com.group0565.engine.gameobjects.GlobalPreferences;
 import com.group0565.engine.interfaces.Observable;
 import com.group0565.engine.interfaces.Observer;
 import com.group0565.hitObjectsRepository.HitObjectsRepositoryInjector;
+import com.group0565.hitObjectsRepository.ISessionHitObjectsRepository;
 import com.group0565.hitObjectsRepository.SessionHitObjects;
 import com.group0565.preferences.IPreferenceInteractor;
 import com.group0565.preferences.PreferencesInjector;
@@ -26,11 +27,13 @@ public class TsuGame extends GameObject implements Observer {
     private TsuMenu menu;
     private StatsMenu stats;
     private TsuEngine engine;
+    private ISessionHitObjectsRepository repository;
 
     public TsuGame(){
         this.stats = new StatsMenu(this);
         HitObjectsRepositoryInjector.inject(
-                repository -> repository.getAll(stats::setHistory)
+                repository -> {this.repository = repository;
+                repository.getAll(stats::setHistory);}
         );
     }
 
@@ -112,8 +115,8 @@ public class TsuGame extends GameObject implements Observer {
     }
 
     public void updateStats(List<SessionHitObjects> newList) {
-        HitObjectsRepositoryInjector.inject(
-                repository -> repository.pushList(newList));
+        if (repository != null)
+            repository.pushList(newList);
     }
 
     public void setPreferences(String name, Object value) {
