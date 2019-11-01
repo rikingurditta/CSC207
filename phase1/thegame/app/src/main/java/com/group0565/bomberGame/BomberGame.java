@@ -148,7 +148,7 @@ public class BomberGame extends GameObject {
   }
 
   public void sendStats() {
-
+    timeLeftinLang = "GAME OVER ";
     if (myStatRepo != null) {
 
       myStatRepo.put(
