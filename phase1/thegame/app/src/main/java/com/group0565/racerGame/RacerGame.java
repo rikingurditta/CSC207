@@ -20,8 +20,20 @@ import java.util.Date;
 public class RacerGame extends GameObject implements Observer {
 
     private static final String TAG = "RacerGame";
+
+    /**
+     * Date that this RacerGame was created (up to millisecond, used as ID for database purposes)
+     */
     private long startTime;
+
+    /**
+     * Time in milliseconds since game started
+     */
     private long totalTime = 0;
+
+    /**
+     * Time in milliseconds since last object spawn
+     */
     private long spawnTime = 0;
 
     /**
@@ -29,12 +41,40 @@ public class RacerGame extends GameObject implements Observer {
      * until they collide with an object)
      */
     private boolean live = true;
+
+    /**
+     * The left button (moves racer object to left most lane)
+     */
     private Button leftButton;
+
+    /**
+     * The middle button (moves racer object to middle lane)
+     */
     private Button middleButton;
+
+    /**
+     * The right buttom (moves racer object to right most lane)
+     */
     private Button rightButton;
+
+    /**
+     * ObstacleManager that spawns and manages all of this game's obstacles
+     */
     private ObstacleManager obsManager;
+
+    /**
+     * The racer object that the player controls with
+     */
     private Racer racer;
+
+    /**
+     * Database object for game statistics
+     */
     private IAsyncStatisticsRepository myStatRepo;
+
+    /**
+     * Listener that updates database accordingly
+     */
     StatisticRepositoryInjector.RepositoryInjectionListener listener;
 
     /**
@@ -45,6 +85,9 @@ public class RacerGame extends GameObject implements Observer {
         super(position);
     }
 
+    /**
+     * Initializer method that initializes the buttons and objects of the game
+     */
     public void init(){
         startTime = System.currentTimeMillis();
         leftButton = new Button(new Vector(100, 1750), new Vector(150, 150), getEngine().getGameAssetManager().getTileSheet("RacerButton", "RacerButton").getTile(0, 0), getEngine().getGameAssetManager().getTileSheet("RacerButton", "RacerButton").getTile(0, 0));
@@ -96,6 +139,10 @@ public class RacerGame extends GameObject implements Observer {
         canvas.drawText(Long.toString(totalTime), 600, 200, time);
     }
 
+    /**
+     *
+     * @param observable Button objects
+     */
     public void observe(Observable observable) {
         if (observable == leftButton) {
             racer.setAbsolutePosition(new Vector(100, 1600));
@@ -117,6 +164,10 @@ public class RacerGame extends GameObject implements Observer {
         return racer;
     }
 
+    /**
+     * Updates the database with user's time survived
+     * @param totalTime the player's time survived during this game
+     */
     void updateDB(long totalTime) {
         if (myStatRepo != null) {
             // You can always use put (also for new objects) because of the way that Firebase DB works
