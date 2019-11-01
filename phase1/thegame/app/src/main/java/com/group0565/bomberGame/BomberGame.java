@@ -32,6 +32,7 @@ public class BomberGame extends GameObject {
   boolean gameEnded = false;
 
 
+  private long startTime;
   String statisticName1 = "Bombs placed";
   String statisticName2 = "Damage dealt";
   String statisticName3 = "HP remaining";
@@ -71,6 +72,7 @@ public class BomberGame extends GameObject {
   public void init() {
     updateChildren();
     super.init();
+    startTime = System.currentTimeMillis();
 
     if (getGlobalPreferences().theme == Themes.DARK) {
       bgColor = Color.DKGRAY;
@@ -150,10 +152,10 @@ public class BomberGame extends GameObject {
     if (myStatRepo != null) {
 
       myStatRepo.put(
-          IStatisticFactory.createGameStatistic(statisticName1, meBomberMan.getNumBombsPlaced()));
+          IStatisticFactory.createGameStatistic(statisticName1 + startTime, meBomberMan.getNumBombsPlaced()));
       myStatRepo.put(
-          IStatisticFactory.createGameStatistic(statisticName2, meBomberMan.getNumBombsPlaced()));
-      myStatRepo.put(IStatisticFactory.createGameStatistic(statisticName3, meBomberMan.getHp()));
+          IStatisticFactory.createGameStatistic(statisticName2 + startTime, meBomberMan.getNumBombsPlaced()));
+      myStatRepo.put(IStatisticFactory.createGameStatistic(statisticName3 + startTime, meBomberMan.getHp()));
     }
   }
 
