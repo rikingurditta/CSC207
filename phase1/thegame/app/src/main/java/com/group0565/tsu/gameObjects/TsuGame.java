@@ -47,7 +47,10 @@ public class TsuGame extends GameObject implements Observer {
         Object difficulty;
         if (!((difficulty = prefInter.getPreference(DifficultyPrefName, 5)) instanceof Double) && !(difficulty instanceof Float))
             difficulty = 5D;
-        this.menu.setDifficulty((float) (double) difficulty);
+        if (difficulty instanceof Double)
+            this.menu.setDifficulty((float)(double)difficulty);
+        else if (difficulty instanceof Float)
+            this.menu.setDifficulty((float)difficulty);
         Object auto;
         if (!((auto = prefInter.getPreference(AutoPrefName, false)) instanceof Boolean))
             auto = false;
@@ -95,11 +98,11 @@ public class TsuGame extends GameObject implements Observer {
                 SessionHitObjects objects = engine.getSessionHitObjects();
                 engine.setEnable(false);
                 engine.setEnded(false);
-                if (stats.getHistory() == null)
-                    stats.setHistory(new ArrayList<>());
-                stats.getHistory().add(objects);
-                updateStats(stats.getHistory());
                 if (objects != null){
+                    if (stats.getHistory() == null)
+                        stats.setHistory(new ArrayList<>());
+                    stats.getHistory().add(objects);
+                    updateStats(stats.getHistory());
                     stats.setSelectedObject(objects);
                     stats.setEnable(true);
                 }else
