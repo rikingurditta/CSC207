@@ -1,8 +1,5 @@
 package com.group0565.statistics;
 
-import android.os.Handler;
-import android.os.Looper;
-
 import com.group0565.users.IUsersInteractor;
 
 /** An injector that creates a Statistics Repository */

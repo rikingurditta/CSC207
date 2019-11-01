@@ -71,7 +71,8 @@ public class TheGameApplication extends Application implements IErrorDisplayer {
   }
 
   /**
-   * Attach listener to SharedPreference to put changes into db
+   * Get all preferences and put them into SharedPreference on load And attach a listener to
+   * SharedPreferences to catch changes and upload
    *
    * @param userID The user ID of the target user
    */
@@ -83,8 +84,10 @@ public class TheGameApplication extends Application implements IErrorDisplayer {
 
     listener = new MyOnSharedPreferenceChangeListener(rep);
 
-    rep.getObservable().observeForever(this::editSharedPreferences);
+    // Get from db and plant in SharedPreference
+    rep.getAll(this::editSharedPreferences);
 
+    // Listen to sharedpreference and update db
     preferences.registerOnSharedPreferenceChangeListener(listener);
   }
 
