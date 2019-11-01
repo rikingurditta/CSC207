@@ -79,16 +79,22 @@ public class RacerGame extends GameObject implements Observer {
 
     /**
      * A constructor for a RacerGame object
+     *
      * @param position A Vector representing the position of this object
      */
     RacerGame(Vector position) {
         super(position);
+        listener =
+                repository -> {
+                    myStatRepo = repository;
+                };
+        StatisticRepositoryInjector.inject(TAG, listener);
     }
 
     /**
      * Initializer method that initializes the buttons and objects of the game
      */
-    public void init(){
+    public void init() {
         startTime = System.currentTimeMillis();
         leftButton = new Button(new Vector(100, 1750), new Vector(150, 150), getEngine().getGameAssetManager().getTileSheet("RacerButton", "RacerButton").getTile(0, 0), getEngine().getGameAssetManager().getTileSheet("RacerButton", "RacerButton").getTile(0, 0));
         middleButton = new Button(new Vector(475, 1750), new Vector(150, 150), getEngine().getGameAssetManager().getTileSheet("RacerButton", "RacerButton").getTile(0, 0), getEngine().getGameAssetManager().getTileSheet("RacerButton", "RacerButton").getTile(0, 0));
@@ -104,15 +110,11 @@ public class RacerGame extends GameObject implements Observer {
         obsManager = new ObstacleManager(this);
         this.adopt(obsManager);
         super.init();
-        listener =
-                repository -> {
-                    myStatRepo = repository;
-                };
-        StatisticRepositoryInjector.inject(TAG, listener);
     }
 
     /**
      * Renders this object on the screen
+     *
      * @param canvas The Canvas on which to draw
      */
     public void draw(Canvas canvas) {
@@ -122,12 +124,12 @@ public class RacerGame extends GameObject implements Observer {
             // Set background to white
             canvas.drawRGB(255, 255, 255);
             // Set text colour to black
-            time.setARGB(255,0,0,0);
+            time.setARGB(255, 0, 0, 0);
         } else {
             // Set background to black
             canvas.drawRGB(0, 0, 0);
             // Set text colour to white
-            time.setARGB(255,255,255,255);
+            time.setARGB(255, 255, 255, 255);
         }
         time.setTextSize(128);
         // Set the colour of the lines
@@ -140,7 +142,6 @@ public class RacerGame extends GameObject implements Observer {
     }
 
     /**
-     *
      * @param observable Button objects
      */
     public void observe(Observable observable) {
@@ -158,6 +159,7 @@ public class RacerGame extends GameObject implements Observer {
 
     /**
      * Getter method that returns this game's Racer object
+     *
      * @return Racer object
      */
     Racer getRacer() {
@@ -166,6 +168,7 @@ public class RacerGame extends GameObject implements Observer {
 
     /**
      * Updates the database with user's time survived
+     *
      * @param totalTime the player's time survived during this game
      */
     void updateDB(long totalTime) {
@@ -177,6 +180,7 @@ public class RacerGame extends GameObject implements Observer {
 
     /**
      * Getter method that returns totalTime attribute
+     *
      * @return totalTime
      */
     long getTotalTime() {
@@ -185,6 +189,7 @@ public class RacerGame extends GameObject implements Observer {
 
     /**
      * Getter method that returns spawnTime attribute
+     *
      * @return spawnTime
      */
     long getSpawnTime() {
@@ -208,17 +213,18 @@ public class RacerGame extends GameObject implements Observer {
 
     /**
      * Updates the game
+     *
      * @param ms Milliseconds Since Last Update
      */
     @Override
     public void update(long ms) {
         if (live) {
-        this.spawnTime += ms;
-        this.totalTime += ms;
-        if (this.spawnTime >= 750) {
-            obsManager.spawnObstacle();
-            this.spawnTime = 0;
-        }
+            this.spawnTime += ms;
+            this.totalTime += ms;
+            if (this.spawnTime >= 750) {
+                obsManager.spawnObstacle();
+                this.spawnTime = 0;
+            }
         }
     }
 }
