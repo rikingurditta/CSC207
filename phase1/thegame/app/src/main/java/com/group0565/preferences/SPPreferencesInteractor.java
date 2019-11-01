@@ -20,9 +20,9 @@ class SPPreferencesInteractor implements IPreferenceInteractor {
     Resources resources = TheGameApplication.getInstance().getResources();
 
     return (String)
-            getPreference(
-                    resources.getString(R.string.theme_pref_id),
-                    resources.getString(R.string.def_theme_pref));
+        getPreference(
+            resources.getString(R.string.theme_pref_id),
+            resources.getString(R.string.def_theme_pref));
   }
 
   /**
@@ -35,8 +35,8 @@ class SPPreferencesInteractor implements IPreferenceInteractor {
     Resources resources = TheGameApplication.getInstance().getResources();
 
     return (String)
-            getPreference(
-                    resources.getString(R.string.lan_pref_id), resources.getString(R.string.def_lan_pref));
+        getPreference(
+            resources.getString(R.string.lan_pref_id), resources.getString(R.string.def_lan_pref));
   }
 
   /**
@@ -48,9 +48,9 @@ class SPPreferencesInteractor implements IPreferenceInteractor {
   public int getVolume() {
     Resources resources = TheGameApplication.getInstance().getResources();
     return (int)
-            getPreference(
-                    resources.getString(R.string.vol_pref_id),
-                    resources.getInteger(R.integer.def_vol_pref));
+        getPreference(
+            resources.getString(R.string.vol_pref_id),
+            resources.getInteger(R.integer.def_vol_pref));
   }
 
   /**
@@ -101,7 +101,7 @@ class SPPreferencesInteractor implements IPreferenceInteractor {
   /**
    * Gets a preference with the given key
    *
-   * @param prefKey      The key of the preference
+   * @param prefKey The key of the preference
    * @param defaultValue The default value in case value does not exist
    * @return The value of the preference
    */
