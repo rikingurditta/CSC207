@@ -27,16 +27,14 @@ public class BomberGame extends GameObject {
   private String numBombStats;
   private String damageDealtStats;
   private int gameTimer = 10000;
-  private int bgColor = Color.WHITE;
-  boolean sentStats = false;
-
+  private int bgColor = Color.DKGRAY;
+  boolean gameEnded = false;
 
   /** The repository to interact with the stats DB */
   IAsyncStatisticsRepository myStatRepo;
 
   /** Create a STRONG reference to the listener so it won't get garbage collected */
   StatisticRepositoryInjector.RepositoryInjectionListener listener;
-
 
   public BomberGame(Vector position) {
     super(position);
@@ -56,17 +54,22 @@ public class BomberGame extends GameObject {
     for (int i = 0; i < 25; i++) grid.makeRandomCrate();
 
     listener =
-            repository -> {
-              myStatRepo = repository;
-              };
-    StatisticRepositoryInjector.inject("Bomber_Game", listener);
+        repository -> {
+          myStatRepo = repository;
+        };
+    StatisticRepositoryInjector.inject("BomberGame", listener);
   }
 
   @Override
   public void init() {
     updateChildren();
     super.init();
-    if (getGlobalPreferences().theme == Themes.DARK) bgColor = Color.DKGRAY;
+
+    if (getGlobalPreferences().theme == Themes.DARK) {
+      bgColor = Color.DKGRAY;
+    } else if (getGlobalPreferences().theme == Themes.LIGHT) {
+      bgColor = Color.WHITE;
+    }
   }
 
   public void draw(Canvas canvas) {
@@ -79,20 +82,25 @@ public class BomberGame extends GameObject {
     textPaint.setColor(Color.BLACK);
 
     canvas.drawText("Time Left:" + Math.floor(gameTimer / 1000) + "s", 1600, 200, textPaint);
-
   }
 
   @Override
   public void update(long ms) {
     updateChildren();
 
-    if (gameTimer <= 0 && !sentStats) {
+    if (gameTimer <= 0 && !gameEnded) {
       updateStats();
-      sentStats = true;
-    }else{
-      gameTimer -= ms;
-    }
+      gameEnded = true;
 
+    } else {
+      if (gameEnded) {
+        // TODO need to write code from proper game ending procedure
+        System.out.println("game ended");
+      } else {
+        // gameTimer > 0
+        gameTimer -= ms;
+      }
+    }
   }
 
   private void updateChildren() {
@@ -110,16 +118,31 @@ public class BomberGame extends GameObject {
   }
 
   public void updateStats() {
-    numBombStats = "Bombs Placed:" + meBomberMan.getNumBombsPlaced();
-    damageDealtStats = "Damage Dealt:" + meBomberMan.getDamageDealt();
 
+    String statisticName1 = "Bombs placed:";
+    String statisticName2 = "Damage dealt:";
+    String statisticName3 = "HP remaining:";
+
+    if (getGlobalPreferences().language == "en") {
+      statisticName1 = "Bombs placed:";
+      statisticName2 = "Damage dealt:";
+      statisticName3 = "HP remaining:";
+    } else if (getGlobalPreferences().language == "fr") {
+      statisticName1 = "bombes placées:";
+      statisticName2 = "dégâts infligés:";
+      statisticName3 = "santé restante:";
+    }
+
+    numBombStats = statisticName1 + meBomberMan.getNumBombsPlaced();
+    damageDealtStats = statisticName2 + meBomberMan.getDamageDealt();
 
     if (myStatRepo != null) {
-      System.out.println("STATS SENT");
-      myStatRepo.put(IStatisticFactory.createGameStatistic("Bombs_Placed", meBomberMan.getNumBombsPlaced()));
-      myStatRepo.put(IStatisticFactory.createGameStatistic("Damage_Dealt", meBomberMan.getNumBombsPlaced()));
-      myStatRepo.put(IStatisticFactory.createGameStatistic("Health_Left", meBomberMan.getHp()));
 
+      myStatRepo.put(
+          IStatisticFactory.createGameStatistic(statisticName1, meBomberMan.getNumBombsPlaced()));
+      myStatRepo.put(
+          IStatisticFactory.createGameStatistic(statisticName2, meBomberMan.getNumBombsPlaced()));
+      myStatRepo.put(IStatisticFactory.createGameStatistic(statisticName3, meBomberMan.getHp()));
     }
   }
 
