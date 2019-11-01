@@ -43,8 +43,8 @@ public class TsuGame extends GameObject implements Observer {
         ThemePrefName = resources.getString(R.string.theme_pref_id);
         LanguagePrefName = resources.getString(R.string.lan_pref_id);
         VolumePrefName = resources.getString(R.string.vol_pref_id);
-        DifficultyPrefName = "tsu-difficulty";
-        AutoPrefName = "tsu-auto";
+        DifficultyPrefName = "tsu_difficulty";
+        AutoPrefName = "tsu_auto";
         IPreferenceInteractor prefInter = PreferencesInjector.inject();
         this.menu = new TsuMenu(this);
         Object difficulty;

@@ -14,6 +14,10 @@ import com.group0565.engine.interfaces.Observable;
 import com.group0565.engine.interfaces.Observer;
 import com.group0565.hitObjectsRepository.SessionHitObjects;
 import com.group0565.math.Vector;
+import com.group0565.statistics.IAsyncStatisticsRepository;
+import com.group0565.statistics.IStatistic;
+import com.group0565.statistics.IStatisticFactory;
+import com.group0565.statistics.StatisticRepositoryInjector;
 import com.group0565.theme.Themes;
 import com.group0565.tsu.enums.Align;
 import com.group0565.tsu.enums.Scores;
@@ -23,8 +27,10 @@ import java.util.List;
 
 public class TsuEngine extends GameObject implements Observer, Observable {
     private static final String TAG = "TsuEngine";
+    private static final String GAME_NAME = "Tsu";
     private static final String BEATMAP_SET = "Tsu";
     private static final String BEATMAP_NAME = "BeatMap";
+    private static final String STAT_NAME = "Score";
     private static final Vector MARGINS = new Vector(200, 250);
     private static final int HIT_WIDTH = 20;
     private static final double HIT_ERROR = 0.075;
@@ -65,17 +71,23 @@ public class TsuEngine extends GameObject implements Observer, Observable {
 
     private HashMap<InputEvent, HitObject> eventToHitObject = new HashMap<>();
 
+    IAsyncStatisticsRepository statsRepo;
+
     public TsuEngine() {
         super(new Vector());
+
+        StatisticRepositoryInjector.inject(GAME_NAME, repository -> statsRepo = repository);
     }
 
     public void init() {
         this.sessionHitObjects = null;
         this.beatmap = new Beatmap(BEATMAP_SET, BEATMAP_NAME, this.getEngine().getGameAssetManager());
         this.objects = beatmap.getHitObjects();
-        this.renderer = new LinearTsuRenderer(this, new Vector(MARGINS.getX(), 0), beatmap, null, 1000, HIT_WIDTH);
+        this.renderer =
+                new LinearTsuRenderer(this, new Vector(MARGINS.getX(), 0), beatmap, null, 1000, HIT_WIDTH);
         this.judgementLine = new LinearJudgementLine(MARGINS, 100, 20);
-        this.comboRenderer = new NumberRenderer(COMBO_HEIGHT, Align.CENTER, new Vector(0, MARGINS.getY()));
+        this.comboRenderer =
+                new NumberRenderer(COMBO_HEIGHT, Align.CENTER, new Vector(0, MARGINS.getY()));
         this.comboRenderer.setNumber(combo);
         this.comboRenderer.setZ(1);
 
@@ -94,16 +106,22 @@ public class TsuEngine extends GameObject implements Observer, Observable {
         Scores.S0.setBitmap(scoresTileSheet.getTile(0, 3));
         Scores.SU.setBitmap(scoresTileSheet.getTile(0, 3));
 
-        Bitmap backBitmap = getEngine().getGameAssetManager().getTileSheet("Tsu", "Buttons").getTile(9, 0);
-        this.pause = new Button(this.getAbsolutePosition().add(new Vector(MARGIN, MARGIN)),
-                new Vector(BUTTON_SIZE, BUTTON_SIZE), backBitmap, backBitmap);
+        Bitmap backBitmap =
+                getEngine().getGameAssetManager().getTileSheet("Tsu", "Buttons").getTile(9, 0);
+        this.pause =
+                new Button(
+                        this.getAbsolutePosition().add(new Vector(MARGIN, MARGIN)),
+                        new Vector(BUTTON_SIZE, BUTTON_SIZE),
+                        backBitmap,
+                        backBitmap);
         pause.registerObserver(this);
         adopt(pause);
 
         float cx = getEngine().getSize().getX();
         float cy = getEngine().getSize().getY();
-        this.pauseMenu = new PauseMenu(new Vector((cx - PAUSE_W) / 2, (cy - PAUSE_H) / 2),
-                new Vector(PAUSE_W, PAUSE_H));
+        this.pauseMenu =
+                new PauseMenu(
+                        new Vector((cx - PAUSE_W) / 2, (cy - PAUSE_H) / 2), new Vector(PAUSE_W, PAUSE_H));
         this.pauseMenu.registerObserver(this);
         this.pauseMenu.setEnable(false);
         this.pauseMenu.setZ(1);
@@ -127,10 +145,11 @@ public class TsuEngine extends GameObject implements Observer, Observable {
                 }
             } else if (timer < this.beatmap.getAudio().progress()) {
                 timer = this.beatmap.getAudio().progress();
-            } else
-                timer += ms;
+            } else timer += ms;
             this.renderer.setTimer(timer);
-            for (int i = lastActive; i < objects.size() && timer > objects.get(i).getMsStart() + distribution[2]; i++) {
+            for (int i = lastActive;
+                 i < objects.size() && timer > objects.get(i).getMsStart() + distribution[2];
+                 i++) {
                 objects.get(i).setPassed(true);
             }
             if (auto)
@@ -145,12 +164,10 @@ public class TsuEngine extends GameObject implements Observer, Observable {
                         object.getInputEvent().deactivate();
                         object.setReleaseTime(object.getMsEnd());
                     }
-                    if (object.getMsStart() > timer)
-                        break;
+                    if (object.getMsStart() > timer) break;
                 }
             while (lastActive < objects.size() && objects.get(lastActive).getMsEnd() < timer) {
-                if (objects.get(lastActive).getHitTime() < 0)
-                    setHit(Scores.S0);
+                if (objects.get(lastActive).getHitTime() < 0) setHit(Scores.S0);
                 lastActive++;
             }
 
@@ -181,10 +198,8 @@ public class TsuEngine extends GameObject implements Observer, Observable {
 
     private void setHit(Scores score) {
         this.score = score;
-        if (score != Scores.S0)
-            combo += 1;
-        else
-            combo = 0;
+        if (score != Scores.S0) combo += 1;
+        else combo = 0;
         totalScore += score.getScore() * combo;
     }
 
@@ -192,10 +207,22 @@ public class TsuEngine extends GameObject implements Observer, Observable {
         if (finished) {
             this.sessionHitObjects = ScoreCalculator.computeScore(objects, difficulty);
             this.sessionHitObjects.setCheats(auto);
+
+            sendStat();
         }
         ended = true;
         this.pauseEngine();
         this.notifyObservers();
+    }
+
+    /**
+     * Sends the game stat to the db
+     */
+    private void sendStat() {
+        int score = this.sessionHitObjects.getScore();
+        String statName = STAT_NAME + System.currentTimeMillis();
+
+        this.statsRepo.put(IStatisticFactory.createGameStatistic(statName, score));
     }
 
     @Override
@@ -203,17 +230,14 @@ public class TsuEngine extends GameObject implements Observer, Observable {
         super.onEventCapture(event);
         Double hit = judgementLine.convert(event.getPos());
         double width = judgementLine.convert(HIT_WIDTH);
-        if (hit == null)
-            return;
+        if (hit == null) return;
         for (int i = lastActive; i < objects.size(); i++) {
             HitObject obj = objects.get(i);
-            if (obj.getInputEvent() != null)
-                continue;
+            if (obj.getInputEvent() != null) continue;
             long start = obj.getMsStart();
             long leftt = start - distribution[2];
             long rightt = start + distribution[2];
-            if (timer < leftt)
-                break;
+            if (timer < leftt) break;
             if (timer <= rightt) {
                 double pos = obj.calculatePosition(timer);
                 if (-HIT_ERROR < hit - pos && hit - (pos + width) < HIT_ERROR) {
@@ -232,8 +256,7 @@ public class TsuEngine extends GameObject implements Observer, Observable {
     protected void onEventDisable(InputEvent event) {
         super.onEventDisable(event);
         HitObject object = eventToHitObject.get(event);
-        if (object == null)
-            return;
+        if (object == null) return;
         Scores lastscore = object.computeScore(distribution);
         object.setReleaseTime(timer);
         if (lastscore != Scores.S0 && object.computeScore(distribution) == Scores.S0)
@@ -243,8 +266,7 @@ public class TsuEngine extends GameObject implements Observer, Observable {
     @Override
     public boolean processInput(InputEvent event) {
         if (isEnable()) {
-            if (super.processInput(event))
-                return true;
+            if (super.processInput(event)) return true;
             if (!isAuto() && !pauseMenu.isEnable()) {
                 captureEvent(event);
                 return true;
@@ -257,13 +279,23 @@ public class TsuEngine extends GameObject implements Observer, Observable {
     public void renderAll(Canvas canvas) {
         super.renderAll(canvas);
         if (score != null) {
-            float sw = (float) (SCORE_WIDTH * (1 / 3d * Math.exp(-3 * Math.sqrt((timer - lastScore) / 250D)) + 1));
+            float sw =
+                    (float)
+                            (SCORE_WIDTH * (1 / 3d * Math.exp(-3 * Math.sqrt((timer - lastScore) / 250D)) + 1));
             float width = canvas.getWidth();
             float height = canvas.getHeight();
             float bwidth = score.getBitmap().getWidth();
             float bheight = score.getBitmap().getHeight();
             float bscale = sw / bwidth;
-            canvas.drawBitmap(score.getBitmap(), null, new RectF((width - sw) / 2f, height * SCORE_Y, (width + sw) / 2f, height * SCORE_Y + bheight * bscale), new Paint());
+            canvas.drawBitmap(
+                    score.getBitmap(),
+                    null,
+                    new RectF(
+                            (width - sw) / 2f,
+                            height * SCORE_Y,
+                            (width + sw) / 2f,
+                            height * SCORE_Y + bheight * bscale),
+                    new Paint());
         }
     }
 
@@ -271,8 +303,10 @@ public class TsuEngine extends GameObject implements Observer, Observable {
     public void draw(Canvas canvas) {
         super.draw(canvas);
         if (this.renderer.getSize() == null) {
-            this.renderer.setSize(new Vector(canvas.getWidth() - 2 * MARGINS.getX(), canvas.getHeight() - MARGINS.getY()));
-            this.judgementLine.setPosition(new Vector(MARGINS.getX(), canvas.getHeight() - MARGINS.getY()));
+            this.renderer.setSize(
+                    new Vector(canvas.getWidth() - 2 * MARGINS.getX(), canvas.getHeight() - MARGINS.getY()));
+            this.judgementLine.setPosition(
+                    new Vector(MARGINS.getX(), canvas.getHeight() - MARGINS.getY()));
             this.judgementLine.setWidth(canvas.getWidth() - 2 * MARGINS.getX());
         }
         if (getGlobalPreferences().theme == Themes.LIGHT) {
@@ -285,32 +319,52 @@ public class TsuEngine extends GameObject implements Observer, Observable {
         if (timer < -2000) {
             float y = canvas.getHeight() / 3;
             {
-                String str = getEngine().getGameAssetManager().getLanguagePack("Tsu", getGlobalPreferences().language).getToken("Title") + ": " +
-                        beatmap.getTitle();
+                String str =
+                        getEngine()
+                                .getGameAssetManager()
+                                .getLanguagePack("Tsu", getGlobalPreferences().language)
+                                .getToken("Title")
+                                + ": "
+                                + beatmap.getTitle();
                 Rect rect = new Rect();
                 this.paintText.getTextBounds(str, 0, str.length(), rect);
                 canvas.drawText(str, (canvas.getWidth() - rect.width()) / 2, y, paintText);
                 y += rect.height() + 10;
             }
             {
-                String str = getEngine().getGameAssetManager().getLanguagePack("Tsu", getGlobalPreferences().language).getToken("Artist") + ": " +
-                        beatmap.getArtist();
+                String str =
+                        getEngine()
+                                .getGameAssetManager()
+                                .getLanguagePack("Tsu", getGlobalPreferences().language)
+                                .getToken("Artist")
+                                + ": "
+                                + beatmap.getArtist();
                 Rect rect = new Rect();
                 this.paintText.getTextBounds(str, 0, str.length(), rect);
                 canvas.drawText(str, (canvas.getWidth() - rect.width()) / 2, y, paintText);
                 y += rect.height() + 10;
             }
             {
-                String str = getEngine().getGameAssetManager().getLanguagePack("Tsu", getGlobalPreferences().language).getToken("Arranger") + ": " +
-                        beatmap.getArranger();
+                String str =
+                        getEngine()
+                                .getGameAssetManager()
+                                .getLanguagePack("Tsu", getGlobalPreferences().language)
+                                .getToken("Arranger")
+                                + ": "
+                                + beatmap.getArranger();
                 Rect rect = new Rect();
                 this.paintText.getTextBounds(str, 0, str.length(), rect);
                 canvas.drawText(str, (canvas.getWidth() - rect.width()) / 2, y, paintText);
                 y += rect.height() + 10;
             }
             {
-                String str = getEngine().getGameAssetManager().getLanguagePack("Tsu", getGlobalPreferences().language).getToken("Mapper") + ": " +
-                        beatmap.getMapper();
+                String str =
+                        getEngine()
+                                .getGameAssetManager()
+                                .getLanguagePack("Tsu", getGlobalPreferences().language)
+                                .getToken("Mapper")
+                                + ": "
+                                + beatmap.getMapper();
                 Rect rect = new Rect();
                 this.paintText.getTextBounds(str, 0, str.length(), rect);
                 canvas.drawText(str, (canvas.getWidth() - rect.width()) / 2, y, paintText);

@@ -62,25 +62,45 @@ public class StatsMenu extends GameObject implements Observable, Observer {
         scrollDownEnb = getEngine().getGameAssetManager().getTileSheet("Tsu", "Scroll").getTile(0, 1);
         scrollDownDsb = getEngine().getGameAssetManager().getTileSheet("Tsu", "Scroll").getTile(1, 1);
 
-        scrollUp = new Button(new Vector(HISTORY_LEFT, HISTORY_YMAR), new Vector(HISTORY_WIDTH, HISTORY_BUTTON_HEIGHT), scrollUpDsb, scrollUpDsb);
-        scrollDown = new Button(new Vector(HISTORY_LEFT, getEngine().getSize().getY() - HISTORY_YMAR - HISTORY_BUTTON_HEIGHT), new Vector(HISTORY_WIDTH, HISTORY_BUTTON_HEIGHT), scrollDownDsb, scrollDownDsb);
+        scrollUp =
+                new Button(
+                        new Vector(HISTORY_LEFT, HISTORY_YMAR),
+                        new Vector(HISTORY_WIDTH, HISTORY_BUTTON_HEIGHT),
+                        scrollUpDsb,
+                        scrollUpDsb);
+        scrollDown =
+                new Button(
+                        new Vector(
+                                HISTORY_LEFT, getEngine().getSize().getY() - HISTORY_YMAR - HISTORY_BUTTON_HEIGHT),
+                        new Vector(HISTORY_WIDTH, HISTORY_BUTTON_HEIGHT),
+                        scrollDownDsb,
+                        scrollDownDsb);
 
         scrollUp.registerObserver(this);
         scrollDown.registerObserver(this);
         this.adopt(scrollUp);
         this.adopt(scrollDown);
 
-        Bitmap backBitmap = getEngine().getGameAssetManager().getTileSheet("Tsu", "Buttons").getTile(8, 0);
-        this.back = new Button(this.getAbsolutePosition().add(new Vector(MARGIN, MARGIN)),
-                new Vector(BUTTON_SIZE, BUTTON_SIZE), backBitmap, backBitmap);
+        Bitmap backBitmap =
+                getEngine().getGameAssetManager().getTileSheet("Tsu", "Buttons").getTile(8, 0);
+        this.back =
+                new Button(
+                        this.getAbsolutePosition().add(new Vector(MARGIN, MARGIN)),
+                        new Vector(BUTTON_SIZE, BUTTON_SIZE),
+                        backBitmap,
+                        backBitmap);
         back.registerObserver(this);
         adopt(back);
 
         float hh = (getEngine().getSize().getY()) - HISTORY_TOP + HISTORY_BOT;
         historyDisplayers = new ArrayList<>();
         for (int i = 0; i < HISTORY_COUNT; i++) {
-            HistoryDisplayer displayer = new HistoryDisplayer(this, new Vector(HISTORY_LEFT, HISTORY_TOP + i * (hh / 4)),
-                    new Vector(HISTORY_WIDTH, hh / 4), null);
+            HistoryDisplayer displayer =
+                    new HistoryDisplayer(
+                            this,
+                            new Vector(HISTORY_LEFT, HISTORY_TOP + i * (hh / 4)),
+                            new Vector(HISTORY_WIDTH, hh / 4),
+                            null);
             displayer.registerObserver(this);
             adopt(displayer);
             displayer.setEnable(false);
@@ -89,10 +109,13 @@ public class StatsMenu extends GameObject implements Observable, Observer {
 
         Bitmap time = getEngine().getGameAssetManager().getTileSheet("Tsu", "Buttons").getTile(15, 0);
         Bitmap timeUp = getEngine().getGameAssetManager().getTileSheet("Tsu", "Buttons").getTile(16, 0);
-        Bitmap timeDown = getEngine().getGameAssetManager().getTileSheet("Tsu", "Buttons").getTile(17, 0);
+        Bitmap timeDown =
+                getEngine().getGameAssetManager().getTileSheet("Tsu", "Buttons").getTile(17, 0);
         Bitmap score = getEngine().getGameAssetManager().getTileSheet("Tsu", "Buttons").getTile(18, 0);
-        Bitmap scoreUp = getEngine().getGameAssetManager().getTileSheet("Tsu", "Buttons").getTile(19, 0);
-        Bitmap scoreDown = getEngine().getGameAssetManager().getTileSheet("Tsu", "Buttons").getTile(20, 0);
+        Bitmap scoreUp =
+                getEngine().getGameAssetManager().getTileSheet("Tsu", "Buttons").getTile(19, 0);
+        Bitmap scoreDown =
+                getEngine().getGameAssetManager().getTileSheet("Tsu", "Buttons").getTile(20, 0);
 
         Sort.TimeDown.setTimeBitmap(timeDown);
         Sort.TimeDown.setScoreBitmap(score);
@@ -106,10 +129,18 @@ public class StatsMenu extends GameObject implements Observable, Observer {
         Sort.ScoreUp.setTimeBitmap(time);
         Sort.ScoreUp.setScoreBitmap(scoreUp);
 
-        sortTime = new Button(this.getAbsolutePosition().add(new Vector(MARGIN, getEngine().getSize().getY() / 2 - BUTTON_SIZE - BUTTON_SIZE / 2)),
-                new Vector(BUTTON_SIZE, BUTTON_SIZE));
-        sortScore = new Button(this.getAbsolutePosition().add(new Vector(MARGIN, getEngine().getSize().getY() / 2 + BUTTON_SIZE / 2)),
-                new Vector(BUTTON_SIZE, BUTTON_SIZE));
+        sortTime =
+                new Button(
+                        this.getAbsolutePosition()
+                                .add(
+                                        new Vector(
+                                                MARGIN, getEngine().getSize().getY() / 2 - BUTTON_SIZE - BUTTON_SIZE / 2)),
+                        new Vector(BUTTON_SIZE, BUTTON_SIZE));
+        sortScore =
+                new Button(
+                        this.getAbsolutePosition()
+                                .add(new Vector(MARGIN, getEngine().getSize().getY() / 2 + BUTTON_SIZE / 2)),
+                        new Vector(BUTTON_SIZE, BUTTON_SIZE));
 
         sortTime.registerObserver(this);
         sortScore.registerObserver(this);
@@ -119,8 +150,15 @@ public class StatsMenu extends GameObject implements Observable, Observer {
 
         setSort(Sort.TimeDown);
 
-        fullHistoryDisplayer = new FullHistoryDisplayer(this, new Vector(HISTORY_LEFT + HISTORY_WIDTH + HISTORY_BUFFER,
-                HISTORY_YMAR), new Vector(getEngine().getSize().getX() - (HISTORY_LEFT + HISTORY_WIDTH + HISTORY_BUFFER) - HISTORY_YMAR, getEngine().getSize().getY() - 2 * HISTORY_YMAR));
+        fullHistoryDisplayer =
+                new FullHistoryDisplayer(
+                        this,
+                        new Vector(HISTORY_LEFT + HISTORY_WIDTH + HISTORY_BUFFER, HISTORY_YMAR),
+                        new Vector(
+                                getEngine().getSize().getX()
+                                        - (HISTORY_LEFT + HISTORY_WIDTH + HISTORY_BUFFER)
+                                        - HISTORY_YMAR,
+                                getEngine().getSize().getY() - 2 * HISTORY_YMAR));
         this.adopt(fullHistoryDisplayer);
         super.init();
     }
@@ -128,14 +166,24 @@ public class StatsMenu extends GameObject implements Observable, Observer {
     @Override
     public void draw(Canvas canvas) {
         super.draw(canvas);
-        if (getGlobalPreferences().theme == Themes.LIGHT)
-            canvas.drawRGB(255, 255, 255);
-        else if (getGlobalPreferences().theme == Themes.DARK)
-            canvas.drawRGB(0, 0, 0);
-        canvas.drawRect(HISTORY_LEFT, HISTORY_TOP, HISTORY_LEFT + HISTORY_WIDTH, canvas.getHeight() + HISTORY_BOT, historyPaint);
+        if (getGlobalPreferences().theme == Themes.LIGHT) canvas.drawRGB(255, 255, 255);
+        else if (getGlobalPreferences().theme == Themes.DARK) canvas.drawRGB(0, 0, 0);
+        canvas.drawRect(
+                HISTORY_LEFT,
+                HISTORY_TOP,
+                HISTORY_LEFT + HISTORY_WIDTH,
+                canvas.getHeight() + HISTORY_BOT,
+                historyPaint);
         if (history == null) {
-            canvas.drawBitmap(loading, null, new RectF(HISTORY_LEFT + (HISTORY_WIDTH - LOADING_SIZE) / 2f, (canvas.getHeight() - LOADING_SIZE) / 2f,
-                    HISTORY_LEFT + (HISTORY_WIDTH + LOADING_SIZE) / 2f, (canvas.getHeight() + LOADING_SIZE) / 2f), null);
+            canvas.drawBitmap(
+                    loading,
+                    null,
+                    new RectF(
+                            HISTORY_LEFT + (HISTORY_WIDTH - LOADING_SIZE) / 2f,
+                            (canvas.getHeight() - LOADING_SIZE) / 2f,
+                            HISTORY_LEFT + (HISTORY_WIDTH + LOADING_SIZE) / 2f,
+                            (canvas.getHeight() + LOADING_SIZE) / 2f),
+                    null);
         }
     }
 
@@ -162,17 +210,13 @@ public class StatsMenu extends GameObject implements Observable, Observer {
             }
         } else if (observable == sortTime) {
             if (sortTime.isPressed()) {
-                if (sort == Sort.TimeDown || sort == Sort.TimeUp)
-                    setSort(sort.next);
-                else
-                    setSort(Sort.TimeDown);
+                if (sort == Sort.TimeDown || sort == Sort.TimeUp) setSort(sort.next);
+                else setSort(Sort.TimeDown);
             }
         } else if (observable == sortScore) {
             if (sortScore.isPressed()) {
-                if (sort == Sort.ScoreDown || sort == Sort.ScoreUp)
-                    setSort(sort.next);
-                else
-                    setSort(Sort.ScoreDown);
+                if (sort == Sort.ScoreDown || sort == Sort.ScoreUp) setSort(sort.next);
+                else setSort(Sort.ScoreDown);
             }
         } else if (observable instanceof HistoryDisplayer) {
             HistoryDisplayer displayer = (HistoryDisplayer) observable;
@@ -188,8 +232,7 @@ public class StatsMenu extends GameObject implements Observable, Observer {
                 historyDisplayers.get(i).setEnable(true);
                 if (scroll + i < history.size())
                     historyDisplayers.get(i).setObjects(history.get(scroll + i));
-                else
-                    historyDisplayers.get(i).setObjects(null);
+                else historyDisplayers.get(i).setObjects(null);
             }
             scrollUp.setUp(scroll <= 0 ? scrollUpDsb : scrollUpEnb);
             scrollUp.setDown(scroll <= 0 ? scrollUpDsb : scrollUpEnb);
@@ -214,6 +257,7 @@ public class StatsMenu extends GameObject implements Observable, Observer {
     public void setSelectedObject(SessionHitObjects selectedObject) {
         this.selectedObject = selectedObject;
         this.notifyObservers();
+        updateDisplayers();
     }
 
     public List<SessionHitObjects> getHistory() {
@@ -227,8 +271,7 @@ public class StatsMenu extends GameObject implements Observable, Observer {
 
     public void setSort(Sort sort) {
         this.sort = sort;
-        if (history != null)
-            Collections.sort(history, sort.comparator);
+        if (history != null) Collections.sort(history, sort.comparator);
         if (this.sortTime != null) {
             this.sortTime.setUp(sort.getTimeBitmap());
             this.sortTime.setDown(sort.getTimeBitmap());
@@ -243,8 +286,12 @@ public class StatsMenu extends GameObject implements Observable, Observer {
     private enum Sort {
         ScoreUp((SessionHitObjects o1, SessionHitObjects o2) -> (o1.getScore() - o2.getScore())),
         ScoreDown((SessionHitObjects o1, SessionHitObjects o2) -> (o2.getScore() - o1.getScore())),
-        TimeUp((SessionHitObjects o1, SessionHitObjects o2) -> (o1.getDatetime().compareTo(o2.getDatetime()))),
-        TimeDown((SessionHitObjects o1, SessionHitObjects o2) -> (o2.getDatetime().compareTo(o1.getDatetime())));
+        TimeUp(
+                (SessionHitObjects o1, SessionHitObjects o2) ->
+                        (o1.getDatetime().compareTo(o2.getDatetime()))),
+        TimeDown(
+                (SessionHitObjects o1, SessionHitObjects o2) ->
+                        (o2.getDatetime().compareTo(o1.getDatetime())));
 
         static {
             ScoreUp.next = ScoreDown;

@@ -32,7 +32,9 @@ public class FirebaseSessionHitObjectsRepository implements ISessionHitObjectsRe
     FirebaseSessionHitObjectsRepository(String currUser) {
 
         this.mDatabase =
-                FirebaseDatabase.getInstance().getReference().child("users/" + currUser + "/tsu/sessions");
+                FirebaseDatabase.getInstance()
+                        .getReference()
+                        .child("users/" + currUser + "/gameData/Tsu/sessions");
 
         userSessions = new ArrayList<>();
     }
