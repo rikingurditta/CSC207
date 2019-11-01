@@ -38,7 +38,6 @@ public class GameOverMenu extends Menu implements Observer {
 
     public void observe(Observable observable) {
         if (observable == restartButton) {
-
         }
     }
 }

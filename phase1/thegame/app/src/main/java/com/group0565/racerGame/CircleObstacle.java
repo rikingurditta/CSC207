@@ -18,7 +18,6 @@ public class CircleObstacle extends Obstacle {
         super(lane, z, parent);
     }
 
-
     /**
      * Renders this object on the screen
      * @param canvas The Canvas on which to draw
