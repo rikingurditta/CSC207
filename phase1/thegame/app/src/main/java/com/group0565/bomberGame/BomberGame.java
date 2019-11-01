@@ -15,7 +15,6 @@ import java.util.Map;
 import java.util.UUID;
 import java.lang.Math;
 
-
 public class BomberGame extends GameObject {
 
   private ArrayList<GameObject> itemsToBeAdopted = new ArrayList<GameObject>();
@@ -24,6 +23,7 @@ public class BomberGame extends GameObject {
   private String numBombStats;
   private String damageDealtStats;
   private int gameTimer = 0;
+  private int bgColor = Color.WHITE;
 
   public BomberGame(Vector position) {
     super(position);
@@ -34,32 +34,43 @@ public class BomberGame extends GameObject {
     adopt(randomInput);
     SquareGrid grid = new SquareGrid(new Vector(100, 100), 0, 15, 8, 100, this);
     adopt(grid);
-    BomberMan bm = new BomberMan(new Coords(0, 0),20, joystickInput, this, grid, 10);
+    BomberMan bm = new BomberMan(new Coords(0, 0), 20, joystickInput, this, grid, 10);
     adopt(bm);
     meBomberMan = bm;
-    BomberMan bm2 = new BomberMan(new Coords(10, 6),20, randomInput, this, grid, 10);
+    BomberMan bm2 = new BomberMan(new Coords(10, 6), 20, randomInput, this, grid, 10);
     adopt(bm2);
     // make 25 crates
     for (int i = 0; i < 25; i++) grid.makeRandomCrate();
   }
 
+  @Override
+  public void init() {
+    updateChildren();
+    super.init();
+  }
+
   public void draw(Canvas canvas) {
     super.draw(canvas);
     // Fill background with White
-    canvas.drawRGB(255, 255, 255);
-
+    canvas.drawColor(bgColor);
 
     Paint textPaint = new Paint();
     textPaint.setTextSize(50);
     textPaint.setColor(Color.BLACK);
 
-    canvas.drawText("Time Left:" + Math.floor(gameTimer/1000) + "s", 1600, 200, textPaint);
+    canvas.drawText("Time Left:" + Math.floor(gameTimer / 1000) + "s", 1600, 200, textPaint);
     canvas.drawText(numBombStats, 1600, 250, textPaint);
     canvas.drawText(damageDealtStats, 1600, 300, textPaint);
   }
 
   @Override
   public void update(long ms) {
+    updateChildren();
+    gameTimer += ms;
+    updateStats();
+  }
+
+  private void updateChildren() {
     for (GameObject item : itemsToBeAdopted) {
       this.adopt(item);
     }
@@ -71,15 +82,13 @@ public class BomberGame extends GameObject {
       gameChildren.remove(objID);
     }
     itemsToBeRemoved.clear();
-    gameTimer += ms;
-    updateStats();
-
   }
 
-  public void updateStats(){
+  public void updateStats() {
     numBombStats = "Bombs Placed:" + meBomberMan.getNumBombsPlaced();
     damageDealtStats = "Damage Dealt:" + meBomberMan.getDamageDealt();
   }
+
   public void adoptLater(GameObject obj) {
     itemsToBeAdopted.add(obj);
   }
