@@ -10,12 +10,15 @@ import com.group0565.theme.Themes;
 
 public class BomberMainActivity extends GameActivity {
 
-  public BomberMainActivity() {
+    public BomberMainActivity() {
 
-    super(new BomberGame(new Vector()));
-    IPreferenceInteractor prefInter = PreferencesInjector.inject();
-    this.getGame();
-    //this.getGame().setGlobalPreferences(new GlobalPreferences(Themes.valueOf(prefInter.getTheme()), prefInter.getLanguage(), prefInter.getVolume()))
+        super(new BomberGame(new Vector()));
+        IPreferenceInteractor prefInter = PreferencesInjector.inject();
+        this.getGame().setGlobalPreferences(
+                new GlobalPreferences(
+                        Themes.valueOf(prefInter.getTheme()),
+                        prefInter.getLanguage(),
+                        prefInter.getVolume()));
 
-  }
+    }
 }
