@@ -29,14 +29,13 @@ public class BomberGame extends GameObject {
   private String currentHealth;
   private int gameTimer = 60000;
   private int bgColor = Color.DKGRAY;
-  boolean gameEnded = false;
-
+  private boolean gameEnded = false;
 
   private long startTime;
-  String statisticName1 = "Bombs placed";
-  String statisticName2 = "Damage dealt";
-  String statisticName3 = "HP remaining";
-  String timeLeftinLang = "Time Left";
+  private String statisticName1 = "Bombs placed";
+  private String statisticName2 = "Damage dealt";
+  private String statisticName3 = "HP remaining";
+  private String timeLeftinLang = "Time Left";
 
   /** The repository to interact with the stats DB */
   IAsyncStatisticsRepository myStatRepo;
@@ -117,10 +116,11 @@ public class BomberGame extends GameObject {
 
     } else {
       if (gameEnded) {
-        // TODO need to write code from proper game ending procedure
+        // is this proper way to end game? ask ethan
+        meBomberMan.setEnable(false);
         System.out.println("game ended");
       } else {
-        // gameTimer > 0
+        // gameTimer >
         gameTimer -= ms;
         updateStats();
       }
@@ -141,8 +141,8 @@ public class BomberGame extends GameObject {
     itemsToBeRemoved.clear();
   }
 
-  public void updateStats(){
-    numBombStats = statisticName1 + ": "+ meBomberMan.getNumBombsPlaced();
+  public void updateStats() {
+    numBombStats = statisticName1 + ": " + meBomberMan.getNumBombsPlaced();
     damageDealtStats = statisticName2 + ": " + meBomberMan.getDamageDealt();
     currentHealth = statisticName3 + ": " + meBomberMan.getHp();
   }
@@ -152,10 +152,13 @@ public class BomberGame extends GameObject {
     if (myStatRepo != null) {
 
       myStatRepo.put(
-          IStatisticFactory.createGameStatistic(statisticName1 + startTime, meBomberMan.getNumBombsPlaced()));
+          IStatisticFactory.createGameStatistic(
+              statisticName1 + startTime, meBomberMan.getNumBombsPlaced()));
       myStatRepo.put(
-          IStatisticFactory.createGameStatistic(statisticName2 + startTime, meBomberMan.getNumBombsPlaced()));
-      myStatRepo.put(IStatisticFactory.createGameStatistic(statisticName3 + startTime, meBomberMan.getHp()));
+          IStatisticFactory.createGameStatistic(
+              statisticName2 + startTime, meBomberMan.getNumBombsPlaced()));
+      myStatRepo.put(
+          IStatisticFactory.createGameStatistic(statisticName3 + startTime, meBomberMan.getHp()));
     }
   }
 

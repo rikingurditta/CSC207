@@ -89,7 +89,7 @@ public class BomberMan extends GridObject {
     textPaint.setTextSize(50);
     if (getGlobalPreferences().theme == Themes.LIGHT) {
       textPaint.setColor(Color.BLACK);
-    } else {
+    } else if (getGlobalPreferences().theme == Themes.DARK) {
       textPaint.setColor(Color.WHITE);
     }
   }
@@ -105,10 +105,6 @@ public class BomberMan extends GridObject {
     // Draw an rectangle at our touch position
     canvas.drawRect(pos.getX(), pos.getY(), pos.getX() + 100, pos.getY() + 100, bodyPaint);
     canvas.drawText("hp: " + hp, pos.getX(), pos.getY(), textPaint);
-  }
-
-  public int getHp() {
-    return hp;
   }
 
   /**
@@ -188,8 +184,11 @@ public class BomberMan extends GridObject {
   }
 
   public void increaseDamageDealt() {
-
     damageDealt += 1;
+  }
+
+  public int getHp() {
+    return hp;
   }
 
   @Override
