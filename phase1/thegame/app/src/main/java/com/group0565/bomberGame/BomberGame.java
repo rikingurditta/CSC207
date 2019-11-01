@@ -80,11 +80,11 @@ public class BomberGame extends GameObject {
       bgColor = Color.WHITE;
     }
 
-    if (getGlobalPreferences().language == "fr") {
+    if (getGlobalPreferences().language == "en") {
       statisticName1 = "Bombs placed";
       statisticName2 = "Damage dealt";
       statisticName3 = "HP remaining";
-    } else if (getGlobalPreferences().language == "en") {
+    } else if (getGlobalPreferences().language == "fr") {
       statisticName1 = "bombes placées";
       statisticName2 = "dégâts infligés";
       statisticName3 = "santé restante";
