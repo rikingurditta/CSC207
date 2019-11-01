@@ -1,5 +1,13 @@
 {
   "StartButton": "Commencer",
   "Volume": "Le Volume",
-  "Difficulty": "Difficulté"
+  "Difficulty": "Difficulté",
+  "Cheats": "Triche",
+  "AutoPlay": "Lecture Automatique",
+  "Score": "But",
+  "Combo": "Combo",
+  "Title": "Titre",
+  "Artist": "Artiste",
+  "Arranger": "Arrangeur",
+  "Mapper": "Cartographe"
 }

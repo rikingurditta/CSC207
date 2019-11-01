@@ -7,11 +7,11 @@ import com.group0565.engine.gameobjects.GameObject;
 import com.group0565.engine.gameobjects.GlobalPreferences;
 import com.group0565.engine.interfaces.Observable;
 import com.group0565.engine.interfaces.Observer;
+import com.group0565.hitObjectsRepository.HitObjectsRepositoryInjector;
 import com.group0565.hitObjectsRepository.SessionHitObjects;
 import com.group0565.preferences.IPreferenceInteractor;
 import com.group0565.preferences.PreferencesInjector;
 import com.group0565.preferences.UserPreferenceFactory;
-import com.group0565.tsu.TsuActivity;
 import com.thegame.TheGameApplication;
 
 import java.util.ArrayList;
@@ -26,11 +26,12 @@ public class TsuGame extends GameObject implements Observer {
     private TsuMenu menu;
     private StatsMenu stats;
     private TsuEngine engine;
-    private TsuActivity activity;
-    private List<SessionHitObjects> mockStatsData = new ArrayList<>();
 
-    public void setActivity(TsuActivity activity) {
-        this.activity = activity;
+    public TsuGame(){
+        this.stats = new StatsMenu(this);
+        HitObjectsRepositoryInjector.inject(
+                repository -> repository.getAll(stats::setHistory)
+        );
     }
 
     @Override
@@ -46,7 +47,7 @@ public class TsuGame extends GameObject implements Observer {
         Object difficulty;
         if (!((difficulty = prefInter.getPreference(DifficultyPrefName, 5)) instanceof Double) && !(difficulty instanceof Float))
             difficulty = 5D;
-        this.menu.setDifficulty((float) difficulty);
+        this.menu.setDifficulty((float) (double) difficulty);
         Object auto;
         if (!((auto = prefInter.getPreference(AutoPrefName, false)) instanceof Boolean))
             auto = false;
@@ -54,7 +55,6 @@ public class TsuGame extends GameObject implements Observer {
 
         this.engine = new TsuEngine();
         this.engine.setEnable(false);
-        this.stats = new StatsMenu(this);
         this.stats.setZ(1);
         this.stats.setEnable(false);
         this.adopt(engine);
@@ -82,7 +82,6 @@ public class TsuGame extends GameObject implements Observer {
             } else if (menu.isStats()) {
                 menu.setStats(false);
                 menu.setEnable(false);
-                getStats();
                 stats.setEnable(true);
             }
         } else if (observable == stats) {
@@ -96,9 +95,11 @@ public class TsuGame extends GameObject implements Observer {
                 SessionHitObjects objects = engine.getSessionHitObjects();
                 engine.setEnable(false);
                 engine.setEnded(false);
-                updateStats(objects);
+                if (stats.getHistory() == null)
+                    stats.setHistory(new ArrayList<>());
+                stats.getHistory().add(objects);
+                updateStats(stats.getHistory());
                 if (objects != null){
-                    getStats();
                     stats.setSelectedObject(objects);
                     stats.setEnable(true);
                 }else
@@ -107,20 +108,9 @@ public class TsuGame extends GameObject implements Observer {
         }
     }
 
-    public void getStats() {
-        this.stats.setHistory(mockStatsData);
-//        synchronized (this.activity) {
-//            this.activity.getStats(stats);
-//            this.activity.notifyAll();
-//        }
-    }
-
-    public void updateStats(SessionHitObjects newObject) {
-        this.mockStatsData.add(newObject);
-//        synchronized (this.activity) {
-//            this.activity.updateStats(newObject);
-//            this.activity.notifyAll();
-//        }
+    public void updateStats(List<SessionHitObjects> newList) {
+        HitObjectsRepositoryInjector.inject(
+                repository -> repository.pushList(newList));
     }
 
     public void setPreferences(String name, Object value) {

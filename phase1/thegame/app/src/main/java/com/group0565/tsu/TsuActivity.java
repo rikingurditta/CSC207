@@ -14,61 +14,12 @@ import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
 
 public class TsuActivity extends GameActivity {
-    private BlockingQueue<StatsMenu> menus = new LinkedBlockingQueue<>(10);
-    private BlockingQueue<SessionHitObjects> newObjs = new LinkedBlockingQueue<>(10);
-    private boolean running = true;
     public TsuActivity() {
         super(new TsuGame());
-        ((TsuGame) this.getGame()).setActivity(this);
         IPreferenceInteractor prefInter = PreferencesInjector.inject();
         this.getGame().setGlobalPreferences(
                 new GlobalPreferences(Themes.valueOf(prefInter.getTheme()),
                         prefInter.getLanguage(),
                         prefInter.getVolume()/100D));
-    }
-
-    @Override
-    protected void onStart() {
-        super.onStart();
-//        waitStats();
-    }
-
-    public void waitStats() {
-        while (running) {
-            synchronized (this) {
-                try {
-                    this.wait();
-                } catch (InterruptedException e) {
-                    break;
-                }
-            }
-            while (!menus.isEmpty()) {
-                HitObjectsRepositoryInjector.inject(
-                        repository -> repository.getAll(menus.poll()::setHistory)
-                );
-            }
-            while (!newObjs.isEmpty()) {
-                HitObjectsRepositoryInjector.inject(
-                        repository -> repository.getAll(data -> {
-                            data.add(newObjs.poll());
-                            repository.pushList(data);
-                        })
-                );
-            }
-        }
-    }
-
-    @Override
-    protected void onStop() {
-        super.onStop();
-        running = false;
-    }
-
-    public void getStats(StatsMenu stats) {
-//        menus.add(stats);
-    }
-
-    public void updateStats(SessionHitObjects newObject) {
-//        newObjs.add(newObject);
     }
 }
