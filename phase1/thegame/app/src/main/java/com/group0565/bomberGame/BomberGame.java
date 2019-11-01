@@ -10,6 +10,9 @@ import com.group0565.bomberGame.input.RandomInput;
 import com.group0565.engine.gameobjects.GameObject;
 import com.group0565.engine.gameobjects.GlobalPreferences;
 import com.group0565.math.Vector;
+import com.group0565.statistics.IAsyncStatisticsRepository;
+import com.group0565.statistics.IStatisticFactory;
+import com.group0565.statistics.StatisticRepositoryInjector;
 
 import java.util.ArrayList;
 import java.util.Map;
@@ -23,8 +26,17 @@ public class BomberGame extends GameObject {
   private BomberMan meBomberMan;
   private String numBombStats;
   private String damageDealtStats;
-  private int gameTimer = 0;
+  private int gameTimer = 10000;
   private int bgColor = Color.WHITE;
+  boolean sentStats = false;
+
+
+  /** The repository to interact with the stats DB */
+  IAsyncStatisticsRepository myStatRepo;
+
+  /** Create a STRONG reference to the listener so it won't get garbage collected */
+  StatisticRepositoryInjector.RepositoryInjectionListener listener;
+
 
   public BomberGame(Vector position) {
     super(position);
@@ -42,6 +54,12 @@ public class BomberGame extends GameObject {
     adopt(bm2);
     // make 25 crates
     for (int i = 0; i < 25; i++) grid.makeRandomCrate();
+
+    listener =
+            repository -> {
+              myStatRepo = repository;
+              };
+    StatisticRepositoryInjector.inject("Bomber_Game", listener);
   }
 
   @Override
@@ -61,15 +79,20 @@ public class BomberGame extends GameObject {
     textPaint.setColor(Color.BLACK);
 
     canvas.drawText("Time Left:" + Math.floor(gameTimer / 1000) + "s", 1600, 200, textPaint);
-    canvas.drawText(numBombStats, 1600, 250, textPaint);
-    canvas.drawText(damageDealtStats, 1600, 300, textPaint);
+
   }
 
   @Override
   public void update(long ms) {
     updateChildren();
-    gameTimer += ms;
-    updateStats();
+
+    if (gameTimer <= 0 && !sentStats) {
+      updateStats();
+      sentStats = true;
+    }else{
+      gameTimer -= ms;
+    }
+
   }
 
   private void updateChildren() {
@@ -89,6 +112,15 @@ public class BomberGame extends GameObject {
   public void updateStats() {
     numBombStats = "Bombs Placed:" + meBomberMan.getNumBombsPlaced();
     damageDealtStats = "Damage Dealt:" + meBomberMan.getDamageDealt();
+
+
+    if (myStatRepo != null) {
+      System.out.println("STATS SENT");
+      myStatRepo.put(IStatisticFactory.createGameStatistic("Bombs_Placed", meBomberMan.getNumBombsPlaced()));
+      myStatRepo.put(IStatisticFactory.createGameStatistic("Damage_Dealt", meBomberMan.getNumBombsPlaced()));
+      myStatRepo.put(IStatisticFactory.createGameStatistic("Health_Left", meBomberMan.getHp()));
+
+    }
   }
 
   public void adoptLater(GameObject obj) {

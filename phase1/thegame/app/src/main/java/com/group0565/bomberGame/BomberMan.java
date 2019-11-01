@@ -107,6 +107,10 @@ public class BomberMan extends GridObject {
     canvas.drawText("hp: " + hp, pos.getX(), pos.getY(), textPaint);
   }
 
+  public int getHp() {
+    return hp;
+  }
+
   /**
    * Updates the player based on input, as processed by this player's InputSystem.
    *
