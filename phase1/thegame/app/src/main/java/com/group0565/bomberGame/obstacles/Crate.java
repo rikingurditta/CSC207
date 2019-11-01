@@ -10,6 +10,7 @@ import com.group0565.bomberGame.GridObject;
 import com.group0565.bomberGame.SquareGrid;
 import com.group0565.engine.gameobjects.GlobalPreferences;
 import com.group0565.math.Vector;
+import com.group0565.theme.Themes;
 
 /** A destructable obstacle that takes up one grid block. */
 public class Crate extends GridObject {
@@ -47,7 +48,7 @@ public class Crate extends GridObject {
   @Override
   public void init() {
     super.init();
-    if (getGlobalPreferences().theme == GlobalPreferences.Theme.LIGHT) {
+    if (getGlobalPreferences().theme == Themes.LIGHT) {
       paint.setARGB(255, 102, 46, 10);
     } else {
       paint.setARGB(255, 102, 46, 10);

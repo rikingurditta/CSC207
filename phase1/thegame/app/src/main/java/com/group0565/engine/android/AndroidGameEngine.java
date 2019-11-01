@@ -159,14 +159,15 @@ public class AndroidGameEngine implements Runnable, GameEngine {
     public synchronized void setSurfaceHolder(SurfaceHolder surfaceHolder) {
         synchronized (surfaceLock) {
             this.surfaceHolder = surfaceHolder;
-            Canvas canvas = null;
-            try {
-                canvas = this.surfaceHolder.lockCanvas();
-                if (canvas != null)
-                    size = new Vector(canvas.getWidth(), canvas.getHeight());
-            } finally {
-                if (canvas != null) {
+            if (surfaceHolder != null) {
+                Canvas canvas = null;
+                try {
+                  canvas = this.surfaceHolder.lockCanvas();
+                  if (canvas != null) size = new Vector(canvas.getWidth(), canvas.getHeight());
+                } finally {
+                  if (canvas != null) {
                     surfaceHolder.unlockCanvasAndPost(canvas);
+                  }
                 }
             }
         }

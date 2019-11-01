@@ -8,13 +8,12 @@ import com.group0565.bomberGame.input.InputSystem;
 import com.group0565.bomberGame.input.JoystickInput;
 import com.group0565.bomberGame.input.RandomInput;
 import com.group0565.engine.gameobjects.GameObject;
-import com.group0565.engine.gameobjects.GlobalPreferences;
 import com.group0565.math.Vector;
+import com.group0565.theme.Themes;
 
 import java.util.ArrayList;
 import java.util.Map;
 import java.util.UUID;
-import java.lang.Math;
 
 public class BomberGame extends GameObject {
 
@@ -48,7 +47,7 @@ public class BomberGame extends GameObject {
   public void init() {
     updateChildren();
     super.init();
-    if (getGlobalPreferences().theme == GlobalPreferences.Theme.DARK) bgColor = Color.DKGRAY;
+    if (getGlobalPreferences().theme == Themes.DARK) bgColor = Color.DKGRAY;
   }
 
   public void draw(Canvas canvas) {

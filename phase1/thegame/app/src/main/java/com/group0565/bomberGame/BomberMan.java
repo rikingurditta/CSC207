@@ -8,8 +8,8 @@ import com.group0565.bomberGame.bombs.NormalBomb;
 import com.group0565.bomberGame.input.BomberInput;
 import com.group0565.bomberGame.input.InputSystem;
 import com.group0565.engine.gameobjects.GameObject;
-import com.group0565.engine.gameobjects.GlobalPreferences;
 import com.group0565.math.Vector;
+import com.group0565.theme.Themes;
 
 /** A BomberMan, aka a player in the game. */
 public class BomberMan extends GridObject {
@@ -87,7 +87,7 @@ public class BomberMan extends GridObject {
     super.init();
     bodyPaint.setARGB(180, 0, 255, 0);
     textPaint.setTextSize(50);
-    if (getGlobalPreferences().theme == GlobalPreferences.Theme.LIGHT) {
+    if (getGlobalPreferences().theme == Themes.LIGHT) {
       textPaint.setColor(Color.BLACK);
     } else {
       textPaint.setColor(Color.WHITE);
