@@ -222,17 +222,17 @@ public class SettingsMenu extends GameObject implements Observer, Observable {
             }
         } else if (observable == volumeAddButton) {
             if (volumeAddButton.isPressed()) {
-                getGlobalPreferences().volume += 0.1;
-                if (getGlobalPreferences().volume > 1)
-                    getGlobalPreferences().volume = 1;
-                this.volume = (int) (getGlobalPreferences().volume * 10);
+                this.volume += 1;
+                if (this.volume > 10)
+                    this.volume = 10;
+                getGlobalPreferences().volume = (this.volume / 10d);
             }
         } else if (observable == volumeSubButton) {
             if (volumeSubButton.isPressed()) {
-                getGlobalPreferences().volume -= 0.1;
-                if (getGlobalPreferences().volume < 0)
-                    getGlobalPreferences().volume = 0;
-                this.volume = (int) (getGlobalPreferences().volume * 10);
+                this.volume -= 1;
+                if (this.volume < 0)
+                    this.volume = 0;
+                getGlobalPreferences().volume = (this.volume / 10d);
             }
         } else if (observable == difficultyAddButton) {
             if (difficultyAddButton.isPressed()) {
