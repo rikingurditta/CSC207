@@ -7,7 +7,7 @@
   "Arranger": "Michael Lee",
   "Mapper": "Ethan Zhu",
   "Difficulty": 1.0,
-  "LeadIn": 1000,
+  "LeadIn": 5000,
   "HitObjects": [
     {
       "Time": 0,

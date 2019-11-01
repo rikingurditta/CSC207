@@ -12,6 +12,7 @@ public class SessionHitObjects {
     private int grade;
     private double difficulty;
     private String datetime;
+    private boolean cheats;
     private int maxCombo;
     private int S300;
     private int S150;
@@ -20,10 +21,20 @@ public class SessionHitObjects {
 
     public SessionHitObjects(List<HitObject> hitObjects) {
         this.hitObjects = hitObjects;
+        this.score = 0;
+        this.grade = 0;
+        this.difficulty = 0;
+        this.datetime = "";
+        this.cheats = false;
+        this.maxCombo = 0;
+        this.S300 = 0;
+        this.S150 = 0;
+        this.S50 = 0;
+        this.S0 = 0;
     }
 
     public SessionHitObjects() {
-        this.hitObjects = new ArrayList<>();
+        this(new ArrayList<>());
     }
 
     public List<HitObject> getHitObjects() {
@@ -108,5 +119,13 @@ public class SessionHitObjects {
 
     public void setS0(int s0) {
         S0 = s0;
+    }
+
+    public boolean hasCheats() {
+        return cheats;
+    }
+
+    public void setCheats(boolean cheats) {
+        this.cheats = cheats;
     }
 }

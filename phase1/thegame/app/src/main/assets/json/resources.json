@@ -20,6 +20,11 @@
         "Path": "buttons.png",
         "TileWidth": 50,
         "TileHeight": 50
+      },
+      "Scroll": {
+        "Path": "Scroll.png",
+        "TileWidth": 200,
+        "TileHeight": 100
       }
     },
     "RacerButton": {
@@ -41,7 +46,7 @@
   "Json": {
     "Tsu": {
       "BeatMap": {
-        "Path": "beatmaps/test.json"
+        "Path": "beatmaps/Butterfly.json"
       }
     }
   },

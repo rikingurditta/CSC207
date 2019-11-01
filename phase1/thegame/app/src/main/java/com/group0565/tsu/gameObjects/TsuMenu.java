@@ -28,6 +28,7 @@ public class TsuMenu extends GameObject implements Observer, Observable {
     private Button statsButton;
     private double difficulty;
     private boolean stats = false;
+    private boolean auto = false;
     private TsuGame tsuGame;
 
     public TsuMenu(TsuGame tsuGame){
@@ -83,6 +84,8 @@ public class TsuMenu extends GameObject implements Observer, Observable {
             }
         } else if (observable == settingsButton) {
             if (settingsButton.isPressed()) {
+                settingsMenu.setDifficulty((int) this.difficulty);
+                settingsMenu.setAuto(this.auto);
                 settingsMenu.setEnable(true);
             }
         } else if (observable == languageButton) {
@@ -102,8 +105,10 @@ public class TsuMenu extends GameObject implements Observer, Observable {
         } else if (observable == settingsMenu) {
             if (!settingsMenu.isEnable()) {
                 this.difficulty = settingsMenu.getDifficulty();
+                this.auto = settingsMenu.getAuto();
                 tsuGame.setPreferences(getGlobalPreferences());
                 tsuGame.setPreferences(tsuGame.getDifficultyPrefName(), this.difficulty);
+                tsuGame.setPreferences(tsuGame.getAutoPrefName(), this.auto);
             }
         }
     }
@@ -141,5 +146,17 @@ public class TsuMenu extends GameObject implements Observer, Observable {
 
     public double getDifficulty() {
         return difficulty;
+    }
+
+    public void setDifficulty(double difficulty) {
+        this.difficulty = difficulty;
+    }
+
+    public boolean getAuto() {
+        return auto;
+    }
+
+    public void setAuto(boolean auto) {
+        this.auto = auto;
     }
 }

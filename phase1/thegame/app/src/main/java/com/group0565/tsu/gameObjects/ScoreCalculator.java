@@ -1,6 +1,7 @@
 package com.group0565.tsu.gameObjects;
 
 import com.group0565.hitObjectsRepository.SessionHitObjects;
+import com.group0565.tsu.enums.Grade;
 import com.group0565.tsu.enums.Scores;
 
 import java.text.SimpleDateFormat;
@@ -61,7 +62,7 @@ public class ScoreCalculator {
         sessionHitObjects.setS0(S0);
         sessionHitObjects.setScore(score);
         sessionHitObjects.setMaxCombo(mxc);
-        sessionHitObjects.setGrade(0);
+        sessionHitObjects.setGrade(Grade.score2Grade(score).getValue());
         return sessionHitObjects;
     }
 

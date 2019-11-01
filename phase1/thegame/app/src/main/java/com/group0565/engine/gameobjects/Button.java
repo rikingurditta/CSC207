@@ -103,4 +103,20 @@ public class Button extends GameObject implements Observable {
     public void setSize(Vector size) {
         this.size = size;
     }
+
+    public Bitmap getUp() {
+        return up;
+    }
+
+    public void setUp(Bitmap up) {
+        this.up = up;
+    }
+
+    public Bitmap getDown() {
+        return down;
+    }
+
+    public void setDown(Bitmap down) {
+        this.down = down;
+    }
 }

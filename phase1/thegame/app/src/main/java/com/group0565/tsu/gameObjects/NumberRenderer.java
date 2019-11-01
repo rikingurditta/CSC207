@@ -41,6 +41,8 @@ public class NumberRenderer extends GameObject {
             left = canvas.getWidth() - height * str.length() - this.margin.getX();
         for (int i = 0; i < str.length(); i++) {
             char c = str.charAt(i);
+            if (!Character.isDigit(c))
+                continue;
             int n = char2int(c);
             canvas.drawBitmap(tileSheet.getTile(n, 0), null,
                     new RectF(left, this.margin.getY(), left + height,

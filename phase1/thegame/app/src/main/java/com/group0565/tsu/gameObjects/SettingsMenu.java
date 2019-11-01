@@ -18,6 +18,8 @@ public class SettingsMenu extends GameObject implements Observer, Observable {
     private static final float LEFT_MARGIN = 75;
     private static final float VOLUME_Y = 200;
     private static final float DIFFICULTY_Y = 300;
+    private static final float CHEAT_Y = 400;
+    private static final float AUTO_Y = 500;
     private Vector size;
     private Paint rim;
     private Paint center;
@@ -28,8 +30,10 @@ public class SettingsMenu extends GameObject implements Observer, Observable {
     private Button volumeAddButton;
     private Button difficultySubButton;
     private Button difficultyAddButton;
+    private Button autoOn, autoOff;
     private int volume = 0;
     private int difficulty = 5;
+    private boolean auto = false;
 
 
     public SettingsMenu(Vector position, Vector size) {
@@ -61,14 +65,14 @@ public class SettingsMenu extends GameObject implements Observer, Observable {
         this.light = new Button(this.getAbsolutePosition().add(new Vector(75, 75)),
                 new Vector(BUTTON_SIZE, BUTTON_SIZE), lightBitmap, lightBitmap);
         light.registerObserver(this);
-        light.setEnable(getGlobalPreferences().theme == Themes.DARK);
+        light.setEnable(getGlobalPreferences().theme == Themes.LIGHT);
         adopt(light);
 
         Bitmap darkBitmap = getEngine().getGameAssetManager().getTileSheet("Tsu", "Buttons").getTile(3, 0);
         this.dark = new Button(this.getAbsolutePosition().add(new Vector(75, 75)),
                 new Vector(BUTTON_SIZE, BUTTON_SIZE), darkBitmap, darkBitmap);
         dark.registerObserver(this);
-        dark.setEnable(getGlobalPreferences().theme == Themes.LIGHT);
+        dark.setEnable(getGlobalPreferences().theme == Themes.DARK);
         adopt(dark);
 
 
@@ -97,6 +101,20 @@ public class SettingsMenu extends GameObject implements Observer, Observable {
                 new Vector(BUTTON_SIZE, BUTTON_SIZE), subButtonBitmap, subButtonBitmap);
         difficultySubButton.registerObserver(this);
         adopt(difficultySubButton);
+
+        Bitmap autoOnBitmap = getEngine().getGameAssetManager().getTileSheet("Tsu", "Buttons").getTile(12, 0);
+        this.autoOn = new Button(this.getAbsolutePosition().add(new Vector(75, 75)),
+                new Vector(BUTTON_SIZE, BUTTON_SIZE), autoOnBitmap, autoOnBitmap);
+        autoOn.registerObserver(this);
+        autoOn.setEnable(auto);
+        adopt(autoOn);
+
+        Bitmap autoOffBitmap = getEngine().getGameAssetManager().getTileSheet("Tsu", "Buttons").getTile(13, 0);
+        this.autoOff = new Button(this.getAbsolutePosition().add(new Vector(75, 75)),
+                new Vector(BUTTON_SIZE, BUTTON_SIZE), autoOffBitmap, autoOffBitmap);
+        autoOff.registerObserver(this);
+        autoOff.setEnable(!auto);
+        adopt(autoOff);
     }
 
     @Override
@@ -166,6 +184,21 @@ public class SettingsMenu extends GameObject implements Observer, Observable {
             float vx3 = vx2 + diffnumRect.width() + 20;
             this.difficultyAddButton.setRelativePosition(new Vector(vx3, DIFFICULTY_Y - 50));
         }
+        {
+            String cheats = getEngine().getGameAssetManager().getLanguagePack("Tsu", getGlobalPreferences().language).getToken("Cheats");
+            Rect cheatsRect = new Rect();
+            this.textPaint.getTextBounds(cheats, 0, cheats.length(), cheatsRect);
+            canvas.drawText(cheats, getAbsolutePosition().getX() + (size.getX() - cheatsRect.width()) / 2, getAbsolutePosition().getY() + CHEAT_Y, textPaint);
+        }
+        {
+            String autoPlay = getEngine().getGameAssetManager().getLanguagePack("Tsu", getGlobalPreferences().language).getToken("AutoPlay");
+            Rect autoPlayRect = new Rect();
+            this.textPaint.getTextBounds(autoPlay, 0, autoPlay.length(), autoPlayRect);
+            canvas.drawText(autoPlay, getAbsolutePosition().getX() + LEFT_MARGIN, getAbsolutePosition().getY() + AUTO_Y, textPaint);
+            float vx1 = LEFT_MARGIN + autoPlayRect.width() + 20;
+            this.autoOn.setRelativePosition(new Vector(vx1, AUTO_Y - 50));
+            this.autoOff.setRelativePosition(new Vector(vx1, AUTO_Y - 50));
+        }
     }
 
     @Override
@@ -177,15 +210,15 @@ public class SettingsMenu extends GameObject implements Observer, Observable {
               }
         } else if (observable == light) {
             if (light.isPressed()) {
-                getGlobalPreferences().theme = Themes.LIGHT;
-                light.setEnable(getGlobalPreferences().theme == Themes.DARK);
-                dark.setEnable(getGlobalPreferences().theme == Themes.LIGHT);
+                getGlobalPreferences().theme = Themes.DARK;
+                light.setEnable(getGlobalPreferences().theme == Themes.LIGHT);
+                dark.setEnable(getGlobalPreferences().theme == Themes.DARK);
             }
         } else if (observable == dark) {
             if (dark.isPressed()) {
-                getGlobalPreferences().theme = Themes.DARK;
-                light.setEnable(getGlobalPreferences().theme == Themes.DARK);
-                dark.setEnable(getGlobalPreferences().theme == Themes.LIGHT);
+                getGlobalPreferences().theme = Themes.LIGHT;
+                light.setEnable(getGlobalPreferences().theme == Themes.LIGHT);
+                dark.setEnable(getGlobalPreferences().theme == Themes.DARK);
             }
         } else if (observable == volumeAddButton) {
             if (volumeAddButton.isPressed()) {
@@ -213,6 +246,18 @@ public class SettingsMenu extends GameObject implements Observer, Observable {
                 if (this.difficulty < 1)
                     this.difficulty = 1;
             }
+        } else if (observable == autoOn) {
+            if (autoOn.isPressed()) {
+                auto = false;
+                autoOn.setEnable(auto);
+                autoOff.setEnable(!auto);
+            }
+        } else if (observable == autoOff) {
+            if (autoOff.isPressed()) {
+                auto = true;
+                autoOn.setEnable(auto);
+                autoOff.setEnable(!auto);
+            }
         }
     }
 
@@ -230,5 +275,15 @@ public class SettingsMenu extends GameObject implements Observer, Observable {
 
     public void setDifficulty(int difficulty) {
         this.difficulty = difficulty;
+    }
+
+    public boolean getAuto() {
+        return auto;
+    }
+
+    public void setAuto(boolean auto) {
+        this.auto = auto;
+        autoOn.setEnable(auto);
+        autoOff.setEnable(!auto);
     }
 }
