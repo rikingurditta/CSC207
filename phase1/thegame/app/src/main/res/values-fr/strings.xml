@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">LeJeu</string>
+    <string name="sign_in_btn">Se connecter</string>
+    <string name="delete_btn">Effacer</string>
+    <string name="sign_out_btn">Déconnexion</string>
+    <string name="no_user">" Aucun utilisateur connecté!"</string>
+    <string name="login_btn">S\'identifier</string>
+    <string name="action_settings">Paramètres</string>
+    <string name="lan_pref">Langue</string>
+    <string name="theme_pref">Thème</string>
+    <string name="vol_pref">Le volume</string>
+    <string name="action_statistics">Statistiques</string>
+</resources>

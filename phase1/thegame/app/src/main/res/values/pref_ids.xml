@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="lan_pref_id" translatable="false">lan_pref</string>
+    <string name="theme_pref_id" translatable="false">theme_pref</string>
+    <string name="vol_pref_id" translatable="false">vol_pref</string>
+</resources>

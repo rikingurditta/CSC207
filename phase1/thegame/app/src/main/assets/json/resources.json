@@ -1,0 +1,65 @@
+{
+  "TileSheets": {
+    "Tsu": {
+      "Score": {
+        "Path": "Score.png",
+        "TileWidth": 300,
+        "TileHeight": 100
+      },
+      "Numbers": {
+        "Path": "Numbers.png",
+        "TileWidth": 50,
+        "TileHeight": 50
+      },
+      "Title": {
+        "Path": "Title.png",
+        "TileWidth": 500,
+        "TileHeight": 500
+      },
+      "Buttons": {
+        "Path": "buttons.png",
+        "TileWidth": 50,
+        "TileHeight": 50
+      },
+      "Scroll": {
+        "Path": "Scroll.png",
+        "TileWidth": 200,
+        "TileHeight": 100
+      }
+    },
+    "RacerButton": {
+      "RacerButton": {
+        "Path": "Button.png",
+        "TileWidth": 256,
+        "TileHeight": 256
+      }
+    }
+  },
+  "Audio": {
+    "Tsu": {
+      "Butterfly": {
+        "Path": "Butterfly_Perfect_Final_Version.mp3",
+        "Volume": 1.0
+      }
+    }
+  },
+  "Json": {
+    "Tsu": {
+      "BeatMap": {
+        "Path": "beatmaps/Butterfly.json"
+      }
+    }
+  },
+  "LanguagePack": {
+    "Tsu": {
+      "en": {
+        "Path": "Tsu/en.json",
+        "Default": "String Not Found"
+      },
+      "fr": {
+        "Path": "Tsu/fr.json",
+        "Default": "Chaîne Introuvable"
+      }
+    }
+  }
+}
