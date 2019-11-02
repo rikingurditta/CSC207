@@ -75,6 +75,11 @@ public class TsuEngine extends GameObject implements Observer, Observable {
     }
 
     public void init() {
+        this.lastActive = 0;
+        this.lastScore = -1;
+        this.combo = 0;
+        this.totalScore = 0;
+        this.score = null;
         this.sessionHitObjects = null;
         this.beatmap = new Beatmap(BEATMAP_SET, BEATMAP_NAME, this.getEngine().getGameAssetManager());
         this.objects = beatmap.getHitObjects();
