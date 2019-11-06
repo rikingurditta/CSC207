@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <SeekBarPreference
+        android:defaultValue="@integer/def_vol_pref"
+        android:key="@string/vol_pref_id"
+        android:max="100"
+        android:min="0"
+        android:title="@string/vol_pref" />
+
+    <ListPreference
+        android:defaultValue="@string/def_lan_pref"
+        android:entries="@array/languages_keys"
+        android:entryValues="@array/languages_values"
+        android:key="@string/lan_pref_id"
+        android:summary="%s"
+        android:title="@string/lan_pref" />
+
+    <ListPreference
+        android:defaultValue="@string/def_theme_pref"
+        android:entries="@array/theme_keys"
+        android:entryValues="@array/theme_values"
+        android:key="@string/theme_pref_id"
+        android:summary="%s"
+        android:title="@string/theme_pref" />
+
+</PreferenceScreen>
