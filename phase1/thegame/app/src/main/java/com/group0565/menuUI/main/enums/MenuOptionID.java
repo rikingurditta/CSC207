@@ -11,7 +11,8 @@ import java.util.Map;
 public enum MenuOptionID {
     SETTINGS(R.id.action_settings),
     STATISTICS(R.id.action_statistics),
-    SIGN_OUT(R.id.sign_out);
+    SIGN_OUT(R.id.sign_out),
+    ACHIEVEMENTS(R.id.action_achievements);
 
     private static Map map = new HashMap<>();
 

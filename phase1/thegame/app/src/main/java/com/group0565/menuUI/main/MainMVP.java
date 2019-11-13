@@ -8,9 +8,7 @@ import com.group0565.menuUI.main.enums.MenuOptionID;
  * An interface for the Main module MVP
  */
 public interface MainMVP {
-  /**
-   * An interface for the Main presenter
-   */
+    /** An interface for the Main presenter */
   interface MainPresenter extends BaseMVP.BasePresenter {
     /**
      * Choose which game to go to
@@ -19,9 +17,7 @@ public interface MainMVP {
      */
     void selectGame(GameID id);
 
-    /**
-     * Sign out the current user
-     */
+        /** Sign out the current user */
     void signOut();
 
     /**
@@ -38,11 +34,9 @@ public interface MainMVP {
      * @return True if action was handled and false otherwise
      */
     boolean handleMenuClick(MenuOptionID id);
-  }
+    }
 
-  /**
-   * An interface for the Main view
-   */
+    /** An interface for the Main view */
   interface MainView extends BaseMVP.BaseView {
     /** Show the "no user connected" screen */
     void showNoUserScreen();
@@ -64,5 +58,10 @@ public interface MainMVP {
 
     /** Redirect to statistics activity */
     void goToStatistics();
+
+        /**
+         * Redirect to achievements activity
+         */
+        void goToAchievements();
   }
 }

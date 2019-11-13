@@ -32,9 +32,7 @@ import com.group0565.menuUI.statistics.StatisticsActivity;
  */
 public class MainActivity extends AppCompatActivity implements MainView {
 
-  /**
-   * The MainPresenter reference
-   */
+  /** The MainPresenter reference */
   MainPresenter mainPresenter;
 
   /**
@@ -50,9 +48,7 @@ public class MainActivity extends AppCompatActivity implements MainView {
             LocaleManager.updateResources(base, mainPresenter.getDisplayLanguage()));
   }
 
-  /**
-   * Set references to all objects and instantiate presenter
-   */
+  /** Set references to all objects and instantiate presenter */
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     setActivityTheme();
@@ -60,18 +56,14 @@ public class MainActivity extends AppCompatActivity implements MainView {
     setContentView(R.layout.activity_main);
   }
 
-  /**
-   * Destroy all references in this object
-   */
+  /** Destroy all references in this object */
   @Override
   protected void onDestroy() {
     super.onDestroy();
     mainPresenter.onDestroy();
   }
 
-  /**
-   * On activity restart, recreate the activity to check for preference changes
-   */
+  /** On activity restart, recreate the activity to check for preference changes */
   @Override
   public void onRestart() {
     super.onRestart();
@@ -108,16 +100,12 @@ public class MainActivity extends AppCompatActivity implements MainView {
     return this;
   }
 
-  /**
-   * Sets the activity's theme by querying the
-   */
+  /** Sets the activity's theme by querying the */
   public void setActivityTheme() {
     setTheme(mainPresenter.getAppTheme());
   }
 
-  /**
-   * Show the "no user connected" screen
-   */
+  /** Show the "no user connected" screen */
   @Override
   public void showNoUserScreen() {
     invalidateOptionsMenu();
@@ -129,9 +117,7 @@ public class MainActivity extends AppCompatActivity implements MainView {
     signIn.setOnClickListener(lg);
   }
 
-  /**
-   * Show the normal Main screen
-   */
+  /** Show the normal Main screen */
   @Override
   public void showNormalScreen() {
     invalidateOptionsMenu();
@@ -139,39 +125,38 @@ public class MainActivity extends AppCompatActivity implements MainView {
     setContentView(R.layout.activity_main);
   }
 
-  /**
-   * Redirect to game 1 activity
-   */
+  /** Redirect to game 1 activity */
   @Override
   public void goToGame1() {
     Intent intent = new Intent(this, TsuActivity.class);
     startActivity(intent);
   }
 
-  /**
-   * Redirect to game 2 activity
-   */
+  /** Redirect to game 2 activity */
   @Override
   public void goToGame2() {
     Intent intent = new Intent(this, BomberMainActivity.class);
     startActivity(intent);
   }
 
-  /**
-   * Redirect to game 3 activity
-   */
+  /** Redirect to game 3 activity */
   @Override
   public void goToGame3() {
     Intent intent = new Intent(this, RacerMainActivity.class);
     startActivity(intent);
   }
 
-  /**
-   * Redirect to settings activity
-   */
+  /** Redirect to settings activity */
   @Override
   public void goToSettings() {
     Intent intent = new Intent(MainActivity.this, SettingsActivity.class);
+    startActivity(intent);
+  }
+
+  /** Redirect to statistics activity */
+  @Override
+  public void goToStatistics() {
+    Intent intent = new Intent(MainActivity.this, StatisticsActivity.class);
     startActivity(intent);
   }
 
@@ -179,9 +164,9 @@ public class MainActivity extends AppCompatActivity implements MainView {
    * Redirect to statistics activity
    */
   @Override
-  public void goToStatistics() {
-    Intent intent = new Intent(MainActivity.this, StatisticsActivity.class);
-    startActivity(intent);
+  public void goToAchievements() {
+//    Intent intent = new Intent(MainActivity.this, StatisticsActivity.class);
+//    startActivity(intent);
   }
 
   /**

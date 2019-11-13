@@ -1,5 +1,6 @@
 package com.group0565.menuUI.main;
 
+import com.group0565.menuUI.main.menuCommands.AchievementsMenuCommand;
 import com.group0565.preferences.PreferencesInjector;
 import com.group0565.menuUI.main.enums.GameID;
 import com.group0565.menuUI.main.enums.MenuOptionID;
@@ -25,34 +26,22 @@ import com.group0565.theme.ThemeManager;
  */
 public class MainPresenterImp implements MainPresenter {
 
-  /**
-   * Reference to the attached view
-   */
+  /** Reference to the attached view */
   private MainView mainView;
 
-  /**
-   * Reference to the Navigation Director for game selection
-   */
+  /** Reference to the Navigation Director for game selection */
   private NavigationDirector navDir;
 
-  /**
-   * Reference to the MenuDirector for menu options
-   */
+  /** Reference to the MenuDirector for menu options */
   private MenuDirector menuDir;
 
-  /**
-   * Reference to the UserService
-   */
+  /** Reference to the UserService */
   private IUsersInteractor mUserInteractor;
 
-  /**
-   * Reference to the ErrorHandler
-   */
+  /** Reference to the ErrorHandler */
   private IErrorHandler<Exception> mErrorHandler;
 
-  /**
-   * Reference to the connected user object
-   */
+  /** Reference to the connected user object */
   private IUser mUser;
 
   /**
@@ -73,6 +62,7 @@ public class MainPresenterImp implements MainPresenter {
     menuDir.register(MenuOptionID.SETTINGS, new SettingsMenuCommand(mainView));
     menuDir.register(MenuOptionID.STATISTICS, new StatisticsMenuCommand(mainView));
     menuDir.register(MenuOptionID.SIGN_OUT, new SignOutMenuCommand(this));
+    menuDir.register(MenuOptionID.ACHIEVEMENTS, new AchievementsMenuCommand(mainView));
 
     this.mUserInteractor = IUsersInteractor.getInstance();
     this.mErrorHandler = ExceptionErrorHandler.getInstance();
@@ -105,9 +95,7 @@ public class MainPresenterImp implements MainPresenter {
     }
   }
 
-  /**
-   * Sign out the current user
-   */
+  /** Sign out the current user */
   @Override
   public void signOut() {
     try {
@@ -151,9 +139,7 @@ public class MainPresenterImp implements MainPresenter {
     }
   }
 
-  /**
-   * Destroy all references in this object
-   */
+  /** Destroy all references in this object */
   @Override
   public void onDestroy() {
     this.mainView = null;
