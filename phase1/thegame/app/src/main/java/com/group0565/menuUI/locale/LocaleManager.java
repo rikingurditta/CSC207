@@ -17,7 +17,7 @@ public class LocaleManager {
   /**
    * Update the resources of the given context to the required language
    *
-   * @param context  The context to change its language
+   * @param context The context to change its language
    * @param language The language code to change to
    * @return The modified context
    */

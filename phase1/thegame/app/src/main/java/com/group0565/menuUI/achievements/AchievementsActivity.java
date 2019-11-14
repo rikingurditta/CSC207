@@ -113,5 +113,5 @@ public class AchievementsActivity extends AppCompatActivity
      */
     public void setActivityTheme() {
         setTheme(achievementsPresenter.getAppTheme());
-    }
+  }
 }

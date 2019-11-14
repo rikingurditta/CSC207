@@ -13,5 +13,5 @@ public class AchievementsPresenterInjector {
     public static AchievementsMVP.AchievementsPresenter inject(
             AchievementsMVP.AchievementsView view) {
         return new AchievementsPresenterImp(view);
-    }
+  }
 }

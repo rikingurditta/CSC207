@@ -9,9 +9,7 @@ import java.util.List;
  */
 public class StatisticsRowsPresenterImp implements StatisticsMVP.StatisticsRowsPresenter {
 
-  /**
-   * A reference to the statistics list
-   */
+    /** A reference to the statistics list */
   private List<IStatistic> statistics;
 
   StatisticsRowsPresenterImp(List<IStatistic> statistics) {
@@ -22,7 +20,7 @@ public class StatisticsRowsPresenterImp implements StatisticsMVP.StatisticsRowsP
    * Sets the title and value of the given row
    *
    * @param position Binding position
-   * @param rowView  The row to bind to
+   * @param rowView The row to bind to
    */
   @Override
   public void onBindRepositoryRowViewAtPosition(

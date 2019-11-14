@@ -41,5 +41,5 @@ public class AchievementsRowsPresenterImp implements AchievementsMVP.Achievement
     @Override
     public int getAchievementsCount() {
         return achievements.size();
-    }
+  }
 }

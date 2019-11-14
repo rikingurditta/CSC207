@@ -7,7 +7,7 @@ public class IStatisticFactory {
   /**
    * Create a new IStatistic
    *
-   * @param statisticName  The name of the statistic
+   * @param statisticName The name of the statistic
    * @param statisticValue The statistic value
    * @return A new IStatistic object
    */

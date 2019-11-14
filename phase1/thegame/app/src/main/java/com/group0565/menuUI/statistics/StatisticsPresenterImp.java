@@ -11,9 +11,7 @@ import com.group0565.theme.ThemeManager;
  */
 public class StatisticsPresenterImp implements StatisticsMVP.StatisticsPresenter {
 
-  /**
-   * Reference to the attached view
-   */
+    /** Reference to the attached view */
   private StatisticsMVP.StatisticsView statisticsView;
 
   /**
@@ -38,16 +36,14 @@ public class StatisticsPresenterImp implements StatisticsMVP.StatisticsPresenter
   /**
    * Sets the stats to the recycler using the given repository
    *
-   * @param gameName   The target game
+   * @param gameName The target game
    * @param repository The repository to get the data from
    */
   private void setGameStats(String gameName, IAsyncStatisticsRepository repository) {
     repository.getAll(data -> statisticsView.setGameStats(gameName, data));
   }
 
-  /**
-   * Destroy all references in this object
-   */
+    /** Destroy all references in this object */
   @Override
   public void onDestroy() {
     this.statisticsView = null;

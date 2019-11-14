@@ -23,9 +23,7 @@ import java.util.Map;
  */
 public class StatisticsActivity extends AppCompatActivity implements StatisticsMVP.StatisticsView {
 
-  /**
-   * The StatisticsPresenter reference
-   */
+    /** The StatisticsPresenter reference */
   StatisticsMVP.StatisticsPresenter statisticsPresenter;
 
   Map<String, RecyclerView> gameRecyclerMap;
@@ -79,7 +77,7 @@ public class StatisticsActivity extends AppCompatActivity implements StatisticsM
    * Set the statistics in the recycler by connecting an adapter
    *
    * @param gameName The target game's name
-   * @param data     The data to put in the recycler
+   * @param data The data to put in the recycler
    */
   @Override
   public void setGameStats(String gameName, List<IStatistic> data) {
@@ -109,18 +107,14 @@ public class StatisticsActivity extends AppCompatActivity implements StatisticsM
     Toast.makeText(this, message, Toast.LENGTH_LONG).show();
   }
 
-  /**
-   * Destroy all references in this object
-   */
+    /** Destroy all references in this object */
   @Override
   protected void onDestroy() {
     super.onDestroy();
     statisticsPresenter.onDestroy();
   }
 
-  /**
-   * Sets the activity's theme to the given theme ID
-   */
+    /** Sets the activity's theme to the given theme ID */
   public void setActivityTheme() {
     setTheme(statisticsPresenter.getAppTheme());
   }

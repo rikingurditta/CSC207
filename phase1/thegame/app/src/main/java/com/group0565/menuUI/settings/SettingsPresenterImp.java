@@ -8,9 +8,7 @@ import com.group0565.theme.ThemeManager;
  * Implementation of the SettingsPresenter
  */
 class SettingsPresenterImp implements SettingsMVP.SettingsPresenter {
-  /**
-   * Reference to the attached view
-   */
+    /** Reference to the attached view */
   private SettingsMVP.SettingsView settingsView;
 
   /**
@@ -22,9 +20,7 @@ class SettingsPresenterImp implements SettingsMVP.SettingsPresenter {
     this.settingsView = view;
   }
 
-  /**
-   * Destroy all references in this object
-   */
+    /** Destroy all references in this object */
   @Override
   public void onDestroy() {
     this.settingsView = null;

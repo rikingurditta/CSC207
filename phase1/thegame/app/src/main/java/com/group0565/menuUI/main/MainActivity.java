@@ -160,13 +160,11 @@ public class MainActivity extends AppCompatActivity implements MainView {
     startActivity(intent);
   }
 
-  /**
-   * Redirect to statistics activity
-   */
+    /** Redirect to statistics activity */
   @Override
   public void goToAchievements() {
-//    Intent intent = new Intent(MainActivity.this, StatisticsActivity.class);
-//    startActivity(intent);
+      //    Intent intent = new Intent(MainActivity.this, StatisticsActivity.class);
+      //    startActivity(intent);
   }
 
   /**

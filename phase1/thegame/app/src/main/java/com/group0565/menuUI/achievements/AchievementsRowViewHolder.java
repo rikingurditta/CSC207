@@ -32,10 +32,10 @@ public class AchievementsRowViewHolder extends RecyclerView.ViewHolder
     AchievementsRowViewHolder(@NonNull View itemView) {
         super(itemView);
 
-        //todo
-//    nameTextView = itemView.findViewById(R.id.achievement_name);
-//    descTextView = itemView.findViewById(R.id.achievement_desc);
-//    descTextView = itemView.findViewById(R.id.achievement_image);
+        // todo
+        //    nameTextView = itemView.findViewById(R.id.achievement_name);
+        //    descTextView = itemView.findViewById(R.id.achievement_desc);
+        //    descTextView = itemView.findViewById(R.id.achievement_image);
     }
 
     /**
@@ -65,6 +65,6 @@ public class AchievementsRowViewHolder extends RecyclerView.ViewHolder
      */
     @Override
     public void setImage(String key) {
-//        descTextView.setText(name);
-    }
+        //        descTextView.setText(name);
+  }
 }

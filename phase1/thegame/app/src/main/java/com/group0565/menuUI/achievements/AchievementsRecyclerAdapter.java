@@ -40,7 +40,8 @@ public class AchievementsRecyclerAdapter extends RecyclerView.Adapter<Achievemen
     @Override
     public AchievementsRowViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         return new AchievementsRowViewHolder(
-                LayoutInflater.from(parent.getContext()).inflate(R.layout.achievement_row_layout, parent, false));
+                LayoutInflater.from(parent.getContext())
+                        .inflate(R.layout.achievement_row_layout, parent, false));
     }
 
     /**
@@ -65,5 +66,5 @@ public class AchievementsRecyclerAdapter extends RecyclerView.Adapter<Achievemen
     @Override
     public int getItemCount() {
         return achievementsRowsPresenter.getAchievementsCount();
-    }
+  }
 }

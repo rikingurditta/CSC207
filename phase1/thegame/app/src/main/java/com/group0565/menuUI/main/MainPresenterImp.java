@@ -72,12 +72,12 @@ public class MainPresenterImp implements MainPresenter {
             .observe(
                     mainView.getLifeCycleOwner(),
                     iUser -> {
-                      mUser = iUser;
-                      if (iUser.isConnected()) {
-                        mainView.showNormalScreen();
-                      } else {
-                        mainView.showNoUserScreen();
-                      }
+                        mUser = iUser;
+                        if (iUser.isConnected()) {
+                            mainView.showNormalScreen();
+                        } else {
+                            mainView.showNoUserScreen();
+                        }
                     });
   }
 

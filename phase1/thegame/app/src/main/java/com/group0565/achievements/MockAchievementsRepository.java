@@ -122,5 +122,5 @@ public class MockAchievementsRepository implements IAsyncAchievementsRepository 
         } catch (IllegalStateException ex) {
             liveAchievements.postValue(userAchievements);
         }
-    }
+  }
 }

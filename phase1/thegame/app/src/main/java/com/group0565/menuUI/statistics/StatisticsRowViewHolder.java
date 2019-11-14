@@ -14,14 +14,10 @@ import com.example.thegame.R;
 public class StatisticsRowViewHolder extends RecyclerView.ViewHolder
         implements StatisticsMVP.StatisticsRowView {
 
-  /**
-   * The title textView
-   */
+    /** The title textView */
   private TextView titleTextView;
 
-  /**
-   * The value textView
-   */
+    /** The value textView */
   private TextView valueTextView;
 
   /**

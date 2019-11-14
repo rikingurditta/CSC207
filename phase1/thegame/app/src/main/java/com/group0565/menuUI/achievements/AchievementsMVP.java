@@ -72,5 +72,5 @@ public interface AchievementsMVP extends BaseMVP {
      */
     interface AchievementsView extends BaseMVP.BaseView {
         void setAchievements(List<IAchievement> data);
-    }
+  }
 }
