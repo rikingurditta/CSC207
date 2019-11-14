@@ -21,9 +21,7 @@ import com.group0565.menuUI.main.MainMVP.MainPresenter;
 import com.group0565.menuUI.main.MainMVP.MainView;
 import com.group0565.theme.ThemeManager;
 
-/**
- * Implementation of the MainPresenter
- */
+/** Implementation of the MainPresenter */
 public class MainPresenterImp implements MainPresenter {
 
   /** Reference to the attached view */
@@ -68,17 +66,17 @@ public class MainPresenterImp implements MainPresenter {
     this.mErrorHandler = ExceptionErrorHandler.getInstance();
 
     mUserInteractor
-            .getUserObservable()
-            .observe(
-                    mainView.getLifeCycleOwner(),
-                    iUser -> {
-                        mUser = iUser;
-                        if (iUser.isConnected()) {
-                            mainView.showNormalScreen();
-                        } else {
-                            mainView.showNoUserScreen();
-                        }
-                    });
+        .getUserObservable()
+        .observe(
+            mainView.getLifeCycleOwner(),
+            iUser -> {
+              mUser = iUser;
+              if (iUser.isConnected()) {
+                mainView.showNormalScreen();
+              } else {
+                mainView.showNoUserScreen();
+              }
+            });
   }
 
   /**

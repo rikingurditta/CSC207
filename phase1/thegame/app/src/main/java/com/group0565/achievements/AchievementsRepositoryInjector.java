@@ -5,9 +5,7 @@ import android.os.Looper;
 
 import com.group0565.users.IUsersInteractor;
 
-/**
- * An injector that creates an Achievements Repository
- */
+/** An injector that creates an Achievements Repository */
 public class AchievementsRepositoryInjector {
 
   /**
@@ -34,9 +32,7 @@ public class AchievementsRepositoryInjector {
     listener.onSuccess(new MockAchievementsRepository());
   }
 
-  /**
-   * The listener interface for the injection
-   */
+  /** The listener interface for the injection */
   public interface RepositoryInjectionListener {
     /**
      * Action to perform on successful return of repository

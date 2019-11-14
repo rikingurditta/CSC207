@@ -6,12 +6,10 @@ import com.group0565.statistics.IAsyncStatisticsRepository;
 import com.group0565.statistics.StatisticRepositoryInjector;
 import com.group0565.theme.ThemeManager;
 
-/**
- * Implementation of the SettingsPresenter
- */
+/** Implementation of the SettingsPresenter */
 public class StatisticsPresenterImp implements StatisticsMVP.StatisticsPresenter {
 
-    /** Reference to the attached view */
+  /** Reference to the attached view */
   private StatisticsMVP.StatisticsView statisticsView;
 
   /**
@@ -43,7 +41,7 @@ public class StatisticsPresenterImp implements StatisticsMVP.StatisticsPresenter
     repository.getAll(data -> statisticsView.setGameStats(gameName, data));
   }
 
-    /** Destroy all references in this object */
+  /** Destroy all references in this object */
   @Override
   public void onDestroy() {
     this.statisticsView = null;

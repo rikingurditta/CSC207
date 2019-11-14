@@ -4,12 +4,10 @@ import com.group0565.statistics.IStatistic;
 
 import java.util.List;
 
-/**
- * An implementation of the Statistics rows presenter
- */
+/** An implementation of the Statistics rows presenter */
 public class StatisticsRowsPresenterImp implements StatisticsMVP.StatisticsRowsPresenter {
 
-    /** A reference to the statistics list */
+  /** A reference to the statistics list */
   private List<IStatistic> statistics;
 
   StatisticsRowsPresenterImp(List<IStatistic> statistics) {
@@ -24,7 +22,7 @@ public class StatisticsRowsPresenterImp implements StatisticsMVP.StatisticsRowsP
    */
   @Override
   public void onBindRepositoryRowViewAtPosition(
-          int position, StatisticsMVP.StatisticsRowView rowView) {
+      int position, StatisticsMVP.StatisticsRowView rowView) {
 
     rowView.setValue(statistics.get(position).getStatVal().toString());
     rowView.setTitle(statistics.get(position).getStatKey());

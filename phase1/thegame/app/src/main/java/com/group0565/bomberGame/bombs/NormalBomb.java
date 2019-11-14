@@ -21,8 +21,8 @@ public class NormalBomb extends Bomb {
       Coords pos = gridCoords;
       Coords gPos = g.getGridCoords();
 
-        // this if statement needs to bixed it should be && not bombs. This way it deals damage to
-        // everything non bomb rather than only crate
+      // this if statement needs to bixed it should be && not bombs. This way it deals damage to
+      // everything non bomb rather than only crate
       if ((Math.abs(gPos.x - pos.x) <= getStrength() && gPos.y == pos.y)
           || (Math.abs(gPos.y - pos.y) <= getStrength() && gPos.x == pos.x)) {
         if (g != this) {

@@ -8,12 +8,10 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.thegame.R;
 
-/**
- * An extension of RecyclerView.Adapter for the StatisticsRecycler
- */
+/** An extension of RecyclerView.Adapter for the StatisticsRecycler */
 public class StatisticsRecyclerAdapter extends RecyclerView.Adapter<StatisticsRowViewHolder> {
 
-    /** A reference to the RowsPresenter */
+  /** A reference to the RowsPresenter */
   private final StatisticsMVP.StatisticsRowsPresenter statisticsRowsPresenter;
 
   /**
@@ -38,7 +36,7 @@ public class StatisticsRecyclerAdapter extends RecyclerView.Adapter<StatisticsRo
   @Override
   public StatisticsRowViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
     return new StatisticsRowViewHolder(
-            LayoutInflater.from(parent.getContext()).inflate(R.layout.statsrow_layout, parent, false));
+        LayoutInflater.from(parent.getContext()).inflate(R.layout.statsrow_layout, parent, false));
   }
 
   /**

@@ -1,29 +1,21 @@
 package com.group0565.achievements;
 
-/**
- * An implementation of IAchievements for GameAchievement
- */
+/** An implementation of IAchievements for GameAchievement */
 public class GameAchievement implements IAchievement {
 
-  /**
-   * The key for the achievement
-   */
+  /** The key for the achievement */
   private String achievementKey;
 
-  /**
-   * The description of the achievement
-   */
+  /** The description of the achievement */
   private String achievementDesc;
 
-  /**
-   * The name of the achievement
-   */
+  /** The name of the achievement */
   private String achievementName;
 
   /**
    * Creates a new GameStatistic with the given key and value
    *
-   * @param achievementKey  The achievement unique key
+   * @param achievementKey The achievement unique key
    * @param achievementDesc The achievement description
    * @param achievementName The achievement name
    */
@@ -33,9 +25,7 @@ public class GameAchievement implements IAchievement {
     this.achievementKey = achievementKey;
   }
 
-  /**
-   * Default constructor - DO NOT USE! REQUIRED FOR FIREBASE DB
-   */
+  /** Default constructor - DO NOT USE! REQUIRED FOR FIREBASE DB */
   public GameAchievement() {
     // Default constructor required for calls to DataSnapshot.getStatVal(GameAchievement.class)
   }

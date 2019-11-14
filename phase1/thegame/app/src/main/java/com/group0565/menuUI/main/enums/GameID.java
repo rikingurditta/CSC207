@@ -5,9 +5,7 @@ import com.example.thegame.R;
 import java.util.HashMap;
 import java.util.Map;
 
-/**
- * An Enum representation of Game ID using the xml ids
- */
+/** An Enum representation of Game ID using the xml ids */
 public enum GameID {
   GAME1(R.id.CardGame1),
   GAME2(R.id.CardGame2),

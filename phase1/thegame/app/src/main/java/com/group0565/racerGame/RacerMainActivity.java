@@ -10,14 +10,14 @@ import com.group0565.theme.Themes;
 
 public class RacerMainActivity extends GameActivity {
 
-    public RacerMainActivity() {
-        super(new RacerGame(new Vector()), 60, Orientation.Portrait);
-        IPreferenceInteractor prefInter = PreferencesInjector.inject();
-        this.getGame()
-                .setGlobalPreferences(
-                        new GlobalPreferences(
-                                Themes.valueOf(prefInter.getTheme()),
-                                prefInter.getLanguage(),
+  public RacerMainActivity() {
+    super(new RacerGame(new Vector()), 60, Orientation.Portrait);
+    IPreferenceInteractor prefInter = PreferencesInjector.inject();
+    this.getGame()
+        .setGlobalPreferences(
+            new GlobalPreferences(
+                Themes.valueOf(prefInter.getTheme()),
+                prefInter.getLanguage(),
                 prefInter.getVolume()));
-    }
+  }
 }

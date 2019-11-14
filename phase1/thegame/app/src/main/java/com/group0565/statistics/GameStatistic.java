@@ -7,12 +7,10 @@ package com.group0565.statistics;
  */
 class GameStatistic<T> implements IStatistic<T> {
 
-    /**
-     * The key for the statistic
-     */
+  /** The key for the statistic */
   private String statKey;
 
-    /** The value of the statistic */
+  /** The value of the statistic */
   private T statValue;
 
   /**
@@ -26,7 +24,7 @@ class GameStatistic<T> implements IStatistic<T> {
     this.statValue = statValue;
   }
 
-    /** Default constructor - DO NOT USE! REQUIRED FOR FIREBASE DB */
+  /** Default constructor - DO NOT USE! REQUIRED FOR FIREBASE DB */
   public GameStatistic() {
     // Default constructor required for calls to DataSnapshot.getStatVal(GameStatistic.class)
   }

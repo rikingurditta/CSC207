@@ -8,16 +8,14 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.thegame.R;
 
-/**
- * The ViewHolder for a statistics row
- */
+/** The ViewHolder for a statistics row */
 public class StatisticsRowViewHolder extends RecyclerView.ViewHolder
-        implements StatisticsMVP.StatisticsRowView {
+    implements StatisticsMVP.StatisticsRowView {
 
-    /** The title textView */
+  /** The title textView */
   private TextView titleTextView;
 
-    /** The value textView */
+  /** The value textView */
   private TextView valueTextView;
 
   /**

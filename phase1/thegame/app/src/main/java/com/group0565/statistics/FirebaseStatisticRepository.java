@@ -15,9 +15,7 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * A Firebase implementation of the IAsyncPreferencesRepository
- */
+/** A Firebase implementation of the IAsyncPreferencesRepository */
 class FirebaseStatisticRepository implements IAsyncStatisticsRepository {
 
   /** A reference to the Firebase database */
@@ -37,9 +35,9 @@ class FirebaseStatisticRepository implements IAsyncStatisticsRepository {
    */
   FirebaseStatisticRepository(String currUser, String gameName) {
     this.mDatabase =
-            FirebaseDatabase.getInstance()
-                    .getReference()
-                    .child("users/" + currUser + "/statistics/" + gameName);
+        FirebaseDatabase.getInstance()
+            .getReference()
+            .child("users/" + currUser + "/statistics/" + gameName);
 
     userStatistics = new ArrayList<>();
     liveStatistics = new MutableLiveData<>();
@@ -65,27 +63,26 @@ class FirebaseStatisticRepository implements IAsyncStatisticsRepository {
   @Override
   public void getAll(AsyncDataListCallBack<IStatistic> callback) {
     this.mDatabase.addListenerForSingleValueEvent(
-            new ValueEventListener() {
-              @Override
-              public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                userStatistics = new ArrayList<>();
+        new ValueEventListener() {
+          @Override
+          public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+            userStatistics = new ArrayList<>();
 
-                dataSnapshot
-                        .getChildren()
-                        .forEach(
-                                child -> {
-                                  IStatistic preference =
-                                          IStatisticFactory.createGameStatistic(child.getKey(), child.getValue());
-                                  userStatistics.add(preference);
-                                });
+            dataSnapshot
+                .getChildren()
+                .forEach(
+                    child -> {
+                      IStatistic preference =
+                          IStatisticFactory.createGameStatistic(child.getKey(), child.getValue());
+                      userStatistics.add(preference);
+                    });
 
-                callback.onDataReceived(userStatistics);
-              }
+            callback.onDataReceived(userStatistics);
+          }
 
-              @Override
-              public void onCancelled(@NonNull DatabaseError databaseError) {
-              }
-            });
+          @Override
+          public void onCancelled(@NonNull DatabaseError databaseError) {}
+        });
   }
 
   /**

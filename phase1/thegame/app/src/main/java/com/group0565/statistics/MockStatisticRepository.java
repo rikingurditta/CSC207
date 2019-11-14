@@ -8,9 +8,7 @@ import androidx.lifecycle.MutableLiveData;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * An implementation of IAsyncStatisticsRepository that returns mock data
- */
+/** An implementation of IAsyncStatisticsRepository that returns mock data */
 public class MockStatisticRepository implements IAsyncStatisticsRepository {
 
   /** A collection of the user preferences */
@@ -56,7 +54,7 @@ public class MockStatisticRepository implements IAsyncStatisticsRepository {
     updateLiveData();
 
     Log.d(
-            "MockStatisticRepository", "put: " + obj.getStatKey() + " with value " + obj.getStatVal());
+        "MockStatisticRepository", "put: " + obj.getStatKey() + " with value " + obj.getStatVal());
   }
 
   /**
@@ -71,7 +69,7 @@ public class MockStatisticRepository implements IAsyncStatisticsRepository {
     updateLiveData();
 
     Log.d(
-            "MockStatisticRepository", "push: " + obj.getStatKey() + " with value " + obj.getStatVal());
+        "MockStatisticRepository", "push: " + obj.getStatKey() + " with value " + obj.getStatVal());
   }
 
   /**
@@ -86,8 +84,8 @@ public class MockStatisticRepository implements IAsyncStatisticsRepository {
     updateLiveData();
 
     Log.d(
-            "MockStatisticRepository",
-            "delete: " + obj.getStatKey() + " with value " + obj.getStatVal());
+        "MockStatisticRepository",
+        "delete: " + obj.getStatKey() + " with value " + obj.getStatVal());
   }
 
   /** Remove all child objects */

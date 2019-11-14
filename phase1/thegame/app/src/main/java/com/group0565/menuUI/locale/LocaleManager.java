@@ -10,9 +10,7 @@ import android.content.res.Resources;
 
 import java.util.Locale;
 
-/**
- * A manager for locale changes
- */
+/** A manager for locale changes */
 public class LocaleManager {
   /**
    * Update the resources of the given context to the required language

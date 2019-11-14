@@ -1,8 +1,6 @@
 package com.group0565.menuUI.statistics;
 
-/**
- * An injector for the StatisticsPresenter
- */
+/** An injector for the StatisticsPresenter */
 public class StatisticsPresenterInjector {
   /**
    * Injects the caller with an implementation of SettingsPresenter

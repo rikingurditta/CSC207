@@ -27,9 +27,7 @@ import com.group0565.menuUI.main.enums.MenuOptionID;
 import com.group0565.menuUI.settings.SettingsActivity;
 import com.group0565.menuUI.statistics.StatisticsActivity;
 
-/**
- * The MainActivity class
- */
+/** The MainActivity class */
 public class MainActivity extends AppCompatActivity implements MainView {
 
   /** The MainPresenter reference */
@@ -45,7 +43,7 @@ public class MainActivity extends AppCompatActivity implements MainView {
     mainPresenter = MainPresenterInjector.inject(this);
 
     super.attachBaseContext(
-            LocaleManager.updateResources(base, mainPresenter.getDisplayLanguage()));
+        LocaleManager.updateResources(base, mainPresenter.getDisplayLanguage()));
   }
 
   /** Set references to all objects and instantiate presenter */
@@ -160,11 +158,11 @@ public class MainActivity extends AppCompatActivity implements MainView {
     startActivity(intent);
   }
 
-    /** Redirect to statistics activity */
+  /** Redirect to statistics activity */
   @Override
   public void goToAchievements() {
-      //    Intent intent = new Intent(MainActivity.this, StatisticsActivity.class);
-      //    startActivity(intent);
+    //    Intent intent = new Intent(MainActivity.this, StatisticsActivity.class);
+    //    startActivity(intent);
   }
 
   /**

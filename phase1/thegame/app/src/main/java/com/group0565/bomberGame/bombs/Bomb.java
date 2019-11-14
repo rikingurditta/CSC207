@@ -69,7 +69,7 @@ public abstract class Bomb extends GridObject {
       }
     } else if (bombTimer < bombExplodeTime + explosionDuration) {
       if (!duringExplosion) {
-          // System.out.println("explosion " + this.getUUID());
+        // System.out.println("explosion " + this.getUUID());
         explode();
       }
       // actual explosion

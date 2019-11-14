@@ -5,12 +5,10 @@ import com.group0565.statistics.IStatistic;
 
 import java.util.List;
 
-/**
- * An interface for the Statistics module MVP
- */
+/** An interface for the Statistics module MVP */
 public interface StatisticsMVP extends BaseMVP {
 
-    /** An interface for the Statistics rows presenter */
+  /** An interface for the Statistics rows presenter */
   interface StatisticsRowsPresenter {
 
     /**
@@ -27,9 +25,9 @@ public interface StatisticsMVP extends BaseMVP {
      * @return The row count
      */
     int getStatsCount();
-    }
+  }
 
-    /** An interface for the Statistics row view */
+  /** An interface for the Statistics row view */
   interface StatisticsRowView {
 
     /**
@@ -45,9 +43,9 @@ public interface StatisticsMVP extends BaseMVP {
      * @param value The new value
      */
     void setValue(String value);
-    }
+  }
 
-    /** An interface for the Statistics main presenter */
+  /** An interface for the Statistics main presenter */
   interface StatisticsPresenter extends BaseMVP.BasePresenter {
     /**
      * Fetches the repository and uses it to get and set the data in the recycler
@@ -55,9 +53,9 @@ public interface StatisticsMVP extends BaseMVP {
      * @param gameName The target game
      */
     void getGameStatRepo(String gameName);
-    }
+  }
 
-    /** An interface for the Statistics main view */
+  /** An interface for the Statistics main view */
   interface StatisticsView extends BaseMVP.BaseView {
     void setGameStats(String gameName, List<IStatistic> data);
   }
