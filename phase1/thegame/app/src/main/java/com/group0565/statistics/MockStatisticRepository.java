@@ -10,12 +10,10 @@ import java.util.List;
 
 public class MockStatisticRepository implements IAsyncStatisticsRepository {
 
-    /**
-     * A collection of the user preferences
-     */
+  /** A collection of the user preferences */
   private List<IStatistic> userStatistics;
 
-    /** An observable live collection of the user preferences */
+  /** An observable live collection of the user preferences */
   private MutableLiveData<List<IStatistic>> liveStatistics;
 
   public MockStatisticRepository() {
@@ -54,8 +52,8 @@ public class MockStatisticRepository implements IAsyncStatisticsRepository {
 
     updateLiveData();
 
-      Log.d(
-              "MockStatisticRepository", "put: " + obj.getStatKey() + " with value " + obj.getStatVal());
+    Log.d(
+        "MockStatisticRepository", "put: " + obj.getStatKey() + " with value " + obj.getStatVal());
   }
 
   /**
@@ -69,8 +67,8 @@ public class MockStatisticRepository implements IAsyncStatisticsRepository {
 
     updateLiveData();
 
-      Log.d(
-              "MockStatisticRepository", "push: " + obj.getStatKey() + " with value " + obj.getStatVal());
+    Log.d(
+        "MockStatisticRepository", "push: " + obj.getStatKey() + " with value " + obj.getStatVal());
   }
 
   /**
@@ -84,19 +82,19 @@ public class MockStatisticRepository implements IAsyncStatisticsRepository {
 
     updateLiveData();
 
-      Log.d(
-              "MockStatisticRepository",
-              "delete: " + obj.getStatKey() + " with value " + obj.getStatVal());
+    Log.d(
+        "MockStatisticRepository",
+        "delete: " + obj.getStatKey() + " with value " + obj.getStatVal());
   }
 
-    /** Remove all child objects */
+  /** Remove all child objects */
   @Override
   public void deleteAll() {
     userStatistics = new ArrayList<>();
     liveStatistics.setValue(userStatistics);
   }
 
-    /** Safely updates the live data */
+  /** Safely updates the live data */
   private void updateLiveData() {
     try {
       liveStatistics.setValue(userStatistics);

@@ -20,39 +20,25 @@ import com.group0565.menuUI.main.MainMVP.MainPresenter;
 import com.group0565.menuUI.main.MainMVP.MainView;
 import com.group0565.theme.ThemeManager;
 
-/**
- * Implementation of the MainPresenter
- */
+/** Implementation of the MainPresenter */
 public class MainPresenterImp implements MainPresenter {
 
-  /**
-   * Reference to the attached view
-   */
+  /** Reference to the attached view */
   private MainView mainView;
 
-  /**
-   * Reference to the Navigation Director for game selection
-   */
+  /** Reference to the Navigation Director for game selection */
   private NavigationDirector navDir;
 
-  /**
-   * Reference to the MenuDirector for menu options
-   */
+  /** Reference to the MenuDirector for menu options */
   private MenuDirector menuDir;
 
-  /**
-   * Reference to the UserService
-   */
+  /** Reference to the UserService */
   private IUsersInteractor mUserInteractor;
 
-  /**
-   * Reference to the ErrorHandler
-   */
+  /** Reference to the ErrorHandler */
   private IErrorHandler<Exception> mErrorHandler;
 
-  /**
-   * Reference to the connected user object
-   */
+  /** Reference to the connected user object */
   private IUser mUser;
 
   /**
@@ -78,17 +64,17 @@ public class MainPresenterImp implements MainPresenter {
     this.mErrorHandler = ExceptionErrorHandler.getInstance();
 
     mUserInteractor
-            .getUserObservable()
-            .observe(
-                    mainView.getLifeCycleOwner(),
-                    iUser -> {
-                      mUser = iUser;
-                      if (iUser.isConnected()) {
-                        mainView.showNormalScreen();
-                      } else {
-                        mainView.showNoUserScreen();
-                      }
-                    });
+        .getUserObservable()
+        .observe(
+            mainView.getLifeCycleOwner(),
+            iUser -> {
+              mUser = iUser;
+              if (iUser.isConnected()) {
+                mainView.showNormalScreen();
+              } else {
+                mainView.showNoUserScreen();
+              }
+            });
   }
 
   /**
@@ -105,9 +91,7 @@ public class MainPresenterImp implements MainPresenter {
     }
   }
 
-  /**
-   * Sign out the current user
-   */
+  /** Sign out the current user */
   @Override
   public void signOut() {
     try {
@@ -151,9 +135,7 @@ public class MainPresenterImp implements MainPresenter {
     }
   }
 
-  /**
-   * Destroy all references in this object
-   */
+  /** Destroy all references in this object */
   @Override
   public void onDestroy() {
     this.mainView = null;

@@ -1,8 +1,6 @@
 package com.group0565.menuUI.main;
 
-/**
- * An injector for the MainPresenter
- */
+/** An injector for the MainPresenter */
 class MainPresenterInjector {
   /**
    * Injects the caller with an implementation of MainPresenter

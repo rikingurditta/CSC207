@@ -6,32 +6,32 @@ import java.util.HashMap;
 import java.util.Map;
 
 public enum Themes {
-    DARK(R.style.AppThemeDark),
-    LIGHT(R.style.AppThemeLight);
+  DARK(R.style.AppThemeDark),
+  LIGHT(R.style.AppThemeLight);
 
-    private static Map map = new HashMap<>();
+  private static Map map = new HashMap<>();
 
-    static {
-        for (Themes Theme : Themes.values()) {
-            map.put(Theme.value, Theme);
-        }
+  static {
+    for (Themes Theme : Themes.values()) {
+      map.put(Theme.value, Theme);
     }
+  }
 
-    private int value;
+  private int value;
 
-    Themes(int value) {
-        this.value = value;
-    }
+  Themes(int value) {
+    this.value = value;
+  }
 
-    public static Themes valueOf(int Theme) {
-        return (Themes) map.get(Theme);
-    }
+  public static Themes valueOf(int Theme) {
+    return (Themes) map.get(Theme);
+  }
 
-    public static Themes getDefault() {
-        return Themes.LIGHT;
-    }
+  public static Themes getDefault() {
+    return Themes.LIGHT;
+  }
 
-    public int getValue() {
-        return value;
-    }
+  public int getValue() {
+    return value;
+  }
 }

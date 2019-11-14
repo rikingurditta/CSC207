@@ -15,18 +15,16 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * A Firebase implementation of the IAsyncPreferencesRepository
- */
+/** A Firebase implementation of the IAsyncPreferencesRepository */
 public class FirebasePreferenceRepository implements IAsyncPreferencesRepository {
 
-    /** A reference to the Firebase database */
+  /** A reference to the Firebase database */
   private DatabaseReference mDatabase;
 
-    /** A collection of the user preferences */
+  /** A collection of the user preferences */
   private List<IPreference> userPreferences;
 
-    /** An observable live collection of the user preferences */
+  /** An observable live collection of the user preferences */
   private MutableLiveData<List<IPreference>> livePreferences;
 
   /**
@@ -37,7 +35,7 @@ public class FirebasePreferenceRepository implements IAsyncPreferencesRepository
   FirebasePreferenceRepository(String currUser) {
 
     this.mDatabase =
-            FirebaseDatabase.getInstance().getReference().child("users/" + currUser + "/preferences");
+        FirebaseDatabase.getInstance().getReference().child("users/" + currUser + "/preferences");
 
     userPreferences = new ArrayList<>();
     livePreferences = new MutableLiveData<>();
@@ -63,27 +61,26 @@ public class FirebasePreferenceRepository implements IAsyncPreferencesRepository
   @Override
   public void getAll(AsyncDataListCallBack<IPreference> callback) {
     this.mDatabase.addListenerForSingleValueEvent(
-            new ValueEventListener() {
-                @Override
-                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                    userPreferences = new ArrayList<>();
+        new ValueEventListener() {
+          @Override
+          public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+            userPreferences = new ArrayList<>();
 
-                    dataSnapshot
-                            .getChildren()
-                            .forEach(
-                                    child -> {
-                                        IPreference preference =
-                                                UserPreferenceFactory.getUserPreference(child.getKey(), child.getValue());
-                                        userPreferences.add(preference);
-                                    });
+            dataSnapshot
+                .getChildren()
+                .forEach(
+                    child -> {
+                      IPreference preference =
+                          UserPreferenceFactory.getUserPreference(child.getKey(), child.getValue());
+                      userPreferences.add(preference);
+                    });
 
-                    callback.onDataReceived(userPreferences);
-                }
+            callback.onDataReceived(userPreferences);
+          }
 
-                @Override
-                public void onCancelled(@NonNull DatabaseError databaseError) {
-                }
-            });
+          @Override
+          public void onCancelled(@NonNull DatabaseError databaseError) {}
+        });
   }
 
   /**
@@ -116,13 +113,13 @@ public class FirebasePreferenceRepository implements IAsyncPreferencesRepository
     mDatabase.child(preference.getPrefName()).removeValue();
   }
 
-    /** Remove all child objects */
+  /** Remove all child objects */
   @Override
   public void deleteAll() {
     mDatabase.removeValue();
   }
 
-    /** An implementation of ChildEventListener for PreferenceRepository */
+  /** An implementation of ChildEventListener for PreferenceRepository */
   private class MyChildEventListener implements ChildEventListener {
 
     /**
