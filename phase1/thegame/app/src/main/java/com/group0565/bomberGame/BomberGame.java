@@ -32,10 +32,10 @@ public class BomberGame extends GameObject {
   private boolean gameEnded = false;
 
   private long startTime;
-  private final String statisticName1 = "Bombs placed";
-  private final String statisticName2 = "Damage dealt";
-  private final String statisticName3 = "HP remaining";
-  private final String timeLeftinLang = "Time Left";
+  private String statisticName1 = "Bombs placed";
+  private String statisticName2 = "Damage dealt";
+  private String statisticName3 = "HP remaining";
+  private String timeLeftinLang = "Time Left";
 
   private final String statisticKey1 = "Bombs_placed";
   private final String statisticKey2 = "Damage_dealt";
