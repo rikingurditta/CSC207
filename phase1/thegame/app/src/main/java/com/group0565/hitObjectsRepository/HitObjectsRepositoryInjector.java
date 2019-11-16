@@ -1,5 +1,8 @@
 package com.group0565.hitObjectsRepository;
 
+import android.os.Handler;
+import android.os.Looper;
+
 import com.group0565.users.IUsersInteractor;
 
 public class HitObjectsRepositoryInjector {
@@ -10,15 +13,18 @@ public class HitObjectsRepositoryInjector {
    * @param listener A listener for success of injection
    */
   public static void inject(RepositoryInjectionListener listener) {
-
-    IUsersInteractor.getInstance()
-        .getUserObservable()
-        .observeForever(
-            iUser -> {
-              if (iUser.isConnected()) {
-                listener.onSuccess(new FirebaseSessionHitObjectsRepository(iUser.getUid()));
-              }
-            });
+    // Make sure listener sits on main thread
+    Handler handler = new Handler(Looper.getMainLooper());
+    handler.post(
+        () ->
+            IUsersInteractor.getInstance()
+                .getUserObservable()
+                .observeForever(
+                    iUser -> {
+                      if (iUser.isConnected()) {
+                        listener.onSuccess(new FirebaseSessionHitObjectsRepository(iUser.getUid()));
+                      }
+                    }));
   }
 
   /** The listener interface for the injection */
