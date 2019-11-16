@@ -54,7 +54,7 @@ public class MockStatisticRepository implements IAsyncStatisticsRepository {
     updateLiveData();
 
     Log.d(
-        "MockStatisticRepository", "put: " + obj.getStatKey() + " with value " + obj.getStatVal());
+        "MockStatisticRepository", "put: " + obj.getFullStatKey() + " with value " + obj.getStatVal());
   }
 
   /**
@@ -69,7 +69,7 @@ public class MockStatisticRepository implements IAsyncStatisticsRepository {
     updateLiveData();
 
     Log.d(
-        "MockStatisticRepository", "push: " + obj.getStatKey() + " with value " + obj.getStatVal());
+        "MockStatisticRepository", "push: " + obj.getFullStatKey() + " with value " + obj.getStatVal());
   }
 
   /**
@@ -85,7 +85,7 @@ public class MockStatisticRepository implements IAsyncStatisticsRepository {
 
     Log.d(
         "MockStatisticRepository",
-        "delete: " + obj.getStatKey() + " with value " + obj.getStatVal());
+        "delete: " + obj.getFullStatKey() + " with value " + obj.getStatVal());
   }
 
   /** Remove all child objects */

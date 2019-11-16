@@ -15,9 +15,9 @@ import com.group0565.engine.interfaces.Observer;
 import com.group0565.hitObjectsRepository.SessionHitObjects;
 import com.group0565.math.Vector;
 import com.group0565.statistics.IAsyncStatisticsRepository;
-import com.group0565.statistics.IStatistic;
 import com.group0565.statistics.IStatisticFactory;
 import com.group0565.statistics.StatisticRepositoryInjector;
+import com.group0565.statistics.enums.StatisticKey;
 import com.group0565.theme.Themes;
 import com.group0565.tsu.enums.Align;
 import com.group0565.tsu.enums.Scores;
@@ -218,7 +218,7 @@ public class TsuEngine extends GameObject implements Observer, Observable {
   /** Sends the game stat to the db */
   private void sendStat() {
     int score = this.sessionHitObjects.getScore();
-    String statName = STAT_NAME + System.currentTimeMillis();
+    String statName = StatisticKey.TSU_SCORE.getValue() + System.currentTimeMillis();
 
     this.statsRepo.put(IStatisticFactory.createGameStatistic(statName, score));
   }

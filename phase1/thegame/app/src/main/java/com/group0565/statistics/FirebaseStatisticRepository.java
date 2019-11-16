@@ -92,7 +92,7 @@ class FirebaseStatisticRepository implements IAsyncStatisticsRepository {
    */
   @Override
   public void put(IStatistic stat) {
-    mDatabase.child(stat.getStatKey()).setValue(stat.getStatVal());
+    mDatabase.child(stat.getFullStatKey()).setValue(stat.getStatVal());
   }
 
   /**
@@ -102,7 +102,7 @@ class FirebaseStatisticRepository implements IAsyncStatisticsRepository {
    */
   @Override
   public void push(IStatistic stat) {
-    mDatabase.child(stat.getStatKey()).setValue(stat.getStatVal());
+    mDatabase.child(stat.getFullStatKey()).setValue(stat.getStatVal());
   }
 
   /**
@@ -112,7 +112,7 @@ class FirebaseStatisticRepository implements IAsyncStatisticsRepository {
    */
   @Override
   public void delete(IStatistic stat) {
-    mDatabase.child(stat.getStatKey()).removeValue();
+    mDatabase.child(stat.getFullStatKey()).removeValue();
   }
 
   /** Remove all child objects */
@@ -152,7 +152,7 @@ class FirebaseStatisticRepository implements IAsyncStatisticsRepository {
       Object statValue = dataSnapshot.getValue();
 
       for (IStatistic iterStats : userStatistics) {
-        if (iterStats.getStatKey().equals(statKey)) {
+        if (iterStats.getFullStatKey().equals(statKey)) {
           iterStats.setValue(statValue);
         }
       }
@@ -169,7 +169,7 @@ class FirebaseStatisticRepository implements IAsyncStatisticsRepository {
     public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
       String statKey = dataSnapshot.getKey();
 
-      userStatistics.removeIf(preference -> preference.getStatKey().equals(statKey));
+      userStatistics.removeIf(preference -> preference.getFullStatKey().equals(statKey));
 
       updateLiveData();
     }

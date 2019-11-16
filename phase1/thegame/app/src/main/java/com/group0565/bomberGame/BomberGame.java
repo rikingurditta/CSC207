@@ -12,6 +12,7 @@ import com.group0565.math.Vector;
 import com.group0565.statistics.IAsyncStatisticsRepository;
 import com.group0565.statistics.IStatisticFactory;
 import com.group0565.statistics.StatisticRepositoryInjector;
+import com.group0565.statistics.enums.StatisticKey;
 import com.group0565.theme.Themes;
 
 import java.util.ArrayList;
@@ -36,10 +37,6 @@ public class BomberGame extends GameObject {
   private String statisticName2 = "Damage dealt";
   private String statisticName3 = "HP remaining";
   private String timeLeftinLang = "Time Left";
-
-  private final String statisticKey1 = "Bombs_placed";
-  private final String statisticKey2 = "Damage_dealt";
-  private final String statisticKey3 = "HP_remaining";
 
   /** The repository to interact with the stats DB */
   private IAsyncStatisticsRepository myStatRepo;
@@ -156,12 +153,15 @@ public class BomberGame extends GameObject {
 
       myStatRepo.put(
           IStatisticFactory.createGameStatistic(
-              statisticKey1 + startTime, meBomberMan.getNumBombsPlaced()));
+              StatisticKey.BOMBER_BOMBS_PLACED.getValue() + startTime,
+              meBomberMan.getNumBombsPlaced()));
       myStatRepo.put(
           IStatisticFactory.createGameStatistic(
-              statisticKey2 + startTime, meBomberMan.getNumBombsPlaced()));
+              StatisticKey.BOMBER_DAMAGE_DEALT.getValue() + startTime,
+              meBomberMan.getDamageDealt()));
       myStatRepo.put(
-          IStatisticFactory.createGameStatistic(statisticKey3 + startTime, meBomberMan.getHp()));
+          IStatisticFactory.createGameStatistic(
+              StatisticKey.BOMBER_HP_REMAINING.getValue() + startTime, meBomberMan.getHp()));
     }
   }
 

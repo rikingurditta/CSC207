@@ -1,5 +1,9 @@
 package com.group0565.statistics;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+
 /**
  * An implementation of IStatistic for GameStatistics
  *
@@ -35,8 +39,48 @@ class GameStatistic<T> implements IStatistic<T> {
    * @return Statistic key
    */
   @Override
-  public String getStatKey() {
+  public String getFullStatKey() {
     return this.statKey;
+  }
+
+  /**
+   * Get the statistic's key without date
+   *
+   * @return Statistic key without date
+   */
+  @Override
+  public String getStatKey() {
+    String[] part = this.statKey.split("(?<=\\D)(?=\\d)");
+    return part[0];
+  }
+
+  /**
+   * Get the statistic's formatted date
+   *
+   * @return Statistic formatted date
+   */
+  @Override
+  public String getStatFormattedDate() {
+    String[] part = this.statKey.split("(?<=\\D)(?=\\d)");
+
+    return formatMilliToDate(Long.parseLong(part[1]));
+  }
+
+  /**
+   * Convert millisecond to local datetime format
+   *
+   * @param milli The milliseconds to convert
+   * @return The formatted date as a string
+   */
+  private String formatMilliToDate(Long milli) {
+    // Create a DateFormatter object for displaying date in specified format.
+    DateFormat formatter = SimpleDateFormat.getDateTimeInstance();
+
+    // Create a calendar object that will convert the date and time value in milliseconds to date.
+    Calendar calendar = Calendar.getInstance();
+    calendar.setTimeInMillis(milli);
+
+    return formatter.format(calendar.getTime());
   }
 
   /**

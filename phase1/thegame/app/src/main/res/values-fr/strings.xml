@@ -12,4 +12,10 @@
     <string name="vol_pref">Le volume</string>
     <string name="action_statistics">Statistiques</string>
     <string name="action_achievements">Réalisations</string>
+    <string name="bomber_bombs_placed_text">Bombes placées</string>
+    <string name="bomber_damage_dealt_text">Dégâts infligés</string>
+    <string name="bomber_hp_remaining_text">HP Restant</string>
+    <string name="racer_time_survived_text">Le Temps a Survécu</string>
+    <string name="tsu_score_text">Bord</string>
+    <string name="stat_missing_text">" Nom de statistique manquant!"</string>
 </resources>
