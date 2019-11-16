@@ -19,7 +19,7 @@ class GameStatistic<T> implements IStatistic<T> {
    * @param statKey The statistic unique key
    * @param statValue The statistic value
    */
-  public GameStatistic(String statKey, T statValue) {
+  GameStatistic(String statKey, T statValue) {
     this.statKey = statKey;
     this.statValue = statValue;
   }
@@ -30,9 +30,9 @@ class GameStatistic<T> implements IStatistic<T> {
   }
 
   /**
-   * Get the statistic's name
+   * Get the statistic's key
    *
-   * @return Statistic name
+   * @return Statistic key
    */
   @Override
   public String getStatKey() {
