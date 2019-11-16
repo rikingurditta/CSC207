@@ -15,16 +15,16 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 import java.util.List;
 
-/** A Firebase implementation of the IAsyncStatisticsRepository */
+/** A Firebase implementation of the IAsyncPreferencesRepository */
 class FirebaseStatisticRepository implements IAsyncStatisticsRepository {
 
   /** A reference to the Firebase database */
   private DatabaseReference mDatabase;
 
-  /** A collection of the user statistics */
+  /** A collection of the user preferences */
   private List<IStatistic> userStatistics;
 
-  /** An observable live collection of the user statistics */
+  /** An observable live collection of the user preferences */
   private MutableLiveData<List<IStatistic>> liveStatistics;
 
   /**

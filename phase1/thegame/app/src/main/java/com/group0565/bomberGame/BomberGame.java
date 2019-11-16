@@ -29,20 +29,20 @@ public class BomberGame extends GameObject {
   private String currentHealth;
   private int gameTimer = 60000;
   private int bgColor = Color.DKGRAY;
-  boolean gameEnded = false;
+  private boolean gameEnded = false;
 
   private long startTime;
-  String statisticName1 = "Bombs placed";
-  String statisticName2 = "Damage dealt";
-  String statisticName3 = "HP remaining";
-  String timeLeftinLang = "Time Left";
+  private final String statisticName1 = "Bombs placed";
+  private final String statisticName2 = "Damage dealt";
+  private final String statisticName3 = "HP remaining";
+  private final String timeLeftinLang = "Time Left";
 
-  String statisticKey1 = "Bombs_placed";
-  String statisticKey2 = "Damage_dealt";
-  String statisticKey3 = "HP_remaining";
+  private final String statisticKey1 = "Bombs_placed";
+  private final String statisticKey2 = "Damage_dealt";
+  private final String statisticKey3 = "HP_remaining";
 
   /** The repository to interact with the stats DB */
-  IAsyncStatisticsRepository myStatRepo;
+  private IAsyncStatisticsRepository myStatRepo;
 
   /** Create a STRONG reference to the listener so it won't get garbage collected */
   StatisticRepositoryInjector.RepositoryInjectionListener listener;
