@@ -16,6 +16,7 @@ import androidx.lifecycle.LifecycleOwner;
 
 import com.example.thegame.R;
 import com.group0565.bomberGame.BomberMainActivity;
+import com.group0565.menuUI.achievements.AchievementsActivity;
 import com.group0565.racerGame.RacerMainActivity;
 import com.group0565.tsu.TsuActivity;
 import com.group0565.menuUI.locale.LocaleManager;
@@ -161,8 +162,8 @@ public class MainActivity extends AppCompatActivity implements MainView {
   /** Redirect to statistics activity */
   @Override
   public void goToAchievements() {
-    //    Intent intent = new Intent(MainActivity.this, StatisticsActivity.class);
-    //    startActivity(intent);
+    Intent intent = new Intent(MainActivity.this, AchievementsActivity.class);
+    startActivity(intent);
   }
 
   /**
