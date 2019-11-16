@@ -61,14 +61,7 @@ class SPPreferencesInteractor implements IPreferenceInteractor {
   public void updatePreference(IPreference pref) {
     SharedPreferences sp = TheGameApplication.getInstance().getPreferences();
     SharedPreferences.Editor prefEditor = sp.edit();
-    Object preferenceValue = pref.getPrefVal();
-    String preferenceKey = pref.getPrefName();
-
-    IPreferencePutStrategy putStrategy;
-
-    putStrategy = IPreferencePutStrategy.chooseStrategy(preferenceValue);
-
-    putStrategy.put(preferenceKey, preferenceValue, prefEditor);
+    handlePrefUpdate(prefEditor, pref);
 
     prefEditor.apply();
   }
@@ -83,18 +76,26 @@ class SPPreferencesInteractor implements IPreferenceInteractor {
     SharedPreferences sp = TheGameApplication.getInstance().getPreferences();
     SharedPreferences.Editor prefEditor = sp.edit();
     for (IPreference pref : prefs) {
-
-      Object preferenceValue = pref.getPrefVal();
-      String preferenceKey = pref.getPrefName();
-
-      IPreferencePutStrategy putStrategy;
-
-      putStrategy = IPreferencePutStrategy.chooseStrategy(preferenceValue);
-
-      putStrategy.put(preferenceKey, preferenceValue, prefEditor);
+      handlePrefUpdate(prefEditor, pref);
     }
 
     prefEditor.apply();
+  }
+
+  /**
+   * Preform the update of the SharedPreferences
+   * @param prefEditor The SharedPreferences.Editor to use
+   * @param pref The pref to update
+   */
+  private void handlePrefUpdate(SharedPreferences.Editor prefEditor, IPreference pref) {
+    Object preferenceValue = pref.getPrefVal();
+    String preferenceKey = pref.getPrefName();
+
+    IPreferencePutStrategy putStrategy;
+
+    putStrategy = IPreferencePutStrategy.chooseStrategy(preferenceValue);
+
+    putStrategy.put(preferenceKey, preferenceValue, prefEditor);
   }
 
   /**
