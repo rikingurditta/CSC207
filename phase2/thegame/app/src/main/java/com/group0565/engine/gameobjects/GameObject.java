@@ -91,6 +91,11 @@ public class GameObject implements LifecycleListener {
     private boolean enable = true;
 
     /**
+     * Whether or not this GameObject has been initialized
+     */
+    private boolean initialized = false;
+
+    /**
      * The GameEngine of this GameObject
      */
     private GameEngine engine;
@@ -543,6 +548,23 @@ public class GameObject implements LifecycleListener {
         for (GameObject child : this.children.values()) {
             child.setGlobalPreferences(globalPreferences);
         }
+        return this;
+    }
+
+    /**
+     * Getter for the initialization status.
+     * @return True if init has been called at least once
+     */
+    public boolean isInitialized() {
+        return initialized;
+    }
+
+    /**
+     * Setter for the initialization status.
+     * @return This object to allow chaining
+     */
+    public GameObject setInitialized(boolean initialized) {
+        this.initialized = initialized;
         return this;
     }
 
