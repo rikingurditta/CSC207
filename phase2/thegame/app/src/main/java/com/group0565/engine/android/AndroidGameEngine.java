@@ -102,7 +102,8 @@ public class AndroidGameEngine implements Runnable, GameEngine {
             canvas = this.surfaceHolder.lockCanvas();
             if (canvas != null) {
                 size = new Vector(canvas.getWidth(), canvas.getHeight());
-                this.game.renderAll(canvas);
+                com.group0565.engine.interfaces.Canvas canvasFacade = new AndroidCanvas(canvas);
+                this.game.renderAll(canvasFacade);
             }
         } finally {
             if (canvas != null) {

@@ -1,8 +1,8 @@
 package com.group0565.tsu.gameObjects;
 
-import android.graphics.Canvas;
 import android.graphics.Paint;
 
+import com.group0565.engine.interfaces.Canvas;
 import com.group0565.math.Vector;
 
 public class LinearJudgementLine extends JudgementLine {

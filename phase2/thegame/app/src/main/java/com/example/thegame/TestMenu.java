@@ -1,12 +1,12 @@
 package com.example.thegame;
 
-import android.graphics.Canvas;
 import android.graphics.Paint;
 
 import com.group0565.engine.enums.HorizontalAlignment;
 import com.group0565.engine.enums.VerticalAlignment;
 import com.group0565.engine.gameobjects.GameMenu;
 import com.group0565.engine.gameobjects.MenuObject;
+import com.group0565.engine.interfaces.Canvas;
 import com.group0565.math.Vector;
 
 public class TestMenu extends GameMenu {

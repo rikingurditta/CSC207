@@ -1,9 +1,9 @@
 package com.group0565.engine.gameobjects;
 
 import android.graphics.Bitmap;
-import android.graphics.Canvas;
 import android.graphics.RectF;
 
+import com.group0565.engine.interfaces.Canvas;
 import com.group0565.engine.interfaces.Observable;
 import com.group0565.math.Vector;
 

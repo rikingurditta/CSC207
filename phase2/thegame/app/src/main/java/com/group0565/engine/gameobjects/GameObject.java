@@ -1,7 +1,7 @@
 package com.group0565.engine.gameobjects;
 
-import android.graphics.Canvas;
-
+import com.group0565.engine.interfaces.Canvas;
+import com.group0565.engine.interfaces.Drawable;
 import com.group0565.engine.interfaces.GameEngine;
 import com.group0565.engine.interfaces.LifecycleListener;
 import com.group0565.math.Vector;
@@ -16,7 +16,7 @@ import java.util.TreeMap;
 import java.util.UUID;
 import java.util.WeakHashMap;
 
-public class GameObject implements LifecycleListener {
+public class GameObject implements LifecycleListener, Drawable {
     /**
      * A lookup take for UUID to GameObjects. Only weak references are kept to both UUID and GameObject
      * to allow the Garbage Collector to clean up unused GameObjects without needing to explicitly remove
@@ -220,6 +220,7 @@ public class GameObject implements LifecycleListener {
      *
      * @param canvas The Canvas on which to draw
      */
+    @Override
     public void draw(Canvas canvas) {
 
     }

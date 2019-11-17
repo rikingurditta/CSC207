@@ -1,10 +1,10 @@
 package com.group0565.engine.gameobjects;
 
-import android.graphics.Canvas;
 import android.view.Menu;
 
 import com.group0565.engine.enums.HorizontalAlignment;
 import com.group0565.engine.enums.VerticalAlignment;
+import com.group0565.engine.interfaces.Canvas;
 import com.group0565.engine.interfaces.GameEngine;
 import com.group0565.engine.interfaces.Observable;
 import com.group0565.engine.interfaces.Observer;
