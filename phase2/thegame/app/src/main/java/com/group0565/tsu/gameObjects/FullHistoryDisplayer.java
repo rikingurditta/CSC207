@@ -185,7 +185,8 @@ public class FullHistoryDisplayer extends GameObject implements Observer {
     public void observe(Observable observable) {
         if (observable == menu) {
             this.objects = menu.getSelectedObject();
-            this.graphRenderer.calculate();
+            if (this.graphRenderer != null)
+                this.graphRenderer.calculate();
         }
     }
 
