@@ -1,7 +1,5 @@
 package com.group0565.engine.gameobjects;
 
-import android.view.Menu;
-
 import com.group0565.engine.enums.HorizontalAlignment;
 import com.group0565.engine.enums.VerticalAlignment;
 import com.group0565.engine.interfaces.Canvas;
@@ -11,6 +9,7 @@ import com.group0565.engine.interfaces.Observer;
 import com.group0565.math.Vector;
 
 public class MenuObject extends GameObject implements Observable, Observer {
+    private static Vector referenceSize = new Vector();
     private Vector size;
     private Vector buffer = new Vector();
     private Vector parentSize = null;
@@ -18,9 +17,9 @@ public class MenuObject extends GameObject implements Observable, Observer {
     private Alignment alignment = null;
 
     public MenuObject(Vector size) {
-        this.size = size;
-        if (this.size == null && this.getEngine() != null)
-            this.size = this.getEngine().getSize();
+        this.setSize(size);
+        if (this.getSize() == null && this.getEngine() != null)
+            this.setSize(this.getEngine().getSize());
     }
 
     public MenuObjectBuilder build(){
@@ -35,8 +34,8 @@ public class MenuObject extends GameObject implements Observable, Observer {
     @Override
     public void draw(Canvas canvas) {
         super.draw(canvas);
-        if (size != null)
-            this.draw(canvas, this.getAbsolutePosition(), this.size);
+        if (getSize() != null)
+            this.draw(canvas, this.getAbsolutePosition(), this.getSize());
     }
 
     public void draw(Canvas canvas, Vector pos, Vector size) {
@@ -45,8 +44,8 @@ public class MenuObject extends GameObject implements Observable, Observer {
     @Override
     public void observe(Observable observable) {
         if (alignment != null && observable == alignment.relativeTo){
-            parentSize = alignment.relativeTo.size;
-            parentBuffer = alignment.relativeTo.buffer;
+            parentSize = alignment.relativeTo.getSize();
+            parentBuffer = alignment.relativeTo.getBuffer();
             updatePosition();
         }
     }
@@ -54,8 +53,8 @@ public class MenuObject extends GameObject implements Observable, Observer {
     @Override
     public void setEngine(GameEngine engine) {
         super.setEngine(engine);
-        if (this.size == null)
-            this.size = engine.getSize();
+        if (this.getSize() == null)
+            this.setSize(engine.getSize());
     }
 
     protected void updatePosition(){
@@ -65,8 +64,8 @@ public class MenuObject extends GameObject implements Observable, Observer {
         float ph = parentSize.getY();
         float pbw = parentBuffer.getX();
         float pbh = parentBuffer.getY();
-        float w = size.getX();
-        float h = size.getY();
+        float w = getSize().getX();
+        float h = getSize().getY();
         float x;
         switch (alignment.hAlign){
             case Center:
@@ -117,6 +116,15 @@ public class MenuObject extends GameObject implements Observable, Observer {
         protected MenuObjectBuilder(){
         }
 
+        public MenuObjectBuilder addBuffer(Vector buffer){
+            this.buffer = buffer;
+            return this;
+        }
+
+        public MenuObjectBuilder addBuffer(float x, float y){
+            this.buffer = new Vector(x, y);
+            return this;
+        }
         public MenuObject close(){
             setBuffer(this.buffer);
             return MenuObject.this;
@@ -142,7 +150,10 @@ public class MenuObject extends GameObject implements Observable, Observer {
     }
 
     public void setBuffer(Vector buffer) {
-        this.buffer = buffer;
+        if (referenceSize != null && referenceSize.getX() != 0 && referenceSize.getY() != 0)
+            this.buffer = buffer.elementMultiply(getEngine().getSize().elementDivide(referenceSize));
+        else
+            this.buffer = buffer;
         this.notifyObservers();
     }
 
@@ -155,8 +166,19 @@ public class MenuObject extends GameObject implements Observable, Observer {
     }
 
     public void setSize(Vector size) {
-        this.size = size;
+        if (referenceSize != null && referenceSize.getX() != 0 && referenceSize.getY() != 0)
+            this.size = size.elementMultiply(getEngine().getSize().elementDivide(referenceSize));
+        else
+            this.size = size;
         this.notifyObservers();
+    }
+
+    public static Vector getReferenceSize() {
+        return referenceSize;
+    }
+
+    public static void setReferenceSize(Vector referenceSize) {
+        MenuObject.referenceSize = referenceSize;
     }
 
     protected class Alignment{

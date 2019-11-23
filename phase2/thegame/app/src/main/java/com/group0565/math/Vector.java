@@ -99,6 +99,16 @@ public class Vector {
     }
 
     /**
+     * Multiply this vector by another Vector element wise.
+     *
+     * @param other The vector to multiply
+     * @return A new vector containing the result
+     */
+    public Vector elementDivide(final Vector other) {
+        return new Vector(this.x / other.x, this.y / other.y);
+    }
+
+    /**
      * Compute the Euclidean norm of this vector
      *
      * @return The norm of this vector
