@@ -5,6 +5,7 @@ import android.graphics.RectF;
 
 import com.group0565.engine.interfaces.Canvas;
 import com.group0565.engine.interfaces.Observable;
+import com.group0565.engine.interfaces.Paint;
 import com.group0565.math.Vector;
 
 public class Button extends MenuObject implements Observable {
@@ -60,7 +61,7 @@ public class Button extends MenuObject implements Observable {
             float sy = size.getY();
             float ax = pos.getX();
             float ay = pos.getY();
-            canvas.drawBitmap(drawable, null, new RectF(ax, ay, ax + sx, ay + sy), null);
+            canvas.drawBitmap(drawable, null, new RectF(ax, ay, ax + sx, ay + sy));
         }
     }
 

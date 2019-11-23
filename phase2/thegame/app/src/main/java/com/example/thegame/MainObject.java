@@ -5,6 +5,7 @@ import android.graphics.Paint;
 import android.graphics.RectF;
 import android.util.Log;
 
+import com.group0565.engine.android.AndroidPaint;
 import com.group0565.engine.assets.AudioAsset;
 import com.group0565.engine.gameobjects.Button;
 import com.group0565.engine.gameobjects.GameObject;
@@ -100,7 +101,7 @@ public class MainObject extends GameObject implements Observer {
         //Fill background with White
         canvas.drawRGB(255, 255, 255);
         //Set our color to Red
-        Paint p = new Paint();
+        AndroidPaint p = new AndroidPaint();
         p.setARGB(255, 255, 0, 0);
         //Draw an rectangle at our touch position
         Bitmap bitmap = getEngine().getGameAssetManager().getTileSheet("Test", "Test1").getTile(captured%4, captured/4);

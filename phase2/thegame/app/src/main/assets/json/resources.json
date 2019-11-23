@@ -54,5 +54,12 @@
         "Default": "Chaîne Introuvable"
       }
     }
+  },
+  "Theme": {
+    "Tsu": {
+      "light": {
+        "Path": "Tsu/light.json"
+      }
+    }
   }
 }

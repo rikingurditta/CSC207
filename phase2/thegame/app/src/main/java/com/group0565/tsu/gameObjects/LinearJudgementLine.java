@@ -1,8 +1,8 @@
 package com.group0565.tsu.gameObjects;
 
-import android.graphics.Paint;
-
+import com.group0565.engine.android.AndroidPaint;
 import com.group0565.engine.interfaces.Canvas;
+import com.group0565.engine.interfaces.Paint;
 import com.group0565.math.Vector;
 
 public class LinearJudgementLine extends JudgementLine {
@@ -15,7 +15,7 @@ public class LinearJudgementLine extends JudgementLine {
         this.position = position;
         this.width = width;
         this.box = box;
-        this.paint = new Paint();
+        this.paint = new AndroidPaint();
         paint.setARGB(128, 0, 255, 0);
         paint.setStrokeWidth(20);
     }

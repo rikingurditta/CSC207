@@ -1,12 +1,13 @@
 package com.group0565.tsu.gameObjects;
 
 import android.graphics.Bitmap;
-import android.graphics.Paint;
 import android.graphics.Rect;
 import android.graphics.RectF;
 
+import com.group0565.engine.android.AndroidPaint;
 import com.group0565.engine.gameobjects.Button;
 import com.group0565.engine.interfaces.Canvas;
+import com.group0565.engine.interfaces.Paint;
 import com.group0565.hitObjectsRepository.SessionHitObjects;
 import com.group0565.math.Vector;
 import com.group0565.theme.Themes;
@@ -28,18 +29,18 @@ class HistoryDisplayer extends Button {
         super(position, size);
         this.statsMenu = statsMenu;
         this.objects = objects;
-        this.rim = new Paint();
+        this.rim = new AndroidPaint();
         this.rim.setARGB(255, 0, 0, 0);
-        this.center = new Paint();
-        this.letterPaint = new Paint();
+        this.center = new AndroidPaint();
+        this.letterPaint = new AndroidPaint();
         this.letterPaint.setTextSize(size.getY() * 0.75f);
-        this.datePaint = new Paint();
+        this.datePaint = new AndroidPaint();
         this.datePaint.setTextSize(size.getY() * 0.2f);
         this.datePaint.setARGB(255, 0, 0, 0);
-        this.scorePaint = new Paint();
+        this.scorePaint = new AndroidPaint();
         this.scorePaint.setTextSize(size.getY() * 0.45f);
         this.scorePaint.setARGB(255, 0, 0, 0);
-        this.comboPaint = new Paint();
+        this.comboPaint = new AndroidPaint();
         this.comboPaint.setTextSize(size.getY() * 0.45f);
         this.comboPaint.setARGB(255, 0, 0, 0);
     }
@@ -58,12 +59,12 @@ class HistoryDisplayer extends Button {
         float w = getSize().getX();
         float h = getSize().getY();
         canvas.drawRect(x, y, x + w, y + h, rim);
-        if (getGlobalPreferences().theme == Themes.LIGHT) {
+        if (getGlobalPreferences().getTheme() == Themes.LIGHT) {
             center.setARGB(255, 255, 255, 255);
             this.datePaint.setARGB(255, 0, 0, 0);
             this.scorePaint.setARGB(255, 0, 0, 0);
             this.comboPaint.setARGB(255, 0, 0, 0);
-        } else if (getGlobalPreferences().theme == Themes.DARK) {
+        } else if (getGlobalPreferences().getTheme() == Themes.DARK) {
             center.setARGB(255, 0, 0, 0);
             this.datePaint.setARGB(255, 255, 255, 255);
             this.scorePaint.setARGB(255, 255, 255, 255);
@@ -82,7 +83,7 @@ class HistoryDisplayer extends Button {
                 canvas.drawText(gradeStr, x + 10, y + 15 + gradeRect.height(), letterPaint);
                 if (objects.hasCheats()) {
                     canvas.drawBitmap(cheat, null, new RectF(x + 10 + gradeRect.width() + 10,
-                            y + 15 + gradeRect.height() - CHEAT_SIZE, x + 10 + gradeRect.width() + 10 + CHEAT_SIZE, y + 15 + gradeRect.height()), null);
+                            y + 15 + gradeRect.height() - CHEAT_SIZE, x + 10 + gradeRect.width() + 10 + CHEAT_SIZE, y + 15 + gradeRect.height()));
                 }
             }
             canvas.drawText(objects.getDatetime(), x + 10, y + getSize().getY() - 15, datePaint);

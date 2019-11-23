@@ -1,14 +1,15 @@
 package com.group0565.tsu.gameObjects;
 
 import android.graphics.Bitmap;
-import android.graphics.Paint;
 import android.graphics.Rect;
 
+import com.group0565.engine.android.AndroidPaint;
 import com.group0565.engine.gameobjects.Button;
 import com.group0565.engine.gameobjects.GameObject;
 import com.group0565.engine.interfaces.Canvas;
 import com.group0565.engine.interfaces.Observable;
 import com.group0565.engine.interfaces.Observer;
+import com.group0565.engine.interfaces.Paint;
 import com.group0565.math.Vector;
 import com.group0565.theme.Themes;
 
@@ -44,7 +45,7 @@ public class TsuMenu extends GameObject implements Observer, Observable {
                 title, title);
         this.adopt(titleButton);
         titleButton.registerObserver(this);
-        this.titlePaint = new Paint();
+        this.titlePaint = new AndroidPaint();
         this.titlePaint.setARGB(255, 255, 0, 0);
         this.titlePaint.setTextSize(50);
 
@@ -90,10 +91,10 @@ public class TsuMenu extends GameObject implements Observer, Observable {
             }
         } else if (observable == languageButton) {
             if (languageButton.isPressed()) {
-                if (getGlobalPreferences().language.equals("en")) {
-                    getGlobalPreferences().language = "fr";
-                } else if (getGlobalPreferences().language.equals("fr")) {
-                    getGlobalPreferences().language = "en";
+                if (getGlobalPreferences().getLanguage().equals("en")) {
+                    getGlobalPreferences().setLanguage("fr");
+                } else if (getGlobalPreferences().getLanguage().equals("fr")) {
+                    getGlobalPreferences().setLanguage("en");
                 }
                 tsuGame.setPreferences(getGlobalPreferences());
             }
@@ -116,11 +117,11 @@ public class TsuMenu extends GameObject implements Observer, Observable {
     @Override
     public void draw(Canvas canvas) {
         super.draw(canvas);
-        if (getGlobalPreferences().theme == Themes.LIGHT)
+        if (getGlobalPreferences().getTheme() == Themes.LIGHT)
             canvas.drawRGB(255, 255, 255);
-        else if (getGlobalPreferences().theme == Themes.DARK)
+        else if (getGlobalPreferences().getTheme() == Themes.DARK)
             canvas.drawRGB(0, 0, 0);
-        String text = getEngine().getGameAssetManager().getLanguagePack("Tsu", getGlobalPreferences().language).getToken("StartButton");
+        String text = getEngine().getGameAssetManager().getLanguagePack("Tsu", getGlobalPreferences().getLanguage()).getToken("StartButton");
         Rect rect = new Rect();
         this.titlePaint.getTextBounds(text, 0, text.length(), rect);
         float tx = (canvas.getWidth() - rect.width()) / 2;

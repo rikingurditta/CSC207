@@ -1,10 +1,10 @@
 package com.group0565.tsu.gameObjects;
 
 import android.graphics.Bitmap;
-import android.graphics.Paint;
 import android.graphics.Rect;
 import android.graphics.RectF;
 
+import com.group0565.engine.android.AndroidPaint;
 import com.group0565.engine.assets.TileSheet;
 import com.group0565.engine.gameobjects.Button;
 import com.group0565.engine.gameobjects.GameObject;
@@ -12,6 +12,7 @@ import com.group0565.engine.gameobjects.InputEvent;
 import com.group0565.engine.interfaces.Canvas;
 import com.group0565.engine.interfaces.Observable;
 import com.group0565.engine.interfaces.Observer;
+import com.group0565.engine.interfaces.Paint;
 import com.group0565.hitObjectsRepository.SessionHitObjects;
 import com.group0565.math.Vector;
 import com.group0565.theme.Themes;
@@ -109,7 +110,7 @@ public class TsuEngine extends GameObject implements Observer, Observable {
         this.pauseMenu.setZ(1);
         adopt(pauseMenu);
 
-        this.paintText = new Paint();
+        this.paintText = new AndroidPaint();
         this.paintText.setTextSize(75);
         this.paintText.setARGB(255, 0, 0, 0);
         super.init();
@@ -123,7 +124,7 @@ public class TsuEngine extends GameObject implements Observer, Observable {
                 timer += ms;
                 if (timer >= 0) {
                     this.beatmap.getAudio().seekTo((int) timer);
-                    this.beatmap.getAudio().setVolume((float) getGlobalPreferences().volume);
+                    this.beatmap.getAudio().setVolume((float) getGlobalPreferences().getVolume());
                 }
             } else if (timer < this.beatmap.getAudio().progress()) {
                 timer = this.beatmap.getAudio().progress();
@@ -263,7 +264,7 @@ public class TsuEngine extends GameObject implements Observer, Observable {
             float bwidth = score.getBitmap().getWidth();
             float bheight = score.getBitmap().getHeight();
             float bscale = sw / bwidth;
-            canvas.drawBitmap(score.getBitmap(), null, new RectF((width - sw) / 2f, height * SCORE_Y, (width + sw) / 2f, height * SCORE_Y + bheight * bscale), new Paint());
+            canvas.drawBitmap(score.getBitmap(), null, new RectF((width - sw) / 2f, height * SCORE_Y, (width + sw) / 2f, height * SCORE_Y + bheight * bscale));
         }
     }
 
@@ -275,17 +276,17 @@ public class TsuEngine extends GameObject implements Observer, Observable {
             this.judgementLine.setPosition(new Vector(MARGINS.getX(), canvas.getHeight() - MARGINS.getY()));
             this.judgementLine.setWidth(canvas.getWidth() - 2 * MARGINS.getX());
         }
-        if (getGlobalPreferences().theme == Themes.LIGHT) {
+        if (getGlobalPreferences().getTheme() == Themes.LIGHT) {
             canvas.drawRGB(255, 255, 255);
             this.paintText.setARGB(255, 0, 0, 0);
-        } else if (getGlobalPreferences().theme == Themes.DARK) {
+        } else if (getGlobalPreferences().getTheme() == Themes.DARK) {
             canvas.drawRGB(0, 0, 0);
             this.paintText.setARGB(255, 255, 255, 255);
         }
         if (timer < -2000) {
             float y = canvas.getHeight() / 3;
             {
-                String str = getEngine().getGameAssetManager().getLanguagePack("Tsu", getGlobalPreferences().language).getToken("Title") + ": " +
+                String str = getEngine().getGameAssetManager().getLanguagePack("Tsu", getGlobalPreferences().getLanguage()).getToken("Title") + ": " +
                         beatmap.getTitle();
                 Rect rect = new Rect();
                 this.paintText.getTextBounds(str, 0, str.length(), rect);
@@ -293,7 +294,7 @@ public class TsuEngine extends GameObject implements Observer, Observable {
                 y += rect.height() + 10;
             }
             {
-                String str = getEngine().getGameAssetManager().getLanguagePack("Tsu", getGlobalPreferences().language).getToken("Artist") + ": " +
+                String str = getEngine().getGameAssetManager().getLanguagePack("Tsu", getGlobalPreferences().getLanguage()).getToken("Artist") + ": " +
                         beatmap.getArtist();
                 Rect rect = new Rect();
                 this.paintText.getTextBounds(str, 0, str.length(), rect);
@@ -301,7 +302,7 @@ public class TsuEngine extends GameObject implements Observer, Observable {
                 y += rect.height() + 10;
             }
             {
-                String str = getEngine().getGameAssetManager().getLanguagePack("Tsu", getGlobalPreferences().language).getToken("Arranger") + ": " +
+                String str = getEngine().getGameAssetManager().getLanguagePack("Tsu", getGlobalPreferences().getLanguage()).getToken("Arranger") + ": " +
                         beatmap.getArranger();
                 Rect rect = new Rect();
                 this.paintText.getTextBounds(str, 0, str.length(), rect);
@@ -309,7 +310,7 @@ public class TsuEngine extends GameObject implements Observer, Observable {
                 y += rect.height() + 10;
             }
             {
-                String str = getEngine().getGameAssetManager().getLanguagePack("Tsu", getGlobalPreferences().language).getToken("Mapper") + ": " +
+                String str = getEngine().getGameAssetManager().getLanguagePack("Tsu", getGlobalPreferences().getLanguage()).getToken("Mapper") + ": " +
                         beatmap.getMapper();
                 Rect rect = new Rect();
                 this.paintText.getTextBounds(str, 0, str.length(), rect);

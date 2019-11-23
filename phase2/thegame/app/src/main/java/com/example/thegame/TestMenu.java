@@ -1,12 +1,12 @@
 package com.example.thegame;
 
-import android.graphics.Paint;
-
+import com.group0565.engine.android.AndroidPaint;
 import com.group0565.engine.enums.HorizontalAlignment;
 import com.group0565.engine.enums.VerticalAlignment;
 import com.group0565.engine.gameobjects.GameMenu;
 import com.group0565.engine.gameobjects.MenuObject;
 import com.group0565.engine.interfaces.Canvas;
+import com.group0565.engine.interfaces.Paint;
 import com.group0565.math.Vector;
 
 public class TestMenu extends GameMenu {
@@ -43,7 +43,7 @@ class Block extends MenuObject{
     private Paint paint;
     public Block(Vector size, int R, int G, int B) {
         super(size);
-        this.paint = new Paint();
+        this.paint = new AndroidPaint();
         this.paint.setARGB(255, R, G, B);
     }
 

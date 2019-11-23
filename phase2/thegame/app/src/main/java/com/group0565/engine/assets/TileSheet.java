@@ -25,10 +25,10 @@ public abstract class TileSheet extends Asset implements LifecycleListener {
     public int getTileHeight() {
         return tileHeight;
     }
-}
 
-class IllegalTileSetException extends IllegalAssetException{
-    IllegalTileSetException(String message) {
-        super(message);
+    protected class IllegalTileSetException extends IllegalAssetException{
+        public IllegalTileSetException(String message) {
+            super(message);
+        }
     }
 }

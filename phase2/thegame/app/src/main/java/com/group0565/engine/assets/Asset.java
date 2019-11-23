@@ -30,10 +30,10 @@ public class Asset implements Closeable {
     public void close(){
 
     }
-}
 
-class IllegalAssetException extends RuntimeException{
-    IllegalAssetException(String message) {
-        super(message);
+    protected class IllegalAssetException extends RuntimeException{
+        IllegalAssetException(String message) {
+            super(message);
+        }
     }
 }

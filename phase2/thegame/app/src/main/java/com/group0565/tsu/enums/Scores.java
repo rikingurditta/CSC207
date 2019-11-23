@@ -1,7 +1,9 @@
 package com.group0565.tsu.enums;
 
 import android.graphics.Bitmap;
-import android.graphics.Paint;
+
+import com.group0565.engine.android.AndroidPaint;
+import com.group0565.engine.interfaces.Paint;
 
 public enum Scores {
     SU(0, 255, 0, 0), S300(300, 29, 255, 0), S150(150, 208, 255, 0), S50(50, 255, 170, 0), S0(0, 128, 128, 128);
@@ -10,7 +12,7 @@ public enum Scores {
     private int score;
 
     Scores(int score, int r, int g, int b) {
-        this.paint = new Paint();
+        this.paint = new AndroidPaint();
         paint.setARGB(255, r, g, b);
         this.score = score;
     }

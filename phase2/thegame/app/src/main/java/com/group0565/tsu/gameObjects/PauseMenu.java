@@ -1,14 +1,15 @@
 package com.group0565.tsu.gameObjects;
 
 import android.graphics.Bitmap;
-import android.graphics.Paint;
 
+import com.group0565.engine.android.AndroidPaint;
 import com.group0565.engine.gameobjects.Button;
 import com.group0565.engine.gameobjects.GameObject;
 import com.group0565.engine.gameobjects.InputEvent;
 import com.group0565.engine.interfaces.Canvas;
 import com.group0565.engine.interfaces.Observable;
 import com.group0565.engine.interfaces.Observer;
+import com.group0565.engine.interfaces.Paint;
 import com.group0565.math.Vector;
 import com.group0565.theme.Themes;
 
@@ -31,9 +32,9 @@ public class PauseMenu extends GameObject implements Observer, Observable {
     @Override
     public void init() {
         super.init();
-        this.rim = new Paint();
+        this.rim = new AndroidPaint();
         this.rim.setARGB(255, 255, 0, 255);
-        this.center = new Paint();
+        this.center = new AndroidPaint();
         this.center.setARGB(255, 0, 0, 0);
 
         float cx = getAbsolutePosition().getX();
@@ -82,9 +83,9 @@ public class PauseMenu extends GameObject implements Observer, Observable {
         float w = size.getX();
         float h = size.getY();
         canvas.drawRoundRect(x, y, x + w, y + h, 50, 50, rim);
-        if (getGlobalPreferences().theme == Themes.LIGHT)
+        if (getGlobalPreferences().getTheme() == Themes.LIGHT)
             center.setARGB(255, 255, 255, 255);
-        else if (getGlobalPreferences().theme == Themes.DARK)
+        else if (getGlobalPreferences().getTheme() == Themes.DARK)
             center.setARGB(255, 0, 0, 0);
         canvas.drawRoundRect(x + 10, y + 10, x + w - 10, y + h - 10, 50, 50, center);
 

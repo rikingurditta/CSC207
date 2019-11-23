@@ -9,7 +9,7 @@ public enum Themes {
     DARK(R.style.AppThemeDark),
     LIGHT(R.style.AppThemeLight);
 
-    private static Map map = new HashMap<>();
+    private static HashMap<Integer, Themes> map = new HashMap<>();
 
     static {
         for (Themes Theme : Themes.values()) {
@@ -24,7 +24,7 @@ public enum Themes {
     }
 
     public static Themes valueOf(int Theme) {
-        return (Themes) map.get(Theme);
+        return map.get(Theme);
     }
 
     public static Themes getDefault() {

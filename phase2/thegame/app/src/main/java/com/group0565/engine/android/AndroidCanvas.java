@@ -1,11 +1,11 @@
 package com.group0565.engine.android;
 
 import android.graphics.Bitmap;
-import android.graphics.Paint;
 import android.graphics.Rect;
 import android.graphics.RectF;
 
 import com.group0565.engine.interfaces.Canvas;
+import com.group0565.engine.interfaces.Paint;
 import com.group0565.math.Vector;
 
 public class AndroidCanvas implements Canvas {
@@ -23,43 +23,64 @@ public class AndroidCanvas implements Canvas {
 
     @Override
     public void drawText(String text, float x, float y, Paint paint) {
-        aCanvas.drawText(text, x, y, paint);
+        if (paint instanceof AndroidPaint) {
+            AndroidPaint aPaint = (AndroidPaint) paint;
+            aCanvas.drawText(text, x, y, aPaint);
+        }else
+            throw new IllegalArgumentException("Only AndroidPaint can be drawn with.");
     }
 
     @Override
     public void drawRect(float left, float top, float right, float bottom, Paint paint) {
-        aCanvas.drawRect(left, top, right, bottom, paint);
-    }
+        if (paint instanceof AndroidPaint) {
+            AndroidPaint aPaint = (AndroidPaint) paint;
+            aCanvas.drawRect(left, top, right, bottom, aPaint);
+        }else
+            throw new IllegalArgumentException("Only AndroidPaint can be drawn with.");    }
 
     @Override
     public void drawBitmap(Bitmap bitmap, Rect src, RectF dst, Paint paint) {
-        aCanvas.drawBitmap(bitmap, src, dst, paint);
+        if (paint instanceof AndroidPaint || paint == null) {
+            AndroidPaint aPaint = (AndroidPaint) paint;
+            aCanvas.drawBitmap(bitmap, src, dst, aPaint);
+        }else
+            throw new IllegalArgumentException("Only AndroidPaint can be drawn with.");
     }
 
     @Override
     public void drawCircle(float cx, float cy, float radius, Paint paint) {
-        aCanvas.drawCircle(cx, cy, radius, paint);
-    }
-
-    @Override
-    public void drawRoundRect(Vector pos, Vector size, Vector radius, Paint paint){
-        Vector sum = pos.add(size);
-        this.drawRoundRect(pos.getX(), pos.getY(), sum.getX(), sum.getY(), radius.getX(), radius.getY(), paint);
+        if (paint instanceof AndroidPaint) {
+            AndroidPaint aPaint = (AndroidPaint) paint;
+            aCanvas.drawCircle(cx, cy, radius, aPaint);
+        }else
+            throw new IllegalArgumentException("Only AndroidPaint can be drawn with.");
     }
 
     @Override
     public void drawRoundRect(float left, float top, float right, float bottom, float rx, float ry, Paint paint) {
-        aCanvas.drawRoundRect(left, top, right, bottom, rx, ry, paint);
+        if (paint instanceof AndroidPaint) {
+            AndroidPaint aPaint = (AndroidPaint) paint;
+            aCanvas.drawRoundRect(left, top, right, bottom, rx, ry, aPaint);
+        }else
+            throw new IllegalArgumentException("Only AndroidPaint can be drawn with.");
     }
 
     @Override
     public void drawLine(Vector start, Vector end, Paint paint){
-        this.drawLine(start.getX(), start.getY(), end.getX(), end.getY(), paint);
+        if (paint instanceof AndroidPaint) {
+            AndroidPaint aPaint = (AndroidPaint) paint;
+            this.drawLine(start.getX(), start.getY(), end.getX(), end.getY(), aPaint);
+        }else
+            throw new IllegalArgumentException("Only AndroidPaint can be drawn with.");
     }
 
     @Override
     public void drawLine(float startX, float startY, float stopX, float stopY, Paint paint) {
-        aCanvas.drawLine(startX, startY, stopX, stopY, paint);
+        if (paint instanceof AndroidPaint) {
+            AndroidPaint aPaint = (AndroidPaint) paint;
+            aCanvas.drawLine(startX, startY, stopX, stopY, aPaint);
+        }else
+            throw new IllegalArgumentException("Only AndroidPaint can be drawn with.");
     }
 
     @Override

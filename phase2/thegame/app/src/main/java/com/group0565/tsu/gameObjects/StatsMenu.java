@@ -1,14 +1,15 @@
 package com.group0565.tsu.gameObjects;
 
 import android.graphics.Bitmap;
-import android.graphics.Paint;
 import android.graphics.RectF;
 
+import com.group0565.engine.android.AndroidPaint;
 import com.group0565.engine.gameobjects.Button;
 import com.group0565.engine.gameobjects.GameObject;
 import com.group0565.engine.interfaces.Canvas;
 import com.group0565.engine.interfaces.Observable;
 import com.group0565.engine.interfaces.Observer;
+import com.group0565.engine.interfaces.Paint;
 import com.group0565.hitObjectsRepository.SessionHitObjects;
 import com.group0565.math.Vector;
 import com.group0565.theme.Themes;
@@ -52,7 +53,7 @@ public class StatsMenu extends GameObject implements Observable, Observer {
 
     @Override
     public void init() {
-        this.historyPaint = new Paint();
+        this.historyPaint = new AndroidPaint();
         this.historyPaint.setARGB(255, 128, 128, 128);
 
         loading = getEngine().getGameAssetManager().getTileSheet("Tsu", "Buttons").getTile(14, 0);
@@ -128,14 +129,14 @@ public class StatsMenu extends GameObject implements Observable, Observer {
     @Override
     public void draw(Canvas canvas) {
         super.draw(canvas);
-        if (getGlobalPreferences().theme == Themes.LIGHT)
+        if (getGlobalPreferences().getTheme() == Themes.LIGHT)
             canvas.drawRGB(255, 255, 255);
-        else if (getGlobalPreferences().theme == Themes.DARK)
+        else if (getGlobalPreferences().getTheme() == Themes.DARK)
             canvas.drawRGB(0, 0, 0);
         canvas.drawRect(HISTORY_LEFT, HISTORY_TOP, HISTORY_LEFT + HISTORY_WIDTH, canvas.getHeight() + HISTORY_BOT, historyPaint);
         if (history == null) {
             canvas.drawBitmap(loading, null, new RectF(HISTORY_LEFT + (HISTORY_WIDTH - LOADING_SIZE) / 2f, (canvas.getHeight() - LOADING_SIZE) / 2f,
-                    HISTORY_LEFT + (HISTORY_WIDTH + LOADING_SIZE) / 2f, (canvas.getHeight() + LOADING_SIZE) / 2f), null);
+                    HISTORY_LEFT + (HISTORY_WIDTH + LOADING_SIZE) / 2f, (canvas.getHeight() + LOADING_SIZE) / 2f));
         }
     }
 
