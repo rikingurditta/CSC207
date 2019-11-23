@@ -33,7 +33,7 @@ public class ThemedPaintCan extends PaintCan implements Observer {
         registry.clear();
         Set<String> themeNames = manager.getThemeSetNames(set);
         for (String themeName : themeNames){
-            registry.put(Themes.valueOf(name), manager.getThemeSet(set, themeName).getPaint(name));
+            registry.put(Themes.valueOf(themeName), manager.getThemeSet(set, themeName).getPaint(name));
         }
         this.setPaint(registry.get(preferences.getTheme()));
     }
