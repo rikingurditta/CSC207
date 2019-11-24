@@ -5,8 +5,9 @@ import com.group0565.engine.assets.GameAssetManager;
 import com.group0565.math.Vector;
 
 public interface GameEngine {
-    InputManager getInputManager();
-    GameAssetManager getGameAssetManager();
+  InputManager getInputManager();
 
-    abstract Vector getSize();
+  GameAssetManager getGameAssetManager();
+
+  abstract Vector getSize();
 }
