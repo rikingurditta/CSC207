@@ -8,8 +8,8 @@ public class PreferencesInjector {
    * @return A subclass of IPreferenceInteractor
    */
   public static IPreferenceInteractor inject() {
-//    return new SPPreferencesInteractor();
+    return new SPPreferencesInteractor();
 
-        return new MockPreferencesInteractor();
+//        return new MockPreferencesInteractor();
   }
 }
