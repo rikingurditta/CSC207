@@ -19,7 +19,7 @@ public class GameAchievement implements IAchievement {
    * @param achievementDesc The achievement description
    * @param achievementName The achievement name
    */
-  GameAchievement(String achievementKey, String achievementDesc, String achievementName) {
+  public GameAchievement(String achievementKey, String achievementDesc, String achievementName) {
     this.achievementName = achievementName;
     this.achievementDesc = achievementDesc;
     this.achievementKey = achievementKey;
