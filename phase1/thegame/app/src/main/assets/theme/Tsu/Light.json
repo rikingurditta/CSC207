@@ -1,0 +1,21 @@
+{
+  "GameMenu": {
+    "BackgroundPaint": {
+      "ARGB": [
+        255,
+        255,
+        255,
+        255
+      ]
+    },
+    "TitlePaint": {
+      "ARGB": [
+        255,
+        255,
+        0,
+        0
+      ],
+      "TextSize": 50
+    }
+  }
+}

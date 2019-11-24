@@ -1,40 +1,25 @@
 package com.group0565.tsu.gameObjects;
 
+import android.graphics.Rect;
+
+import com.group0565.engine.android.AndroidPaint;
 import com.group0565.engine.gameobjects.Button;
-import com.group0565.engine.gameobjects.GameMenu;
+import com.group0565.engine.gameobjects.GameObject;
+import com.group0565.engine.interfaces.Bitmap;
 import com.group0565.engine.interfaces.Canvas;
 import com.group0565.engine.interfaces.Observable;
 import com.group0565.engine.interfaces.Observer;
 import com.group0565.engine.interfaces.Paint;
-import com.group0565.engine.render.LanguageText;
-import com.group0565.engine.render.TextRenderer;
-import com.group0565.engine.render.ThemedPaintCan;
 import com.group0565.math.Vector;
 import com.group0565.theme.Themes;
 
 
-public class TsuMenu extends GameMenu implements Observer, Observable {
-    private static final Vector TITLE_SIZE = new Vector(500);
-    private static final Vector SETTINGS_SIZE = new Vector(900);
-    private static final Vector BUTTON_SIZE = new Vector(75);
+public class TsuMenuBak extends GameObject implements Observer, Observable {
+    private static final float TITLE_SIZE = 500;
+    private static final float SETTINGS_SIZE = 900;
+    private static final float BUTTON_SIZE = 75;
     private static final float MARGIN = 75;
-
-    private static final String SET = "Tsu";
-
-    //Title Button Constants
-    private static final String TitleButtonName = "TitleButton";
-    private static final String TitleButtonBMName = "Title";
-    //Title String Constants
-    private static final String TitleStringName = "TitleString";
-    private static final String TitleStringTokenName = "StartButton";
-    private static final String TitleStringPaintName = "GameMenu.Title";
-    //Settings Menu Constants
-    private static final String SettingsMenuName = "SettingsMenu";
-    //
-
-
-    private ThemedPaintCan titlePaintCan = new ThemedPaintCan(SET, TitleStringPaintName);
-
+    private Bitmap title;
     private Button titleButton;
     private boolean started = false;
     private Paint titlePaint;
@@ -47,28 +32,48 @@ public class TsuMenu extends GameMenu implements Observer, Observable {
     private boolean auto = false;
     private TsuGame tsuGame;
 
-    public TsuMenu(TsuGame tsuGame) {
-        super(null);
+    public TsuMenuBak(TsuGame tsuGame){
         this.tsuGame = tsuGame;
     }
 
     @Override
     public void init() {
+        this.title = getEngine().getGameAssetManager().getTileSheet("Tsu", "Title").getTile(0, 0);
+        float cx = getEngine().getSize().getX();
+        float cy = getEngine().getSize().getY();
+        this.titleButton = new Button(new Vector((cx - TITLE_SIZE) / 2, (cy - TITLE_SIZE) / 2), new Vector(TITLE_SIZE, TITLE_SIZE),
+                title, title);
+        this.adopt(titleButton);
+        titleButton.registerObserver(this);
+        this.titlePaint = new AndroidPaint();
+        this.titlePaint.setARGB(255, 255, 0, 0);
+        this.titlePaint.setTextSize(50);
+
+        this.settingsMenu = new SettingsMenu(new Vector((cx - SETTINGS_SIZE) / 2, (cy - SETTINGS_SIZE) / 2),
+                new Vector(SETTINGS_SIZE, SETTINGS_SIZE));
+        this.settingsMenu.setZ(1);
+        this.settingsMenu.setEnable(false);
+        this.settingsMenu.registerObserver(this);
+        this.adopt(settingsMenu);
+
+        Bitmap settingsButtonBitmap = getEngine().getGameAssetManager().getTileSheet("Tsu", "Buttons").getTile(1, 0);
+        this.settingsButton = new Button(new Vector(cx - BUTTON_SIZE - MARGIN, cy - BUTTON_SIZE - MARGIN),
+                new Vector(BUTTON_SIZE, BUTTON_SIZE), settingsButtonBitmap, settingsButtonBitmap);
+        settingsButton.registerObserver(this);
+        adopt(settingsButton);
+
+        Bitmap languageButtonBitmap = getEngine().getGameAssetManager().getTileSheet("Tsu", "Buttons").getTile(4, 0);
+        this.languageButton = new Button(new Vector(cx - BUTTON_SIZE - MARGIN, MARGIN),
+                new Vector(BUTTON_SIZE, BUTTON_SIZE), languageButtonBitmap, languageButtonBitmap);
+        languageButton.registerObserver(this);
+        adopt(languageButton);
+
+        Bitmap statsBitmap = getEngine().getGameAssetManager().getTileSheet("Tsu", "Buttons").getTile(7, 0);
+        this.statsButton = new Button(new Vector(MARGIN, cy - BUTTON_SIZE - MARGIN),
+                new Vector(BUTTON_SIZE, BUTTON_SIZE), statsBitmap, statsBitmap);
+        statsButton.registerObserver(this);
+        adopt(statsButton);
         super.init();
-        titlePaintCan.init(getGlobalPreferences(), getEngine().getGameAssetManager());
-        this.build()
-                .add(TitleButtonName, new Button(TITLE_SIZE, getEngine(), SET, TitleButtonBMName))
-                .setCenteredRelativePosition("this")
-                .add(TitleStringName, new TextRenderer(new LanguageText(getGlobalPreferences(), getEngine().getGameAssetManager(), SET, TitleStringTokenName), titlePaintCan).build()
-                    .addOffset(TITLE_SIZE.elementMultiply(new Vector(0, 0.25f)))
-                    .close())
-                .setCenteredRelativePosition(TitleButtonName)
-                .add(SettingsMenuName, new SettingsMenu(new Vector(), SETTINGS_SIZE).build()
-                    .setEnable(false)
-                    .setZ(1)
-                    .close())
-                .setCenteredRelativePosition("this")
-                .close();
     }
 
     @Override
@@ -116,12 +121,12 @@ public class TsuMenu extends GameMenu implements Observer, Observable {
             canvas.drawRGB(255, 255, 255);
         else if (getGlobalPreferences().getTheme() == Themes.DARK)
             canvas.drawRGB(0, 0, 0);
-//        String text = getEngine().getGameAssetManager().getLanguagePack("Tsu", getGlobalPreferences().getLanguage()).getToken("StartButton");
-//        Rect rect = new Rect();
-//        this.titlePaint.getTextBounds(text, 0, text.length(), rect);
-//        float tx = (canvas.getWidth() - rect.width()) / 2;
-//        float ty = titleButton.getAbsolutePosition().getY() + 3 * TITLE_SIZE / 4;
-//        canvas.drawText(text, tx, ty, this.titlePaint);
+        String text = getEngine().getGameAssetManager().getLanguagePack("Tsu", getGlobalPreferences().getLanguage()).getToken("StartButton");
+        Rect rect = new Rect();
+        this.titlePaint.getTextBounds(text, 0, text.length(), rect);
+        float tx = (canvas.getWidth() - rect.width()) / 2;
+        float ty = titleButton.getAbsolutePosition().getY() + 3 * TITLE_SIZE / 4;
+        canvas.drawText(text, tx, ty, this.titlePaint);
     }
 
     public boolean hasStarted() {
