@@ -118,6 +118,27 @@ public class FirebaseAchievementsRepository implements IAsyncAchievementsReposit
     mDatabase.removeValue();
   }
 
+  /**
+   * Does the user already have the achievement, send true to callback if achievement IS NOT in db
+   *
+   * @param achievement The achievement earned
+   * @param callBack The callback to return the answer to
+   */
+  @Override
+  public void isNewAchievement(IAchievement achievement, AsyncDataCallBack<Boolean> callBack) {
+    getAll(
+        data -> {
+          boolean isFound = false;
+          for (IAchievement currAchieve : data) {
+            if (achievement.getAchievementKey().equals(currAchieve.getAchievementKey())) {
+              isFound = true;
+              break;
+            }
+          }
+          callBack.onDataReceived(!isFound);
+        });
+  }
+
   /** An implementation of ChildEventListener for PreferenceRepository */
   private class MyChildEventListener implements ChildEventListener {
 

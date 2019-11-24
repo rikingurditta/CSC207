@@ -15,6 +15,11 @@ import androidx.cardview.widget.CardView;
 import androidx.lifecycle.LifecycleOwner;
 
 import com.example.thegame.R;
+import com.group0565.achievements.Achievements;
+import com.group0565.achievements.AchievementsRepositoryInjector;
+import com.group0565.achievements.FirebaseAchievementsRepository;
+import com.group0565.achievements.GameAchievement;
+import com.group0565.achievements.IAsyncAchievementsRepository;
 import com.group0565.bomberGame.BomberMainActivity;
 import com.group0565.menuUI.achievements.AchievementsActivity;
 import com.group0565.racerGame.RacerMainActivity;
@@ -47,12 +52,28 @@ public class MainActivity extends AppCompatActivity implements MainView {
         LocaleManager.updateResources(base, mainPresenter.getDisplayLanguage()));
   }
 
+  IAsyncAchievementsRepository achievementsRepository;
+
   /** Set references to all objects and instantiate presenter */
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     setActivityTheme();
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_main);
+
+    AchievementsRepositoryInjector.inject(
+        repository -> {
+          achievementsRepository = repository;
+          achievementsRepository.isNewAchievement(
+              Achievements.BOMBER_ACHIEVEMENT.getValue(),
+              isNew -> {
+                if (isNew) {
+                  achievementsRepository.push(Achievements.BOMBER_ACHIEVEMENT.getValue());
+                } else {
+                  // Achievement already in DB, no need to do anything
+                }
+              });
+        });
   }
 
   /** Destroy all references in this object */
