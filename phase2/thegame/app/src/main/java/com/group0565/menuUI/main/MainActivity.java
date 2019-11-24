@@ -15,10 +15,8 @@ import androidx.cardview.widget.CardView;
 import androidx.lifecycle.LifecycleOwner;
 
 import com.example.thegame.R;
-import com.group0565.achievements.Achievements;
+import com.group0565.achievements.enums.Achievements;
 import com.group0565.achievements.AchievementsRepositoryInjector;
-import com.group0565.achievements.FirebaseAchievementsRepository;
-import com.group0565.achievements.GameAchievement;
 import com.group0565.achievements.IAsyncAchievementsRepository;
 import com.group0565.bomberGame.BomberMainActivity;
 import com.group0565.menuUI.achievements.AchievementsActivity;
