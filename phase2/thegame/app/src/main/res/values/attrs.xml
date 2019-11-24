@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="customAttrs">
+        <attr name="game1Image" format="reference" />
+        <attr name="game2Image" format="reference" />
+        <attr name="game3Image" format="reference" />
+    </declare-styleable>
+</resources>
