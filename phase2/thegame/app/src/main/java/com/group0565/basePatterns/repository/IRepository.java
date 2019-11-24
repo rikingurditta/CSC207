@@ -36,7 +36,7 @@ public interface IRepository<T> {
   void deleteAll();
 
   /**
-   * A callback to receive information from single calls to DB
+   * A callback to receive a list of information from single calls to DB
    *
    * @param <T> The type of the received object
    */
@@ -47,5 +47,19 @@ public interface IRepository<T> {
      * @param data The received data
      */
     void onDataReceived(List<T> data);
+  }
+
+  /**
+   * A callback to receive information from single calls to DB
+   *
+   * @param <T> The type of the received object
+   */
+  interface AsyncDataCallBack<T> {
+    /**
+     * Action to perform on data received
+     *
+     * @param data The received data
+     */
+    void onDataReceived(T data);
   }
 }
