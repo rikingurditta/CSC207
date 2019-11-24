@@ -14,16 +14,16 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat"
         tools:ignore="GoogleAppIndexingWarning">
-
+        <activity android:name="com.group0565.menuUI.achievements.AchievementsActivity"></activity>
         <activity
             android:name="com.group0565.menuUI.main.MainActivity"
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
         <activity
             android:name="com.group0565.menuUI.settings.SettingsActivity"
             android:launchMode="singleTop"
@@ -33,7 +33,6 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.group0565.menuUI.main.MainActivity" />
         </activity>
-
         <activity
             android:name="com.group0565.menuUI.statistics.StatisticsActivity"
             android:parentActivityName="com.group0565.menuUI.main.MainActivity"
@@ -42,7 +41,6 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.group0565.menuUI.main.MainActivity" />
         </activity>
-
         <activity
             android:name="com.group0565.tsu.TsuActivity"
             android:configChanges="keyboardHidden|orientation"
@@ -53,7 +51,6 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.group0565.menuUI.main.MainActivity" />
         </activity>
-
         <activity
             android:name="com.group0565.bomberGame.BomberMainActivity"
             android:configChanges="keyboardHidden|orientation"
@@ -64,7 +61,6 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.group0565.menuUI.main.MainActivity" />
         </activity>
-
         <activity
             android:name="com.group0565.racerGame.RacerMainActivity"
             android:configChanges="keyboardHidden|orientation"
@@ -75,7 +71,6 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.group0565.menuUI.main.MainActivity" />
         </activity>
-
     </application>
 
 </manifest>

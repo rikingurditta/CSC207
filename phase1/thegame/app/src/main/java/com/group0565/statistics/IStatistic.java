@@ -8,11 +8,25 @@ package com.group0565.statistics;
 public interface IStatistic<T> {
 
   /**
-   * Get the statistic's name
+   * Get the statistic's full key
    *
-   * @return Statistic name
+   * @return Statistic full key
+   */
+  String getFullStatKey();
+
+  /**
+   * Get the statistic's key without date
+   *
+   * @return Statistic key without date
    */
   String getStatKey();
+
+  /**
+   * Get the statistic's formatted date
+   *
+   * @return Statistic formatted date
+   */
+  String getStatFormattedDate();
 
   /**
    * Get the statistic's value

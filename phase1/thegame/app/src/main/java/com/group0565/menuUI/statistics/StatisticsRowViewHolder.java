@@ -23,7 +23,7 @@ public class StatisticsRowViewHolder extends RecyclerView.ViewHolder
    *
    * @param itemView The row view
    */
-  public StatisticsRowViewHolder(@NonNull View itemView) {
+  StatisticsRowViewHolder(@NonNull View itemView) {
     super(itemView);
 
     titleTextView = itemView.findViewById(R.id.stat_title);

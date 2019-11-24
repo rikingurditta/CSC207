@@ -1,5 +1,6 @@
 package com.group0565.menuUI.main;
 
+import com.group0565.menuUI.main.menuCommands.AchievementsMenuCommand;
 import com.group0565.preferences.PreferencesInjector;
 import com.group0565.menuUI.main.enums.GameID;
 import com.group0565.menuUI.main.enums.MenuOptionID;
@@ -59,6 +60,7 @@ public class MainPresenterImp implements MainPresenter {
     menuDir.register(MenuOptionID.SETTINGS, new SettingsMenuCommand(mainView));
     menuDir.register(MenuOptionID.STATISTICS, new StatisticsMenuCommand(mainView));
     menuDir.register(MenuOptionID.SIGN_OUT, new SignOutMenuCommand(this));
+    menuDir.register(MenuOptionID.ACHIEVEMENTS, new AchievementsMenuCommand(mainView));
 
     this.mUserInteractor = IUsersInteractor.getInstance();
     this.mErrorHandler = ExceptionErrorHandler.getInstance();

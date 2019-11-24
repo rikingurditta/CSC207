@@ -1,50 +1,44 @@
-package com.group0565.menuUI.statistics;
+package com.group0565.menuUI.achievements;
 
+import com.group0565.achievements.AchievementsRepositoryInjector;
+import com.group0565.achievements.IAsyncAchievementsRepository;
 import com.group0565.preferences.IPreferenceInteractor;
 import com.group0565.preferences.PreferencesInjector;
-import com.group0565.statistics.IAsyncStatisticsRepository;
-import com.group0565.statistics.StatisticRepositoryInjector;
 import com.group0565.theme.ThemeManager;
 
-/** Implementation of the SettingsPresenter */
-public class StatisticsPresenterImp implements StatisticsMVP.StatisticsPresenter {
+public class AchievementsPresenterImp implements AchievementsMVP.AchievementsPresenter {
 
   /** Reference to the attached view */
-  private StatisticsMVP.StatisticsView statisticsView;
+  private AchievementsMVP.AchievementsView achievementsView;
 
   /**
    * Instantiate a new StatisticsPresenterImp
    *
-   * @param statisticsView The attached StatisticsView
+   * @param achievementsView The attached StatisticsView
    */
-  StatisticsPresenterImp(StatisticsMVP.StatisticsView statisticsView) {
-    this.statisticsView = statisticsView;
+  AchievementsPresenterImp(AchievementsMVP.AchievementsView achievementsView) {
+    this.achievementsView = achievementsView;
   }
 
-  /**
-   * Fetches the repository and uses it to get and set the data in the recycler
-   *
-   * @param gameName The target game
-   */
+  /** Fetches the repository and uses it to get and set the data in the recycler */
   @Override
-  public void getGameStatRepo(String gameName) {
-    StatisticRepositoryInjector.inject(gameName, repository -> setGameStats(gameName, repository));
+  public void getGameAchievementsRepo() {
+    AchievementsRepositoryInjector.inject(repository -> setAchievements(repository));
   }
 
   /**
    * Sets the stats to the recycler using the given repository
    *
-   * @param gameName The target game
    * @param repository The repository to get the data from
    */
-  private void setGameStats(String gameName, IAsyncStatisticsRepository repository) {
-    repository.getAll(data -> statisticsView.setGameStats(gameName, data));
+  private void setAchievements(IAsyncAchievementsRepository repository) {
+    repository.getAll(data -> achievementsView.setAchievements(data));
   }
 
   /** Destroy all references in this object */
   @Override
   public void onDestroy() {
-    this.statisticsView = null;
+    this.achievementsView = null;
   }
 
   /**

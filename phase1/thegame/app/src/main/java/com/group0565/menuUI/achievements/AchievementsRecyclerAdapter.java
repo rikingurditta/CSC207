@@ -1,4 +1,4 @@
-package com.group0565.menuUI.statistics;
+package com.group0565.menuUI.achievements;
 
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
@@ -9,18 +9,18 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.thegame.R;
 
 /** An extension of RecyclerView.Adapter for the StatisticsRecycler */
-public class StatisticsRecyclerAdapter extends RecyclerView.Adapter<StatisticsRowViewHolder> {
+public class AchievementsRecyclerAdapter extends RecyclerView.Adapter<AchievementsRowViewHolder> {
 
   /** A reference to the RowsPresenter */
-  private final StatisticsMVP.StatisticsRowsPresenter statisticsRowsPresenter;
+  private final AchievementsMVP.AchievementsRowsPresenter achievementsRowsPresenter;
 
   /**
    * Instantiate a new StatisticsRecyclerAdapter
    *
-   * @param statisticsRowsPresenter The RowsPresenter to use
+   * @param achievementsRowsPresenter The RowsPresenter to use
    */
-  StatisticsRecyclerAdapter(StatisticsMVP.StatisticsRowsPresenter statisticsRowsPresenter) {
-    this.statisticsRowsPresenter = statisticsRowsPresenter;
+  AchievementsRecyclerAdapter(AchievementsMVP.AchievementsRowsPresenter achievementsRowsPresenter) {
+    this.achievementsRowsPresenter = achievementsRowsPresenter;
   }
 
   /**
@@ -34,9 +34,10 @@ public class StatisticsRecyclerAdapter extends RecyclerView.Adapter<StatisticsRo
    */
   @NonNull
   @Override
-  public StatisticsRowViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-    return new StatisticsRowViewHolder(
-        LayoutInflater.from(parent.getContext()).inflate(R.layout.statsrow_layout, parent, false));
+  public AchievementsRowViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    return new AchievementsRowViewHolder(
+        LayoutInflater.from(parent.getContext())
+            .inflate(R.layout.achievement_row_layout, parent, false));
   }
 
   /**
@@ -49,8 +50,8 @@ public class StatisticsRecyclerAdapter extends RecyclerView.Adapter<StatisticsRo
    * @param position The position of the item within the adapter's data set.
    */
   @Override
-  public void onBindViewHolder(@NonNull StatisticsRowViewHolder holder, int position) {
-    statisticsRowsPresenter.onBindRepositoryRowViewAtPosition(position, holder);
+  public void onBindViewHolder(@NonNull AchievementsRowViewHolder holder, int position) {
+    achievementsRowsPresenter.onBindRepositoryRowViewAtPosition(position, holder);
   }
 
   /**
@@ -60,6 +61,6 @@ public class StatisticsRecyclerAdapter extends RecyclerView.Adapter<StatisticsRo
    */
   @Override
   public int getItemCount() {
-    return statisticsRowsPresenter.getStatsCount();
+    return achievementsRowsPresenter.getAchievementsCount();
   }
 }

@@ -13,4 +13,11 @@
     <string name="theme_pref">Theme</string>
     <string name="vol_pref">Volume</string>
     <string name="action_statistics">Statistics</string>
+    <string name="action_achievements">Achievements</string>
+    <string name="bomber_bombs_placed_text">Bombs Placed</string>
+    <string name="bomber_damage_dealt_text">Damage Dealt</string>
+    <string name="bomber_hp_remaining_text">Remaining HP</string>
+    <string name="racer_time_survived_text">Time Survived</string>
+    <string name="tsu_score_text">Score</string>
+    <string name="stat_missing_text">Statistic Name Missing!</string>
 </resources>

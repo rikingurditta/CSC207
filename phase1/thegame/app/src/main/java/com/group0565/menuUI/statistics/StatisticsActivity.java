@@ -18,6 +18,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/** The class for the Statistics Activity */
 public class StatisticsActivity extends AppCompatActivity implements StatisticsMVP.StatisticsView {
 
   /** The StatisticsPresenter reference */
@@ -38,6 +39,11 @@ public class StatisticsActivity extends AppCompatActivity implements StatisticsM
         LocaleManager.updateResources(base, statisticsPresenter.getDisplayLanguage()));
   }
 
+  /**
+   * On creation of activity, set all references
+   *
+   * @param savedInstanceState The object Android state
+   */
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     setActivityTheme();

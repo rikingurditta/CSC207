@@ -1,4 +1,4 @@
-package com.group0565.statistics;
+package com.group0565.achievements;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -15,34 +15,31 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 import java.util.List;
 
-/** A Firebase implementation of the IAsyncPreferencesRepository */
-class FirebaseStatisticRepository implements IAsyncStatisticsRepository {
+/** A Firebase implementation of the IAsyncAchievementsRepository */
+public class FirebaseAchievementsRepository implements IAsyncAchievementsRepository {
 
   /** A reference to the Firebase database */
   private DatabaseReference mDatabase;
 
-  /** A collection of the user preferences */
-  private List<IStatistic> userStatistics;
+  /** A collection of the user achievements */
+  private List<IAchievement> userAchievements;
 
-  /** An observable live collection of the user preferences */
-  private MutableLiveData<List<IStatistic>> liveStatistics;
+  /** An observable live collection of the user achievements */
+  private MutableLiveData<List<IAchievement>> liveAchievements;
 
   /**
    * Create a new repository for the given user
    *
    * @param currUser The current user
-   * @param gameName The current game
    */
-  FirebaseStatisticRepository(String currUser, String gameName) {
+  FirebaseAchievementsRepository(String currUser) {
     this.mDatabase =
-        FirebaseDatabase.getInstance()
-            .getReference()
-            .child("users/" + currUser + "/statistics/" + gameName);
+        FirebaseDatabase.getInstance().getReference().child("users/" + currUser + "/achievements/");
 
-    userStatistics = new ArrayList<>();
-    liveStatistics = new MutableLiveData<>();
+    userAchievements = new ArrayList<>();
+    liveAchievements = new MutableLiveData<>();
 
-    mDatabase.addChildEventListener(new FirebaseStatisticRepository.MyChildEventListener());
+    mDatabase.addChildEventListener(new FirebaseAchievementsRepository.MyChildEventListener());
   }
 
   /**
@@ -51,8 +48,8 @@ class FirebaseStatisticRepository implements IAsyncStatisticsRepository {
    * @return An observable object wrapping the list of IStatistic with all statistics
    */
   @Override
-  public LiveData<List<IStatistic>> getObservable() {
-    return liveStatistics;
+  public LiveData<List<IAchievement>> getObservable() {
+    return liveAchievements;
   }
 
   /**
@@ -61,23 +58,23 @@ class FirebaseStatisticRepository implements IAsyncStatisticsRepository {
    * @param callback The callback to execute on success
    */
   @Override
-  public void getAll(AsyncDataListCallBack<IStatistic> callback) {
+  public void getAll(AsyncDataListCallBack<IAchievement> callback) {
     this.mDatabase.addListenerForSingleValueEvent(
         new ValueEventListener() {
           @Override
           public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-            userStatistics = new ArrayList<>();
+            userAchievements = new ArrayList<>();
 
             dataSnapshot
                 .getChildren()
                 .forEach(
                     child -> {
-                      IStatistic preference =
-                          IStatisticFactory.createGameStatistic(child.getKey(), child.getValue());
-                      userStatistics.add(preference);
+                      // todo: check for correct values
+                      IAchievement achievement = child.getValue(GameAchievement.class);
+                      userAchievements.add(achievement);
                     });
 
-            callback.onDataReceived(userStatistics);
+            callback.onDataReceived(userAchievements);
           }
 
           @Override
@@ -86,33 +83,33 @@ class FirebaseStatisticRepository implements IAsyncStatisticsRepository {
   }
 
   /**
-   * Updates a stat in the database
+   * Updates a achievement in the database
    *
-   * @param stat The stat to update based on its key
+   * @param achievement The achievement to update based on its key
    */
   @Override
-  public void put(IStatistic stat) {
-    mDatabase.child(stat.getFullStatKey()).setValue(stat.getStatVal());
+  public void put(IAchievement achievement) {
+    throw new UnsupportedOperationException("Put operation is not supported for achievements");
   }
 
   /**
-   * Add a stat to the database
+   * Add a achievement to the database
    *
-   * @param stat The stat to add
+   * @param achievement The achievement to add
    */
   @Override
-  public void push(IStatistic stat) {
-    mDatabase.child(stat.getFullStatKey()).setValue(stat.getStatVal());
+  public void push(IAchievement achievement) {
+    mDatabase.push().setValue(achievement);
   }
 
   /**
-   * Remove a stat from the database
+   * Remove a achievement from the database
    *
-   * @param stat The stat to remove
+   * @param achievement The achievement to remove
    */
   @Override
-  public void delete(IStatistic stat) {
-    mDatabase.child(stat.getFullStatKey()).removeValue();
+  public void delete(IAchievement achievement) {
+    throw new UnsupportedOperationException("Delete operation is not supported for achievements");
   }
 
   /** Remove all child objects */
@@ -132,10 +129,9 @@ class FirebaseStatisticRepository implements IAsyncStatisticsRepository {
      */
     @Override
     public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-      String statKey = dataSnapshot.getKey();
-      Object statValue = dataSnapshot.getValue();
+      IAchievement achievement = dataSnapshot.getValue(GameAchievement.class);
 
-      userStatistics.add(new GameStatistic<>(statKey, statValue));
+      userAchievements.add(achievement);
 
       updateLiveData();
     }
@@ -148,16 +144,7 @@ class FirebaseStatisticRepository implements IAsyncStatisticsRepository {
      */
     @Override
     public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-      String statKey = dataSnapshot.getKey();
-      Object statValue = dataSnapshot.getValue();
-
-      for (IStatistic iterStats : userStatistics) {
-        if (iterStats.getFullStatKey().equals(statKey)) {
-          iterStats.setValue(statValue);
-        }
-      }
-
-      updateLiveData();
+      // Should never occur
     }
 
     /**
@@ -167,11 +154,15 @@ class FirebaseStatisticRepository implements IAsyncStatisticsRepository {
      */
     @Override
     public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
-      String statKey = dataSnapshot.getKey();
+      IAchievement achievement = dataSnapshot.getValue(GameAchievement.class);
 
-      userStatistics.removeIf(preference -> preference.getFullStatKey().equals(statKey));
+      if (achievement != null) {
+        userAchievements.removeIf(
+            iterAchievement ->
+                iterAchievement.getAchievementKey().equals(achievement.getAchievementKey()));
 
-      updateLiveData();
+        updateLiveData();
+      }
     }
 
     /**
@@ -194,9 +185,9 @@ class FirebaseStatisticRepository implements IAsyncStatisticsRepository {
     /** Safely updates the live data */
     private void updateLiveData() {
       try {
-        liveStatistics.setValue(userStatistics);
+        liveAchievements.setValue(userAchievements);
       } catch (IllegalStateException ex) {
-        liveStatistics.postValue(userStatistics);
+        liveAchievements.postValue(userAchievements);
       }
     }
   }

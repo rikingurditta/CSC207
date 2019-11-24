@@ -56,5 +56,8 @@ public interface MainMVP {
 
     /** Redirect to statistics activity */
     void goToStatistics();
+
+    /** Redirect to achievements activity */
+    void goToAchievements();
   }
 }

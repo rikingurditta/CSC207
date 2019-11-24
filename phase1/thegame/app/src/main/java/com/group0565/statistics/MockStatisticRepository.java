@@ -8,6 +8,7 @@ import androidx.lifecycle.MutableLiveData;
 import java.util.ArrayList;
 import java.util.List;
 
+/** An implementation of IAsyncStatisticsRepository that returns mock data */
 public class MockStatisticRepository implements IAsyncStatisticsRepository {
 
   /** A collection of the user preferences */
@@ -16,7 +17,7 @@ public class MockStatisticRepository implements IAsyncStatisticsRepository {
   /** An observable live collection of the user preferences */
   private MutableLiveData<List<IStatistic>> liveStatistics;
 
-  public MockStatisticRepository() {
+  MockStatisticRepository() {
     userStatistics = new ArrayList<>();
     liveStatistics = new MutableLiveData<>();
   }
@@ -53,11 +54,11 @@ public class MockStatisticRepository implements IAsyncStatisticsRepository {
     updateLiveData();
 
     Log.d(
-        "MockStatisticRepository", "put: " + obj.getStatKey() + " with value " + obj.getStatVal());
+        "MockStatisticRepository", "put: " + obj.getFullStatKey() + " with value " + obj.getStatVal());
   }
 
   /**
-   * Add a preference to the database for the user
+   * Add a statistic to the database for the user
    *
    * @param obj The object to add
    */
@@ -68,11 +69,11 @@ public class MockStatisticRepository implements IAsyncStatisticsRepository {
     updateLiveData();
 
     Log.d(
-        "MockStatisticRepository", "push: " + obj.getStatKey() + " with value " + obj.getStatVal());
+        "MockStatisticRepository", "push: " + obj.getFullStatKey() + " with value " + obj.getStatVal());
   }
 
   /**
-   * Remove a preference from the database for the user
+   * Remove a statistic from the database for the user
    *
    * @param obj The object to remove
    */
@@ -84,7 +85,7 @@ public class MockStatisticRepository implements IAsyncStatisticsRepository {
 
     Log.d(
         "MockStatisticRepository",
-        "delete: " + obj.getStatKey() + " with value " + obj.getStatVal());
+        "delete: " + obj.getFullStatKey() + " with value " + obj.getStatVal());
   }
 
   /** Remove all child objects */

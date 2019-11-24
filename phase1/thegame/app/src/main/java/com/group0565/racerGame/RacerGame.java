@@ -13,6 +13,7 @@ import com.group0565.math.Vector;
 import com.group0565.statistics.IAsyncStatisticsRepository;
 import com.group0565.statistics.IStatisticFactory;
 import com.group0565.statistics.StatisticRepositoryInjector;
+import com.group0565.statistics.enums.StatisticKey;
 import com.group0565.theme.Themes;
 
 import java.util.Date;
@@ -173,7 +174,9 @@ public class RacerGame extends GameObject implements Observer {
   void updateDB(long totalTime) {
     if (myStatRepo != null) {
       // You can always use put (also for new objects) because of the way that Firebase DB works
-      myStatRepo.put(IStatisticFactory.createGameStatistic("TimeSurvived" + startTime, totalTime));
+      myStatRepo.put(
+          IStatisticFactory.createGameStatistic(
+              StatisticKey.RACER_TIME_SURVIVED.getValue() + startTime, totalTime));
     }
   }
 
