@@ -1,11 +1,11 @@
 package com.group0565.tsu.gameObjects;
 
-import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.RectF;
 
 import com.group0565.engine.assets.TileSheet;
 import com.group0565.engine.gameobjects.GameObject;
+import com.group0565.engine.interfaces.Canvas;
 import com.group0565.math.Vector;
 import com.group0565.tsu.enums.Align;
 
@@ -46,7 +46,7 @@ public class NumberRenderer extends GameObject {
             int n = char2int(c);
             canvas.drawBitmap(tileSheet.getTile(n, 0), null,
                     new RectF(left, this.margin.getY(), left + height,
-                            this.margin.getY() + height), new Paint());
+                            this.margin.getY() + height));
             left += height * 0.8;
         }
     }

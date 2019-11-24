@@ -10,6 +10,6 @@ public class MainActivity extends GameActivity {
 
 
     public MainActivity() {
-        super(new MainObject(new Vector()).setGlobalPreferences(new GlobalPreferences()));
+        super(new TestMenu(null).setGlobalPreferences(new GlobalPreferences()));
     }
 }

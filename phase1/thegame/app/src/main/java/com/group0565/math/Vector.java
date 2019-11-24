@@ -36,6 +36,13 @@ public class Vector {
     }
 
     /**
+     * Create a new 2d vector of (d, d)
+     */
+    public Vector(float d) {
+        this(d, d);
+    }
+
+    /**
      * Create a new random vector with x and y between 0 and 1.
      * <p>
      * If r is null, Math.random is used.
@@ -96,6 +103,16 @@ public class Vector {
      */
     public Vector elementMultiply(final Vector other) {
         return new Vector(this.x * other.x, this.y * other.y);
+    }
+
+    /**
+     * Multiply this vector by another Vector element wise.
+     *
+     * @param other The vector to multiply
+     * @return A new vector containing the result
+     */
+    public Vector elementDivide(final Vector other) {
+        return new Vector(this.x / other.x, this.y / other.y);
     }
 
     /**

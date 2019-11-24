@@ -1,9 +1,11 @@
 package com.group0565.engine.assets;
 
 import com.group0565.engine.interfaces.LifecycleListener;
+import com.group0565.theme.Themes;
 
 import java.io.Closeable;
 import java.util.HashMap;
+import java.util.Set;
 
 public abstract class GameAssetManager implements LifecycleListener, Closeable {
 
@@ -11,6 +13,7 @@ public abstract class GameAssetManager implements LifecycleListener, Closeable {
     private HashMap<String, HashMap<String, AudioAsset>> audioSets = new HashMap<>();
     private HashMap<String, HashMap<String, JsonFile>> jsonSets = new HashMap<>();
     private HashMap<String, HashMap<String, LanguagePack>> languagePackSets = new HashMap<>();
+    private HashMap<String, HashMap<String, ThemeAsset>> themeSets = new HashMap<>();
 
     public void init(){
         for (HashMap<String, TileSheet> tileSet : this.tileSheetSets.values())
@@ -25,6 +28,9 @@ public abstract class GameAssetManager implements LifecycleListener, Closeable {
         for (HashMap<String, LanguagePack> languagePackSet : this.languagePackSets.values())
             for (LanguagePack languagePack : languagePackSet.values())
                 languagePack.init();
+        for (HashMap<String, ThemeAsset> themeSet : this.themeSets.values())
+            for (ThemeAsset themeAsset : themeSet.values())
+                themeAsset.init();
     }
 
     protected void registerAsset(String set, Asset asset, AssetType type) {
@@ -41,6 +47,9 @@ public abstract class GameAssetManager implements LifecycleListener, Closeable {
                     break;
                 case LANGUAGE:
                     registerLanguagePack(set, (LanguagePack) asset);
+                    break;
+                case THEME:
+                    registerThemeSet(set, (ThemeAsset) asset);
                     break;
             }
     }
@@ -77,6 +86,14 @@ public abstract class GameAssetManager implements LifecycleListener, Closeable {
             languagePackSet.put(languagePack.getName(), languagePack);
     }
 
+    protected void registerThemeSet(String set, ThemeAsset theme) {
+        if (!themeSets.containsKey(set))
+            themeSets.put(set, new HashMap<>());
+        HashMap<String, ThemeAsset> themeSet = themeSets.get(set);
+        if (themeSet != null)
+            themeSet.put(theme.getName(), theme);
+    }
+
     public TileSheet getTileSheet(String set, String name){
         HashMap<String, TileSheet> tileSet = tileSheetSets.get(set);
         if (tileSet != null)
@@ -105,6 +122,48 @@ public abstract class GameAssetManager implements LifecycleListener, Closeable {
         return null;
     }
 
+    public ThemeAsset getThemeSet(String set, String name) {
+        HashMap<String, ThemeAsset> themeSet = this.themeSets.get(set);
+        if (themeSet != null)
+            return themeSet.get(name);
+        return null;
+    }
+
+    public Set<String> getTileSheetNames(String set){
+        HashMap<String, TileSheet> tileSet = tileSheetSets.get(set);
+        if (tileSet != null)
+            return tileSet.keySet();
+        return null;
+    }
+
+    public Set<String> getAudioAssetNames(String set){
+        HashMap<String, AudioAsset> audioSet = this.audioSets.get(set);
+        if (audioSet != null)
+            return audioSet.keySet();
+        return null;
+    }
+
+    public Set<String> getJsonFileNames(String set) {
+        HashMap<String, JsonFile> jsonSet = this.jsonSets.get(set);
+        if (jsonSet != null)
+            return jsonSet.keySet();
+        return null;
+    }
+
+    public Set<String> getLanguagePackNames(String set) {
+        HashMap<String, LanguagePack> languagePackSet = this.languagePackSets.get(set);
+        if (languagePackSet != null)
+            return languagePackSet.keySet();
+        return null;
+    }
+
+    public Set<String> getThemeSetNames(String set) {
+        HashMap<String, ThemeAsset> themeSet = this.themeSets.get(set);
+        if (themeSet != null)
+            return themeSet.keySet();
+        return null;
+    }
+
 
     @Override
     public void close(){
@@ -120,5 +179,8 @@ public abstract class GameAssetManager implements LifecycleListener, Closeable {
         for (HashMap<String, LanguagePack> languagePackSet : this.languagePackSets.values())
             for (LanguagePack languagePack : languagePackSet.values())
                 languagePack.close();
+        for (HashMap<String, ThemeAsset> themeAssetSet : this.themeSets.values())
+            for (ThemeAsset themePack : themeAssetSet.values())
+                themePack.close();
     }
 }

@@ -1,7 +1,7 @@
 package com.group0565.engine.gameobjects;
 
-import android.graphics.Canvas;
-
+import com.group0565.engine.interfaces.Canvas;
+import com.group0565.engine.interfaces.Drawable;
 import com.group0565.engine.interfaces.GameEngine;
 import com.group0565.engine.interfaces.LifecycleListener;
 import com.group0565.math.Vector;
@@ -16,7 +16,7 @@ import java.util.TreeMap;
 import java.util.UUID;
 import java.util.WeakHashMap;
 
-public class GameObject implements LifecycleListener {
+public class GameObject implements LifecycleListener, Drawable {
     /**
      * A lookup take for UUID to GameObjects. Only weak references are kept to both UUID and GameObject
      * to allow the Garbage Collector to clean up unused GameObjects without needing to explicitly remove
@@ -89,6 +89,11 @@ public class GameObject implements LifecycleListener {
      * Whether or not this GameObject is enabled
      */
     private boolean enable = true;
+
+    /**
+     * Whether or not this GameObject has been initialized
+     */
+    private boolean initialized = false;
 
     /**
      * The GameEngine of this GameObject
@@ -215,6 +220,7 @@ public class GameObject implements LifecycleListener {
      *
      * @param canvas The Canvas on which to draw
      */
+    @Override
     public void draw(Canvas canvas) {
 
     }
@@ -238,11 +244,35 @@ public class GameObject implements LifecycleListener {
     }
 
     /**
+     * Called before init
+     */
+    public void preInit() {
+
+    }
+
+    /**
      * Initilizer for this object. Call super.init() to initialize children.
      */
     public void init() {
-        for (GameObject child : this.getChildren().values())
-            child.init();
+
+    }
+
+    /**
+     * Called after init
+     */
+    public void postInit() {
+        for (GameObject child : this.getChildren().values()) {
+            child.fullInit();
+        }
+    }
+
+    /**
+     * Initilizer for this object. Call super.init() to initialize children.
+     */
+    public void fullInit() {
+        preInit();
+        init();
+        postInit();
     }
 
     /**
@@ -543,6 +573,23 @@ public class GameObject implements LifecycleListener {
         for (GameObject child : this.children.values()) {
             child.setGlobalPreferences(globalPreferences);
         }
+        return this;
+    }
+
+    /**
+     * Getter for the initialization status.
+     * @return True if init has been called at least once
+     */
+    public boolean isInitialized() {
+        return initialized;
+    }
+
+    /**
+     * Setter for the initialization status.
+     * @return This object to allow chaining
+     */
+    public GameObject setInitialized(boolean initialized) {
+        this.initialized = initialized;
         return this;
     }
 

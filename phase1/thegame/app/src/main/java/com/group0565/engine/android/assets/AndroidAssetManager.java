@@ -10,6 +10,7 @@ import com.group0565.engine.assets.AudioAsset;
 import com.group0565.engine.assets.GameAssetManager;
 import com.group0565.engine.assets.JsonFile;
 import com.group0565.engine.assets.LanguagePack;
+import com.group0565.engine.assets.ThemeAsset;
 import com.group0565.engine.assets.TileSheet;
 
 import java.io.IOException;
@@ -22,6 +23,7 @@ public class AndroidAssetManager extends GameAssetManager{
     private static final String AUDIO_NAME = "Audio";
     private static final String JSON_NAME = "Json";
     private static final String LANGUAGE_NAME = "LanguagePack";
+    private static final String THEME_NAME = "Theme";
 
     private AssetManager assetManager;
 
@@ -50,6 +52,9 @@ public class AndroidAssetManager extends GameAssetManager{
                         break;
                     case LANGUAGE_NAME:
                         type = AssetType.LANGUAGE;
+                        break;
+                    case THEME_NAME:
+                        type = AssetType.THEME;
                         break;
                 }
                 readSet(reader, type);
@@ -86,6 +91,8 @@ public class AndroidAssetManager extends GameAssetManager{
                 return readJson(name, reader);
             case LANGUAGE:
                 return readLanguagePack(name, reader);
+            case THEME:
+                return readTheme(name, reader);
             default:
                 return null;
         }
@@ -161,5 +168,19 @@ public class AndroidAssetManager extends GameAssetManager{
         }
         reader.endObject();
         return new AndroidLanguagePack(name, path, defaultString, assetManager);
+    }
+
+    private ThemeAsset readTheme(String name, JsonReader reader) throws IOException {
+        reader.beginObject();
+        String path = null;
+        while (reader.peek() != JsonToken.END_OBJECT) {
+            switch (reader.nextName()) {
+                case "Path":
+                    path = reader.nextString();
+                    break;
+            }
+        }
+        reader.endObject();
+        return new AndroidThemeAsset(name, path, assetManager);
     }
 }

@@ -1,7 +1,6 @@
 package com.group0565.engine.assets;
 
-import android.graphics.Bitmap;
-
+import com.group0565.engine.interfaces.Bitmap;
 import com.group0565.engine.interfaces.LifecycleListener;
 
 public abstract class TileSheet extends Asset implements LifecycleListener {
@@ -25,10 +24,10 @@ public abstract class TileSheet extends Asset implements LifecycleListener {
     public int getTileHeight() {
         return tileHeight;
     }
-}
 
-class IllegalTileSetException extends IllegalAssetException{
-    IllegalTileSetException(String message) {
-        super(message);
+    protected class IllegalTileSetException extends IllegalAssetException{
+        public IllegalTileSetException(String message) {
+            super(message);
+        }
     }
 }

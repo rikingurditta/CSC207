@@ -29,11 +29,10 @@ public abstract class AudioAsset extends Asset {
     public void close(){
 
     }
-}
 
-
-class IllegalAudioAssetException extends IllegalAssetException{
-    IllegalAudioAssetException(String message) {
-        super(message);
+    protected class IllegalAudioAssetException extends IllegalAssetException{
+        public IllegalAudioAssetException(String message) {
+            super(message);
+        }
     }
 }

@@ -5,6 +5,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.util.Log;
 
+import com.group0565.engine.android.AndroidBitmap;
 import com.group0565.engine.assets.TileSheet;
 
 import java.io.IOException;
@@ -38,10 +39,10 @@ public class AndroidTileSheet extends TileSheet {
         return Bitmap.createBitmap(bitmap, x*getTileWidth(), y*getTileHeight(), getTileWidth(), getTileHeight());
     }
 
-    public Bitmap getTile(int x, int y){
+    public AndroidBitmap getTile(int x, int y){
         if (submap[x][y] == null)
             submap[x][y] = createSubMap(x, y);
-        return submap[x][y];
+        return new AndroidBitmap(submap[x][y]);
     }
 
     public int getWidth() {
