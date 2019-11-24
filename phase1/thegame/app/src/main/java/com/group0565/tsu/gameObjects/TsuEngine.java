@@ -27,11 +27,9 @@ import java.util.HashMap;
 import java.util.List;
 
 public class TsuEngine extends GameObject implements Observer, Observable {
-    private static final String TAG = "TsuEngine";
     private static final String GAME_NAME = "Tsu";
     private static final String BEATMAP_SET = "Tsu";
     private static final String BEATMAP_NAME = "BeatMap";
-    private static final String STAT_NAME = "Score";
     private static final Vector MARGINS = new Vector(200, 250);
     private static final int HIT_WIDTH = 20;
     private static final double HIT_ERROR = 0.075;
