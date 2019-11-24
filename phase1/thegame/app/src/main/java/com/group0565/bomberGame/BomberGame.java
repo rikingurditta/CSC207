@@ -1,13 +1,14 @@
 package com.group0565.bomberGame;
 
-import android.graphics.Canvas;
 import android.graphics.Color;
-import android.graphics.Paint;
 
 import com.group0565.bomberGame.input.InputSystem;
 import com.group0565.bomberGame.input.JoystickInput;
 import com.group0565.bomberGame.input.RandomInput;
+import com.group0565.engine.android.AndroidPaint;
 import com.group0565.engine.gameobjects.GameObject;
+import com.group0565.engine.interfaces.Canvas;
+import com.group0565.engine.interfaces.Paint;
 import com.group0565.math.Vector;
 import com.group0565.statistics.IAsyncStatisticsRepository;
 import com.group0565.statistics.IStatisticFactory;
@@ -92,12 +93,13 @@ public class BomberGame extends GameObject {
     }
   }
 
+  @Override
   public void draw(Canvas canvas) {
     super.draw(canvas);
     // Fill background with White
     canvas.drawColor(bgColor);
 
-    Paint textPaint = new Paint();
+    Paint textPaint = Paint.createInstance();
     textPaint.setTextSize(50);
     textPaint.setColor(Color.BLACK);
 

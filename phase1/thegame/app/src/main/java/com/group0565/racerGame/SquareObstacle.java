@@ -1,9 +1,7 @@
 package com.group0565.racerGame;
 
-import android.graphics.Canvas;
-import android.graphics.Paint;
-
-import com.group0565.math.Vector;
+import com.group0565.engine.interfaces.Canvas;
+import com.group0565.engine.interfaces.Paint;
 
 /** A Square-shaped Obstacle */
 public class SquareObstacle extends Obstacle {
@@ -26,7 +24,7 @@ public class SquareObstacle extends Obstacle {
    */
   @Override
   public void draw(Canvas canvas) {
-    Paint colour = new Paint();
+    Paint colour = Paint.createInstance();
 
     // if the object has been hit, change its colour to green
     if (isCollided()) {

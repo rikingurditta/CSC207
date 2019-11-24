@@ -1,11 +1,11 @@
 package com.group0565.bomberGame;
 
-import android.graphics.Canvas;
 import android.graphics.Color;
-import android.graphics.Paint;
 
 import com.group0565.bomberGame.obstacles.Crate;
 import com.group0565.engine.gameobjects.GameObject;
+import com.group0565.engine.interfaces.Canvas;
+import com.group0565.engine.interfaces.Paint;
 import com.group0565.math.Vector;
 import com.group0565.theme.Themes;
 
@@ -34,7 +34,7 @@ public class SquareGrid extends GameObject {
 
   private BomberGame game;
 
-  private Paint paint = new Paint();
+  private Paint paint = Paint.createInstance();
 
   /**
    * Create a new SquareGrid.

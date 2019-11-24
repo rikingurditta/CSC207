@@ -1,10 +1,10 @@
 package com.group0565.bomberGame.input;
 
-import android.graphics.Canvas;
-import android.graphics.Paint;
 import android.util.Log;
 
 import com.group0565.engine.gameobjects.InputEvent;
+import com.group0565.engine.interfaces.Canvas;
+import com.group0565.engine.interfaces.Paint;
 import com.group0565.math.Vector;
 
 /** On-screen joystick and buttons input system. */
@@ -130,7 +130,7 @@ public class JoystickInput extends InputSystem {
    */
   @Override
   public void draw(Canvas canvas) {
-    Paint joyStickPaint = new Paint();
+    Paint joyStickPaint = Paint.createInstance();
     joyStickPaint.setARGB(128, 0, 0, 128);
 
     // LEFT RIGHT UP DOWN PAD (draws a long vertical rectangle and two smaller squares beside it to
@@ -155,7 +155,7 @@ public class JoystickInput extends InputSystem {
         joyStickPaint);
 
     // DROP BOMB BUTTON
-    Paint bombButtonPaint = new Paint();
+    Paint bombButtonPaint = Paint.createInstance();
     bombButtonPaint.setARGB(128, 255, 0, 0);
     canvas.drawRect(
         buttonPosition.getX(),

@@ -1,8 +1,7 @@
 package com.group0565.racerGame;
 
-import android.graphics.Canvas;
-
 import com.group0565.engine.gameobjects.GameObject;
+import com.group0565.engine.interfaces.Canvas;
 import com.group0565.math.Vector;
 
 /** An Obstacle in the game */
@@ -58,14 +57,6 @@ public abstract class Obstacle extends GameObject {
   boolean isCollided() {
     return collided;
   }
-
-  /**
-   * Renders this object on the screen
-   *
-   * @param canvas The Canvas on which to draw
-   */
-  @Override
-  public abstract void draw(Canvas canvas);
 
   /**
    * Updates this object in the game

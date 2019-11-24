@@ -1,12 +1,11 @@
 package com.group0565.bomberGame.bombs;
 
-import android.graphics.Paint;
-
 import com.group0565.bomberGame.BomberGame;
 import com.group0565.bomberGame.BomberMan;
 import com.group0565.bomberGame.Coords;
 import com.group0565.bomberGame.GridObject;
 import com.group0565.bomberGame.SquareGrid;
+import com.group0565.engine.interfaces.Paint;
 
 public abstract class Bomb extends GridObject {
 
@@ -24,7 +23,7 @@ public abstract class Bomb extends GridObject {
   public Bomb(Coords position, int z, BomberGame game, SquareGrid grid, BomberMan placedBy) {
     super(position, z, grid);
     this.game = game;
-    this.p = new Paint();
+    this.p = Paint.createInstance();
     p.setARGB(123, 255, 213, 0);
     this.placedBy = placedBy;
   }

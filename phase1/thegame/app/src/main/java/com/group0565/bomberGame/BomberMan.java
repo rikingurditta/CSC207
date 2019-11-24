@@ -1,13 +1,14 @@
 package com.group0565.bomberGame;
 
-import android.graphics.Canvas;
 import android.graphics.Color;
-import android.graphics.Paint;
 
 import com.group0565.bomberGame.bombs.NormalBomb;
 import com.group0565.bomberGame.input.BomberInput;
 import com.group0565.bomberGame.input.InputSystem;
+import com.group0565.engine.android.AndroidPaint;
 import com.group0565.engine.gameobjects.GameObject;
+import com.group0565.engine.interfaces.Canvas;
+import com.group0565.engine.interfaces.Paint;
 import com.group0565.math.Vector;
 import com.group0565.theme.Themes;
 
@@ -41,8 +42,8 @@ public class BomberMan extends GridObject {
 
   private int damageDealt;
 
-  private Paint bodyPaint = new Paint();
-  private Paint textPaint = new Paint();
+  private Paint bodyPaint = Paint.createInstance();
+  private Paint textPaint = Paint.createInstance();
 
   /**
    * Constructs a new BomberMan.

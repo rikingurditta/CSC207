@@ -1,14 +1,11 @@
 package com.group0565.bomberGame.obstacles;
 
-import android.graphics.Canvas;
-import android.graphics.Color;
-import android.graphics.Paint;
-
 import com.group0565.bomberGame.BomberGame;
 import com.group0565.bomberGame.Coords;
 import com.group0565.bomberGame.GridObject;
 import com.group0565.bomberGame.SquareGrid;
-import com.group0565.engine.gameobjects.GlobalPreferences;
+import com.group0565.engine.interfaces.Canvas;
+import com.group0565.engine.interfaces.Paint;
 import com.group0565.math.Vector;
 import com.group0565.theme.Themes;
 
@@ -17,7 +14,7 @@ public class Crate extends GridObject {
   /** The game this Crate belongs to. */
   private BomberGame game;
 
-  private Paint paint = new Paint();
+  private Paint paint = Paint.createInstance();
 
   /**
    * Constructs a new Crate.

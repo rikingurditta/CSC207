@@ -1,14 +1,13 @@
 package com.group0565.racerGame;
 
-import android.graphics.Canvas;
-import android.graphics.Paint;
-
 import com.group0565.engine.gameobjects.Button;
 import com.group0565.engine.gameobjects.GameObject;
 import com.group0565.engine.gameobjects.GlobalPreferences;
 import com.group0565.engine.gameobjects.InputEvent;
+import com.group0565.engine.interfaces.Canvas;
 import com.group0565.engine.interfaces.Observable;
 import com.group0565.engine.interfaces.Observer;
+import com.group0565.engine.interfaces.Paint;
 import com.group0565.math.Vector;
 import com.group0565.statistics.IAsyncStatisticsRepository;
 import com.group0565.statistics.IStatisticFactory;
@@ -103,11 +102,11 @@ public class RacerGame extends GameObject implements Observer {
     this.adopt(leftButton);
     this.adopt(middleButton);
     this.adopt(rightButton);
+    racer = new Racer(new Vector(475, 1600), 2);
+    this.adopt(racer);
     leftButton.registerObserver(this);
     middleButton.registerObserver(this);
     rightButton.registerObserver(this);
-    racer = new Racer(new Vector(475, 1600), 2);
-    this.adopt(racer);
     obsManager = new ObstacleManager(this);
     this.adopt(obsManager);
     super.init();
@@ -120,7 +119,7 @@ public class RacerGame extends GameObject implements Observer {
    */
   public void draw(Canvas canvas) {
     super.draw(canvas);
-    Paint time = new Paint();
+    Paint time = Paint.createInstance();
     if (getGlobalPreferences().getTheme() == Themes.LIGHT) {
       // Set background to white
       canvas.drawRGB(255, 255, 255);
@@ -134,7 +133,7 @@ public class RacerGame extends GameObject implements Observer {
     }
     time.setTextSize(128);
     // Set the colour of the lines
-    Paint colour = new Paint();
+    Paint colour = Paint.createInstance();
     colour.setARGB(255, 255, 0, 0);
     // Draw the red lines that separate the lanes
     canvas.drawRect(canvas.getWidth() / 3 - 15, 0, canvas.getWidth() / 3 + 15, 2500, colour);

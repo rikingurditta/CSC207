@@ -1,7 +1,7 @@
 package com.group0565.racerGame;
 
-import android.graphics.Canvas;
-import android.graphics.Paint;
+import com.group0565.engine.interfaces.Canvas;
+import com.group0565.engine.interfaces.Paint;
 
 /** A Circle-shaped Obstacle */
 public class CircleObstacle extends Obstacle {
@@ -24,7 +24,7 @@ public class CircleObstacle extends Obstacle {
    */
   @Override
   public void draw(Canvas canvas) {
-    Paint colour = new Paint();
+    Paint colour = Paint.createInstance();
 
     // If this object has been hit, change its colour to green
     if (isCollided()) {

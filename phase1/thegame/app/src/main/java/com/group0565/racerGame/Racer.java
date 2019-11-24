@@ -1,9 +1,8 @@
 package com.group0565.racerGame;
 
-import android.graphics.Canvas;
-import android.graphics.Paint;
-
 import com.group0565.engine.gameobjects.GameObject;
+import com.group0565.engine.interfaces.Canvas;
+import com.group0565.engine.interfaces.Paint;
 import com.group0565.math.Vector;
 
 /** A Racer object (Player-controlled) */
@@ -48,7 +47,7 @@ public class Racer extends GameObject {
    */
   @Override
   public void draw(Canvas canvas) {
-    Paint colour = new Paint();
+    Paint colour = Paint.createInstance();
     colour.setARGB(255, 77, 166, 255);
 
     canvas.drawCircle(getAbsolutePosition().getX(), getAbsolutePosition().getY(), 50, colour);
