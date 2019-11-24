@@ -121,7 +121,7 @@ public class RacerGame extends GameObject implements Observer {
   public void draw(Canvas canvas) {
     super.draw(canvas);
     Paint time = new Paint();
-    if (getGlobalPreferences().theme == Themes.LIGHT) {
+    if (getGlobalPreferences().getTheme() == Themes.LIGHT) {
       // Set background to white
       canvas.drawRGB(255, 255, 255);
       // Set text colour to black

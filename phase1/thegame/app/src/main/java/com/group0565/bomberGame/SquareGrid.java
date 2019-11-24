@@ -80,7 +80,7 @@ public class SquareGrid extends GameObject {
   public void init() {
     super.init();
     paint.setStrokeWidth(1f);
-    if (getGlobalPreferences().theme == Themes.LIGHT) {
+    if (getGlobalPreferences().getTheme() == Themes.LIGHT) {
       paint.setColor(Color.BLACK);
     } else {
       paint.setColor(Color.WHITE);

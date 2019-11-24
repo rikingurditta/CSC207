@@ -48,7 +48,7 @@ public class Crate extends GridObject {
   @Override
   public void init() {
     super.init();
-    if (getGlobalPreferences().theme == Themes.LIGHT) {
+    if (getGlobalPreferences().getTheme() == Themes.LIGHT) {
       paint.setARGB(255, 102, 46, 10);
     } else {
       paint.setARGB(255, 102, 46, 10);

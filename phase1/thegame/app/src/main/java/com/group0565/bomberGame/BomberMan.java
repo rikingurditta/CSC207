@@ -87,9 +87,9 @@ public class BomberMan extends GridObject {
     super.init();
     bodyPaint.setARGB(180, 0, 255, 0);
     textPaint.setTextSize(50);
-    if (getGlobalPreferences().theme == Themes.LIGHT) {
+    if (getGlobalPreferences().getTheme() == Themes.LIGHT) {
       textPaint.setColor(Color.BLACK);
-    } else if (getGlobalPreferences().theme == Themes.DARK) {
+    } else if (getGlobalPreferences().getTheme() == Themes.DARK) {
       textPaint.setColor(Color.WHITE);
     }
   }

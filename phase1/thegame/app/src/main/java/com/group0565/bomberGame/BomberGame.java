@@ -74,17 +74,17 @@ public class BomberGame extends GameObject {
     super.init();
     startTime = System.currentTimeMillis();
 
-    if (getGlobalPreferences().theme == Themes.DARK) {
+    if (getGlobalPreferences().getTheme() == Themes.DARK) {
       bgColor = Color.DKGRAY;
-    } else if (getGlobalPreferences().theme == Themes.LIGHT) {
+    } else if (getGlobalPreferences().getTheme() == Themes.LIGHT) {
       bgColor = Color.WHITE;
     }
 
-    if (getGlobalPreferences().language.equals("en")) {
+    if (getGlobalPreferences().getLanguage().equals("en")) {
       statisticName1 = "Bombs placed";
       statisticName2 = "Damage dealt";
       statisticName3 = "HP remaining";
-    } else if (getGlobalPreferences().language.equals("fr")) {
+    } else if (getGlobalPreferences().getLanguage().equals("fr")) {
       statisticName1 = "bombes placées";
       statisticName2 = "dégâts infligés";
       statisticName3 = "santé restante";
