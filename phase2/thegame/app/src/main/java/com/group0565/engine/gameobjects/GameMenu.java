@@ -13,6 +13,14 @@ public class GameMenu extends MenuObject{
         super(size);
     }
 
+    @Override
+    public void preInit() {
+        super.preInit();
+        if (this.getSize() == null){
+            this.setSize(getEngine().getSize());
+        }
+    }
+
     public MenuBuilder build(){
         return new MenuBuilder();
     }
@@ -63,20 +71,13 @@ public class GameMenu extends MenuObject{
             return setRelativePosition(relativeTo, HorizontalAlignment.Center, VerticalAlignment.Center);
         }
 
-        public MenuBuilder addBuffer(Vector buffer){
-            activeObject.setBuffer(buffer);
-            return this;
-        }
-
-        public MenuBuilder addBuffer(float x, float y){
-            this.addBuffer(new Vector(x, y));
-            return this;
-        }
-
         public GameMenu close(){
             super.close();
             buildComponents.remove("this");
             menuComponents = buildComponents;
+            notifyObservers();
+            for (MenuObject objects : menuComponents.values())
+                objects.notifyObservers();
             return GameMenu.this;
         }
 

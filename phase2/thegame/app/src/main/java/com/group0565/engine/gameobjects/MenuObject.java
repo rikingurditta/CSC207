@@ -12,14 +12,16 @@ public class MenuObject extends GameObject implements Observable, Observer {
     private static Vector referenceSize = new Vector();
     private Vector size;
     private Vector buffer = new Vector();
+    private Vector offset = new Vector();
     private Vector parentSize = null;
     private Vector parentBuffer = null;
     private Alignment alignment = null;
 
     public MenuObject(Vector size) {
-        this.setSize(size);
-        if (this.getSize() == null && this.getEngine() != null)
+        if (size == null && this.getEngine() != null)
             this.setSize(this.getEngine().getSize());
+        else
+            this.setSize(size);
     }
 
     public MenuObjectBuilder build(){
@@ -108,11 +110,14 @@ public class MenuObject extends GameObject implements Observable, Observer {
                 y = 0;
                 break;
         }
-        this.setRelativePosition(new Vector(x, y));
+        this.setRelativePosition(new Vector(x, y).add(this.offset));
     }
 
     protected class MenuObjectBuilder{
-        private Vector buffer;
+        private Vector buffer = null;
+        private Vector offset = null;
+        private boolean enable = true;
+        private float z = 0;
         protected MenuObjectBuilder(){
         }
 
@@ -125,8 +130,33 @@ public class MenuObject extends GameObject implements Observable, Observer {
             this.buffer = new Vector(x, y);
             return this;
         }
+
+        public MenuObjectBuilder addOffset(Vector offset){
+            this.offset = offset;
+            return this;
+        }
+
+        public MenuObjectBuilder addOffset(float x, float y){
+            this.offset = new Vector(x, y);
+            return this;
+        }
+
+        public MenuObjectBuilder setEnable(boolean enable){
+            this.enable = enable;
+            return this;
+        }
+
+        public MenuObjectBuilder setZ(float z){
+            this.z = z;
+            return this;
+        }
+
         public MenuObject close(){
-            setBuffer(this.buffer);
+            if (buffer != null) MenuObject.this.setBuffer(this.buffer);
+            if (offset != null) MenuObject.this.setOffset(this.offset);
+            MenuObject.this.setEnable(this.enable);
+            MenuObject.this.setZ(this.z);
+            notifyObservers();
             return MenuObject.this;
         }
 
@@ -170,6 +200,20 @@ public class MenuObject extends GameObject implements Observable, Observer {
             this.size = size.elementMultiply(getEngine().getSize().elementDivide(referenceSize));
         else
             this.size = size;
+        this.updatePosition();
+        this.notifyObservers();
+    }
+
+    public Vector getOffset() {
+        return offset;
+    }
+
+    public void setOffset(Vector offset) {
+        if (referenceSize != null && referenceSize.getX() != 0 && referenceSize.getY() != 0)
+            this.offset = offset.elementMultiply(getEngine().getSize().elementDivide(referenceSize));
+        else
+            this.offset = offset;
+        this.updatePosition();
         this.notifyObservers();
     }
 
@@ -192,6 +236,4 @@ public class MenuObject extends GameObject implements Observable, Observer {
             this.vAlign = vAlign;
         }
     }
-
-
 }

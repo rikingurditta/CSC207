@@ -244,11 +244,35 @@ public class GameObject implements LifecycleListener, Drawable {
     }
 
     /**
+     * Called before init
+     */
+    public void preInit() {
+
+    }
+
+    /**
      * Initilizer for this object. Call super.init() to initialize children.
      */
     public void init() {
-        for (GameObject child : this.getChildren().values())
-            child.init();
+
+    }
+
+    /**
+     * Called after init
+     */
+    public void postInit() {
+        for (GameObject child : this.getChildren().values()) {
+            child.fullInit();
+        }
+    }
+
+    /**
+     * Initilizer for this object. Call super.init() to initialize children.
+     */
+    public void fullInit() {
+        preInit();
+        init();
+        postInit();
     }
 
     /**

@@ -1,12 +1,13 @@
 package com.group0565.tsu.gameObjects;
 
-import android.graphics.Bitmap;
 import android.graphics.Rect;
 
 import com.group0565.engine.android.AndroidPaint;
 import com.group0565.engine.gameobjects.Button;
 import com.group0565.engine.gameobjects.GameObject;
 import com.group0565.engine.gameobjects.InputEvent;
+import com.group0565.engine.gameobjects.MenuObject;
+import com.group0565.engine.interfaces.Bitmap;
 import com.group0565.engine.interfaces.Canvas;
 import com.group0565.engine.interfaces.Observable;
 import com.group0565.engine.interfaces.Observer;
@@ -14,7 +15,7 @@ import com.group0565.engine.interfaces.Paint;
 import com.group0565.math.Vector;
 import com.group0565.theme.Themes;
 
-public class SettingsMenu extends GameObject implements Observer, Observable {
+public class SettingsMenu extends MenuObject implements Observer, Observable {
     private static final float BUTTON_SIZE = 75;
     private static final float LEFT_MARGIN = 75;
     private static final float VOLUME_Y = 200;
@@ -38,7 +39,8 @@ public class SettingsMenu extends GameObject implements Observer, Observable {
 
 
     public SettingsMenu(Vector position, Vector size) {
-        super(position);
+        super(size);
+        this.setRelativePosition(position);
         this.size = size;
     }
 

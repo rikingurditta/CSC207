@@ -1,8 +1,7 @@
 package com.group0565.tsu.enums;
 
-import android.graphics.Bitmap;
-
 import com.group0565.engine.android.AndroidPaint;
+import com.group0565.engine.interfaces.Bitmap;
 import com.group0565.engine.interfaces.Paint;
 
 public enum Scores {

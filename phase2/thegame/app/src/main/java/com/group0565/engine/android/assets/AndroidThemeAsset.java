@@ -31,6 +31,7 @@ public class AndroidThemeAsset extends ThemeAsset {
         super.init();
         try {
             InputStream stream = assetManager.open(THEME_FOLDER + getPath());
+//            InputStream stream = assetManager.open("languagePacks/Tsu/en.json");
             String stack = "";
             JsonReader reader = new JsonReader(new InputStreamReader(stream));
             readStack(stack, reader);
@@ -49,7 +50,7 @@ public class AndroidThemeAsset extends ThemeAsset {
             if (name.endsWith(PaintSuffix))
                 readPaint(stack, name.substring(0, name.length() - PaintSuffix.length()), reader);
             else
-                readStack(stack + "." + name, reader);
+                readStack((stack.equals("") ? "" : stack + ".") + name, reader);
         }
         reader.endObject();
     }

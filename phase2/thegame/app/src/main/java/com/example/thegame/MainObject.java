@@ -1,22 +1,17 @@
 package com.example.thegame;
 
-import android.graphics.Bitmap;
-import android.graphics.Paint;
-import android.graphics.RectF;
-import android.util.Log;
-
 import com.group0565.engine.android.AndroidPaint;
 import com.group0565.engine.assets.AudioAsset;
 import com.group0565.engine.gameobjects.Button;
 import com.group0565.engine.gameobjects.GameObject;
 import com.group0565.engine.gameobjects.InputEvent;
+import com.group0565.engine.interfaces.Bitmap;
 import com.group0565.engine.interfaces.Canvas;
 import com.group0565.engine.interfaces.Observable;
 import com.group0565.engine.interfaces.Observer;
 import com.group0565.math.Vector;
 
 public class MainObject extends GameObject implements Observer {
-    private static final String TAG = "MainObject";
     private long total = 0;
     private int updates = 0;
     private int renders = 0;
@@ -42,7 +37,6 @@ public class MainObject extends GameObject implements Observer {
         button = new Button(this.getAbsolutePosition(), new Vector(50, 50), getEngine().getGameAssetManager().getTileSheet("Test", "Test1").getTile(0, 0), getEngine().getGameAssetManager().getTileSheet("Test", "Test1").getTile(0, 1));
         button.registerObserver(this);
         adopt(button);
-        Log.i(TAG, getEngine().getSize().toString());
     }
 
 
@@ -105,7 +99,7 @@ public class MainObject extends GameObject implements Observer {
         p.setARGB(255, 255, 0, 0);
         //Draw an rectangle at our touch position
         Bitmap bitmap = getEngine().getGameAssetManager().getTileSheet("Test", "Test1").getTile(captured%4, captured/4);
-        canvas.drawBitmap(bitmap, null, new RectF(pos.getX(), pos.getY(), pos.getX() + 100, pos.getY() + 100), p);
+        canvas.drawBitmap(bitmap, pos, new Vector(100));
         canvas.drawText(getEngine().getGameAssetManager().getLanguagePack("Test", "en_us").getToken("Test"), 100, 100, p);
         canvas.drawText(getEngine().getGameAssetManager().getLanguagePack("Test", "en_us").getToken("Non-existing Name"), 100, 200, p);
         renders++;
@@ -113,6 +107,6 @@ public class MainObject extends GameObject implements Observer {
 
     @Override
     public void observe(Observable observable) {
-        Log.i(TAG, "Ran");
+
     }
 }

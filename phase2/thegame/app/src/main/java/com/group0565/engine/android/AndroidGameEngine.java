@@ -47,7 +47,7 @@ public class AndroidGameEngine implements Runnable, GameEngine {
             }
         }
         gameAssetManager.init();
-        game.init();
+        game.fullInit();
         long lastupdate = System.nanoTime();
         long lastms = System.currentTimeMillis();
         double renders = 0;

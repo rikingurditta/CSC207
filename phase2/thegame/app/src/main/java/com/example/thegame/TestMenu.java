@@ -17,13 +17,13 @@ public class TestMenu extends GameMenu {
             .add("Block1",
                 new Block(s, 0, 0, 0)
             )
-            .addBuffer(50, 50)
-            .setRelativePosition("this", HorizontalAlignment.LeftAlign, VerticalAlignment.TopAlign)
+//            .addBuffer(50, 50)
+//            .setRelativePosition("this", HorizontalAlignment.LeftAlign, VerticalAlignment.TopAlign)
             .add("Block2",
                 new Block(s, 255, 0, 0)
             )
-            .addBuffer(50, 50)
-            .setRelativePosition("Block1", HorizontalAlignment.RightOf, VerticalAlignment.BottomOf)
+//            .addBuffer(50, 50)
+//            .setRelativePosition("Block1", HorizontalAlignment.RightOf, VerticalAlignment.BottomOf)
         .close();
     }
 

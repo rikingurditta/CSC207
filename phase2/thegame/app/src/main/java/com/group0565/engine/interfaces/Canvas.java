@@ -1,10 +1,9 @@
 package com.group0565.engine.interfaces;
 
-import android.graphics.Bitmap;
 import android.graphics.Rect;
 import android.graphics.RectF;
 
-import com.group0565.engine.misc.PaintCan;
+import com.group0565.engine.render.PaintCan;
 import com.group0565.math.Vector;
 
 public interface Canvas {
@@ -47,23 +46,34 @@ public interface Canvas {
     void drawRect(float left, float top, float right, float bottom, Paint paint);
 
     /**
-     * @see android.graphics.Canvas#drawBitmap(Bitmap, Rect, Rect, android.graphics.Paint)
+     * @see android.graphics.Canvas#drawBitmap(android.graphics.Bitmap, Rect, Rect, android.graphics.Paint)
      */
+    @Deprecated
     void drawBitmap(Bitmap bitmap, Rect src, RectF dst, Paint paint);
 
     /**
-     * @see android.graphics.Canvas#drawBitmap(Bitmap, Rect, Rect, android.graphics.Paint)
+     * @see android.graphics.Canvas#drawBitmap(android.graphics.Bitmap, Rect, Rect, android.graphics.Paint)
      */
+    @Deprecated
     default void drawBitmap(Bitmap bitmap, Rect src, RectF dst){
         this.drawBitmap(bitmap, src, dst, (Paint) null);
     }
 
 
     /**
-     * @see android.graphics.Canvas#drawBitmap(Bitmap, Rect, Rect, android.graphics.Paint)
+     * @see android.graphics.Canvas#drawBitmap(android.graphics.Bitmap, Rect, Rect, android.graphics.Paint)
      */
+    @Deprecated
     default void drawBitmap(Bitmap bitmap, Rect src, RectF dst, PaintCan paintCan){
         this.drawBitmap(bitmap, src, dst, paintCan.getPaint());
+    }
+
+    /**
+     * @see android.graphics.Canvas#drawBitmap(android.graphics.Bitmap, Rect, Rect, android.graphics.Paint)
+     */
+    default void drawBitmap(Bitmap bitmap, Vector pos, Vector size){
+        Vector sum = pos.add(size);
+        this.drawBitmap(bitmap, null, new RectF(pos.getX(), pos.getY(), sum.getX(), sum.getY()));
     }
 
 

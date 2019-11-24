@@ -36,6 +36,13 @@ public class Vector {
     }
 
     /**
+     * Create a new 2d vector of (d, d)
+     */
+    public Vector(float d) {
+        this(d, d);
+    }
+
+    /**
      * Create a new random vector with x and y between 0 and 1.
      * <p>
      * If r is null, Math.random is used.

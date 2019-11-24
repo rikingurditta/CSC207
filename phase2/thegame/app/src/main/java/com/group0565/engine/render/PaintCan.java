@@ -1,4 +1,4 @@
-package com.group0565.engine.misc;
+package com.group0565.engine.render;
 
 import com.group0565.engine.interfaces.Observable;
 import com.group0565.engine.interfaces.Paint;
@@ -20,7 +20,7 @@ public class PaintCan implements Observable {
 
     public PaintCan(Paint paint) {
         this.sourcePaint = paint;
-        this.paint = sourcePaint.clone();
+        this.paint = (paint == null) ? null : sourcePaint.clone();
     }
 
     public void setARGB(int a, int r, int g, int b) {

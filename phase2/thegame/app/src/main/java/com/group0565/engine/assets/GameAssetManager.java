@@ -28,6 +28,9 @@ public abstract class GameAssetManager implements LifecycleListener, Closeable {
         for (HashMap<String, LanguagePack> languagePackSet : this.languagePackSets.values())
             for (LanguagePack languagePack : languagePackSet.values())
                 languagePack.init();
+        for (HashMap<String, ThemeAsset> themeSet : this.themeSets.values())
+            for (ThemeAsset themeAsset : themeSet.values())
+                themeAsset.init();
     }
 
     protected void registerAsset(String set, Asset asset, AssetType type) {

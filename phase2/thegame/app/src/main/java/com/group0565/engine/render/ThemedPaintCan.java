@@ -1,4 +1,4 @@
-package com.group0565.engine.misc;
+package com.group0565.engine.render;
 
 import com.group0565.engine.assets.GameAssetManager;
 import com.group0565.engine.gameobjects.GlobalPreferences;
@@ -19,6 +19,8 @@ public class ThemedPaintCan extends PaintCan implements Observer {
 
     public ThemedPaintCan(String set, String name) {
         super(null);
+        this.set = set;
+        this.name = name;
     }
 
     public void init(GlobalPreferences preferences, GameAssetManager assetManager){

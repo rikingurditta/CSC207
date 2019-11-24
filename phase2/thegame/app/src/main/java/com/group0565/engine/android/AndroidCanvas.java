@@ -1,9 +1,9 @@
 package com.group0565.engine.android;
 
-import android.graphics.Bitmap;
 import android.graphics.Rect;
 import android.graphics.RectF;
 
+import com.group0565.engine.interfaces.Bitmap;
 import com.group0565.engine.interfaces.Canvas;
 import com.group0565.engine.interfaces.Paint;
 import com.group0565.math.Vector;
@@ -42,7 +42,11 @@ public class AndroidCanvas implements Canvas {
     public void drawBitmap(Bitmap bitmap, Rect src, RectF dst, Paint paint) {
         if (paint instanceof AndroidPaint || paint == null) {
             AndroidPaint aPaint = (AndroidPaint) paint;
-            aCanvas.drawBitmap(bitmap, src, dst, aPaint);
+            if (bitmap instanceof AndroidBitmap) {
+                AndroidBitmap androidBitmap = (AndroidBitmap) bitmap;
+                aCanvas.drawBitmap(androidBitmap.getBitmap(), src, dst, aPaint);
+            }else
+                throw new IllegalArgumentException("Only AndroidBitmap can be drawn.");
         }else
             throw new IllegalArgumentException("Only AndroidPaint can be drawn with.");
     }

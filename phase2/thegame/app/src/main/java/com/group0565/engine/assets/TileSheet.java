@@ -1,7 +1,6 @@
 package com.group0565.engine.assets;
 
-import android.graphics.Bitmap;
-
+import com.group0565.engine.interfaces.Bitmap;
 import com.group0565.engine.interfaces.LifecycleListener;
 
 public abstract class TileSheet extends Asset implements LifecycleListener {

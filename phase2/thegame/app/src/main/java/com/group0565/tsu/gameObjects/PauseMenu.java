@@ -1,11 +1,10 @@
 package com.group0565.tsu.gameObjects;
 
-import android.graphics.Bitmap;
-
 import com.group0565.engine.android.AndroidPaint;
 import com.group0565.engine.gameobjects.Button;
 import com.group0565.engine.gameobjects.GameObject;
 import com.group0565.engine.gameobjects.InputEvent;
+import com.group0565.engine.interfaces.Bitmap;
 import com.group0565.engine.interfaces.Canvas;
 import com.group0565.engine.interfaces.Observable;
 import com.group0565.engine.interfaces.Observer;

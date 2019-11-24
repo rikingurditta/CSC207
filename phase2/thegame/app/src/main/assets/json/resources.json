@@ -57,8 +57,8 @@
   },
   "Theme": {
     "Tsu": {
-      "light": {
-        "Path": "Tsu/light.json"
+      "LIGHT": {
+        "Path": "Tsu/Light.json"
       }
     }
   }
