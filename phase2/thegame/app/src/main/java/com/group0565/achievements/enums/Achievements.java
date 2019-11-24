@@ -1,4 +1,6 @@
-package com.group0565.achievements;
+package com.group0565.achievements.enums;
+
+import com.group0565.achievements.GameAchievement;
 
 import java.util.ArrayList;
 import java.util.HashMap;

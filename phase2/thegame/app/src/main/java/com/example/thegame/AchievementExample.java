@@ -1,6 +1,6 @@
 package com.example.thegame;
 
-import com.group0565.achievements.Achievements;
+import com.group0565.achievements.enums.Achievements;
 import com.group0565.achievements.AchievementsRepositoryInjector;
 import com.group0565.achievements.IAchievement;
 import com.group0565.achievements.IAsyncAchievementsRepository;
