@@ -24,9 +24,12 @@ public class AchievementsRowsPresenterImp implements AchievementsMVP.Achievement
   public void onBindRepositoryRowViewAtPosition(
       int position, AchievementsMVP.AchievementsRowView rowView) {
 
-    rowView.setDesc(achievements.get(position).getAchievementDesc());
-    rowView.setName(achievements.get(position).getAchievementName());
-    rowView.setImage(achievements.get(position).getAchievementKey());
+    String achievementKey = achievements.get(position).getAchievementKey();
+    boolean achievementStatus = achievements.get(position).isAchieved();
+
+    rowView.setDesc(achievementKey);
+    rowView.setName(achievementKey);
+    rowView.setImage(achievementKey, achievementStatus);
   }
 
   /**

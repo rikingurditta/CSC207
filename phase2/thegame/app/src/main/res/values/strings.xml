@@ -20,4 +20,5 @@
     <string name="racer_time_survived_text">Time Survived</string>
     <string name="tsu_score_text">Score</string>
     <string name="stat_missing_text">Statistic Name Missing!</string>
+    <string name="achievement_image_desc">Achievement Image Placeholder</string>
 </resources>

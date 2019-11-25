@@ -30,25 +30,26 @@ public interface AchievementsMVP extends BaseMVP {
   interface AchievementsRowView {
 
     /**
-     * Sets the row name
+     * Sets the row name based on the achievement's key
      *
-     * @param name The new name
+     * @param key The achievement's key
      */
-    void setName(String name);
+    void setName(String key);
 
     /**
-     * Sets the row description
+     * Sets the row description based on the achievement's key
      *
-     * @param desc The new desc
+     * @param key The achievement's key
      */
-    void setDesc(String desc);
+    void setDesc(String key);
 
     /**
      * Sets the row image by the key
      *
      * @param key The achievement's key
+     * @param achieved Did the user achieve it yet
      */
-    void setImage(String key);
+    void setImage(String key, boolean achieved);
   }
 
   /** An interface for the Achievements main presenter */
