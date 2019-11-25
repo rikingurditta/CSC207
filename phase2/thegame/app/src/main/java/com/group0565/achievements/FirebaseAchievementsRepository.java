@@ -69,7 +69,6 @@ public class FirebaseAchievementsRepository implements IAsyncAchievementsReposit
                 .getChildren()
                 .forEach(
                     child -> {
-                      // todo: check for correct values
                       IAchievement achievement = child.getValue(GameAchievement.class);
                       userAchievements.add(achievement);
                     });
@@ -83,7 +82,7 @@ public class FirebaseAchievementsRepository implements IAsyncAchievementsReposit
   }
 
   /**
-   * Updates a achievement in the database
+   * Updates an achievement in the database
    *
    * @param achievement The achievement to update based on its key
    */
@@ -93,17 +92,18 @@ public class FirebaseAchievementsRepository implements IAsyncAchievementsReposit
   }
 
   /**
-   * Add a achievement to the database
+   * Add an achievement to the database - mark as achieved
    *
    * @param achievement The achievement to add
    */
   @Override
   public void push(IAchievement achievement) {
+    achievement.setAchieved();
     mDatabase.push().setValue(achievement);
   }
 
   /**
-   * Remove a achievement from the database
+   * Remove an achievement from the database
    *
    * @param achievement The achievement to remove
    */

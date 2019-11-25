@@ -4,5 +4,7 @@
         <attr name="game1Image" format="reference" />
         <attr name="game2Image" format="reference" />
         <attr name="game3Image" format="reference" />
+        <attr name="boldTextColor" format="reference" />
+        <attr name="normalTextColor" format="reference" />
     </declare-styleable>
 </resources>

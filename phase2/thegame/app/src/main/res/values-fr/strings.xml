@@ -18,4 +18,5 @@
     <string name="racer_time_survived_text">Le Temps a Survécu</string>
     <string name="tsu_score_text">Bord</string>
     <string name="stat_missing_text">" Nom de statistique manquant!"</string>
+    <string name="achievement_image_desc">Achievement Image Placeholder</string>
 </resources>
