@@ -1,5 +1,7 @@
 package com.group0565.engine.gameobjects;
 
+import android.view.Menu;
+
 import com.group0565.engine.enums.HorizontalAlignment;
 import com.group0565.engine.enums.VerticalAlignment;
 import com.group0565.engine.interfaces.Canvas;
@@ -7,6 +9,7 @@ import com.group0565.engine.interfaces.EventObserver;
 import com.group0565.engine.interfaces.GameEngine;
 import com.group0565.engine.interfaces.Observable;
 import com.group0565.engine.interfaces.Observer;
+import com.group0565.engine.interfaces.sources.BooleanSource;
 import com.group0565.math.Vector;
 
 import java.util.ArrayList;
@@ -21,6 +24,7 @@ public class MenuObject extends GameObject implements Observable, Observer {
     private Vector parentBuffer = null;
     private Alignment alignment = null;
     private String name;
+    private BooleanSource selfEnable = () -> true;
 
     public MenuObject(Vector size) {
         if (size == null && this.getEngine() != null)
@@ -36,6 +40,15 @@ public class MenuObject extends GameObject implements Observable, Observer {
     @Override
     public void update(long ms) {
         super.update(ms);
+    }
+
+    @Override
+    public void renderAll(Canvas canvas) {
+        if (!isEnable())
+            return;
+        if (isSelfEnable()) this.draw(canvas);
+        for (GameObject child : this.getChildren().values())
+            child.renderAll(canvas);
     }
 
     @Override
@@ -130,6 +143,8 @@ public class MenuObject extends GameObject implements Observable, Observer {
         private Vector buffer = null;
         private Vector offset = null;
         private boolean enable = true;
+        private boolean enableSet = false;
+        private BooleanSource selfEnable = null;
         private float z = 0;
         private String name = null;
         private List<Observer> observerList = new ArrayList<>();
@@ -159,6 +174,12 @@ public class MenuObject extends GameObject implements Observable, Observer {
 
         public MenuObjectBuilder setEnable(boolean enable){
             this.enable = enable;
+            this.enableSet = true;
+            return this;
+        }
+
+        public MenuObjectBuilder setSelfEnable(BooleanSource enable){
+            this.selfEnable = enable;
             return this;
         }
 
@@ -184,7 +205,8 @@ public class MenuObject extends GameObject implements Observable, Observer {
         public MenuObject close(){
             if (buffer != null) MenuObject.this.setBuffer(this.buffer);
             if (offset != null) MenuObject.this.setOffset(this.offset);
-            MenuObject.this.setEnable(this.enable);
+            if (enableSet) MenuObject.this.setEnable(this.enable);
+            if (selfEnable != null) MenuObject.this.setSelfEnable(this.selfEnable);
             MenuObject.this.setZ(this.z);
             if (name != null) MenuObject.this.setName(name);
             for (Observer observer : this.observerList)
@@ -252,12 +274,31 @@ public class MenuObject extends GameObject implements Observable, Observer {
         this.notifyObservers();
     }
 
+    public void refreshAll(){
+        this.notifyObservers();
+        for (GameObject object : this.getChildren().values())
+            if (object instanceof MenuObject)
+                ((MenuObject) object).refreshAll();
+    }
+
     public static Vector getReferenceSize() {
         return referenceSize;
     }
 
     public static void setReferenceSize(Vector referenceSize) {
         MenuObject.referenceSize = referenceSize;
+    }
+
+    public boolean isSelfEnable() {
+        return selfEnable.getBoolean();
+    }
+
+    public void setSelfEnable(boolean selfEnable) {
+        this.selfEnable = () -> selfEnable;
+    }
+
+    public void setSelfEnable(BooleanSource selfEnable) {
+        this.selfEnable = selfEnable;
     }
 
     protected class Alignment{

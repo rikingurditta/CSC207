@@ -1,123 +1,196 @@
 package com.group0565.tsu.gameObjects;
 
-import android.graphics.Rect;
-
-import com.group0565.engine.android.AndroidPaint;
+import com.group0565.engine.enums.HorizontalAlignment;
+import com.group0565.engine.enums.VerticalAlignment;
 import com.group0565.engine.gameobjects.Button;
-import com.group0565.engine.gameobjects.GameObject;
+import com.group0565.engine.gameobjects.GameMenu;
 import com.group0565.engine.gameobjects.InputEvent;
-import com.group0565.engine.gameobjects.MenuObject;
-import com.group0565.engine.interfaces.Bitmap;
 import com.group0565.engine.interfaces.Canvas;
 import com.group0565.engine.interfaces.Observable;
+import com.group0565.engine.interfaces.ObservationEvent;
 import com.group0565.engine.interfaces.Observer;
-import com.group0565.engine.interfaces.Paint;
+import com.group0565.engine.render.LanguageText;
+import com.group0565.engine.render.TextRenderer;
+import com.group0565.engine.render.ThemedPaintCan;
 import com.group0565.math.Vector;
 import com.group0565.theme.Themes;
+import com.group0565.tsu.enums.ButtonBitmap;
 
-public class SettingsMenu extends MenuObject implements Observer, Observable {
-    private static final float BUTTON_SIZE = 75;
-    private static final float LEFT_MARGIN = 75;
-    private static final float VOLUME_Y = 200;
-    private static final float DIFFICULTY_Y = 300;
-    private static final float CHEAT_Y = 400;
-    private static final float AUTO_Y = 500;
-    private Vector size;
-    private Paint rim;
-    private Paint center;
-    private Paint textPaint;
-    private Button exit;
-    private Button light, dark;
-    private Button volumeSubButton;
-    private Button volumeAddButton;
-    private Button difficultySubButton;
-    private Button difficultyAddButton;
-    private Button autoOn, autoOff;
-    private int volume = 0;
-    private int difficulty = 5;
-    private boolean auto = false;
+public class SettingsMenu extends GameMenu implements Observer, Observable {
+    //GUI Constants
+    private static final Vector BUTTON_SIZE = new Vector(75);
+    private static final Vector MARGINS = new Vector(75);
+    private static final Vector BUFFERS = new Vector(50);
+    private static final Vector BORDER_OFFSET = new Vector(10);
+    private static final Vector BORDER_RADIUS = new Vector(50);
 
+    //Asset Constants
+    private static final String SET = "Tsu";
+    private static final String ThemeFolder = "SettingsMenu.";
+    private static final String TextPaintName = ThemeFolder + "Text";
+    private static final String CenterPaintName = ThemeFolder + "Center";
+    private static final String RimPaintName = ThemeFolder + "Rim";
 
-    public SettingsMenu(Vector position, Vector size) {
+    //Exit Button Constants
+    private static final String ExitButtonName = "ExitButton";
+    //Light Button Constants
+    private static final String LightButtonName = "LightButton";
+    //Dark Button Constants
+    private static final String DarkButtonName = "DarkButton";
+    //Volume Label Constants
+    private static final String VolumeLabelName = "VolumeLabel";
+    private static final String VolumeStringName = "Volume";
+    //Volume Add Button Constants
+    private static final String VolumeAddButtonName = "VolumeAddButton";
+    //Volume Sub Button Constants
+    private static final String VolumeSubButtonName = "VolumeSubButton";
+    //Volume Value Constants
+    private static final String VolumeValueName = "VolumeValue";
+    //Difficulty Label Constants
+    private static final String DifficultyLabelName = "DifficultyLabel";
+    private static final String DifficultyStringName = "Difficulty";
+    //Difficulty Add Button Constants
+    private static final String DifficultyAddButtonName = "DifficultyAddButton";
+    //Difficulty Sub Button Constants
+    private static final String DifficultySubButtonName = "DifficultySubButton";
+    //Difficulty Value Constants
+    private static final String DifficultyValueName = "DifficultyValue";
+    //Cheats Label Constants
+    private static final String CheatsLabelName = "CheatsLabel";
+    private static final String CheatsStringName = "Cheats";
+    //Auto Label Constants
+    private static final String AutoLabelName = "AutoLabel";
+    private static final String AutoStringName = "AutoPlay";
+    //AutoOn Button Constants
+    private static final String AutoOnButtonName = "AutoOnButton";
+    //AutoOff Button Constants
+    private static final String AutoOffButtonName = "AutoOffButton";
+
+    private ThemedPaintCan rimPaint = new ThemedPaintCan(SET, RimPaintName);
+    private ThemedPaintCan centerPaint = new ThemedPaintCan(SET, CenterPaintName);
+    private ThemedPaintCan textPaint = new ThemedPaintCan(SET, TextPaintName);
+
+    private Preferences preferences;
+
+    public SettingsMenu(Vector size) {
         super(size);
-        this.setRelativePosition(position);
-        this.size = size;
     }
 
     @Override
     public void init() {
         super.init();
-        this.rim = new AndroidPaint();
-        this.rim.setARGB(255, 255, 0, 255);
-        this.center = new AndroidPaint();
-        this.center.setARGB(255, 0, 0, 0);
-        this.textPaint = new AndroidPaint();
-        this.textPaint.setARGB(255, 255, 0, 0);
-        this.textPaint.setTextSize(50);
+        if (!(getGlobalPreferences() instanceof Preferences))
+            throw new RuntimeException("Preference for Tsu Must be com.group0565.tsu.gameObjects.Preferences");
+        preferences = (Preferences) getGlobalPreferences();
 
-        float cx = this.getAbsolutePosition().getX();
-        float cy = this.getAbsolutePosition().getY();
+        this.textPaint.init(getGlobalPreferences(), getEngine().getGameAssetManager());
+        this.centerPaint.init(getGlobalPreferences(), getEngine().getGameAssetManager());
+        this.rimPaint.init(getGlobalPreferences(), getEngine().getGameAssetManager());
 
-        Bitmap exitBitmap = getEngine().getGameAssetManager().getTileSheet("Tsu", "Buttons").getTile(0, 0);
-        this.exit = new Button(this.getAbsolutePosition(),
-                new Vector(BUTTON_SIZE, BUTTON_SIZE), exitBitmap, exitBitmap);
-        exit.registerObserver(this);
-        adopt(exit);
+        //Building the Menu. Disabling formatter as too many spaces are added normally.
+        // @formatter:off
+        this.build()
+            //Exit Button
+            .add(ExitButtonName, new Button(BUTTON_SIZE, ButtonBitmap.ExitButton.getBitmap()).build()
+                .registerObserver(this::observeExit)
+            .close())
+            .setRelativePosition("this", HorizontalAlignment.LeftAlign, VerticalAlignment.TopAlign)
 
-        Bitmap lightBitmap = getEngine().getGameAssetManager().getTileSheet("Tsu", "Buttons").getTile(2, 0);
-        this.light = new Button(this.getAbsolutePosition().add(new Vector(75, 75)),
-                new Vector(BUTTON_SIZE, BUTTON_SIZE), lightBitmap, lightBitmap);
-        light.registerObserver(this);
-        light.setEnable(getGlobalPreferences().getTheme() == Themes.LIGHT);
-        adopt(light);
+            //Light Button
+            .add(LightButtonName, new Button(BUTTON_SIZE, ButtonBitmap.LightButton.getBitmap()).build()
+                .addOffset(MARGINS)
+                .setSelfEnable(() -> getGlobalPreferences().getTheme() == Themes.LIGHT)
+                .registerObserver(this::observeTheme)
+            .close())
+            .setRelativePosition("this", HorizontalAlignment.LeftAlign, VerticalAlignment.TopAlign)
 
-        Bitmap darkBitmap = getEngine().getGameAssetManager().getTileSheet("Tsu", "Buttons").getTile(3, 0);
-        this.dark = new Button(this.getAbsolutePosition().add(new Vector(75, 75)),
-                new Vector(BUTTON_SIZE, BUTTON_SIZE), darkBitmap, darkBitmap);
-        dark.registerObserver(this);
-        dark.setEnable(getGlobalPreferences().getTheme() == Themes.DARK);
-        adopt(dark);
+            //Dark Button
+            .add(DarkButtonName, new Button(BUTTON_SIZE, ButtonBitmap.DarkButton.getBitmap()).build()
+                .setSelfEnable(() -> getGlobalPreferences().getTheme() == Themes.DARK)
+                .registerObserver(this::observeTheme)
+                .close())
+            .setRelativePosition(LightButtonName, HorizontalAlignment.LeftAlign, VerticalAlignment.TopAlign)
 
+            //Volume Label
+            .add(VolumeLabelName, new TextRenderer(new LanguageText(getGlobalPreferences(), getEngine().getGameAssetManager(), SET, VolumeStringName), textPaint).build()
+                .addOffset(0, BUFFERS.getY())
+                .close())
+            .setRelativePosition(LightButtonName, HorizontalAlignment.LeftAlign, VerticalAlignment.BottomOf)
 
-        Bitmap subButtonBitmap = getEngine().getGameAssetManager().getTileSheet("Tsu", "Buttons").getTile(5, 0);
-        Bitmap addButtonBitmap = getEngine().getGameAssetManager().getTileSheet("Tsu", "Buttons").getTile(6, 0);
+            //Volume Sub Button
+            .add(VolumeSubButtonName, new Button(BUTTON_SIZE, ButtonBitmap.SubButton.getBitmap()).build()
+                .addOffset(BUFFERS.getX(), 0)
+                .registerObserver(((observable, event) -> this.observeVolume(observable, event, false)))
+            .close())
+            .setRelativePosition(VolumeLabelName, HorizontalAlignment.RightOf, VerticalAlignment.Center)
 
-        this.volumeAddButton = new Button(new Vector(cx + LEFT_MARGIN, cy + VOLUME_Y),
-                new Vector(BUTTON_SIZE, BUTTON_SIZE), addButtonBitmap, addButtonBitmap);
-        volumeAddButton.registerObserver(this);
-        adopt(volumeAddButton);
+            //Volume Value
+            .add(VolumeValueName, new TextRenderer(() -> String.valueOf(getVolume()), textPaint).build()
+                .addOffset(BUFFERS.getX() * 0.5f, 0)
+                .close())
+            .setRelativePosition(VolumeSubButtonName, HorizontalAlignment.RightOf, VerticalAlignment.Center)
 
-        this.volumeSubButton = new Button(new Vector(cx + LEFT_MARGIN, cy + VOLUME_Y),
-                new Vector(BUTTON_SIZE, BUTTON_SIZE), subButtonBitmap, subButtonBitmap);
-        volumeSubButton.registerObserver(this);
-        adopt(volumeSubButton);
+            //Volume Add Button
+            .add(VolumeAddButtonName, new Button(BUTTON_SIZE, ButtonBitmap.AddButton.getBitmap()).build()
+                .addOffset(BUFFERS.getX() * 0.5f, 0)
+                .registerObserver((observable, event) -> this.observeVolume(observable, event, true))
+            .close())
+            .setRelativePosition(VolumeValueName, HorizontalAlignment.RightOf, VerticalAlignment.Center)
+                
+            //Difficulty Label
+            .add(DifficultyLabelName, new TextRenderer(new LanguageText(getGlobalPreferences(), getEngine().getGameAssetManager(), SET, DifficultyStringName), textPaint).build()
+                .addOffset(0, BUFFERS.getY() * 1.25f)
+                .close())
+            .setRelativePosition(VolumeLabelName, HorizontalAlignment.LeftAlign, VerticalAlignment.BottomOf)
 
-        this.volume = (int) (getGlobalPreferences().getVolume() * 10);
+            //Difficulty Sub Button
+            .add(DifficultySubButtonName, new Button(BUTTON_SIZE, ButtonBitmap.SubButton.getBitmap()).build()
+                .addOffset(BUFFERS.getX(), 0)
+                .registerObserver((observable, event) -> this.observeDifficulty(observable, event, false))
+            .close())
+            .setRelativePosition(DifficultyLabelName, HorizontalAlignment.RightOf, VerticalAlignment.Center)
 
+            //Difficulty Value
+            .add(DifficultyValueName, new TextRenderer(() -> String.valueOf(getDifficulty()), textPaint).build()
+                .addOffset(BUFFERS.getX() * 0.5f, 0)
+                .close())
+            .setRelativePosition(DifficultySubButtonName, HorizontalAlignment.RightOf, VerticalAlignment.Center)
 
-        this.difficultyAddButton = new Button(new Vector(cx + LEFT_MARGIN, cy + DIFFICULTY_Y),
-                new Vector(BUTTON_SIZE, BUTTON_SIZE), addButtonBitmap, addButtonBitmap);
-        difficultyAddButton.registerObserver(this);
-        adopt(difficultyAddButton);
+            //Difficulty Add Button
+            .add(DifficultyAddButtonName, new Button(BUTTON_SIZE, ButtonBitmap.AddButton.getBitmap()).build()
+                .addOffset(BUFFERS.getX() * 0.5f, 0)
+                .registerObserver((observable, event) -> this.observeDifficulty(observable, event, true))
+            .close())
+            .setRelativePosition(DifficultyValueName, HorizontalAlignment.RightOf, VerticalAlignment.Center)
 
-        this.difficultySubButton = new Button(new Vector(cx + LEFT_MARGIN, cy + DIFFICULTY_Y),
-                new Vector(BUTTON_SIZE, BUTTON_SIZE), subButtonBitmap, subButtonBitmap);
-        difficultySubButton.registerObserver(this);
-        adopt(difficultySubButton);
+            //Cheats Label
+            .add(CheatsLabelName, new TextRenderer(new LanguageText(getGlobalPreferences(), getEngine().getGameAssetManager(), SET, CheatsStringName), textPaint).build()
+                .addOffset(0, BUFFERS.getY() * 1.25f)
+                .close())
+            .setRelativePosition(DifficultyLabelName, HorizontalAlignment.LeftAlign, VerticalAlignment.BottomOf)
+                                
+            //Auto Label
+            .add(AutoLabelName, new TextRenderer(new LanguageText(getGlobalPreferences(), getEngine().getGameAssetManager(), SET, AutoStringName), textPaint).build()
+                .addOffset(0, BUFFERS.getY() * 1.25f)
+                .close())
+            .setRelativePosition(CheatsLabelName, HorizontalAlignment.LeftAlign, VerticalAlignment.BottomOf)
 
-        Bitmap autoOnBitmap = getEngine().getGameAssetManager().getTileSheet("Tsu", "Buttons").getTile(12, 0);
-        this.autoOn = new Button(this.getAbsolutePosition().add(new Vector(75, 75)),
-                new Vector(BUTTON_SIZE, BUTTON_SIZE), autoOnBitmap, autoOnBitmap);
-        autoOn.registerObserver(this);
-        autoOn.setEnable(auto);
-        adopt(autoOn);
+            //AutoOn Button
+            .add(AutoOnButtonName, new Button(BUTTON_SIZE, ButtonBitmap.AutoOnButton.getBitmap()).build()
+                .addOffset(BUFFERS.getX(), 0)
+                .setSelfEnable(() -> preferences.getAuto())
+                .registerObserver(this::observeAuto)
+            .close())
+            .setRelativePosition(AutoLabelName, HorizontalAlignment.RightOf, VerticalAlignment.Center)
 
-        Bitmap autoOffBitmap = getEngine().getGameAssetManager().getTileSheet("Tsu", "Buttons").getTile(13, 0);
-        this.autoOff = new Button(this.getAbsolutePosition().add(new Vector(75, 75)),
-                new Vector(BUTTON_SIZE, BUTTON_SIZE), autoOffBitmap, autoOffBitmap);
-        autoOff.registerObserver(this);
-        autoOff.setEnable(!auto);
-        adopt(autoOff);
+            //AutoOn Button
+            .add(AutoOffButtonName, new Button(BUTTON_SIZE, ButtonBitmap.AutoOffButton.getBitmap()).build()
+                .setSelfEnable(() -> !preferences.getAuto())
+                .registerObserver(this::observeAuto)
+            .close())
+            .setRelativePosition(AutoOnButtonName, HorizontalAlignment.Center, VerticalAlignment.Center)
+        .close();
+        // @formatter:on
     }
 
     @Override
@@ -125,13 +198,7 @@ public class SettingsMenu extends MenuObject implements Observer, Observable {
         if (!isEnable())
             return false;
         if (!super.processInput(event)) {
-            float x = getAbsolutePosition().getX();
-            float y = getAbsolutePosition().getY();
-            float px = event.getPos().getX();
-            float py = event.getPos().getY();
-            float w = size.getX();
-            float h = size.getY();
-            if (x <= px && px <= x + w && y <= py && py <= y + h) {
+            if (Vector.inBounds(getAbsolutePosition(), getSize(), event.getPos())) {
                 captureEvent(event);
                 return true;
             }
@@ -140,153 +207,100 @@ public class SettingsMenu extends MenuObject implements Observer, Observable {
         return false;
     }
 
-    @Override
-    public void draw(Canvas canvas) {
-        super.draw(canvas);
-        float x = getAbsolutePosition().getX();
-        float y = getAbsolutePosition().getY();
-        float w = size.getX();
-        float h = size.getY();
-        canvas.drawRoundRect(x, y, x + w, y + h, 50, 50, rim);
-        if (getGlobalPreferences().getTheme() == Themes.LIGHT)
-            center.setARGB(255, 255, 255, 255);
-        else if (getGlobalPreferences().getTheme() == Themes.DARK)
-            center.setARGB(255, 0, 0, 0);
-        canvas.drawRoundRect(x + 10, y + 10, x + w - 10, y + h - 10, 50, 50, center);
-        {
-            String volume = getEngine().getGameAssetManager().getLanguagePack("Tsu", getGlobalPreferences().getLanguage()).getToken("Volume");
-            Rect volumeRect = new Rect();
-            this.textPaint.getTextBounds(volume, 0, volume.length(), volumeRect);
-            canvas.drawText(volume, getAbsolutePosition().getX() + LEFT_MARGIN, getAbsolutePosition().getY() + VOLUME_Y, textPaint);
-            float vx1 = LEFT_MARGIN + volumeRect.width() + 20;
-            this.volumeSubButton.setRelativePosition(new Vector(vx1, VOLUME_Y - 50));
-            float vx2 = vx1 + BUTTON_SIZE + 20;
-
-            String volnum = String.valueOf(this.volume);
-            Rect volnumRect = new Rect();
-            this.textPaint.getTextBounds(volnum, 0, volnum.length(), volnumRect);
-            canvas.drawText(volnum, getAbsolutePosition().getX() + vx2, getAbsolutePosition().getY() + VOLUME_Y, textPaint);
-
-            float vx3 = vx2 + volnumRect.width() + 20;
-            this.volumeAddButton.setRelativePosition(new Vector(vx3, VOLUME_Y - 50));
+    /**
+     * Event observing method for Exit
+     */
+    private void observeExit(Observable observable, ObservationEvent event){
+        if (event.getMsg().equals(Button.EVENT_DOWN)){
+            this.setEnable(false);
         }
-        {
-            String difficulty = getEngine().getGameAssetManager().getLanguagePack("Tsu", getGlobalPreferences().getLanguage()).getToken("Difficulty");
-            Rect difficultyRect = new Rect();
-            this.textPaint.getTextBounds(difficulty, 0, difficulty.length(), difficultyRect);
-            canvas.drawText(difficulty, getAbsolutePosition().getX() + LEFT_MARGIN, getAbsolutePosition().getY() + DIFFICULTY_Y, textPaint);
-            float vx1 = LEFT_MARGIN + difficultyRect.width() + 20;
-            this.difficultySubButton.setRelativePosition(new Vector(vx1, DIFFICULTY_Y - 50));
-            float vx2 = vx1 + BUTTON_SIZE + 20;
+    }
 
-            String diffnum = String.valueOf(this.difficulty);
-            Rect diffnumRect = new Rect();
-            this.textPaint.getTextBounds(diffnum, 0, diffnum.length(), diffnumRect);
-            canvas.drawText(diffnum, getAbsolutePosition().getX() + vx2, getAbsolutePosition().getY() + DIFFICULTY_Y, textPaint);
+    /**
+     * Event observing method for Theme Change
+     */
+    private void observeTheme(Observable observable, ObservationEvent event){
+        if (event.getMsg().equals(Button.EVENT_DOWN)){
+            if (getGlobalPreferences().getTheme() == Themes.LIGHT) getGlobalPreferences().setTheme(Themes.DARK);
+            else if (getGlobalPreferences().getTheme() == Themes.DARK) getGlobalPreferences().setTheme(Themes.LIGHT);
+        }
+    }
 
-            float vx3 = vx2 + diffnumRect.width() + 20;
-            this.difficultyAddButton.setRelativePosition(new Vector(vx3, DIFFICULTY_Y - 50));
+    /**
+     * Event observing method for Volume Change
+     */
+    private void observeVolume(Observable observable, ObservationEvent event, boolean increase){
+        if (event.getMsg().equals(Button.EVENT_DOWN)){
+            int volume = getVolume();
+            volume += (increase ? 1 : -1);
+            //Camp volume to 0-10
+            volume = Math.max(0, Math.min(10, volume));
+            setVolume(volume);
         }
-        {
-            String cheats = getEngine().getGameAssetManager().getLanguagePack("Tsu", getGlobalPreferences().getLanguage()).getToken("Cheats");
-            Rect cheatsRect = new Rect();
-            this.textPaint.getTextBounds(cheats, 0, cheats.length(), cheatsRect);
-            canvas.drawText(cheats, getAbsolutePosition().getX() + (size.getX() - cheatsRect.width()) / 2, getAbsolutePosition().getY() + CHEAT_Y, textPaint);
+    }
+
+    /**
+     * Event observing method for Difficulty Change
+     */
+    private void observeDifficulty(Observable observable, ObservationEvent event, boolean increase){
+        if (event.getMsg().equals(Button.EVENT_DOWN)){
+            int difficulty = getDifficulty();
+            difficulty += (increase ? 1 : -1);
+            //Camp difficulty to 0-10
+            difficulty = Math.max(0, Math.min(10, difficulty));
+            setDifficulty(difficulty);
         }
-        {
-            String autoPlay = getEngine().getGameAssetManager().getLanguagePack("Tsu", getGlobalPreferences().getLanguage()).getToken("AutoPlay");
-            Rect autoPlayRect = new Rect();
-            this.textPaint.getTextBounds(autoPlay, 0, autoPlay.length(), autoPlayRect);
-            canvas.drawText(autoPlay, getAbsolutePosition().getX() + LEFT_MARGIN, getAbsolutePosition().getY() + AUTO_Y, textPaint);
-            float vx1 = LEFT_MARGIN + autoPlayRect.width() + 20;
-            this.autoOn.setRelativePosition(new Vector(vx1, AUTO_Y - 50));
-            this.autoOff.setRelativePosition(new Vector(vx1, AUTO_Y - 50));
+    }
+
+    /**
+     * Event observing method for AutoPlay Change
+     */
+    private void observeAuto(Observable observable, ObservationEvent event){
+        if (event.getMsg().equals(Button.EVENT_DOWN)){
+            preferences.setAuto(!preferences.getAuto());
         }
     }
 
     @Override
-    public void observe(Observable observable) {
-        if (observable == exit) {
-              if (exit.isPressed()) {
-                this.setEnable(false);
-                this.notifyObservers();
-              }
-        } else if (observable == light) {
-            if (light.isPressed()) {
-                getGlobalPreferences().setTheme(Themes.DARK);
-                light.setEnable(getGlobalPreferences().getTheme() == Themes.LIGHT);
-                dark.setEnable(getGlobalPreferences().getTheme() == Themes.DARK);
-            }
-        } else if (observable == dark) {
-            if (dark.isPressed()) {
-                getGlobalPreferences().setTheme(Themes.LIGHT);
-                light.setEnable(getGlobalPreferences().getTheme() == Themes.LIGHT);
-                dark.setEnable(getGlobalPreferences().getTheme() == Themes.DARK);
-            }
-        } else if (observable == volumeAddButton) {
-            if (volumeAddButton.isPressed()) {
-                this.volume += 1;
-                if (this.volume > 10)
-                    this.volume = 10;
-                getGlobalPreferences().setVolume((this.volume / 10d));
-            }
-        } else if (observable == volumeSubButton) {
-            if (volumeSubButton.isPressed()) {
-                this.volume -= 1;
-                if (this.volume < 0)
-                    this.volume = 0;
-                getGlobalPreferences().setVolume((this.volume / 10d));
-            }
-        } else if (observable == difficultyAddButton) {
-            if (difficultyAddButton.isPressed()) {
-                this.difficulty += 1;
-                if (this.difficulty > 10)
-                    this.difficulty = 10;
-            }
-        } else if (observable == difficultySubButton) {
-            if (difficultySubButton.isPressed()) {
-                this.difficulty -= 1;
-                if (this.difficulty < 1)
-                    this.difficulty = 1;
-            }
-        } else if (observable == autoOn) {
-            if (autoOn.isPressed()) {
-                auto = false;
-                autoOn.setEnable(auto);
-                autoOff.setEnable(!auto);
-            }
-        } else if (observable == autoOff) {
-            if (autoOff.isPressed()) {
-                auto = true;
-                autoOn.setEnable(auto);
-                autoOff.setEnable(!auto);
-            }
-        }
+    public void draw(Canvas canvas, Vector pos, Vector size) {
+        super.draw(canvas, pos, size);
+        canvas.drawRoundRect(pos, size, BORDER_RADIUS, rimPaint);
+        canvas.drawRoundRect(pos.add(BORDER_OFFSET), size.subtract(BORDER_OFFSET.multiply(2)), BORDER_RADIUS, centerPaint);
     }
 
-    public int getVolume() {
-        return volume;
+    /**
+     * Getter for the current Volume. As preferences store them as 0.0 - 1.0,
+     * but 0 - 10 volume is needed.
+     * @return The volume in 0-10
+     */
+    private int getVolume(){
+        return (int) Math.round(preferences.getVolume()*10);
     }
 
-    public void setVolume(int volume) {
-        this.volume = volume;
+    /**
+     * Setter for the current Volume. As preferences store them as 0.0 - 1.0,
+     * but 0 - 10 volume is needed.
+     * @param volume The volume in 0-10
+     */
+    private void setVolume(int volume){
+        preferences.setVolume(volume/10d);
     }
 
-    public int getDifficulty() {
-        return difficulty;
+    /**
+     * Getter for the current Difficulty. As preferences store them as 0.0 - 1.0,
+     * but 0 - 10 difficulty is needed.
+     * @return The difficulty in 0-10
+     */
+    private int getDifficulty(){
+        return Math.round(preferences.getDifficulty()*10);
     }
 
-    public void setDifficulty(int difficulty) {
-        this.difficulty = difficulty;
-    }
-
-    public boolean getAuto() {
-        return auto;
-    }
-
-    public void setAuto(boolean auto) {
-        this.auto = auto;
-        autoOn.setEnable(auto);
-        autoOff.setEnable(!auto);
+    /**
+     * Setter for the current Difficulty. As preferences store them as 0.0 - 1.0,
+     * but 0 - 10 difficulty is needed.
+     * @param difficulty The difficulty in 0-10
+     */
+    private void setDifficulty(int difficulty){
+        preferences.setDifficulty(difficulty/10f);
     }
 }
