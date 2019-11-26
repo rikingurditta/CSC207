@@ -1,6 +1,5 @@
-package com.group0565.tsu.gameObjects;
+package com.group0565.tsu.game;
 
-import android.graphics.Paint;
 import android.graphics.RectF;
 
 import com.group0565.engine.assets.TileSheet;

@@ -1,4 +1,4 @@
-package com.group0565.tsu.gameObjects;
+package com.group0565.tsu.menus;
 
 import android.graphics.Rect;
 import android.graphics.RectF;

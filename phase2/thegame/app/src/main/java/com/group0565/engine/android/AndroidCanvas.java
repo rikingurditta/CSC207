@@ -1,18 +1,25 @@
 package com.group0565.engine.android;
 
+import android.graphics.Canvas;
 import android.graphics.Rect;
 import android.graphics.RectF;
 
 import com.group0565.engine.interfaces.Bitmap;
-import com.group0565.engine.interfaces.Canvas;
 import com.group0565.engine.interfaces.Paint;
 import com.group0565.math.Vector;
 
-public class AndroidCanvas implements Canvas {
+/**
+ * Android Implementation of the Canvas Interface. Wraps an android.graphics.Canvas
+ */
+public class AndroidCanvas implements com.group0565.engine.interfaces.Canvas {
+    /**The wrapped Canvas**/
+    private Canvas aCanvas;
 
-    private android.graphics.Canvas aCanvas;
-
-    public AndroidCanvas(android.graphics.Canvas aCanvas) {
+    /**
+     * Creates a new Android Canvas
+     * @param aCanvas The canvas to wrap
+     */
+    public AndroidCanvas(Canvas aCanvas) {
         this.aCanvas = aCanvas;
     }
 

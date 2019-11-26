@@ -1,4 +1,4 @@
-package com.group0565.tsu.gameObjects;
+package com.group0565.tsu.core;
 
 import com.group0565.engine.gameobjects.GameObject;
 import com.group0565.engine.interfaces.EventObserver;
@@ -7,6 +7,9 @@ import com.group0565.engine.interfaces.ObservationEvent;
 import com.group0565.hitObjectsRepository.HitObjectsRepositoryInjector;
 import com.group0565.hitObjectsRepository.ISessionHitObjectsRepository;
 import com.group0565.hitObjectsRepository.SessionHitObjects;
+import com.group0565.tsu.menus.TsuMenu;
+import com.group0565.tsu.menus.StatsMenu;
+import com.group0565.tsu.game.TsuEngine;
 
 import java.util.ArrayList;
 import java.util.List;

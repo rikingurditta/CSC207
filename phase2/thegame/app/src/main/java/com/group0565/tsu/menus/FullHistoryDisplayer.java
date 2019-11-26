@@ -1,4 +1,4 @@
-package com.group0565.tsu.gameObjects;
+package com.group0565.tsu.menus;
 
 import android.graphics.Rect;
 import android.graphics.RectF;
@@ -16,6 +16,8 @@ import com.group0565.theme.Themes;
 import com.group0565.tsu.enums.Grade;
 import com.group0565.tsu.enums.Scores;
 import com.group0565.engine.interfaces.Typeface;
+import com.group0565.tsu.game.HitObject;
+import com.group0565.tsu.game.ScoreCalculator;
 
 import java.util.List;
 

@@ -11,22 +11,46 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.group0565.engine.enums.Orientation;
 import com.group0565.engine.gameobjects.GameObject;
 
+/**
+ * The Activity from which the Game should be launched.
+ *
+ * A subclass should pass the root GameObject in the super call
+ */
 public abstract class GameActivity extends AppCompatActivity implements SurfaceHolder.Callback {
-    private static final String TAG = "GameActivity";
+    /**The orientation of this game**/
     private Orientation orientation;
+    /**The game engine**/
     private AndroidGameEngine engine;
+    /**The view of the Game**/
     private GameView view = null;
+    /**The root object of the game**/
     private GameObject game;
+    /**The fps the game should run at**/
     private int fps;
 
+    /**
+     * Creates a new GameActivity
+     * @param game The root GameObject of the game
+     */
     public GameActivity(GameObject game) {
         this(game, 60);
     }
 
+    /**
+     * Creates a new GameActivity
+     * @param game The root GameObject of the game
+     * @param fps The fps the game should run at
+     */
     public GameActivity(GameObject game, int fps) {
         this(game, fps, Orientation.Landscape);
     }
 
+    /**
+     * Creates a new GameActivity
+     * @param game The root GameObject of the game
+     * @param fps The fps the game should run at
+     * @param orientation The orientation the game should
+     */
     public GameActivity(GameObject game, int fps, Orientation orientation) {
         this.fps = fps;
         this.orientation = orientation;
@@ -79,6 +103,11 @@ public abstract class GameActivity extends AppCompatActivity implements SurfaceH
         this.engine.start();
     }
 
+    /**
+     * Getter for game
+     *
+     * @return game
+     */
     public GameObject getGame() {
         return game;
     }
@@ -130,14 +159,5 @@ public abstract class GameActivity extends AppCompatActivity implements SurfaceH
     @Override
     public void surfaceDestroyed(SurfaceHolder holder) {
         this.engine.setSurfaceHolder(null);
-    }
-
-    public Orientation getOrientation() {
-        return orientation;
-    }
-
-    public void setOrientation(Orientation orientation) {
-        this.orientation = orientation;
-        setRequestedOrientation(orientation.orientation);
     }
 }

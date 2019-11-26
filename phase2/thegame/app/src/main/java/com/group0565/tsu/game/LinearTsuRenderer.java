@@ -1,4 +1,4 @@
-package com.group0565.tsu.gameObjects;
+package com.group0565.tsu.game;
 
 import com.group0565.engine.interfaces.Canvas;
 import com.group0565.math.Vector;

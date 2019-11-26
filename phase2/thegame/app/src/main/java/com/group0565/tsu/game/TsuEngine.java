@@ -1,4 +1,4 @@
-package com.group0565.tsu.gameObjects;
+package com.group0565.tsu.game;
 
 import android.graphics.Rect;
 import android.graphics.RectF;
@@ -16,6 +16,7 @@ import com.group0565.engine.interfaces.Paint;
 import com.group0565.hitObjectsRepository.SessionHitObjects;
 import com.group0565.math.Vector;
 import com.group0565.theme.Themes;
+import com.group0565.tsu.menus.PauseMenu;
 import com.group0565.tsu.enums.Align;
 import com.group0565.tsu.enums.Scores;
 

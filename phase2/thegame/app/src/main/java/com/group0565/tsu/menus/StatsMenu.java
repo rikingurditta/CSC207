@@ -1,4 +1,4 @@
-package com.group0565.tsu.gameObjects;
+package com.group0565.tsu.menus;
 
 import android.graphics.RectF;
 
@@ -13,6 +13,7 @@ import com.group0565.engine.interfaces.Paint;
 import com.group0565.hitObjectsRepository.SessionHitObjects;
 import com.group0565.math.Vector;
 import com.group0565.theme.Themes;
+import com.group0565.tsu.core.TsuGame;
 
 import java.util.ArrayList;
 import java.util.Collections;

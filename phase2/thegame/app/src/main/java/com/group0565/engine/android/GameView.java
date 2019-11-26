@@ -6,7 +6,16 @@ import android.view.SurfaceView;
 
 import com.group0565.engine.interfaces.LifecycleListener;
 
+/**
+ * The View of the Game
+ */
 public class GameView extends SurfaceView implements LifecycleListener {
+    /**
+     * Create a new GameView
+     * @param context The current context
+     * @param callback The callback to obtain SurfaceHolder with
+     * @param listener The listener to plug into InputManager
+     */
     public GameView(Context context, SurfaceHolder.Callback callback, OnTouchListener listener) {
         super(context);
         this.getHolder().addCallback(callback);

@@ -1,4 +1,4 @@
-package com.group0565.tsu.gameObjects;
+package com.group0565.tsu.menus;
 
 import com.group0565.engine.android.AndroidPaint;
 import com.group0565.engine.gameobjects.Button;

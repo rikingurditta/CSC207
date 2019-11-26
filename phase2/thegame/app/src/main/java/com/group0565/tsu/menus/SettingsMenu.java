@@ -1,4 +1,4 @@
-package com.group0565.tsu.gameObjects;
+package com.group0565.tsu.menus;
 
 import com.group0565.engine.enums.HorizontalAlignment;
 import com.group0565.engine.enums.VerticalAlignment;
@@ -15,6 +15,7 @@ import com.group0565.engine.render.ThemedPaintCan;
 import com.group0565.math.Vector;
 import com.group0565.theme.Themes;
 import com.group0565.tsu.enums.ButtonBitmap;
+import com.group0565.tsu.core.Preferences;
 
 public class SettingsMenu extends GameMenu implements Observer, Observable {
     //GUI Constants

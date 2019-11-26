@@ -1,6 +1,6 @@
 package com.group0565.hitObjectsRepository;
 
-import com.group0565.tsu.gameObjects.HitObject;
+import com.group0565.tsu.game.HitObject;
 
 import java.util.ArrayList;
 import java.util.List;

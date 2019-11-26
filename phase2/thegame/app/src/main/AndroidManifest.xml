@@ -20,7 +20,7 @@
                 android:value="com.thegame.main.MainActivity" />
         </activity>
         <activity
-            android:name="com.group0565.tsu.TsuActivity"
+            android:name="com.group0565.tsu.core.TsuActivity"
             android:configChanges="keyboardHidden|orientation"
             android:launchMode="singleTop"
             android:persistent="true">
