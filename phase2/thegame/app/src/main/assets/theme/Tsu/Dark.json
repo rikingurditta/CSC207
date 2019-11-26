@@ -3,9 +3,9 @@
     "BackgroundPaint": {
       "ARGB": [
         255,
-        255,
-        255,
-        255
+        0,
+        0,
+        0
       ]
     },
     "TitlePaint": {
@@ -31,9 +31,9 @@
     "CenterPaint": {
       "ARGB": [
         255,
-        255,
-        255,
-        255
+        0,
+        0,
+        0
       ]
     },
     "RimPaint": {

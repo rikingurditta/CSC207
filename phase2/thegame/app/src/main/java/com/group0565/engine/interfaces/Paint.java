@@ -19,4 +19,6 @@ public interface Paint extends Cloneable{
 
     void getTextBounds(String text, int i, int length, Rect output);
     Vector getTextBounds(String text);
+
+    int getColor();
 }
