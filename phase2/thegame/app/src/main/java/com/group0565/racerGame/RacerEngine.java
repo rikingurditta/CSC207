@@ -101,18 +101,19 @@ public class RacerEngine extends GameObject implements Observer, Observable {
                                 .getGameAssetManager()
                                 .getTileSheet("RacerButton", "RacerButton")
                                 .getTile(0, 0));
+
         this.adopt(leftButton);
         this.adopt(middleButton);
         this.adopt(rightButton);
-
-        racer = new Racer(new Vector(475, 1600), 2);
-        this.adopt(racer);
         leftButton.registerObserver(this);
         middleButton.registerObserver(this);
         rightButton.registerObserver(this);
+
+        racer = new Racer(new Vector(475, 1600), 2);
+        this.adopt(racer);
+
         obsManager = new ObstacleManager(this);
         this.adopt(obsManager);
-
     }
 
     /** @param observable Button objects */
@@ -236,5 +237,13 @@ public class RacerEngine extends GameObject implements Observer, Observable {
 
     public void setEnded(boolean ended) {
         this.ended = ended;
+    }
+
+    public boolean isPaused() {
+        return paused;
+    }
+
+    public void setPaused(boolean paused) {
+        this.paused = paused;
     }
 }
