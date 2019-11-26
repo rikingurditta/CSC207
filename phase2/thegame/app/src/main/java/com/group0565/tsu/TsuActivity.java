@@ -16,10 +16,5 @@ import java.util.concurrent.LinkedBlockingQueue;
 public class TsuActivity extends GameActivity {
     public TsuActivity() {
         super(new TsuGame());
-        IPreferenceInteractor prefInter = PreferencesInjector.inject();
-        this.getGame().setGlobalPreferences(
-                new GlobalPreferences(Themes.valueOf(prefInter.getTheme()),
-                        prefInter.getLanguage(),
-                        prefInter.getVolume()/100D));
     }
 }

@@ -84,9 +84,7 @@ public class GameMenu extends MenuObject implements Observer {
             super.close();
             buildComponents.remove("this");
             menuComponents = buildComponents;
-            notifyObservers();
-            for (MenuObject objects : menuComponents.values())
-                objects.notifyObservers();
+            refreshAll();
             return GameMenu.this;
         }
 

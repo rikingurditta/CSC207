@@ -25,7 +25,8 @@ public class AndroidCanvas implements Canvas {
     public void drawText(String text, float x, float y, Paint paint) {
         if (paint instanceof AndroidPaint) {
             AndroidPaint aPaint = (AndroidPaint) paint;
-            aCanvas.drawText(text, x, y, aPaint);
+            Vector bounds = aPaint.getTextBounds(text);
+            aCanvas.drawText(text, x, y + bounds.getY(), aPaint);
         }else
             throw new IllegalArgumentException("Only AndroidPaint can be drawn with.");
     }

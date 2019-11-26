@@ -125,6 +125,23 @@ public class Vector {
     }
 
     /**
+     * Check if point is in the bounds
+     * @param boundPos The position of the bounds
+     * @param boundSize The size of the bounds
+     * @param point The point to check
+     * @return True iff point is in the rectangle described by the bounds
+     */
+    public static boolean inBounds(Vector boundPos, Vector boundSize, Vector point){
+        float x = boundPos.getX();
+        float y = boundPos.getY();
+        float px = point.getX();
+        float py = point.getY();
+        float w = boundSize.getX();
+        float h = boundSize.getY();
+        return (x <= px && px <= x + w && y <= py && py <= y + h);
+    }
+
+    /**
      * Getter for the x coordinate
      *
      * @return The x coordinate of this vector

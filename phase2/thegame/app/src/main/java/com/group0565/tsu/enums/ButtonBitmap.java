@@ -5,7 +5,10 @@ import com.group0565.engine.assets.TileSheet;
 import com.group0565.engine.interfaces.Bitmap;
 
 public enum ButtonBitmap {
-    SettingsButton(1, 0), LanguageButton(4, 0), StatsButton(7, 0);
+    SettingsButton(1, 0), LanguageButton(4, 0), StatsButton(7, 0),
+    ExitButton(0, 0), LightButton(2, 0), DarkButton(3, 0),
+    AddButton(6, 0), SubButton(5, 0), AutoOnButton(12, 0),
+    AutoOffButton(13, 0);
 
     private static final String SET = "Tsu";
     private static final String BUTTON_SHEET = "Buttons";

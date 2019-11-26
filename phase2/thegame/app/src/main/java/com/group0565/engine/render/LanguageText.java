@@ -4,8 +4,9 @@ import com.group0565.engine.assets.GameAssetManager;
 import com.group0565.engine.gameobjects.GlobalPreferences;
 import com.group0565.engine.interfaces.Observable;
 import com.group0565.engine.interfaces.Observer;
+import com.group0565.engine.interfaces.sources.TextSource;
 
-public class LanguageText implements Observer {
+public class LanguageText implements Observer, TextSource {
     private GlobalPreferences preferences;
     private GameAssetManager manager;
     private String set;
