@@ -1,7 +1,9 @@
-package com.group0565.racerGame;
+package com.group0565.racerGame.Obstacles;
 
 import com.group0565.engine.interfaces.Canvas;
 import com.group0565.engine.interfaces.Paint;
+import com.group0565.racerGame.Obstacles.Obstacle;
+import com.group0565.racerGame.Obstacles.ObstacleManager;
 
 /** A Square-shaped Obstacle */
 public class SquareObstacle extends Obstacle {
