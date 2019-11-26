@@ -1,20 +1,20 @@
 package com.group0565.racerGame.Obstacles;
 
 import com.group0565.engine.gameobjects.GameObject;
-import com.group0565.racerGame.RacerGame;
+import com.group0565.racerGame.RacerEngine;
 
 /** An ObstacleManager that manages Obstacle objects */
 public class ObstacleManager extends GameObject {
 
   /** The RacerGame that this ObstacleManager is adopted by */
-  RacerGame parent;
+  RacerEngine parent;
 
   /**
    * A constructor for this ObstacleManager object
    *
    * @param parent the RacerGame that is this object's parent
    */
-  public ObstacleManager(RacerGame parent) {
+  public ObstacleManager(RacerEngine parent) {
     this.parent = parent;
   }
 

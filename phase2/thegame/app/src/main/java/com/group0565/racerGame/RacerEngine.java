@@ -2,16 +2,22 @@ package com.group0565.racerGame;
 
 import com.group0565.engine.gameobjects.Button;
 import com.group0565.engine.gameobjects.GameObject;
+import com.group0565.engine.interfaces.Canvas;
 import com.group0565.engine.interfaces.Observable;
 import com.group0565.engine.interfaces.Observer;
+import com.group0565.engine.interfaces.Paint;
 import com.group0565.math.Vector;
 import com.group0565.racerGame.Obstacles.ObstacleManager;
 import com.group0565.statistics.IAsyncStatisticsRepository;
 import com.group0565.statistics.IStatisticFactory;
 import com.group0565.statistics.StatisticRepositoryInjector;
 import com.group0565.statistics.enums.StatisticKey;
+import com.group0565.theme.Themes;
 
 public class RacerEngine extends GameObject implements Observer, Observable {
+
+    private boolean ended = false;
+    private boolean paused = false;
 
     /** Game tag for purposes of database
      */
@@ -59,6 +65,53 @@ public class RacerEngine extends GameObject implements Observer, Observable {
     }
 
     public void init() {
+        leftButton =
+                new Button(
+                        new Vector(100, 1750),
+                        new Vector(150, 150),
+                        getEngine()
+                                .getGameAssetManager()
+                                .getTileSheet("RacerButton", "RacerButton")
+                                .getTile(0, 0),
+                        getEngine()
+                                .getGameAssetManager()
+                                .getTileSheet("RacerButton", "RacerButton")
+                                .getTile(0, 0));
+        middleButton =
+                new Button(
+                        new Vector(475, 1750),
+                        new Vector(150, 150),
+                        getEngine()
+                                .getGameAssetManager()
+                                .getTileSheet("RacerButton", "RacerButton")
+                                .getTile(0, 0),
+                        getEngine()
+                                .getGameAssetManager()
+                                .getTileSheet("RacerButton", "RacerButton")
+                                .getTile(0, 0));
+        rightButton =
+                new Button(
+                        new Vector(850, 1750),
+                        new Vector(150, 150),
+                        getEngine()
+                                .getGameAssetManager()
+                                .getTileSheet("RacerButton", "RacerButton")
+                                .getTile(0, 0),
+                        getEngine()
+                                .getGameAssetManager()
+                                .getTileSheet("RacerButton", "RacerButton")
+                                .getTile(0, 0));
+        this.adopt(leftButton);
+        this.adopt(middleButton);
+        this.adopt(rightButton);
+
+        racer = new Racer(new Vector(475, 1600), 2);
+        this.adopt(racer);
+        leftButton.registerObserver(this);
+        middleButton.registerObserver(this);
+        rightButton.registerObserver(this);
+        obsManager = new ObstacleManager(this);
+        this.adopt(obsManager);
 
     }
 
@@ -81,7 +134,7 @@ public class RacerEngine extends GameObject implements Observer, Observable {
      *
      * @return Racer object
      */
-    Racer getRacer() {
+    public Racer getRacer() {
         return racer;
     }
 
@@ -90,7 +143,7 @@ public class RacerEngine extends GameObject implements Observer, Observable {
      *
      * @param totalTime the player's time survived during this game
      */
-    void updateDB(long totalTime) {
+    public void updateDB(long totalTime) {
         if (myStatRepo != null) {
             // You can always use put (also for new objects) because of the way that Firebase DB works
             myStatRepo.put(
@@ -104,7 +157,7 @@ public class RacerEngine extends GameObject implements Observer, Observable {
      *
      * @return totalTime
      */
-    long getTotalTime() {
+    public long getTotalTime() {
         return totalTime;
     }
 
@@ -113,17 +166,17 @@ public class RacerEngine extends GameObject implements Observer, Observable {
      *
      * @return spawnTime
      */
-    long getSpawnTime() {
+    public long getSpawnTime() {
         return spawnTime;
     }
 
     /** Sets the live attribute of this variable to the opposite value */
-    void setLive() {
+    public void setLive() {
         live = !live;
     }
 
     /** Disables the racer and obstacles from rendering on the screen when the user loses the game */
-    void disableAll() {
+    public void disableAll() {
         racer.setEnable(false);
         obsManager.setEnable(false);
     }
@@ -143,5 +196,45 @@ public class RacerEngine extends GameObject implements Observer, Observable {
                 this.spawnTime = 0;
             }
         }
+    }
+
+
+    /**
+     * Renders this object on the screen
+     *
+     * @param canvas The Canvas on which to draw
+     */
+    @Override
+    public void draw(Canvas canvas) {
+        super.draw(canvas);
+        Paint time = Paint.createInstance();
+        if (getGlobalPreferences().getTheme() == Themes.LIGHT) {
+            // Set background to white
+            canvas.drawRGB(255, 255, 255);
+            // Set text colour to black
+            time.setARGB(255, 0, 0, 0);
+        } else {
+            // Set background to black
+            canvas.drawRGB(0, 0, 0);
+            // Set text colour to white
+            time.setARGB(255, 255, 255, 255);
+        }
+        time.setTextSize(128);
+        // Set the colour of the lines
+        Paint colour = Paint.createInstance();
+        colour.setARGB(255, 255, 0, 0);
+        // Draw the red lines that separate the lanes
+        canvas.drawRect(canvas.getWidth() / 3 - 15, 0, canvas.getWidth() / 3 + 15, 2500, colour);
+        canvas.drawRect(
+                2 * canvas.getWidth() / 3 - 15, 0, 2 * canvas.getWidth() / 3 + 15, 2500, colour);
+        canvas.drawText(Long.toString(totalTime), 600, 200, time);
+    }
+
+    public boolean hasEnded() {
+        return ended;
+    }
+
+    public void setEnded(boolean ended) {
+        this.ended = ended;
     }
 }

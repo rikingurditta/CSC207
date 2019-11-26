@@ -11,7 +11,7 @@ import com.group0565.theme.Themes;
 public class RacerMainActivity extends GameActivity {
 
   public RacerMainActivity() {
-    super(new RacerGame(new Vector()), 60, Orientation.Portrait);
+    super(new RacerGame(), 60, Orientation.Portrait);
     IPreferenceInteractor prefInter = PreferencesInjector.inject();
     this.getGame()
         .setGlobalPreferences(
