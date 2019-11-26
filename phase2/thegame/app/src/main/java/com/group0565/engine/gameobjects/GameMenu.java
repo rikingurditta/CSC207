@@ -2,11 +2,13 @@ package com.group0565.engine.gameobjects;
 
 import com.group0565.engine.enums.HorizontalAlignment;
 import com.group0565.engine.enums.VerticalAlignment;
+import com.group0565.engine.interfaces.Observable;
+import com.group0565.engine.interfaces.Observer;
 import com.group0565.math.Vector;
 
 import java.util.HashMap;
 
-public class GameMenu extends MenuObject{
+public class GameMenu extends MenuObject implements Observer {
     private HashMap<String, MenuObject> menuComponents;
 
     public GameMenu(Vector size) {
@@ -19,6 +21,11 @@ public class GameMenu extends MenuObject{
         if (this.getSize() == null){
             this.setSize(getEngine().getSize());
         }
+    }
+
+    @Override
+    public void observe(Observable observable) {
+        super.observe(observable);
     }
 
     public MenuBuilder build(){
@@ -44,6 +51,8 @@ public class GameMenu extends MenuObject{
                 throw new MenuBuilderException("Name \"this\" is reserved.");
             buildComponents.put(name, object);
             activeObject = object;
+            activeObject.setName(name);
+            activeObject.registerObserver(GameMenu.this);
             activeObject.setAlignment(defaultAlign);
             return this;
         }

@@ -3,10 +3,14 @@ package com.group0565.engine.gameobjects;
 import com.group0565.engine.enums.HorizontalAlignment;
 import com.group0565.engine.enums.VerticalAlignment;
 import com.group0565.engine.interfaces.Canvas;
+import com.group0565.engine.interfaces.EventObserver;
 import com.group0565.engine.interfaces.GameEngine;
 import com.group0565.engine.interfaces.Observable;
 import com.group0565.engine.interfaces.Observer;
 import com.group0565.math.Vector;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class MenuObject extends GameObject implements Observable, Observer {
     private static Vector referenceSize = new Vector();
@@ -16,6 +20,7 @@ public class MenuObject extends GameObject implements Observable, Observer {
     private Vector parentSize = null;
     private Vector parentBuffer = null;
     private Alignment alignment = null;
+    private String name;
 
     public MenuObject(Vector size) {
         if (size == null && this.getEngine() != null)
@@ -113,11 +118,22 @@ public class MenuObject extends GameObject implements Observable, Observer {
         this.setRelativePosition(new Vector(x, y).add(this.offset));
     }
 
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
     protected class MenuObjectBuilder{
         private Vector buffer = null;
         private Vector offset = null;
         private boolean enable = true;
         private float z = 0;
+        private String name = null;
+        private List<Observer> observerList = new ArrayList<>();
+        private List<EventObserver> eventObserverList = new ArrayList<>();
         protected MenuObjectBuilder(){
         }
 
@@ -146,6 +162,20 @@ public class MenuObject extends GameObject implements Observable, Observer {
             return this;
         }
 
+        public MenuObjectBuilder registerObserver(Observer observer){
+            this.observerList.add(observer);
+            return this;
+        }
+
+        public MenuObjectBuilder registerObserver(EventObserver observer){
+            this.eventObserverList.add(observer);
+            return this;
+        }
+
+        public void setName(String name) {
+            this.name = name;
+        }
+
         public MenuObjectBuilder setZ(float z){
             this.z = z;
             return this;
@@ -156,6 +186,11 @@ public class MenuObject extends GameObject implements Observable, Observer {
             if (offset != null) MenuObject.this.setOffset(this.offset);
             MenuObject.this.setEnable(this.enable);
             MenuObject.this.setZ(this.z);
+            if (name != null) MenuObject.this.setName(name);
+            for (Observer observer : this.observerList)
+                MenuObject.this.registerObserver(observer);
+            for (EventObserver eventObserver : this.eventObserverList)
+                MenuObject.this.registerObserver(eventObserver);
             notifyObservers();
             return MenuObject.this;
         }

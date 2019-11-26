@@ -59,6 +59,9 @@
     "Tsu": {
       "LIGHT": {
         "Path": "Tsu/Light.json"
+      },
+      "DARK": {
+        "Path": "Tsu/Dark.json"
       }
     }
   }
