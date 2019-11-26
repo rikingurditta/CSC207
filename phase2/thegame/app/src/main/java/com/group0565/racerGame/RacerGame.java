@@ -171,7 +171,7 @@ public class RacerGame extends GameObject implements Observer {
    *
    * @return Racer object
    */
-  Racer getRacer() {
+  public Racer getRacer() {
     return racer;
   }
 
@@ -180,7 +180,7 @@ public class RacerGame extends GameObject implements Observer {
    *
    * @param totalTime the player's time survived during this game
    */
-  void updateDB(long totalTime) {
+  public void updateDB(long totalTime) {
     if (myStatRepo != null) {
       // You can always use put (also for new objects) because of the way that Firebase DB works
       myStatRepo.put(
@@ -194,7 +194,7 @@ public class RacerGame extends GameObject implements Observer {
    *
    * @return totalTime
    */
-  long getTotalTime() {
+  public long getTotalTime() {
     return totalTime;
   }
 
@@ -203,17 +203,17 @@ public class RacerGame extends GameObject implements Observer {
    *
    * @return spawnTime
    */
-  long getSpawnTime() {
+  public long getSpawnTime() {
     return spawnTime;
   }
 
   /** Sets the live attribute of this variable to the opposite value */
-  void setLive() {
+  public void setLive() {
     live = !live;
   }
 
   /** Disables the racer and obstacles from rendering on the screen when the user loses the game */
-  void disableAll() {
+  public void disableAll() {
     racer.setEnable(false);
     obsManager.setEnable(false);
   }
