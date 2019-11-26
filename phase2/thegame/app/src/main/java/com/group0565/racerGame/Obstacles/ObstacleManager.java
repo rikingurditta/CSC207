@@ -14,12 +14,12 @@ public class ObstacleManager extends GameObject {
    *
    * @param parent the RacerGame that is this object's parent
    */
-  ObstacleManager(RacerGame parent) {
+  public ObstacleManager(RacerGame parent) {
     this.parent = parent;
   }
 
   /** Randomly spawns a new Obstacle for the game */
-  void spawnObstacle() {
+  public void spawnObstacle() {
     // Randomly decide which type of Obstacle to spawn
     double d = Math.random();
     // Randomly decide which lane to spawn an Obstacle in
