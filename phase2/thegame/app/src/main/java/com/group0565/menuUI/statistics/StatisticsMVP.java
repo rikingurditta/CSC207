@@ -43,6 +43,13 @@ public interface StatisticsMVP extends BaseMVP {
      * @param value The new value
      */
     void setValue(String value);
+
+    /**
+     * Sets the row date
+     *
+     * @param statDate The new value
+     */
+    void setDate(String statDate);
   }
 
   /** An interface for the Statistics main presenter */

@@ -40,7 +40,8 @@ public class StatisticsRowsPresenterImp implements StatisticsMVP.StatisticsRowsP
         StatisticName.fromStatisticKey(StatisticKey.getEnum(currStat.getStatKey()));
 
     rowView.setValue(currStat.getStatVal().toString());
-    rowView.setTitle(res.getString(statName.getValue()) + " " + currStat.getStatFormattedDate());
+    rowView.setTitle(res.getString(statName.getValue()));
+    rowView.setDate(currStat.getStatFormattedDate());
   }
 
   /**
