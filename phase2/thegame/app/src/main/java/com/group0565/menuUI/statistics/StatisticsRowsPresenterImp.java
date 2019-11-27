@@ -7,6 +7,7 @@ import com.group0565.menuUI.statistics.enums.StatisticName;
 import com.group0565.statistics.IStatistic;
 import com.group0565.statistics.enums.StatisticKey;
 
+import java.util.Collections;
 import java.util.List;
 
 /** An implementation of the Statistics rows presenter */
@@ -17,6 +18,10 @@ public class StatisticsRowsPresenterImp implements StatisticsMVP.StatisticsRowsP
 
   StatisticsRowsPresenterImp(List<IStatistic> statistics) {
     this.statistics = statistics;
+
+    // Sort statistics by date
+    Collections.sort(this.statistics);
+    Collections.reverse(this.statistics);
   }
 
   /**

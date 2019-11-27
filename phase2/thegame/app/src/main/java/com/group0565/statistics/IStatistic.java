@@ -5,7 +5,7 @@ package com.group0565.statistics;
  *
  * @param <T> The type of value in the statistic
  */
-public interface IStatistic<T> {
+public interface IStatistic<T> extends Comparable<IStatistic<T>> {
 
   /**
    * Get the statistic's full key
