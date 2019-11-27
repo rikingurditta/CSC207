@@ -15,16 +15,16 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 import java.util.List;
 
-/** A Firebase implementation of the IAsyncPreferencesRepository */
+/** A Firebase implementation of the IAsyncStatisticsRepository */
 class FirebaseStatisticRepository implements IAsyncStatisticsRepository {
 
   /** A reference to the Firebase database */
   private DatabaseReference mDatabase;
 
-  /** A collection of the user preferences */
+  /** A collection of the user statistics */
   private List<IStatistic> userStatistics;
 
-  /** An observable live collection of the user preferences */
+  /** An observable live collection of the user statistics */
   private MutableLiveData<List<IStatistic>> liveStatistics;
 
   /**
@@ -72,9 +72,9 @@ class FirebaseStatisticRepository implements IAsyncStatisticsRepository {
                 .getChildren()
                 .forEach(
                     child -> {
-                      IStatistic preference =
+                      IStatistic statistic =
                           IStatisticFactory.createGameStatistic(child.getKey(), child.getValue());
-                      userStatistics.add(preference);
+                      userStatistics.add(statistic);
                     });
 
             callback.onDataReceived(userStatistics);
