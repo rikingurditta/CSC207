@@ -43,8 +43,7 @@ public abstract class Obstacle extends GameObject {
       collided = true;
       obsManager.parent.updateDB(
           obsManager.parent.getTotalTime() + obsManager.parent.getSpawnTime());
-      obsManager.parent.setLive();
-      obsManager.parent.disableAll();
+      obsManager.parent.endGame();
     }
   }
 
