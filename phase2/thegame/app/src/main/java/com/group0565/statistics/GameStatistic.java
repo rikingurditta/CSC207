@@ -62,37 +62,10 @@ class GameStatistic<T> implements IStatistic<T> {
    * @return Statistic formatted date
    */
   @Override
-  public String getStatFormattedDate() {
+  public Long getStatDate() {
     String[] part = this.statKey.split("(?<=\\D)(?=\\d)");
 
-    return formatMilliToDate(Long.parseLong(part[1]));
-  }
-
-  /**
-   * Convert millisecond to local datetime format
-   *
-   * @param milli The milliseconds to convert
-   * @return The formatted date as a string
-   */
-  private String formatMilliToDate(Long milli) {
-    // Create a DateFormatter object for displaying date in specified format.
-    DateFormat formatter = SimpleDateFormat.getDateTimeInstance();
-
-    return formatter.format(getDateFromKey(milli));
-  }
-
-  /**
-   * Convert millisecond to date
-   *
-   * @param milli The milliseconds to convert
-   * @return The date object
-   */
-  private Date getDateFromKey(Long milli) {
-    // Create a calendar object that will convert the date and time value in milliseconds to date.
-    Calendar calendar = Calendar.getInstance();
-    calendar.setTimeInMillis(milli);
-
-    return calendar.getTime();
+    return Long.parseLong(part[1]);
   }
 
   /**
@@ -128,21 +101,10 @@ class GameStatistic<T> implements IStatistic<T> {
    */
   @Override
   public int compareTo(IStatistic<T> o) {
-    DateFormat formatter = SimpleDateFormat.getDateTimeInstance();
-    Date localDate;
-    Date oDate;
-
-    try {
-      localDate = formatter.parse(this.getStatFormattedDate());
-      oDate = formatter.parse(o.getStatFormattedDate());
-    } catch (ParseException ex) {
-      return 0;
-    }
-
     if (statKey == null || o.getStatKey() == null) {
       return 0;
     } else {
-      return localDate != null ? localDate.compareTo(oDate) : 0;
+      return this.getStatDate() != null ? this.getStatDate().compareTo(o.getStatDate()) : 0;
     }
   }
 }

@@ -45,7 +45,9 @@ public class AchievementsPresenterImp implements AchievementsMVP.AchievementsPre
               achievement ->
                   allAchievements.stream()
                       .filter(oAchievement -> oAchievement.equals(achievement))
-                      .forEach(IAchievement::setAchieved));
+                      .forEach(
+                          oAchievement ->
+                              oAchievement.setAchieved(achievement.getAchievementDate())));
 
           achievementsView.setAchievements(allAchievements);
         });

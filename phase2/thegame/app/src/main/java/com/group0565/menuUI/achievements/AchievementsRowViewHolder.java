@@ -12,6 +12,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.thegame.R;
 
+import java.util.Date;
+
 /** The ViewHolder for an achievements row */
 public class AchievementsRowViewHolder extends RecyclerView.ViewHolder
     implements AchievementsMVP.AchievementsRowView {
@@ -21,6 +23,9 @@ public class AchievementsRowViewHolder extends RecyclerView.ViewHolder
 
   /** The value textView */
   private TextView descTextView;
+
+  /** The text textView */
+  private TextView dateTextView;
 
   /** The achievement image */
   private ImageView imageView;
@@ -35,6 +40,7 @@ public class AchievementsRowViewHolder extends RecyclerView.ViewHolder
 
     nameTextView = itemView.findViewById(R.id.achievement_name);
     descTextView = itemView.findViewById(R.id.achievement_desc);
+    dateTextView = itemView.findViewById(R.id.achievement_date);
     imageView = itemView.findViewById(R.id.achievement_image);
   }
 
@@ -48,6 +54,18 @@ public class AchievementsRowViewHolder extends RecyclerView.ViewHolder
     CharSequence text = getTextFromResources(key, "_name");
 
     nameTextView.setText(text);
+  }
+
+  /**
+   * Sets the row date
+   *
+   * @param achievedAt The achievement's date
+   */
+  @Override
+  public void setDate(String achievedAt) {
+    if (achievedAt != null) {
+      dateTextView.setText(achievedAt);
+    }
   }
 
   /**
@@ -96,20 +114,27 @@ public class AchievementsRowViewHolder extends RecyclerView.ViewHolder
    * Sets the row image by the key
    *
    * @param key The achievement's key
-   * @param achieved Did the user achieve it yet
    */
   @Override
-  public void setImage(String key, boolean achieved) {
+  public void setImage(String key) {
     int drawableId = getResourceID(key, "drawable", "_image");
 
     Drawable image = ResourcesCompat.getDrawable(itemView.getResources(), drawableId, null);
 
     imageView.setImageDrawable(image);
+  }
 
+  /**
+   * Sets the row alpha to full if achieved and to 0.1 if not achieved
+   *
+   * @param achieved Did the user achieve it yet
+   */
+  @Override
+  public void setRowAlpha(boolean achieved) {
     if (achieved) {
-      imageView.setImageAlpha(255);
+      itemView.setAlpha(1f);
     } else {
-      imageView.setImageAlpha(50);
+      itemView.setAlpha(0.3f);
     }
   }
 }

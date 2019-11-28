@@ -11,6 +11,6 @@ class AchievementFactory {
    * @return The created achievement
    */
   static IAchievement createGameAchievement(String achievementKey) {
-    return new GameAchievement(achievementKey, true, Calendar.getInstance().getTime());
+    return new GameAchievement(achievementKey, true, Calendar.getInstance().getTimeInMillis());
   }
 }

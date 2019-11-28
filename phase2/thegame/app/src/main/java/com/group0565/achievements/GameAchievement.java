@@ -16,7 +16,7 @@ public class GameAchievement implements IAchievement {
   private boolean isAchieved;
 
   /** The date of achievement */
-  private Date achievementDate;
+  private Long achievementDate;
 
   /**
    * Creates a new GameStatistic with the given key
@@ -33,7 +33,7 @@ public class GameAchievement implements IAchievement {
    * @param achievementKey The achievement unique key
    * @param isAchieved The achievement's status
    */
-  GameAchievement(String achievementKey, boolean isAchieved, Date achievedAt) {
+  GameAchievement(String achievementKey, boolean isAchieved, Long achievedAt) {
     this.achievementKey = achievementKey;
     this.isAchieved = isAchieved;
     this.achievementDate = achievedAt;
@@ -60,7 +60,7 @@ public class GameAchievement implements IAchievement {
    * @return True if achievement was unlocked and false otherwise
    */
   @Override
-  public boolean isAchieved() {
+  public boolean getIsAchieved() {
     return isAchieved;
   }
 
@@ -70,14 +70,18 @@ public class GameAchievement implements IAchievement {
    * @return The date and time of achievement
    */
   @Override
-  public Date getAchieveDate() {
+  public Long getAchievementDate() {
     return this.achievementDate;
   }
 
-  /** Sets the achievement's status to true */
-  public void setAchieved() {
+  /**
+   * Sets the achievement's status to true *
+   *
+   * @param achieveDate The date of achievement
+   */
+  public void setAchieved(Long achieveDate) {
     isAchieved = true;
-    achievementDate = Calendar.getInstance().getTime();
+    this.achievementDate = achieveDate;
   }
 
   /**

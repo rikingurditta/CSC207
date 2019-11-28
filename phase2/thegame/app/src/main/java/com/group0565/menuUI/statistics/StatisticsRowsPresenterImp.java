@@ -7,7 +7,11 @@ import com.group0565.menuUI.statistics.enums.StatisticName;
 import com.group0565.statistics.IStatistic;
 import com.group0565.statistics.enums.StatisticKey;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 
 /** An implementation of the Statistics rows presenter */
@@ -41,7 +45,7 @@ public class StatisticsRowsPresenterImp implements StatisticsMVP.StatisticsRowsP
 
     rowView.setValue(currStat.getStatVal().toString());
     rowView.setTitle(res.getString(statName.getValue()));
-    rowView.setDate(currStat.getStatFormattedDate());
+    rowView.setDate(formatMilliToDate(currStat.getStatDate()));
   }
 
   /**
@@ -52,5 +56,32 @@ public class StatisticsRowsPresenterImp implements StatisticsMVP.StatisticsRowsP
   @Override
   public int getStatsCount() {
     return statistics.size();
+  }
+
+  /**
+   * Convert millisecond to local datetime format
+   *
+   * @param milli The milliseconds to convert
+   * @return The formatted date as a string
+   */
+  private String formatMilliToDate(Long milli) {
+    // Create a DateFormatter object for displaying date in specified format.
+    DateFormat formatter = SimpleDateFormat.getDateTimeInstance();
+
+    return formatter.format(extractDateFromMilli(milli));
+  }
+
+  /**
+   * Convert millisecond to date
+   *
+   * @param milli The milliseconds to convert
+   * @return The date object
+   */
+  private Date extractDateFromMilli(Long milli) {
+    // Create a calendar object that will convert the date and time value in milliseconds to date.
+    Calendar calendar = Calendar.getInstance();
+    calendar.setTimeInMillis(milli);
+
+    return calendar.getTime();
   }
 }

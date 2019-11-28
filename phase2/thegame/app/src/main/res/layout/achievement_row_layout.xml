@@ -29,4 +29,14 @@
         android:layout_gravity="center"
         android:textColor="?attr/normalTextColor"
         tools:text="This is how you get this achievement" />
+
+    <TextView
+        android:id="@+id/achievement_date"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:textColor="?attr/normalTextColor"
+        android:textSize="10sp"
+        tools:ignore="SmallSp"
+        tools:text="12/12/12 12:12:12" />
 </LinearLayout>

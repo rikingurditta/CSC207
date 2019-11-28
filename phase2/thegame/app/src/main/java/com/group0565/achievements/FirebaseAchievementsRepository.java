@@ -98,7 +98,7 @@ public class FirebaseAchievementsRepository implements IAsyncAchievementsReposit
    */
   @Override
   public void push(IAchievement achievement) {
-    achievement.setAchieved();
+    achievement.setAchieved(System.currentTimeMillis());
     mDatabase.push().setValue(achievement);
   }
 

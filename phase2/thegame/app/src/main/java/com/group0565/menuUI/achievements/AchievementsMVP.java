@@ -3,6 +3,7 @@ package com.group0565.menuUI.achievements;
 import com.group0565.achievements.IAchievement;
 import com.group0565.basePatterns.mvp.BaseMVP;
 
+import java.util.Date;
 import java.util.List;
 
 /** An interface for the Achievements module MVP */
@@ -30,6 +31,13 @@ public interface AchievementsMVP extends BaseMVP {
   interface AchievementsRowView {
 
     /**
+     * Sets the row date
+     *
+     * @param achievedAt The achievement's date
+     */
+    void setDate(String achievedAt);
+
+    /**
      * Sets the row name based on the achievement's key
      *
      * @param key The achievement's key
@@ -47,9 +55,15 @@ public interface AchievementsMVP extends BaseMVP {
      * Sets the row image by the key
      *
      * @param key The achievement's key
+     */
+    void setImage(String key);
+
+    /**
+     * Sets the row alpha to full if achieved and to 0.1 if not achieved
+     *
      * @param achieved Did the user achieve it yet
      */
-    void setImage(String key, boolean achieved);
+    void setRowAlpha(boolean achieved);
   }
 
   /** An interface for the Achievements main presenter */

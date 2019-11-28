@@ -1,7 +1,5 @@
 package com.group0565.achievements;
 
-import java.util.Date;
-
 /** An interface for an Achievement in the game */
 public interface IAchievement {
 
@@ -17,15 +15,19 @@ public interface IAchievement {
    *
    * @return True if achievement was unlocked and false otherwise
    */
-  boolean isAchieved();
+  boolean getIsAchieved();
 
   /**
    * Gets the achievement's achieve date
    *
-   * @return The date and time of achievement
+   * @return The date and time of achievement in milliseconds
    */
-  Date getAchieveDate();
+  Long getAchievementDate();
 
-  /** Sets the achievement's status to true and the achievement time to now */
-  void setAchieved();
+  /**
+   * Sets the achievement's status to true
+   *
+   * @param achieveDate The date of achievement
+   */
+  void setAchieved(Long achieveDate);
 }
