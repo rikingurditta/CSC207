@@ -15,6 +15,10 @@ import com.group0565.engine.interfaces.Observer;
 import com.group0565.engine.interfaces.Paint;
 import com.group0565.hitObjectsRepository.SessionHitObjects;
 import com.group0565.math.Vector;
+import com.group0565.statistics.IAsyncStatisticsRepository;
+import com.group0565.statistics.IStatisticFactory;
+import com.group0565.statistics.StatisticRepositoryInjector;
+import com.group0565.statistics.enums.StatisticKey;
 import com.group0565.theme.Themes;
 import com.group0565.tsu.menus.PauseMenu;
 import com.group0565.tsu.enums.Align;
@@ -24,7 +28,7 @@ import java.util.HashMap;
 import java.util.List;
 
 public class TsuEngine extends GameObject implements Observer, Observable {
-    private static final String TAG = "TsuEngine";
+    private static final String GAME_NAME = "Tsu";
     private static final String BEATMAP_SET = "Tsu";
     private static final String BEATMAP_NAME = "BeatMap";
     private static final Vector MARGINS = new Vector(200, 250);
@@ -38,6 +42,7 @@ public class TsuEngine extends GameObject implements Observer, Observable {
     private static final float MARGIN = 75;
     private static final float PAUSE_W = 500;
     private static final float PAUSE_H = 300;
+    IAsyncStatisticsRepository statsRepo;
     private Button pause;
     private Beatmap beatmap;
     private List<HitObject> objects;
@@ -67,9 +72,11 @@ public class TsuEngine extends GameObject implements Observer, Observable {
 
     private HashMap<InputEvent, HitObject> eventToHitObject = new HashMap<>();
 
-    public TsuEngine() {
-        super(new Vector());
-    }
+  public TsuEngine() {
+    super(new Vector());
+
+    StatisticRepositoryInjector.inject(GAME_NAME, repository -> statsRepo = repository);
+  }
 
     public void init() {
         this.sessionHitObjects = null;
@@ -194,10 +201,20 @@ public class TsuEngine extends GameObject implements Observer, Observable {
         if (finished) {
             this.sessionHitObjects = ScoreCalculator.computeScore(objects, difficulty);
             this.sessionHitObjects.setCheats(auto);
+
+            sendStat();
         }
         ended = true;
         this.pauseEngine();
         this.notifyObservers();
+    }
+
+    /** Sends the game stat to the db */
+    private void sendStat() {
+        int score = this.sessionHitObjects.getScore();
+        String statName = StatisticKey.TSU_SCORE.getValue() + System.currentTimeMillis();
+
+        this.statsRepo.put(IStatisticFactory.createGameStatistic(statName, score));
     }
 
     @Override

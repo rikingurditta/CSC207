@@ -26,6 +26,13 @@
         "TileWidth": 200,
         "TileHeight": 100
       }
+    },
+    "RacerButton": {
+      "RacerButton": {
+        "Path": "Button.png",
+        "TileWidth": 256,
+        "TileHeight": 256
+      }
     }
   },
   "Audio": {

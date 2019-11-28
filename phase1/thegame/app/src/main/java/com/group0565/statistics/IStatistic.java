@@ -7,24 +7,38 @@ package com.group0565.statistics;
  */
 public interface IStatistic<T> {
 
-    /**
-     * Get the statistic's name
-     *
-     * @return Statistic name
-     */
-    String getStatKey();
+  /**
+   * Get the statistic's full key
+   *
+   * @return Statistic full key
+   */
+  String getFullStatKey();
 
-    /**
-     * Get the statistic's value
-     *
-     * @return Statistic value
-     */
-    T getStatVal();
+  /**
+   * Get the statistic's key without date
+   *
+   * @return Statistic key without date
+   */
+  String getStatKey();
 
-    /**
-     * Set the statistic's value
-     *
-     * @param value New value
-     */
-    void setValue(T value);
+  /**
+   * Get the statistic's formatted date
+   *
+   * @return Statistic formatted date
+   */
+  String getStatFormattedDate();
+
+  /**
+   * Get the statistic's value
+   *
+   * @return Statistic value
+   */
+  T getStatVal();
+
+  /**
+   * Set the statistic's value
+   *
+   * @param value New value
+   */
+  void setValue(T value);
 }

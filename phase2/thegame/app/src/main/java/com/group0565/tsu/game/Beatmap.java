@@ -14,96 +14,95 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Beatmap {
-    private static final String TAG = "Beatmap";
-    private JsonFile jsonFile;
-    private JSONObject jsonObject;
-    private String name;
-    private String audioSet;
-    private String audioFile;
-    private AudioAsset audio;
-    private String title;
-    private String artist;
-    private String arranger;
-    private String mapper;
-    private double difficulty;
-    private long leadin;
-    private List<HitObject> hitObjects;
+  private static final String TAG = "Beatmap";
+  private JsonFile jsonFile;
+  private JSONObject jsonObject;
+  private String name;
+  private String audioSet;
+  private String audioFile;
+  private AudioAsset audio;
+  private String title;
+  private String artist;
+  private String arranger;
+  private String mapper;
+  private double difficulty;
+  private long leadin;
+  private List<HitObject> hitObjects;
 
-
-    public Beatmap(String set, String name, GameAssetManager manager) {
-        super();
-        this.jsonFile = manager.getJsonFile(set, name);
-        this.jsonObject = jsonFile.getJsonObject();
-        try {
-            this.name = jsonObject.getString("Name");
-            this.audioSet = jsonObject.getString("AudioSet");
-            this.audioFile = jsonObject.getString("AudioFile");
-            this.audio = manager.getAudioAsset(audioSet, audioFile);
-            this.title = jsonObject.getString("Title");
-            this.artist = jsonObject.getString("Artist");
-            this.arranger = jsonObject.getString("Arranger");
-            this.mapper = jsonObject.getString("Mapper");
-            this.difficulty = jsonObject.getDouble("Difficulty");
-            this.leadin = jsonObject.getLong("LeadIn");
-            JSONArray array = jsonObject.getJSONArray("HitObjects");
-            hitObjects = new ArrayList<>(array.length());
-            for (int i = 0; i < array.length(); i++) {
-                hitObjects.add(new HitObject(array.getJSONObject(i)));
-            }
-        } catch (JSONException e) {
-            Log.e(TAG, "Parsing Beatmap Failed", e);
-        }
+  public Beatmap(String set, String name, GameAssetManager manager) {
+    super();
+    this.jsonFile = manager.getJsonFile(set, name);
+    this.jsonObject = jsonFile.getJsonObject();
+    try {
+      this.name = jsonObject.getString("Name");
+      this.audioSet = jsonObject.getString("AudioSet");
+      this.audioFile = jsonObject.getString("AudioFile");
+      this.audio = manager.getAudioAsset(audioSet, audioFile);
+      this.title = jsonObject.getString("Title");
+      this.artist = jsonObject.getString("Artist");
+      this.arranger = jsonObject.getString("Arranger");
+      this.mapper = jsonObject.getString("Mapper");
+      this.difficulty = jsonObject.getDouble("Difficulty");
+      this.leadin = jsonObject.getLong("LeadIn");
+      JSONArray array = jsonObject.getJSONArray("HitObjects");
+      hitObjects = new ArrayList<>(array.length());
+      for (int i = 0; i < array.length(); i++) {
+        hitObjects.add(new HitObject(array.getJSONObject(i)));
+      }
+    } catch (JSONException e) {
+      Log.e(TAG, "Parsing Beatmap Failed", e);
     }
+  }
 
-    public JsonFile getJsonFile() {
-        return jsonFile;
-    }
+  public JsonFile getJsonFile() {
+    return jsonFile;
+  }
 
-    public JSONObject getJsonObject() {
-        return jsonObject;
-    }
+  public JSONObject getJsonObject() {
+    return jsonObject;
+  }
 
-    public String getName() {
-        return name;
-    }
+  public String getName() {
+    return name;
+  }
 
-    public String getAudioSet() {
-        return audioSet;
-    }
+  public String getAudioSet() {
+    return audioSet;
+  }
 
-    public String getAudioFile() {
-        return audioFile;
-    }
+  public String getAudioFile() {
+    return audioFile;
+  }
 
-    public String getTitle() {
-        return title;
-    }
+  public String getTitle() {
+    return title;
+  }
 
-    public String getArtist() {
-        return artist;
-    }
+  public String getArtist() {
+    return artist;
+  }
 
-    public String getArranger() {
-        return arranger;
-    }
+  public String getArranger() {
+    return arranger;
+  }
 
-    public String getMapper() {
-        return mapper;
-    }
+  public String getMapper() {
+    return mapper;
+  }
 
-    public double getDifficulty() {
-        return difficulty;
-    }
+  public double getDifficulty() {
+    return difficulty;
+  }
 
-    public long getLeadin() {
-        return leadin;
-    }
+  public long getLeadin() {
+    return leadin;
+  }
 
-    public List<HitObject> getHitObjects() {
-        return hitObjects;
-    }
+  public List<HitObject> getHitObjects() {
+    return hitObjects;
+  }
 
-    public AudioAsset getAudio() {
-        return audio;
-    }
+  public AudioAsset getAudio() {
+    return audio;
+  }
 }

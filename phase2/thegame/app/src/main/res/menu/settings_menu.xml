@@ -4,6 +4,12 @@
         android:id="@+id/action_settings"
         android:title="@string/action_settings" />
     <item
+        android:id="@+id/action_statistics"
+        android:title="@string/action_statistics" />
+    <item
+        android:id="@+id/action_achievements"
+        android:title="@string/action_achievements" />
+    <item
         android:id="@+id/sign_out"
         android:title="@string/sign_out_btn" />
 </menu>

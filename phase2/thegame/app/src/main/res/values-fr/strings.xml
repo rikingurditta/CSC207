@@ -4,13 +4,19 @@
     <string name="sign_in_btn">Se connecter</string>
     <string name="delete_btn">Effacer</string>
     <string name="sign_out_btn">Déconnexion</string>
-    <string name="Game2Name">Jeu 2</string>
-    <string name="Game3Name">Jeu 3</string>
     <string name="no_user">" Aucun utilisateur connecté!"</string>
     <string name="login_btn">S\'identifier</string>
     <string name="action_settings">Paramètres</string>
     <string name="lan_pref">Langue</string>
     <string name="theme_pref">Thème</string>
     <string name="vol_pref">Le volume</string>
-    <string name="Game1Name">Jeu 1</string>
+    <string name="action_statistics">Statistiques</string>
+    <string name="action_achievements">Réalisations</string>
+    <string name="bomber_bombs_placed_text">Bombes placées</string>
+    <string name="bomber_damage_dealt_text">Dégâts infligés</string>
+    <string name="bomber_hp_remaining_text">HP Restant</string>
+    <string name="racer_time_survived_text">Le Temps a Survécu</string>
+    <string name="tsu_score_text">Bord</string>
+    <string name="stat_missing_text">" Nom de statistique manquant!"</string>
+    <string name="achievement_image_desc">Achievement Image Placeholder</string>
 </resources>

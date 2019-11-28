@@ -15,188 +15,187 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * A Firebase implementation of the IAsyncPreferencesRepository
- */
+/** A Firebase implementation of the IAsyncPreferencesRepository */
 public class FirebasePreferenceRepository implements IAsyncPreferencesRepository {
 
-    /**
-     * A reference to the Firebase database
-     */
-    private DatabaseReference mDatabase;
+  /** A reference to the Firebase database */
+  private DatabaseReference mDatabase;
 
-    /**
-     * A collection of the user preferences
-     */
-    private List<IPreference> userPreferences;
+  /** A collection of the user preferences */
+  private List<IPreference> userPreferences;
 
-    /**
-     * An observable live collection of the user preferences
-     */
-    private MutableLiveData<List<IPreference>> livePreferences;
+  /** An observable live collection of the user preferences */
+  private MutableLiveData<List<IPreference>> livePreferences;
 
-    /**
-     * Create a new repository for the given user
-     *
-     * @param currUser The current user
-     */
-    FirebasePreferenceRepository(String currUser) {
+  /**
+   * Create a new repository for the given user
+   *
+   * @param currUser The current user
+   */
+  FirebasePreferenceRepository(String currUser) {
 
-        this.mDatabase =
-                FirebaseDatabase.getInstance().getReference().child("users/" + currUser + "/preferences");
+    this.mDatabase =
+        FirebaseDatabase.getInstance().getReference().child("users/" + currUser + "/preferences");
 
-        userPreferences = new ArrayList<>();
-        livePreferences = new MutableLiveData<>();
+    userPreferences = new ArrayList<>();
+    livePreferences = new MutableLiveData<>();
 
-        mDatabase.addChildEventListener(new MyChildEventListener());
-    }
+    mDatabase.addChildEventListener(new MyChildEventListener());
+  }
 
-    /**
-     * Gets the observable LiveData of all the IPreference objects in the database
-     *
-     * @return An observable object wrapping the list of IPreference with all preferences
-     */
-    @Override
-    public LiveData<List<IPreference>> getObservable() {
-        return livePreferences;
-    }
+  /**
+   * Gets the observable LiveData of all the IPreference objects in the database
+   *
+   * @return An observable object wrapping the list of IPreference with all preferences
+   */
+  @Override
+  public LiveData<List<IPreference>> getObservable() {
+    return livePreferences;
+  }
 
-    /**
-     * Gets the non-observable list of all objects using a callback
-     *
-     * @param callback The callback to execute on success
-     */
-    @Override
-    public void getAll(AsyncDataListCallBack<IPreference> callback) {
-        this.mDatabase.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                userPreferences = new ArrayList<>();
+  /**
+   * Gets the non-observable list of all objects using a callback
+   *
+   * @param callback The callback to execute on success
+   */
+  @Override
+  public void getAll(AsyncDataListCallBack<IPreference> callback) {
+    this.mDatabase.addListenerForSingleValueEvent(
+        new ValueEventListener() {
+          @Override
+          public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+            userPreferences = new ArrayList<>();
 
-                dataSnapshot.getChildren().forEach(child -> {
-                    IPreference preference = UserPreferenceFactory.getUserPreference(child.getKey(), child.getValue());
-                    userPreferences.add(preference);
-                });
+            dataSnapshot
+                .getChildren()
+                .forEach(
+                    child -> {
+                      IPreference preference =
+                          UserPreferenceFactory.getUserPreference(child.getKey(), child.getValue());
+                      userPreferences.add(preference);
+                    });
 
-                callback.onDataReceived(userPreferences);
-            }
+            callback.onDataReceived(userPreferences);
+          }
 
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-            }
+          @Override
+          public void onCancelled(@NonNull DatabaseError databaseError) {}
         });
-    }
+  }
+
+  /**
+   * Updates a preference in the database
+   *
+   * @param preference The preference to update based on its key
+   */
+  @Override
+  public void put(IPreference preference) {
+    mDatabase.child(preference.getPrefName()).setValue(preference.getPrefVal());
+  }
+
+  /**
+   * Add a preference to the database
+   *
+   * @param preference The preference to add
+   */
+  @Override
+  public void push(IPreference preference) {
+    mDatabase.child(preference.getPrefName()).setValue(preference.getPrefVal());
+  }
+
+  /**
+   * Remove a preference from the database
+   *
+   * @param preference The preference to remove
+   */
+  @Override
+  public void delete(IPreference preference) {
+    mDatabase.child(preference.getPrefName()).removeValue();
+  }
+
+  /** Remove all child objects */
+  @Override
+  public void deleteAll() {
+    mDatabase.removeValue();
+  }
+
+  /** An implementation of ChildEventListener for PreferenceRepository */
+  private class MyChildEventListener implements ChildEventListener {
 
     /**
-     * Updates a preference in the database
+     * A child was added to DB - add to LiveData to notify listeners
      *
-     * @param preference The preference to update based on its key
+     * @param dataSnapshot The snapshot of the changed data
+     * @param s A string description of the change
      */
     @Override
-    public void put(IPreference preference) {
-        mDatabase.child(preference.getPrefName()).setValue(preference.getPrefVal());
+    public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+      String preferenceName = dataSnapshot.getKey();
+      Object preferenceValue = dataSnapshot.getValue();
+
+      userPreferences.add(UserPreferenceFactory.getUserPreference(preferenceName, preferenceValue));
+
+      updateLiveData();
     }
 
     /**
-     * Add a preference to the database
+     * A child was changed in DB - change LiveData to notify listeners
      *
-     * @param preference The preference to add
+     * @param dataSnapshot The snapshot of the changed data
+     * @param s A string description of the change
      */
     @Override
-    public void push(IPreference preference) {
-        mDatabase.child(preference.getPrefName()).setValue(preference.getPrefVal());
+    public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+      String preferenceName = dataSnapshot.getKey();
+      Object preferenceValue = dataSnapshot.getValue();
+
+      for (IPreference iterPref : userPreferences) {
+        if (iterPref.getPrefName().equals(preferenceName)) {
+          iterPref.setValue(preferenceValue);
+        }
+      }
+
+      updateLiveData();
     }
 
     /**
-     * Remove a preference from the database
+     * A child was removed from DB - remove from LiveData to notify listeners
      *
-     * @param preference The preference to remove
+     * @param dataSnapshot The snapshot of the changed data
      */
     @Override
-    public void delete(IPreference preference) {
-        mDatabase.child(preference.getPrefName()).removeValue();
+    public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
+      String preferenceName = dataSnapshot.getKey();
+
+      userPreferences.removeIf(preference -> preference.getPrefName().equals(preferenceName));
+
+      updateLiveData();
     }
 
     /**
-     * Remove all child objects
+     * A child was moved in DB - ignore
+     *
+     * @param dataSnapshot The snapshot of the changed data
+     * @param s A string description of the change
      */
     @Override
-    public void deleteAll() {
-        mDatabase.removeValue();
-    }
+    public void onChildMoved(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {}
 
     /**
-     * An implementation of ChildEventListener for PreferenceRepository
+     * Operation was cancelled - ignore
+     *
+     * @param databaseError The cancellation error
      */
-    private class MyChildEventListener implements ChildEventListener {
+    @Override
+    public void onCancelled(@NonNull DatabaseError databaseError) {}
 
-        /**
-         * A child was added to DB - add to LiveData to notify listeners
-         *
-         * @param dataSnapshot The snapshot of the changed data
-         * @param s            A string description of the change
-         */
-        @Override
-        public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-            String preferenceName = dataSnapshot.getKey();
-            Object preferenceValue = dataSnapshot.getValue();
-
-            userPreferences.add(UserPreferenceFactory.getUserPreference(preferenceName, preferenceValue));
-
-            livePreferences.setValue(userPreferences);
-        }
-
-        /**
-         * A child was changed in DB - change LiveData to notify listeners
-         *
-         * @param dataSnapshot The snapshot of the changed data
-         * @param s            A string description of the change
-         */
-        @Override
-        public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-            String preferenceName = dataSnapshot.getKey();
-            Object preferenceValue = dataSnapshot.getValue();
-
-            for (IPreference iterPref : userPreferences) {
-                if (iterPref.getPrefName().equals(preferenceName)) {
-                    iterPref.setValue(preferenceValue);
-                }
-            }
-
-            livePreferences.setValue(userPreferences);
-        }
-
-        /**
-         * A child was removed from DB - remove from LiveData to notify listeners
-         *
-         * @param dataSnapshot The snapshot of the changed data
-         */
-        @Override
-        public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
-            String preferenceName = dataSnapshot.getKey();
-
-            userPreferences.removeIf(preference -> preference.getPrefName().equals(preferenceName));
-
-            livePreferences.setValue(userPreferences);
-        }
-
-        /**
-         * A child was moved in DB - ignore
-         *
-         * @param dataSnapshot The snapshot of the changed data
-         * @param s            A string description of the change
-         */
-        @Override
-        public void onChildMoved(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-        }
-
-        /**
-         * Operation was cancelled - ignore
-         *
-         * @param databaseError The cancellation error
-         */
-        @Override
-        public void onCancelled(@NonNull DatabaseError databaseError) {
-        }
+    /** Safely updates the live data */
+    private void updateLiveData() {
+      try {
+        livePreferences.setValue(userPreferences);
+      } catch (IllegalStateException ex) {
+        livePreferences.postValue(userPreferences);
+      }
     }
+  }
 }
