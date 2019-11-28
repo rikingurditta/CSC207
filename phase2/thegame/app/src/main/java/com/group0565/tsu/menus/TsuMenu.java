@@ -114,6 +114,7 @@ public class TsuMenu extends GameMenu implements Observable {
      */
     private void observeTitle(Observable observable, ObservationEvent event){
         if (event.getMsg().equals(Button.EVENT_DOWN)){
+            getEngine().getAchievementManager().unlockAchievement(SET, "FirstGame");
             notifyObservers(new ObservationEvent(TO_GAME));
         }
     }

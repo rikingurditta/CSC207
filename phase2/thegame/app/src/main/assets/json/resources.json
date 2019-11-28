@@ -53,9 +53,27 @@
         "Path": "Tsu/fr.json",
         "Default": "Chaîne Introuvable"
       }
+    },
+    "Engine": {
+      "en": {
+        "Path": "Engine/en.json",
+        "Default": "String Not Found"
+      },
+      "fr": {
+        "Path": "Engine/fr.json",
+        "Default": "Chaîne Introuvable"
+      }
     }
   },
   "Theme": {
+    "Engine": {
+      "LIGHT": {
+        "Path": "Engine/Light.json"
+      },
+      "DARK": {
+        "Path": "Engine/Dark.json"
+      }
+    },
     "Tsu": {
       "LIGHT": {
         "Path": "Tsu/Light.json"
@@ -64,5 +82,8 @@
         "Path": "Tsu/Dark.json"
       }
     }
+  },
+  "Achievements": {
+    "Tsu": "Tsu.json"
   }
 }

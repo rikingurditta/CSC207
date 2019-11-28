@@ -4,16 +4,22 @@ import android.content.res.AssetManager;
 import android.graphics.Canvas;
 import android.view.SurfaceHolder;
 
+import com.group0565.engine.android.assets.AndroidAchievementManager;
 import com.group0565.engine.android.assets.AndroidAssetManager;
 import com.group0565.engine.assets.GameAssetManager;
+import com.group0565.engine.gameobjects.AchievementManager;
 import com.group0565.engine.gameobjects.GameObject;
 import com.group0565.engine.interfaces.GameEngine;
+import com.group0565.engine.interfaces.Observable;
+import com.group0565.engine.interfaces.ObservationEvent;
 import com.group0565.math.Vector;
 
 /**
  * Concrete implementation of GameEngine for the Android System
  */
-public class AndroidGameEngine implements Runnable, GameEngine {
+public class AndroidGameEngine implements Runnable, GameEngine, Observable {
+    /**Constant for Size Change Event**/
+    public static final String SIZE_CHANGED = "Size Changed";
     /**Constant for number of nanoseconds per second**/
     private static final double NS = 1E9;
     /**Object for locking the surface holder**/
@@ -38,6 +44,8 @@ public class AndroidGameEngine implements Runnable, GameEngine {
     private GameAssetManager gameAssetManager;
     /**Size of drawable area**/
     private Vector size;
+    /**Achivement Manager**/
+    private AndroidAchievementManager achievementManager;
 
     /**
      * Create an instance of the GameEngine
@@ -51,7 +59,12 @@ public class AndroidGameEngine implements Runnable, GameEngine {
         this.game.setEngine(this);
         this.setFps(fps);
         this.inputManager = new InputManager(game);
-        this.gameAssetManager = new AndroidAssetManager(assetManager);
+        this.achievementManager = new AndroidAchievementManager(assetManager);
+        this.achievementManager.setEngine(this);
+        this.achievementManager.setZ(Double.POSITIVE_INFINITY);
+        this.game.adopt(achievementManager);
+        this.registerObserver(this.game::sizeChanged);
+        this.gameAssetManager = new AndroidAssetManager(assetManager, achievementManager);
     }
 
     /**
@@ -278,5 +291,24 @@ public class AndroidGameEngine implements Runnable, GameEngine {
     @Override
     public Vector getSize() {
         return size;
+    }
+
+    /**
+     * Setter for size.
+     *
+     * @param size The new value for size
+     */
+    public void setSize(Vector size) {
+        this.size = size;
+        this.notifyObservers(new ObservationEvent<>(SIZE_CHANGED, size));
+    }
+
+    /**
+     * Getter for achievementManager.
+     *
+     * @return achievementManager
+     */
+    public AchievementManager getAchievementManager() {
+        return achievementManager;
     }
 }

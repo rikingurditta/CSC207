@@ -24,11 +24,14 @@ public class AndroidAssetManager extends GameAssetManager{
     private static final String JSON_NAME = "Json";
     private static final String LANGUAGE_NAME = "LanguagePack";
     private static final String THEME_NAME = "Theme";
+    private static final String ACHIEVEMENTS_NAME = "Achievements";
 
     private AssetManager assetManager;
+    private AndroidAchievementManager achievementManager;
 
-    public AndroidAssetManager(AssetManager assetManager){
+    public AndroidAssetManager(AssetManager assetManager, AndroidAchievementManager achievementManager) {
         this.assetManager = assetManager;
+        this.achievementManager = achievementManager;
     }
 
     @Override
@@ -56,8 +59,12 @@ public class AndroidAssetManager extends GameAssetManager{
                     case THEME_NAME:
                         type = AssetType.THEME;
                         break;
+                    case ACHIEVEMENTS_NAME:
+                        readAchievements(reader);
+                        break;
                 }
-                readSet(reader, type);
+                if (type != null)
+                    readSet(reader, type);
             }
             reader.endObject();
         } catch (IOException e) {
@@ -74,7 +81,8 @@ public class AndroidAssetManager extends GameAssetManager{
             while (reader.peek() == JsonToken.NAME) {
                 String sheetName = reader.nextName();
                 Asset asset = readAsset(sheetName, reader, type);
-                this.registerAsset(setName, asset, type);
+                if (asset != null)
+                    this.registerAsset(setName, asset, type);
             }
             reader.endObject();
         }
@@ -182,5 +190,16 @@ public class AndroidAssetManager extends GameAssetManager{
         }
         reader.endObject();
         return new AndroidThemeAsset(name, path, assetManager);
+    }
+
+
+    private void readAchievements(JsonReader reader) throws IOException {
+        reader.beginObject();
+        while(reader.peek() == JsonToken.NAME) {
+            String name = reader.nextName();
+            String path = reader.nextString();
+            achievementManager.loadAchievements(name, path);
+        }
+        reader.endObject();
     }
 }

@@ -2,6 +2,7 @@ package com.group0565.engine.interfaces;
 
 import com.group0565.engine.android.InputManager;
 import com.group0565.engine.assets.GameAssetManager;
+import com.group0565.engine.gameobjects.AchievementManager;
 import com.group0565.math.Vector;
 
 /**
@@ -27,4 +28,11 @@ public interface GameEngine {
      * @return size of the drawable area.
      */
     Vector getSize();
+
+    /**
+     * Getter for achievementManager.
+     *
+     * @return achievementManager
+     */
+    AchievementManager getAchievementManager();
 }

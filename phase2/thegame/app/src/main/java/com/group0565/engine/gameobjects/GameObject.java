@@ -4,6 +4,8 @@ import com.group0565.engine.interfaces.Canvas;
 import com.group0565.engine.interfaces.Drawable;
 import com.group0565.engine.interfaces.GameEngine;
 import com.group0565.engine.interfaces.LifecycleListener;
+import com.group0565.engine.interfaces.Observable;
+import com.group0565.engine.interfaces.ObservationEvent;
 import com.group0565.math.Vector;
 
 import java.lang.ref.WeakReference;
@@ -591,6 +593,14 @@ public class GameObject implements LifecycleListener, Drawable {
     public GameObject setInitialized(boolean initialized) {
         this.initialized = initialized;
         return this;
+    }
+
+    /**
+     * Listener for Engine size change
+     */
+    public void sizeChanged(Observable observable, ObservationEvent event){
+        for (GameObject child : this.children.values())
+            child.sizeChanged(observable, event);
     }
 
     /**

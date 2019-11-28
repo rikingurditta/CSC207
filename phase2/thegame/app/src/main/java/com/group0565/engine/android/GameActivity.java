@@ -10,6 +10,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.group0565.engine.enums.Orientation;
 import com.group0565.engine.gameobjects.GameObject;
+import com.group0565.math.Vector;
 
 /**
  * The Activity from which the Game should be launched.
@@ -144,7 +145,7 @@ public abstract class GameActivity extends AppCompatActivity implements SurfaceH
      */
     @Override
     public void surfaceChanged(SurfaceHolder holder, int format, int width, int height) {
-
+        engine.setSize(new Vector(width, height));
     }
 
     /**
