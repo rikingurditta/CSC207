@@ -2,7 +2,7 @@ package com.group0565.bomberGame.bombs;
 
 import com.group0565.bomberGame.BomberGame;
 import com.group0565.bomberGame.BomberMan;
-import com.group0565.bomberGame.Coords;
+import com.group0565.math.Coords;
 import com.group0565.bomberGame.GridObject;
 import com.group0565.bomberGame.SquareGrid;
 import com.group0565.engine.interfaces.Paint;

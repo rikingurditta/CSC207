@@ -1,6 +1,7 @@
 package com.group0565.bomberGame;
 
 import com.group0565.engine.gameobjects.GameObject;
+import com.group0565.math.Coords;
 
 public abstract class GridObject extends GameObject {
   /** The grid this object belongs to. */

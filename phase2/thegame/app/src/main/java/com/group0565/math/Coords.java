@@ -1,4 +1,4 @@
-package com.group0565.bomberGame;
+package com.group0565.math;
 
 /** 2D integer coordinates. Pretty much just an immutable vector of ints. */
 public class Coords {

@@ -6,6 +6,7 @@ import com.group0565.bomberGame.obstacles.Crate;
 import com.group0565.engine.gameobjects.GameObject;
 import com.group0565.engine.interfaces.Canvas;
 import com.group0565.engine.interfaces.Paint;
+import com.group0565.math.Coords;
 import com.group0565.math.Vector;
 import com.group0565.theme.Themes;
 

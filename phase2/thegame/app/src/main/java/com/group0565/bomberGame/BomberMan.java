@@ -5,10 +5,10 @@ import android.graphics.Color;
 import com.group0565.bomberGame.bombs.NormalBomb;
 import com.group0565.bomberGame.input.BomberInput;
 import com.group0565.bomberGame.input.InputSystem;
-import com.group0565.engine.android.AndroidPaint;
 import com.group0565.engine.gameobjects.GameObject;
 import com.group0565.engine.interfaces.Canvas;
 import com.group0565.engine.interfaces.Paint;
+import com.group0565.math.Coords;
 import com.group0565.math.Vector;
 import com.group0565.theme.Themes;
 
