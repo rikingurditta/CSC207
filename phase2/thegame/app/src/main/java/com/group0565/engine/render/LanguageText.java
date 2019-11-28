@@ -4,8 +4,9 @@ import com.group0565.engine.assets.GameAssetManager;
 import com.group0565.engine.gameobjects.GlobalPreferences;
 import com.group0565.engine.interfaces.Observable;
 import com.group0565.engine.interfaces.Observer;
+import com.group0565.engine.interfaces.Source;
 
-public class LanguageText implements Observer {
+public class LanguageText implements Observer, Source<String> {
     private GlobalPreferences preferences;
     private GameAssetManager manager;
     private String set;
@@ -24,7 +25,8 @@ public class LanguageText implements Observer {
         this.preferences.registerObserver(this);
     }
 
-    public String getString(){
+    @Override
+    public String getValue(){
         return current;
     }
 

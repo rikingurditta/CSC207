@@ -1,13 +1,17 @@
 package com.group0565.engine.gameobjects;
 
+import com.group0565.engine.assets.GameAssetManager;
 import com.group0565.engine.interfaces.Bitmap;
 import com.group0565.engine.interfaces.Canvas;
 import com.group0565.engine.interfaces.GameEngine;
 import com.group0565.engine.interfaces.Observable;
+import com.group0565.engine.interfaces.ObservationEvent;
 import com.group0565.engine.interfaces.Paint;
 import com.group0565.math.Vector;
 
 public class Button extends MenuObject implements Observable {
+    public static final String EVENT_DOWN = "Button_Pressed";
+    public static final String EVENT_UP = "Button_Released";
     private boolean pressed;
     private Bitmap up;
     private Bitmap down;
@@ -37,14 +41,14 @@ public class Button extends MenuObject implements Observable {
         this.down = image;
     }
 
-    public Button(Vector size, GameEngine engine, String set, String name, int tileX, int tileY) {
+    public Button(Vector size, GameAssetManager manager, String set, String name, int tileX, int tileY) {
         this(size);
-        this.up = engine.getGameAssetManager().getTileSheet(set, name).getTile(tileX, tileY);
+        this.up = manager.getTileSheet(set, name).getTile(tileX, tileY);
         this.down = up;
     }
 
-    public Button(Vector size, GameEngine engine, String set, String name) {
-        this(size, engine, set, name, 0, 0);
+    public Button(Vector size, GameAssetManager manager, String set, String name) {
+        this(size, manager, set, name, 0, 0);
     }
 
     @Override
@@ -88,7 +92,7 @@ public class Button extends MenuObject implements Observable {
 
     @Override
     public boolean processInput(InputEvent event) {
-        if (!isEnable())
+        if (!isEnable() || !isSelfEnable())
             return super.processInput(event);
         Vector pos = event.getPos();
         float ex = pos.getX();
@@ -112,7 +116,7 @@ public class Button extends MenuObject implements Observable {
 
     public void setPressed(boolean pressed) {
         this.pressed = pressed;
-        this.notifyObservers();
+        this.notifyObservers(new ObservationEvent(pressed ? EVENT_DOWN : EVENT_UP));
     }
 
     public Bitmap getUp() {
