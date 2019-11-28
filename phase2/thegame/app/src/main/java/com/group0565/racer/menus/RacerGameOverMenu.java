@@ -1,4 +1,4 @@
-package com.group0565.racerGame.Menus;
+package com.group0565.racer.menus;
 
 import com.group0565.engine.gameobjects.GameMenu;
 import com.group0565.math.Vector;

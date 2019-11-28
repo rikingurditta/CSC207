@@ -1,7 +1,7 @@
-package com.group0565.racerGame.Obstacles;
+package com.group0565.racer.obstacles;
 
 import com.group0565.engine.gameobjects.GameObject;
-import com.group0565.racerGame.RacerEngine;
+import com.group0565.racer.core.RacerEngine;
 
 /** An ObstacleManager that manages Obstacle objects */
 public class ObstacleManager extends GameObject {

@@ -1,4 +1,4 @@
-package com.group0565.racerGame;
+package com.group0565.racer.core;
 
 import android.content.res.Resources;
 
@@ -18,17 +18,14 @@ import com.group0565.theme.Themes;
  */
 public class RacerPreferences extends GlobalPreferences implements Observable {
     public static final String DIFFICULTY_CHANGE = "Difficulty Changed";
-    public static final String AUTO_CHANGE = "Auto Changed";
 
     //Constants for the names of the preferences
     private String ThemePrefName = "";
     private String LanguagePrefName = "";
     private String DifficultyPrefName = "";
-    private String AutoPrefName = "";
 
     //Local Copies of the preferences
     private float difficulty;
-    private boolean auto;
 
     /**
      * Reload the preferences to match the most updated preferences
@@ -37,8 +34,7 @@ public class RacerPreferences extends GlobalPreferences implements Observable {
         Resources resources = TheGameApplication.getInstance().getResources();
         ThemePrefName = resources.getString(R.string.theme_pref_id);
         LanguagePrefName = resources.getString(R.string.lan_pref_id);
-        DifficultyPrefName = "tsu-difficulty";
-        AutoPrefName = "tsu-auto";
+        DifficultyPrefName = "racer-difficulty";
 
         IPreferenceInteractor prefInter = PreferencesInjector.inject();
 
@@ -51,10 +47,6 @@ public class RacerPreferences extends GlobalPreferences implements Observable {
             this.difficulty = ((float) (double) difficulty);
         else if (difficulty instanceof Float)
             this.difficulty = ((float) difficulty);
-        Object auto;
-        if (!((auto = prefInter.getPreference(AutoPrefName, false)) instanceof Boolean))
-            auto = false;
-        this.auto = (boolean) auto;
     }
 
     /**
@@ -95,29 +87,10 @@ public class RacerPreferences extends GlobalPreferences implements Observable {
         setPreferences(DifficultyPrefName, difficulty);
     }
 
-    /**
-     * Getter for the auto state
-     * @return The auto state
-     */
-    public boolean getAuto() {
-        return auto;
-    }
-
-    /**
-     * Setter for the auto state
-     * @param auto The new auto state
-     */
-    public void setAuto(boolean auto) {
-        this.auto = auto;
-        this.notifyObservers(new ObservationEvent<>(AUTO_CHANGE, auto));
-        setPreferences(AutoPrefName, auto);
-    }
-
     @Override
     public void registerObserver(EventObserver eventObserver) {
         super.registerObserver(eventObserver);
         this.notifyObservers(new ObservationEvent<>(DIFFICULTY_CHANGE, difficulty));
-        this.notifyObservers(new ObservationEvent<>(AUTO_CHANGE, auto));
     }
 
     /**

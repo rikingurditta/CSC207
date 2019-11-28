@@ -17,7 +17,7 @@ import androidx.lifecycle.LifecycleOwner;
 import com.example.thegame.R;
 import com.group0565.bomberGame.BomberMainActivity;
 import com.group0565.menuUI.achievements.AchievementsActivity;
-import com.group0565.racerGame.RacerMainActivity;
+import com.group0565.racer.core.RacerMainActivity;
 import com.group0565.menuUI.locale.LocaleManager;
 import com.group0565.menuUI.login.LoginClick;
 import com.group0565.menuUI.main.MainMVP.MainPresenter;

@@ -1,4 +1,4 @@
-package com.group0565.racerGame;
+package com.group0565.racer.core;
 
 import com.group0565.engine.gameobjects.Button;
 import com.group0565.engine.gameobjects.GameObject;
@@ -7,7 +7,7 @@ import com.group0565.engine.interfaces.Observable;
 import com.group0565.engine.interfaces.Observer;
 import com.group0565.engine.interfaces.Paint;
 import com.group0565.math.Vector;
-import com.group0565.racerGame.Obstacles.ObstacleManager;
+import com.group0565.racer.obstacles.ObstacleManager;
 import com.group0565.statistics.IAsyncStatisticsRepository;
 import com.group0565.statistics.IStatisticFactory;
 import com.group0565.statistics.StatisticRepositoryInjector;

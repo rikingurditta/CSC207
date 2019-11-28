@@ -1,9 +1,9 @@
-package com.group0565.racerGame;
+package com.group0565.racer.core;
 
 import com.group0565.engine.gameobjects.GameObject;
 import com.group0565.engine.interfaces.Observable;
 import com.group0565.engine.interfaces.Observer;
-import com.group0565.racerGame.Menus.RacerMenu;
+import com.group0565.racer.menus.RacerMenu;
 
 
 public class RacerGame extends GameObject implements Observer {
