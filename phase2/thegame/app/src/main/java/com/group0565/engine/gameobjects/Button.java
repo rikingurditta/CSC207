@@ -92,7 +92,7 @@ public class Button extends MenuObject implements Observable {
 
     @Override
     public boolean processInput(InputEvent event) {
-        if (!isEnable())
+        if (!isEnable() || !isSelfEnable())
             return super.processInput(event);
         Vector pos = event.getPos();
         float ex = pos.getX();

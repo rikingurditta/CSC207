@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="tsu_achievement_name">Tsu Réussite</string>
+    <string name="racer_achievement_name">Racer Réussite</string>
+    <string name="bomber_achievement_name">Bomber Réussite</string>
+    <string name="tsu_achievement_desc">Très descriptif pour tsu</string>
+    <string name="racer_achievement_desc">Très descriptif pour racer</string>
+    <string name="bomber_achievement_desc">Très descriptif pour bomber</string>
+</resources>

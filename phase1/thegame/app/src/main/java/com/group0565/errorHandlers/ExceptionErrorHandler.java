@@ -13,7 +13,6 @@ public class ExceptionErrorHandler implements IErrorHandler<Exception> {
 
   /**
    * Returns the single instance of the class and initiates if necessary
-   *
    * @return The instance of the class
    */
   public static ExceptionErrorHandler getInstance() {

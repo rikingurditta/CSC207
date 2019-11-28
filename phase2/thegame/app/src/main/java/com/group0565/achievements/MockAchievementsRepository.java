@@ -53,14 +53,7 @@ public class MockAchievementsRepository implements IAsyncAchievementsRepository 
 
     updateLiveData();
 
-    Log.d(
-        "MockStatisticRepository",
-        "put "
-            + obj.getAchievementKey()
-            + "with name"
-            + obj.getAchievementName()
-            + " with description "
-            + obj.getAchievementDesc());
+    Log.d("MockStatisticRepository", "put " + obj.getAchievementKey());
   }
 
   /**
@@ -74,14 +67,7 @@ public class MockAchievementsRepository implements IAsyncAchievementsRepository 
 
     updateLiveData();
 
-    Log.d(
-        "MockStatisticRepository",
-        "push: "
-            + obj.getAchievementKey()
-            + "with name"
-            + obj.getAchievementName()
-            + " with description "
-            + obj.getAchievementDesc());
+    Log.d("MockStatisticRepository", "push: " + obj.getAchievementKey());
   }
 
   /**
@@ -112,5 +98,16 @@ public class MockAchievementsRepository implements IAsyncAchievementsRepository 
     } catch (IllegalStateException ex) {
       liveAchievements.postValue(userAchievements);
     }
+  }
+
+  /**
+   * Does the user already have the achievement, send true to callback if achievement IS NOT in db
+   *
+   * @param achievement The achievement earned
+   * @param callBack The callback to return the answer to
+   */
+  @Override
+  public void isNewAchievement(IAchievement achievement, AsyncDataCallBack<Boolean> callBack) {
+    callBack.onDataReceived(false);
   }
 }

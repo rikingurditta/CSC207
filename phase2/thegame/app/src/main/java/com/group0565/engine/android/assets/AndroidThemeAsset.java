@@ -16,7 +16,6 @@ import java.util.HashMap;
 
 public class AndroidThemeAsset extends ThemeAsset {
     public static final String THEME_FOLDER = "theme/";
-    private static final String TAG = "AndroidThemeAsset";
     private static final String PaintSuffix = "Paint";
     private AssetManager assetManager;
     private HashMap<String, AndroidPaint> paints = new HashMap<>();

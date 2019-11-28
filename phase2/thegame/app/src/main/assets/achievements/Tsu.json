@@ -1,0 +1,13 @@
+{
+  "FirstGame": {
+    "DisplayName": "First Play",
+    "Icon": {
+      "Set": "Tsu",
+      "Sheet": "Buttons",
+      "Tile X": 15,
+      "Tile Y": 0
+    },
+    "Description": "Play A Game",
+    "Hidden": false
+  }
+}

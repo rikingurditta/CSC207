@@ -1,7 +1,5 @@
 package com.group0565.engine.gameobjects;
 
-import android.view.Menu;
-
 import com.group0565.engine.enums.HorizontalAlignment;
 import com.group0565.engine.enums.VerticalAlignment;
 import com.group0565.engine.interfaces.Canvas;
@@ -9,7 +7,7 @@ import com.group0565.engine.interfaces.EventObserver;
 import com.group0565.engine.interfaces.GameEngine;
 import com.group0565.engine.interfaces.Observable;
 import com.group0565.engine.interfaces.Observer;
-import com.group0565.engine.interfaces.sources.BooleanSource;
+import com.group0565.engine.interfaces.Source;
 import com.group0565.math.Vector;
 
 import java.util.ArrayList;
@@ -24,7 +22,7 @@ public class MenuObject extends GameObject implements Observable, Observer {
     private Vector parentBuffer = null;
     private Alignment alignment = null;
     private String name;
-    private BooleanSource selfEnable = () -> true;
+    private Source<Boolean> selfEnable = () -> true;
 
     public MenuObject(Vector size) {
         if (size == null && this.getEngine() != null)
@@ -144,7 +142,7 @@ public class MenuObject extends GameObject implements Observable, Observer {
         private Vector offset = null;
         private boolean enable = true;
         private boolean enableSet = false;
-        private BooleanSource selfEnable = null;
+        private Source<Boolean> selfEnable = null;
         private float z = 0;
         private String name = null;
         private List<Observer> observerList = new ArrayList<>();
@@ -178,7 +176,7 @@ public class MenuObject extends GameObject implements Observable, Observer {
             return this;
         }
 
-        public MenuObjectBuilder setSelfEnable(BooleanSource enable){
+        public MenuObjectBuilder setSelfEnable(Source<Boolean> enable){
             this.selfEnable = enable;
             return this;
         }
@@ -290,14 +288,14 @@ public class MenuObject extends GameObject implements Observable, Observer {
     }
 
     public boolean isSelfEnable() {
-        return selfEnable.getBoolean();
+        return selfEnable.getValue();
     }
 
     public void setSelfEnable(boolean selfEnable) {
         this.selfEnable = () -> selfEnable;
     }
 
-    public void setSelfEnable(BooleanSource selfEnable) {
+    public void setSelfEnable(Source<Boolean> selfEnable) {
         this.selfEnable = selfEnable;
     }
 

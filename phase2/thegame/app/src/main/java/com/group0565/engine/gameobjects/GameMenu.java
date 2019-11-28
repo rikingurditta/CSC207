@@ -9,6 +9,7 @@ import com.group0565.math.Vector;
 import java.util.HashMap;
 
 public class GameMenu extends MenuObject implements Observer {
+    public static final String THIS = "this";
     private HashMap<String, MenuObject> menuComponents;
 
     public GameMenu(Vector size) {
@@ -42,13 +43,13 @@ public class GameMenu extends MenuObject implements Observer {
         private Alignment defaultAlign;
         protected MenuBuilder(){
             buildComponents = new HashMap<>();
-            buildComponents.put("this", GameMenu.this);
+            buildComponents.put(THIS, GameMenu.this);
             defaultAlign = new Alignment(GameMenu.this, HorizontalAlignment.Center, VerticalAlignment.Center);
         }
 
         public MenuBuilder add(String name, MenuObject object){
-            if (name.equals("this"))
-                throw new MenuBuilderException("Name \"this\" is reserved.");
+            if (name.equals(THIS))
+                throw new MenuBuilderException("Name \"" + THIS + "\" is reserved.");
             buildComponents.put(name, object);
             activeObject = object;
             activeObject.setName(name);
@@ -82,7 +83,7 @@ public class GameMenu extends MenuObject implements Observer {
 
         public GameMenu close(){
             super.close();
-            buildComponents.remove("this");
+            buildComponents.remove(THIS);
             menuComponents = buildComponents;
             refreshAll();
             return GameMenu.this;
