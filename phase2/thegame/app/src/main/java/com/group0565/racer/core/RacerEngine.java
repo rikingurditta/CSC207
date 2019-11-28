@@ -77,9 +77,9 @@ public class RacerEngine extends GameObject implements Observer, Observable {
     }
 
     public void init() {
-        leftLane = new Lane();
-        middleLane = new Lane();
-        rightLane = new Lane();
+        leftLane = new Lane(new Vector(0, 0), 0);
+        middleLane = new Lane(new Vector(0, 0), 0);
+        rightLane = new Lane(new Vector(0, 0), 0);
 
         this.adopt(leftLane);
         this.adopt(middleLane);
