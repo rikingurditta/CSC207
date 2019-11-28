@@ -121,22 +121,33 @@ public class FirebaseAchievementsRepository implements IAsyncAchievementsReposit
   /**
    * Does the user already have the achievement, send true to callback if achievement IS NOT in db
    *
-   * @param achievement The achievement earned
+   * @param achievementKey The achievement earned
    * @param callBack The callback to return the answer to
    */
   @Override
-  public void isNewAchievement(IAchievement achievement, AsyncDataCallBack<Boolean> callBack) {
+  public void isNewAchievement(String achievementKey, AsyncDataCallBack<Boolean> callBack) {
     getAll(
         data -> {
           boolean isFound = false;
           for (IAchievement currAchieve : data) {
-            if (achievement.getAchievementKey().equals(currAchieve.getAchievementKey())) {
+            if (achievementKey.equals(currAchieve.getAchievementKey())) {
               isFound = true;
               break;
             }
           }
           callBack.onDataReceived(!isFound);
         });
+  }
+
+  /**
+   * Create and push a new achievement with the given key
+   *
+   * @param achievementName The achievement key
+   */
+  @Override
+  public void push(String achievementName) {
+    IAchievement achievement = AchievementFactory.createGameAchievement(achievementName);
+    mDatabase.push().setValue(achievement);
   }
 
   /** An implementation of ChildEventListener for PreferenceRepository */
