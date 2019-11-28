@@ -2,6 +2,8 @@ package com.group0565.achievements;
 
 import androidx.annotation.Nullable;
 
+import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 
 /** An implementation of IAchievements for GameAchievement */
@@ -13,13 +15,16 @@ public class GameAchievement implements IAchievement {
   /** The achievement's status */
   private boolean isAchieved;
 
+  /** The date of achievement */
+  private Date achievementDate;
+
   /**
    * Creates a new GameStatistic with the given key
    *
    * @param achievementKey The achievement unique key
    */
   public GameAchievement(String achievementKey) {
-    this(achievementKey, false);
+    this(achievementKey, false, null);
   }
 
   /**
@@ -28,9 +33,10 @@ public class GameAchievement implements IAchievement {
    * @param achievementKey The achievement unique key
    * @param isAchieved The achievement's status
    */
-  public GameAchievement(String achievementKey, boolean isAchieved) {
+  GameAchievement(String achievementKey, boolean isAchieved, Date achievedAt) {
     this.achievementKey = achievementKey;
     this.isAchieved = isAchieved;
+    this.achievementDate = achievedAt;
   }
 
   /** Default constructor - DO NOT USE! REQUIRED FOR FIREBASE DB */
@@ -58,9 +64,20 @@ public class GameAchievement implements IAchievement {
     return isAchieved;
   }
 
+  /**
+   * Gets the achievement's achieve date
+   *
+   * @return The date and time of achievement
+   */
+  @Override
+  public Date getAchieveDate() {
+    return this.achievementDate;
+  }
+
   /** Sets the achievement's status to true */
   public void setAchieved() {
     isAchieved = true;
+    achievementDate = Calendar.getInstance().getTime();
   }
 
   /**

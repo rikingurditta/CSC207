@@ -21,7 +21,7 @@ public class AchievementExample {
           achievementsRepository = repository;
 
           achievementsRepository.isNewAchievement(
-              achievementEarned, isNew -> handleAchievement(isNew, achievementEarned));
+              achievementEarned.getAchievementKey(), isNew -> handleAchievement(isNew, achievementEarned));
         });
   }
 
