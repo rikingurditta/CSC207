@@ -14,6 +14,7 @@ public class RacerGameOverMenu extends GameMenu {
     @Override
     public void draw(Canvas canvas) {
         super.draw(canvas);
+        canvas.drawRGB(0, 0, 0);
 
     }
 }
