@@ -18,7 +18,6 @@ import com.example.thegame.R;
 import com.group0565.bomberGame.BomberMainActivity;
 import com.group0565.menuUI.achievements.AchievementsActivity;
 import com.group0565.racerGame.RacerMainActivity;
-import com.group0565.tsu.TsuActivity;
 import com.group0565.menuUI.locale.LocaleManager;
 import com.group0565.menuUI.login.LoginClick;
 import com.group0565.menuUI.main.MainMVP.MainPresenter;
@@ -27,6 +26,7 @@ import com.group0565.menuUI.main.enums.GameID;
 import com.group0565.menuUI.main.enums.MenuOptionID;
 import com.group0565.menuUI.settings.SettingsActivity;
 import com.group0565.menuUI.statistics.StatisticsActivity;
+import com.group0565.tsu.core.TsuActivity;
 
 /** The MainActivity class */
 public class MainActivity extends AppCompatActivity implements MainView {

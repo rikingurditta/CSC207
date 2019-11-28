@@ -7,11 +7,11 @@ import com.group0565.engine.gameobjects.GlobalPreferences;
 import com.group0565.engine.interfaces.EventObserver;
 import com.group0565.engine.interfaces.Observable;
 import com.group0565.engine.interfaces.ObservationEvent;
+import com.group0565.menuUI.TheGameApplication;
 import com.group0565.preferences.IPreferenceInteractor;
 import com.group0565.preferences.PreferencesInjector;
 import com.group0565.preferences.UserPreferenceFactory;
 import com.group0565.theme.Themes;
-import com.thegame.TheGameApplication;
 
 /**
  * Class Responsible for reading and writing preferences to the repository;

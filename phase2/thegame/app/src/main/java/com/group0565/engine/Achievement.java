@@ -44,6 +44,11 @@ public class Achievement extends GameMenu {
     private String name;
     /**Name of the achievement to display**/
     private String displayName;
+    /**Description of the achievement**/
+    private String description;
+    /**Whether or not the achievement is hidden**/
+    private boolean hidden;
+
     /**Data to load bitmap with*/
     private String set = null;
     private String sheet = null;
@@ -70,10 +75,12 @@ public class Achievement extends GameMenu {
      * @param tilex The tile coordinate to obtain Bitmap from
      * @param tiley The tile coordinate to obtain Bitmap from
      */
-    public Achievement(Vector size, String name, String displayName, String set, String sheet, int tilex, int tiley) {
+    public Achievement(Vector size, String name, String displayName, String description, boolean hidden, String set, String sheet, int tilex, int tiley) {
         super(size);
         this.name = name;
         this.displayName = displayName;
+        this.description = description;
+        this.hidden = hidden;
         this.set = set;
         this.sheet = sheet;
         this.tilex = tilex;
@@ -178,6 +185,42 @@ public class Achievement extends GameMenu {
      */
     public boolean isUnlocked() {
         return unlocked;
+    }
+
+    /**
+     * Getter for description
+     *
+     * @return description
+     */
+    public String getDescription() {
+        return description;
+    }
+
+    /**
+     * Setter for description
+     *
+     * @param description The new value for description
+     */
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    /**
+     * Getter for hidden
+     *
+     * @return hidden
+     */
+    public boolean isHidden() {
+        return hidden;
+    }
+
+    /**
+     * Setter for hidden
+     *
+     * @param hidden The new value for hidden
+     */
+    public void setHidden(boolean hidden) {
+        this.hidden = hidden;
     }
 
     /**

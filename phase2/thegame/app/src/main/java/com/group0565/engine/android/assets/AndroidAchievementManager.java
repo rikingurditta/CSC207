@@ -15,6 +15,8 @@ import java.io.InputStreamReader;
 
 public class AndroidAchievementManager extends AchievementManager {
     private static final String TAG = "AndroidAchievementManager";
+
+    //Constants for Names of fields of Achievements Json File
     private static final String ACHIEVEMENTS_FOLDER = "achievements/";
     private static final String DISPLAY_NAME = "DisplayName";
     private static final String ICON_NAME = "Icon";
@@ -22,6 +24,8 @@ public class AndroidAchievementManager extends AchievementManager {
     private static final String SHEET_NAME = "Sheet";
     private static final String TILEX_NAME = "Tile X";
     private static final String TILEY_NAME = "Tile Y";
+    private static final String DESCRIPTION_NAME = "Description";
+    private static final String HIDDEN_NAME = "Hidden";
 
 
     /**Default Size of dropdown**/
@@ -51,7 +55,9 @@ public class AndroidAchievementManager extends AchievementManager {
             reader.beginObject();
             while (reader.peek() == JsonToken.NAME) {
                 String name = reader.nextName();
-                String displayName = null;
+                String displayName = "";
+                String description = "";
+                boolean hidden = false;
                 String Set = null;
                 String Sheet = null;
                 int tilex = 0;
@@ -85,10 +91,16 @@ public class AndroidAchievementManager extends AchievementManager {
                         case TILEY_NAME:
                             tiley = reader.nextInt();
                             break;
+                        case DESCRIPTION_NAME:
+                            description = reader.nextString();
+                            break;
+                        case HIDDEN_NAME:
+                            hidden = reader.nextBoolean();
+                            break;
                     }
                 }
                 reader.endObject();
-                this.registerAchivement(set, new Achievement(SIZE, name, displayName, Set, Sheet, tilex, tiley));
+                this.registerAchivement(set, new Achievement(SIZE, name, displayName, description, hidden, Set, Sheet, tilex, tiley));
             }
             reader.endObject();
         } catch (IOException e) {
