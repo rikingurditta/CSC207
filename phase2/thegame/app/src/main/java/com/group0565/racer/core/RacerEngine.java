@@ -7,6 +7,7 @@ import com.group0565.engine.interfaces.Observable;
 import com.group0565.engine.interfaces.Observer;
 import com.group0565.engine.interfaces.Paint;
 import com.group0565.math.Vector;
+import com.group0565.racer.menus.RacerGameOverMenu;
 import com.group0565.racer.obstacles.ObstacleManager;
 import com.group0565.statistics.IAsyncStatisticsRepository;
 import com.group0565.statistics.IStatisticFactory;
@@ -58,6 +59,8 @@ public class RacerEngine extends GameObject implements Observer, Observable {
 
     /** Database object for game statistics */
     private IAsyncStatisticsRepository myStatRepo;
+
+    private RacerGameOverMenu gameOverMenu;
 
     public RacerEngine() {
         super(new Vector());
@@ -114,6 +117,9 @@ public class RacerEngine extends GameObject implements Observer, Observable {
 
         obsManager = new ObstacleManager(this);
         this.adopt(obsManager);
+
+        gameOverMenu = new RacerGameOverMenu(size?);
+        gameOverMenu.setEnable(false);
     }
 
     /** @param observable Button objects */
@@ -180,6 +186,7 @@ public class RacerEngine extends GameObject implements Observer, Observable {
     public void disableAll() {
         racer.setEnable(false);
         obsManager.setEnable(false);
+        gameOverMenu.setEnable(true);
     }
 
     /**

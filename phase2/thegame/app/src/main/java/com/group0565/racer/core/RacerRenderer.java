@@ -42,7 +42,6 @@ public class RacerRenderer extends GameObject {
   public void setTimer(long ms) {
     this.timer = ms;
     if (timer <= 0) lastActive = 0;
-    while (lastActive < objects.size() && objects.get(lastActive).getMsEnd() < timer) lastActive++;
   }
 
   protected int getLastActive() {
