@@ -158,15 +158,6 @@ public class RacerEngine extends GameObject implements Observer, Observable {
     }
 
     /**
-     * Getter method that returns this game's Racer object
-     *
-     * @return Racer object
-     */
-    public Racer getRacer() {
-        return racer;
-    }
-
-    /**
      * Updates the database with user's time survived
      *
      * @param totalTime the player's time survived during this game
@@ -178,29 +169,6 @@ public class RacerEngine extends GameObject implements Observer, Observable {
                     IStatisticFactory.createGameStatistic(
                             StatisticKey.RACER_TIME_SURVIVED.getValue() + startTime, totalTime));
         }
-    }
-
-    /**
-     * Getter method that returns totalTime attribute
-     *
-     * @return totalTime
-     */
-    public long getTotalTime() {
-        return totalTime;
-    }
-
-    /**
-     * Getter method that returns spawnTime attribute
-     *
-     * @return spawnTime
-     */
-    public long getSpawnTime() {
-        return spawnTime;
-    }
-
-    /** Sets the live attribute of this variable to the opposite value */
-    public void setLive() {
-        live = !live;
     }
 
     /** Disables the racer and obstacles from rendering on the screen when the user loses the game */
@@ -258,6 +226,21 @@ public class RacerEngine extends GameObject implements Observer, Observable {
         canvas.drawText(Long.toString(getTotalTime()), 600, 200, time);
     }
 
+    public void endGame() {
+        gameOverMenu.setEnable(true);
+        disableAll();
+        setLive();
+    }
+
+    /**
+     * Getter method that returns this game's Racer object
+     *
+     * @return Racer object
+     */
+    public Racer getRacer() {
+        return racer;
+    }
+
     public boolean hasEnded() {
         return ended;
     }
@@ -274,9 +257,28 @@ public class RacerEngine extends GameObject implements Observer, Observable {
         this.paused = paused;
     }
 
-    public void endGame() {
-        gameOverMenu.setEnable(true);
-        disableAll();
-        setLive();
+    /**
+     * Getter method that returns totalTime attribute
+     *
+     * @return totalTime
+     */
+    public long getTotalTime() {
+        return totalTime;
     }
+
+    /**
+     * Getter method that returns spawnTime attribute
+     *
+     * @return spawnTime
+     */
+    public long getSpawnTime() {
+        return spawnTime;
+    }
+
+    /** Sets the live attribute of this variable to the opposite value */
+    public void setLive() {
+        live = !live;
+    }
+
+
 }
