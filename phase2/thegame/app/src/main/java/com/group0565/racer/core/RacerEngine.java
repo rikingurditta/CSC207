@@ -8,6 +8,7 @@ import com.group0565.engine.interfaces.Observer;
 import com.group0565.engine.interfaces.Paint;
 import com.group0565.math.Vector;
 import com.group0565.racer.menus.RacerGameOverMenu;
+import com.group0565.racer.menus.RacerPauseMenu;
 import com.group0565.racer.obstacles.ObstacleManager;
 import com.group0565.statistics.IAsyncStatisticsRepository;
 import com.group0565.statistics.IStatisticFactory;
@@ -61,6 +62,10 @@ public class RacerEngine extends GameObject implements Observer, Observable {
     private IAsyncStatisticsRepository myStatRepo;
 
     private RacerGameOverMenu gameOverMenu;
+
+    private RacerPauseMenu pauseMenu;
+
+    private RacerRenderer renderer;
 
     public RacerEngine() {
         super(new Vector());
@@ -118,8 +123,14 @@ public class RacerEngine extends GameObject implements Observer, Observable {
         obsManager = new ObstacleManager(this);
         this.adopt(obsManager);
 
-        gameOverMenu = new RacerGameOverMenu(size?);
-        gameOverMenu.setEnable(false);
+////        gameOverMenu = new RacerGameOverMenu(size?);
+//        gameOverMenu.setEnable(false);
+//
+////        pauseMenu = new RacerPauseMenu();
+//        pauseMenu.setEnable(false);
+//
+////        renderer = new RacerRenderer();
+//        renderer.setEnable(true);
     }
 
     /** @param observable Button objects */
@@ -215,27 +226,7 @@ public class RacerEngine extends GameObject implements Observer, Observable {
     @Override
     public void draw(Canvas canvas) {
         super.draw(canvas);
-        Paint time = Paint.createInstance();
-        if (getGlobalPreferences().getTheme() == Themes.LIGHT) {
-            // Set background to white
-            canvas.drawRGB(255, 255, 255);
-            // Set text colour to black
-            time.setARGB(255, 0, 0, 0);
-        } else {
-            // Set background to black
-            canvas.drawRGB(0, 0, 0);
-            // Set text colour to white
-            time.setARGB(255, 255, 255, 255);
-        }
-        time.setTextSize(128);
-        // Set the colour of the lines
-        Paint colour = Paint.createInstance();
-        colour.setARGB(255, 255, 0, 0);
-        // Draw the red lines that separate the lanes
-        canvas.drawRect(canvas.getWidth() / 3 - 15, 0, canvas.getWidth() / 3 + 15, 2500, colour);
-        canvas.drawRect(
-                2 * canvas.getWidth() / 3 - 15, 0, 2 * canvas.getWidth() / 3 + 15, 2500, colour);
-        canvas.drawText(Long.toString(totalTime), 600, 200, time);
+        renderer.draw(canvas);
     }
 
     public boolean hasEnded() {
