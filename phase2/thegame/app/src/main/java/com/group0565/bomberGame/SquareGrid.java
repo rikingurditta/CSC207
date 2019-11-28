@@ -65,13 +65,7 @@ public class SquareGrid extends GameObject {
    * @param game
    */
   public SquareGrid(Vector position, int width, int height, int tileWidth, BomberGame game) {
-    super(position);
-    this.width = width;
-    this.height = height;
-    this.tileWidth = tileWidth;
-    this.game = game;
-    this.windowWidth = width * tileWidth;
-    this.windowHeight = height * tileWidth;
+    this(position, 0, width, height, tileWidth, game);
   }
 
   @Override

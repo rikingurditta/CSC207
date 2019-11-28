@@ -77,10 +77,7 @@ public class BomberMan extends GridObject {
    */
   public BomberMan(
       Coords position, InputSystem inputSystem, BomberGame game, SquareGrid grid, int hp) {
-    super(position, grid);
-    this.inputSystem = inputSystem;
-    this.game = game;
-    this.hp = hp;
+    this(position, 0, inputSystem, game, grid, hp);
   }
 
   @Override

@@ -57,10 +57,7 @@ public class JoystickInput extends InputSystem {
    */
   public JoystickInput(
       Vector position, Vector stickRelativePosition, Vector buttonRelativePosition, int scale) {
-    super(position);
-    this.scale = scale;
-    this.stickPosition = position.add(stickRelativePosition);
-    this.buttonPosition = position.add(buttonRelativePosition);
+    this(position, 0, stickRelativePosition, buttonRelativePosition, scale);
   }
 
   /** @return the last input if it has not expired. */

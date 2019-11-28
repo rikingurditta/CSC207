@@ -7,8 +7,7 @@ public class Coords {
 
   /** Create a new coordinate at the origin. */
   public Coords() {
-    this.x = 0;
-    this.y = 0;
+    this(0, 0);
   }
   /** Create a new coordinate (x, y). */
   public Coords(int x, int y) {
@@ -22,8 +21,10 @@ public class Coords {
     assert minX <= maxX;
     assert minY <= maxY;
 
-    return new Coords(
-        minX + (int) (Math.random() * (maxX - minX)), minY + (int) (Math.random() * (maxY - minY)));
+    int randX = minX + (int) (Math.random() * (maxX - minX));
+    int randY = minY + (int) (Math.random() * (maxY - minY));
+
+    return new Coords(randX, randY);
   }
 
   /** @return true if the coordinates have the same components. */

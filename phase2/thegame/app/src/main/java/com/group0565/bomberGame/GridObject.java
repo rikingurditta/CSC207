@@ -29,10 +29,7 @@ public abstract class GridObject extends GameObject {
    * @param grid The grid this object is within.
    */
   public GridObject(Coords position, SquareGrid grid) {
-    super(grid.gridCoordsToAbsolutePosition(position));
-    this.gridCoords = position;
-    this.grid = grid;
-    grid.addItem(this, position);
+    this(position, 0, grid);
   }
 
   public Coords getGridCoords() {
