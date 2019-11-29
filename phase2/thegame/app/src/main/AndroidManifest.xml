@@ -14,7 +14,15 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name="com.group0565.menuUI.achievements.AchievementsActivity"></activity>
+        <activity
+            android:name="com.group0565.menuUI.achievements.AchievementsActivity"
+            android:launchMode="singleTop"
+            android:parentActivityName="com.group0565.menuUI.main.MainActivity"
+            android:screenOrientation="portrait">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.group0565.menuUI.main.MainActivity" />
+        </activity>
         <activity
             android:name="com.group0565.menuUI.main.MainActivity"
             android:screenOrientation="portrait">
@@ -42,7 +50,7 @@
                 android:value="com.group0565.menuUI.main.MainActivity" />
         </activity>
         <activity
-            android:name="com.group0565.tsu.TsuActivity"
+            android:name="com.group0565.tsu.core.TsuActivity"
             android:configChanges="keyboardHidden|orientation"
             android:launchMode="singleTop"
             android:persistent="true"

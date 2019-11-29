@@ -18,6 +18,9 @@ public class StatisticsRowViewHolder extends RecyclerView.ViewHolder
   /** The value textView */
   private TextView valueTextView;
 
+  /** The date textView */
+  private TextView dateTextView;
+
   /**
    * Sets the textView references
    *
@@ -28,6 +31,7 @@ public class StatisticsRowViewHolder extends RecyclerView.ViewHolder
 
     titleTextView = itemView.findViewById(R.id.stat_title);
     valueTextView = itemView.findViewById(R.id.stat_value);
+    dateTextView = itemView.findViewById(R.id.stat_date);
   }
 
   /**
@@ -48,5 +52,15 @@ public class StatisticsRowViewHolder extends RecyclerView.ViewHolder
   @Override
   public void setValue(String value) {
     valueTextView.setText(value);
+  }
+
+  /**
+   * Sets the row date
+   *
+   * @param statDate The new value
+   */
+  @Override
+  public void setDate(String statDate) {
+    dateTextView.setText(statDate);
   }
 }

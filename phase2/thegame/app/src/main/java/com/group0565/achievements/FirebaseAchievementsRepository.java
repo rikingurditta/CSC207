@@ -69,7 +69,6 @@ public class FirebaseAchievementsRepository implements IAsyncAchievementsReposit
                 .getChildren()
                 .forEach(
                     child -> {
-                      // todo: check for correct values
                       IAchievement achievement = child.getValue(GameAchievement.class);
                       userAchievements.add(achievement);
                     });
@@ -83,7 +82,7 @@ public class FirebaseAchievementsRepository implements IAsyncAchievementsReposit
   }
 
   /**
-   * Updates a achievement in the database
+   * Updates an achievement in the database
    *
    * @param achievement The achievement to update based on its key
    */
@@ -93,17 +92,18 @@ public class FirebaseAchievementsRepository implements IAsyncAchievementsReposit
   }
 
   /**
-   * Add a achievement to the database
+   * Add an achievement to the database - mark as achieved
    *
    * @param achievement The achievement to add
    */
   @Override
   public void push(IAchievement achievement) {
+    achievement.setAchieved(System.currentTimeMillis());
     mDatabase.push().setValue(achievement);
   }
 
   /**
-   * Remove a achievement from the database
+   * Remove an achievement from the database
    *
    * @param achievement The achievement to remove
    */
@@ -116,6 +116,38 @@ public class FirebaseAchievementsRepository implements IAsyncAchievementsReposit
   @Override
   public void deleteAll() {
     mDatabase.removeValue();
+  }
+
+  /**
+   * Does the user already have the achievement, send true to callback if achievement IS NOT in db
+   *
+   * @param achievementKey The achievement earned
+   * @param callBack The callback to return the answer to
+   */
+  @Override
+  public void isNewAchievement(String achievementKey, AsyncDataCallBack<Boolean> callBack) {
+    getAll(
+        data -> {
+          boolean isFound = false;
+          for (IAchievement currAchieve : data) {
+            if (achievementKey.equals(currAchieve.getAchievementKey())) {
+              isFound = true;
+              break;
+            }
+          }
+          callBack.onDataReceived(!isFound);
+        });
+  }
+
+  /**
+   * Create and push a new achievement with the given key
+   *
+   * @param achievementName The achievement key
+   */
+  @Override
+  public void push(String achievementName) {
+    IAchievement achievement = AchievementFactory.createGameAchievement(achievementName);
+    mDatabase.push().setValue(achievement);
   }
 
   /** An implementation of ChildEventListener for PreferenceRepository */

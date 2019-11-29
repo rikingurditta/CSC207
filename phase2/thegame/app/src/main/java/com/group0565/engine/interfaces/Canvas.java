@@ -142,6 +142,23 @@ public interface Canvas {
     void drawRGB(int r, int g, int b);
 
     /**
+     * Draw RGB on screen using the color set in Paint
+     * @see this#drawRGB(int, int, int)
+     */
+    default void drawRGB(Paint paint){
+        this.drawColor(paint.getColor());
+    }
+
+    /**
+     * Draw RGB on screen using the color set in PaintCan
+     * @see this#drawRGB(int, int, int)
+     */
+    default void drawRGB(PaintCan paintCan){
+        this.drawColor(paintCan.getPaint().getColor());
+    }
+
+
+    /**
      * Draw a drawable
      * @param drawable The drawable to draw.
      */

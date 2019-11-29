@@ -1,8 +1,10 @@
 package com.group0565.statistics;
 
 import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 
 /**
  * An implementation of IStatistic for GameStatistics
@@ -60,27 +62,10 @@ class GameStatistic<T> implements IStatistic<T> {
    * @return Statistic formatted date
    */
   @Override
-  public String getStatFormattedDate() {
+  public Long getStatDate() {
     String[] part = this.statKey.split("(?<=\\D)(?=\\d)");
 
-    return formatMilliToDate(Long.parseLong(part[1]));
-  }
-
-  /**
-   * Convert millisecond to local datetime format
-   *
-   * @param milli The milliseconds to convert
-   * @return The formatted date as a string
-   */
-  private String formatMilliToDate(Long milli) {
-    // Create a DateFormatter object for displaying date in specified format.
-    DateFormat formatter = SimpleDateFormat.getDateTimeInstance();
-
-    // Create a calendar object that will convert the date and time value in milliseconds to date.
-    Calendar calendar = Calendar.getInstance();
-    calendar.setTimeInMillis(milli);
-
-    return formatter.format(calendar.getTime());
+    return Long.parseLong(part[1]);
   }
 
   /**
@@ -101,5 +86,25 @@ class GameStatistic<T> implements IStatistic<T> {
   @Override
   public void setValue(T value) {
     this.statValue = value;
+  }
+
+  /**
+   * Compares this object with the specified object for order. Returns a negative integer, zero, or
+   * a positive integer as this object is less than, equal to, or greater than the specified object.
+   *
+   * @param o the object to be compared.
+   * @return a negative integer, zero, or a positive integer as this object is less than, equal to,
+   *     or greater than the specified object.
+   * @throws NullPointerException if the specified object is null
+   * @throws ClassCastException if the specified object's type prevents it from being compared to
+   *     this object.
+   */
+  @Override
+  public int compareTo(IStatistic<T> o) {
+    if (statKey == null || o.getStatKey() == null) {
+      return 0;
+    } else {
+      return this.getStatDate() != null ? this.getStatDate().compareTo(o.getStatDate()) : 0;
+    }
   }
 }

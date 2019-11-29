@@ -5,7 +5,7 @@ package com.group0565.statistics;
  *
  * @param <T> The type of value in the statistic
  */
-public interface IStatistic<T> {
+public interface IStatistic<T> extends Comparable<IStatistic<T>> {
 
   /**
    * Get the statistic's full key
@@ -22,11 +22,11 @@ public interface IStatistic<T> {
   String getStatKey();
 
   /**
-   * Get the statistic's formatted date
+   * Get the statistic's date
    *
-   * @return Statistic formatted date
+   * @return Statistic date in millis
    */
-  String getStatFormattedDate();
+  Long getStatDate();
 
   /**
    * Get the statistic's value

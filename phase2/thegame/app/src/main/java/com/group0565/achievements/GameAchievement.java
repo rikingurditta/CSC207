@@ -1,28 +1,42 @@
 package com.group0565.achievements;
 
+import androidx.annotation.Nullable;
+
+import java.util.Calendar;
+import java.util.Date;
+import java.util.HashMap;
+
 /** An implementation of IAchievements for GameAchievement */
 public class GameAchievement implements IAchievement {
 
   /** The key for the achievement */
   private String achievementKey;
 
-  /** The description of the achievement */
-  private String achievementDesc;
+  /** The achievement's status */
+  private boolean isAchieved;
 
-  /** The name of the achievement */
-  private String achievementName;
+  /** The date of achievement */
+  private Long achievementDate;
 
   /**
-   * Creates a new GameStatistic with the given key and value
+   * Creates a new GameStatistic with the given key
    *
    * @param achievementKey The achievement unique key
-   * @param achievementDesc The achievement description
-   * @param achievementName The achievement name
    */
-  GameAchievement(String achievementKey, String achievementDesc, String achievementName) {
-    this.achievementName = achievementName;
-    this.achievementDesc = achievementDesc;
+  public GameAchievement(String achievementKey) {
+    this(achievementKey, false, null);
+  }
+
+  /**
+   * Creates a new GameStatistic with the given key and status
+   *
+   * @param achievementKey The achievement unique key
+   * @param isAchieved The achievement's status
+   */
+  GameAchievement(String achievementKey, boolean isAchieved, Long achievedAt) {
     this.achievementKey = achievementKey;
+    this.isAchieved = isAchieved;
+    this.achievementDate = achievedAt;
   }
 
   /** Default constructor - DO NOT USE! REQUIRED FOR FIREBASE DB */
@@ -41,42 +55,48 @@ public class GameAchievement implements IAchievement {
   }
 
   /**
-   * Get the Achievement's description
+   * Gets the Achievement's status
    *
-   * @return Achievement description
+   * @return True if achievement was unlocked and false otherwise
    */
   @Override
-  public String getAchievementDesc() {
-    return this.achievementDesc;
+  public boolean getIsAchieved() {
+    return isAchieved;
   }
 
   /**
-   * Get the Achievement's name
+   * Gets the achievement's achieve date
    *
-   * @return Achievement name
+   * @return The date and time of achievement
    */
   @Override
-  public String getAchievementName() {
-    return this.achievementName;
+  public Long getAchievementDate() {
+    return this.achievementDate;
   }
 
   /**
-   * Set the Achievement's description
+   * Sets the achievement's status to true *
    *
-   * @param desc New desc
+   * @param achieveDate The date of achievement
    */
-  @Override
-  public void setDesc(String desc) {
-    this.achievementDesc = desc;
+  public void setAchieved(Long achieveDate) {
+    isAchieved = true;
+    this.achievementDate = achieveDate;
   }
 
   /**
-   * Set the Achievement's name
+   * Indicates whether some other object is "equal to" this one.
    *
-   * @param name New name
+   * @param obj the reference object with which to compare.
+   * @return {@code true} if this object is the same as the obj argument; {@code false} otherwise.
+   * @see #hashCode()
+   * @see HashMap
    */
   @Override
-  public void setName(String name) {
-    this.achievementName = name;
+  public boolean equals(@Nullable Object obj) {
+    if (obj instanceof IAchievement) {
+      return ((IAchievement) obj).getAchievementKey().equals(this.getAchievementKey());
+    }
+    return super.equals(obj);
   }
 }

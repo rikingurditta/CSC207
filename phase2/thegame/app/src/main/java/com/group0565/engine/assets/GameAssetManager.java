@@ -13,6 +13,7 @@ public abstract class GameAssetManager implements LifecycleListener, Closeable {
     private HashMap<String, HashMap<String, AudioAsset>> audioSets = new HashMap<>();
     private HashMap<String, HashMap<String, JsonFile>> jsonSets = new HashMap<>();
     private HashMap<String, HashMap<String, LanguagePack>> languagePackSets = new HashMap<>();
+
     private HashMap<String, HashMap<String, ThemeAsset>> themeSets = new HashMap<>();
 
     public void init(){

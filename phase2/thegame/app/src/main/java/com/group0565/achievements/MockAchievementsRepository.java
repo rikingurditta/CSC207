@@ -45,57 +45,43 @@ public class MockAchievementsRepository implements IAsyncAchievementsRepository 
   /**
    * Updates an object in the database for the user
    *
-   * @param obj The object to update based on its key
+   * @param achievement The object to update based on its key
    */
   @Override
-  public void put(IAchievement obj) {
-    userAchievements.add(obj);
+  public void put(IAchievement achievement) {
+    userAchievements.add(achievement);
 
     updateLiveData();
 
-    Log.d(
-        "MockStatisticRepository",
-        "put "
-            + obj.getAchievementKey()
-            + "with name"
-            + obj.getAchievementName()
-            + " with description "
-            + obj.getAchievementDesc());
+    Log.d("MockStatisticRepository", "put " + achievement.getAchievementKey());
   }
 
   /**
    * Add an achievement to the database for the user
    *
-   * @param obj The object to add
+   * @param achievement The object to add
    */
   @Override
-  public void push(IAchievement obj) {
-    userAchievements.add(obj);
+  public void push(IAchievement achievement) {
+    userAchievements.add(achievement);
 
     updateLiveData();
 
-    Log.d(
-        "MockStatisticRepository",
-        "push: "
-            + obj.getAchievementKey()
-            + "with name"
-            + obj.getAchievementName()
-            + " with description "
-            + obj.getAchievementDesc());
+    Log.d("MockStatisticRepository", "push: " + achievement.getAchievementKey());
   }
 
   /**
    * Remove an achievement from the database for the user
    *
-   * @param obj The object to remove
+   * @param achievement The object to remove
    */
   @Override
-  public void delete(IAchievement obj) {
-    userAchievements.add(obj);
+  public void delete(IAchievement achievement) {
+    userAchievements.add(achievement);
 
     updateLiveData();
 
-    Log.d("MockStatisticRepository", "delete: " + obj.getAchievementKey());
+    Log.d("MockStatisticRepository", "delete: " + achievement.getAchievementKey());
   }
 
   /** Remove all child objects */
@@ -112,5 +98,39 @@ public class MockAchievementsRepository implements IAsyncAchievementsRepository 
     } catch (IllegalStateException ex) {
       liveAchievements.postValue(userAchievements);
     }
+  }
+
+  /**
+   * Does the user already have the achievement, send true to callback if achievement IS NOT in db
+   *
+   * @param achievementKey The achievement earned
+   * @param callBack The callback to return the answer to
+   */
+  @Override
+  public void isNewAchievement(String achievementKey, AsyncDataCallBack<Boolean> callBack) {
+    boolean isFound = false;
+    for (IAchievement currAchieve : userAchievements) {
+      if (achievementKey.equals(currAchieve.getAchievementKey())) {
+        isFound = true;
+        break;
+      }
+    }
+    callBack.onDataReceived(!isFound);
+  }
+
+  /**
+   * Create and push a new achievement with the given key
+   *
+   * @param achievementName The achievement key
+   */
+  @Override
+  public void push(String achievementName) {
+    IAchievement achievement = AchievementFactory.createGameAchievement(achievementName);
+
+    userAchievements.add(achievement);
+
+    updateLiveData();
+
+    Log.d("MockStatisticRepository", "push: " + achievement.getAchievementKey());
   }
 }

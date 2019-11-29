@@ -15,19 +15,18 @@ public class AchievementsRepositoryInjector {
    */
   public static void inject(RepositoryInjectionListener listener) {
     // Make sure listener sits on main thread
-    //        Handler handler = new Handler(Looper.getMainLooper());
-    //        handler.post(
-    //                () ->
-    //                        IUsersInteractor.getInstance()
-    //                                .getUserObservable()
-    //                                .observeForever(
-    //                                        iUser -> {
-    //                                            if (iUser.isConnected()) {
-    //                                                listener.onSuccess(
-    //                                                        new
+    //    Handler handler = new Handler(Looper.getMainLooper());
+    //    handler.post(
+    //        () ->
+    //            IUsersInteractor.getInstance()
+    //                .getUserObservable()
+    //                .observeForever(
+    //                    iUser -> {
+    //                      if (iUser.isConnected()) {
+    //                        listener.onSuccess(new
     // FirebaseAchievementsRepository(iUser.getUid()));
-    //                                            }
-    //                                        }));
+    //                      }
+    //                    }));
 
     listener.onSuccess(new MockAchievementsRepository());
   }

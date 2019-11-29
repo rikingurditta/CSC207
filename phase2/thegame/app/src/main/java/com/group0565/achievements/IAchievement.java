@@ -11,30 +11,23 @@ public interface IAchievement {
   String getAchievementKey();
 
   /**
-   * Get the Achievement's description
+   * Gets the Achievement's status
    *
-   * @return Achievement description
+   * @return True if achievement was unlocked and false otherwise
    */
-  String getAchievementDesc();
+  boolean getIsAchieved();
 
   /**
-   * Get the Achievement's name
+   * Gets the achievement's achieve date
    *
-   * @return Achievement name
+   * @return The date and time of achievement in milliseconds
    */
-  String getAchievementName();
+  Long getAchievementDate();
 
   /**
-   * Set the Achievement's description
+   * Sets the achievement's status to true
    *
-   * @param desc New desc
+   * @param achieveDate The date of achievement
    */
-  void setDesc(String desc);
-
-  /**
-   * Set the Achievement's name
-   *
-   * @param name New name
-   */
-  void setName(String name);
+  void setAchieved(Long achieveDate);
 }

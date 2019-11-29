@@ -1,10 +1,14 @@
 package com.group0565.menuUI.achievements;
 
 import com.group0565.achievements.AchievementsRepositoryInjector;
+import com.group0565.achievements.IAchievement;
 import com.group0565.achievements.IAsyncAchievementsRepository;
+import com.group0565.achievements.enums.Achievements;
 import com.group0565.preferences.IPreferenceInteractor;
 import com.group0565.preferences.PreferencesInjector;
 import com.group0565.theme.ThemeManager;
+
+import java.util.List;
 
 public class AchievementsPresenterImp implements AchievementsMVP.AchievementsPresenter {
 
@@ -23,7 +27,7 @@ public class AchievementsPresenterImp implements AchievementsMVP.AchievementsPre
   /** Fetches the repository and uses it to get and set the data in the recycler */
   @Override
   public void getGameAchievementsRepo() {
-    AchievementsRepositoryInjector.inject(repository -> setAchievements(repository));
+    AchievementsRepositoryInjector.inject(this::setAchievements);
   }
 
   /**
@@ -32,7 +36,21 @@ public class AchievementsPresenterImp implements AchievementsMVP.AchievementsPre
    * @param repository The repository to get the data from
    */
   private void setAchievements(IAsyncAchievementsRepository repository) {
-    repository.getAll(data -> achievementsView.setAchievements(data));
+    repository.getAll(
+        data -> {
+          List<IAchievement> allAchievements = Achievements.getAllAchievements();
+
+          // Change the achievement status to true, if achievement is in db
+          data.forEach(
+              achievement ->
+                  allAchievements.stream()
+                      .filter(oAchievement -> oAchievement.equals(achievement))
+                      .forEach(
+                          oAchievement ->
+                              oAchievement.setAchieved(achievement.getAchievementDate())));
+
+          achievementsView.setAchievements(allAchievements);
+        });
   }
 
   /** Destroy all references in this object */

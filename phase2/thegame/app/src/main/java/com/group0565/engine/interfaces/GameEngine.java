@@ -2,12 +2,37 @@ package com.group0565.engine.interfaces;
 
 import com.group0565.engine.android.InputManager;
 import com.group0565.engine.assets.GameAssetManager;
+import com.group0565.engine.gameobjects.AchievementManager;
 import com.group0565.math.Vector;
 
+/**
+ * Interface for abstraction from a concrete implementation of GameEngine
+ */
 public interface GameEngine {
-  InputManager getInputManager();
+    /**
+     * Getter for the InputManager
+     * @return The instance of the Input Manager
+     */
+    InputManager getInputManager();
 
-  GameAssetManager getGameAssetManager();
+    /**
+     * Getter for gameAssetManager.
+     *
+     * @return The instance of the Input Manager
+     */
+    GameAssetManager getGameAssetManager();
 
-  abstract Vector getSize();
+    /**
+     * Getter for the size of the drawable area.
+     *
+     * @return size of the drawable area.
+     */
+    Vector getSize();
+
+    /**
+     * Getter for achievementManager.
+     *
+     * @return achievementManager
+     */
+    AchievementManager getAchievementManager();
 }

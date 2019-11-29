@@ -17,5 +17,32 @@
       ],
       "TextSize": 50
     }
+  },
+  "SettingsMenu": {
+    "TextPaint": {
+      "ARGB": [
+        255,
+        255,
+        0,
+        0
+      ],
+      "TextSize": 50
+    },
+    "CenterPaint": {
+      "ARGB": [
+        255,
+        255,
+        255,
+        255
+      ]
+    },
+    "RimPaint": {
+      "ARGB": [
+        255,
+        255,
+        0,
+        255
+      ]
+    }
   }
 }
