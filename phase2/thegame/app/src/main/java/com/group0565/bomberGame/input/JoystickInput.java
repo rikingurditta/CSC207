@@ -4,7 +4,7 @@ import android.util.Log;
 
 import com.group0565.engine.gameobjects.InputEvent;
 import com.group0565.engine.interfaces.Canvas;
-import com.group0565.engine.interfaces.Paint;
+import com.group0565.engine.render.ThemedPaintCan;
 import com.group0565.math.Vector;
 
 /** On-screen joystick and buttons input system. */
@@ -25,6 +25,10 @@ public class JoystickInput extends InputSystem {
   /** Time before input expires. */
   private long timerLimit = 100;
   // was 200, i felt it was a bit too long so 100.
+
+  /** PaintCans for the joystick and button. */
+  private ThemedPaintCan stickPaintCan = new ThemedPaintCan("Bomber", "Joystick.Stick");
+  private ThemedPaintCan buttonPaintCan = new ThemedPaintCan("Bomber", "Joystick.Button");
 
   /**
    * Constructs a new JoystickInput.
@@ -58,6 +62,13 @@ public class JoystickInput extends InputSystem {
   public JoystickInput(
       Vector position, Vector stickRelativePosition, Vector buttonRelativePosition, int scale) {
     this(position, 0, stickRelativePosition, buttonRelativePosition, scale);
+  }
+
+  @Override
+  public void init() {
+    super.init();
+    stickPaintCan.init(getGlobalPreferences(), getEngine().getGameAssetManager());
+    buttonPaintCan.init(getGlobalPreferences(), getEngine().getGameAssetManager());
   }
 
   /** @return the last input if it has not expired. */
@@ -127,39 +138,18 @@ public class JoystickInput extends InputSystem {
    */
   @Override
   public void draw(Canvas canvas) {
-    Paint joyStickPaint = Paint.createInstance();
-    joyStickPaint.setARGB(128, 0, 0, 128);
-
-    // LEFT RIGHT UP DOWN PAD (draws a long vertical rectangle and two smaller squares beside it to
-    // make a + sign)
+    // LEFT RIGHT UP DOWN PAD
+    // long vertical rectangle for up, middle, bottom
+    canvas.drawRect(stickPosition, new Vector(scale, 3 * scale), stickPaintCan);
+    // left square
     canvas.drawRect(
-        stickPosition.getX(),
-        stickPosition.getY(),
-        stickPosition.getX() + scale,
-        stickPosition.getY() + 3 * scale,
-        joyStickPaint);
+        stickPosition.add(new Vector(-scale, scale)), new Vector(scale, scale), stickPaintCan);
+    // right square
     canvas.drawRect(
-        stickPosition.getX() + scale,
-        stickPosition.getY() + scale,
-        stickPosition.getX() + 2 * scale,
-        stickPosition.getY() + 2 * scale,
-        joyStickPaint);
-    canvas.drawRect(
-        stickPosition.getX() - scale,
-        stickPosition.getY() + scale,
-        stickPosition.getX(),
-        stickPosition.getY() + 2 * scale,
-        joyStickPaint);
+        stickPosition.add(new Vector(scale, scale)), new Vector(scale, scale), stickPaintCan);
 
     // DROP BOMB BUTTON
-    Paint bombButtonPaint = Paint.createInstance();
-    bombButtonPaint.setARGB(128, 255, 0, 0);
-    canvas.drawRect(
-        buttonPosition.getX(),
-        buttonPosition.getY(),
-        buttonPosition.getX() + scale,
-        buttonPosition.getY() + scale,
-        bombButtonPaint);
+    canvas.drawRect(buttonPosition, new Vector(scale, scale), buttonPaintCan);
   }
 
   /** @param ms Elapsed time in milliseconds since last update. */

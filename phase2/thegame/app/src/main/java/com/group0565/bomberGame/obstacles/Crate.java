@@ -1,20 +1,20 @@
 package com.group0565.bomberGame.obstacles;
 
 import com.group0565.bomberGame.BomberGame;
-import com.group0565.math.Coords;
 import com.group0565.bomberGame.GridObject;
 import com.group0565.bomberGame.SquareGrid;
 import com.group0565.engine.interfaces.Canvas;
-import com.group0565.engine.interfaces.Paint;
+import com.group0565.engine.render.ThemedPaintCan;
+import com.group0565.math.Coords;
 import com.group0565.math.Vector;
-import com.group0565.theme.Themes;
 
 /** A destructable obstacle that takes up one grid block. */
 public class Crate extends GridObject {
   /** The game this Crate belongs to. */
   private BomberGame game;
 
-  private Paint paint = Paint.createInstance();
+  /** PaintCan for this crate's fill. */
+  private ThemedPaintCan paintCan = new ThemedPaintCan("Bomber", "Crate.Crate");
 
   /**
    * Constructs a new Crate.
@@ -38,18 +38,13 @@ public class Crate extends GridObject {
    * @param grid The grid this crate is within.
    */
   public Crate(Coords position, SquareGrid grid, BomberGame game) {
-    super(position, grid);
-    this.game = game;
+    this(position, 0, grid, game);
   }
 
   @Override
   public void init() {
     super.init();
-    if (getGlobalPreferences().getTheme() == Themes.LIGHT) {
-      paint.setARGB(255, 102, 46, 10);
-    } else {
-      paint.setARGB(255, 102, 46, 10);
-    }
+    paintCan.init(getGlobalPreferences(), getEngine().getGameAssetManager());
   }
 
   /** Destroy this crate if the damage done to it is positive. */
@@ -75,6 +70,6 @@ public class Crate extends GridObject {
   public void draw(Canvas canvas) {
     Vector pos = getAbsolutePosition();
     // Draw a rectangle at our touch position
-    canvas.drawRect(pos.getX(), pos.getY(), pos.getX() + 100, pos.getY() + 100, paint);
+    canvas.drawRect(pos, new Vector(100, 100), paintCan);
   }
 }

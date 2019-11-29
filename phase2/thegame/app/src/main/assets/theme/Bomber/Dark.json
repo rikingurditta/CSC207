@@ -27,7 +27,8 @@
         255,
         255,
         255
-      ]
+      ],
+      "StrokeWidth": 1
     }
   },
   "Joystick": {

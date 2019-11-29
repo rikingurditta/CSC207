@@ -2,15 +2,14 @@ package com.group0565.bomberGame.bombs;
 
 import com.group0565.bomberGame.BomberGame;
 import com.group0565.bomberGame.BomberMan;
-import com.group0565.math.Coords;
 import com.group0565.bomberGame.GridObject;
 import com.group0565.bomberGame.SquareGrid;
-import com.group0565.engine.interfaces.Paint;
+import com.group0565.engine.render.ThemedPaintCan;
+import com.group0565.math.Coords;
 
 public abstract class Bomb extends GridObject {
 
   boolean duringExplosion = false;
-  Paint p;
   BomberMan placedBy;
   private int strength = 2;
   private int numSimultaneousBombs = 1;
@@ -19,12 +18,30 @@ public abstract class Bomb extends GridObject {
   private long bombTimer = 0;
   private BomberGame game;
 
+  /** PaintCans for the various colour stages of the bomb's life cycle. */
+  private ThemedPaintCan buildup1PaintCan = new ThemedPaintCan("Bomber", "Bomb.Buildup1");
+  private ThemedPaintCan buildup2PaintCan = new ThemedPaintCan("Bomber", "Bomb.Buildup2");
+  private ThemedPaintCan buildup3PaintCan = new ThemedPaintCan("Bomber", "Bomb.Buildup3");
+  private ThemedPaintCan buildup4PaintCan = new ThemedPaintCan("Bomber", "Bomb.Buildup4");
+  private ThemedPaintCan explosionPaintCan = new ThemedPaintCan("Bomber", "Bomb.Explosion");
+
+  /** PaintCan for the current state of the bomb. */
+  protected ThemedPaintCan currPaintCan = buildup1PaintCan;
+
   public Bomb(Coords position, int z, BomberGame game, SquareGrid grid, BomberMan placedBy) {
     super(position, z, grid);
     this.game = game;
-    this.p = Paint.createInstance();
-    p.setARGB(123, 255, 213, 0);
     this.placedBy = placedBy;
+  }
+
+  @Override
+  public void init() {
+    super.init();
+    buildup1PaintCan.init(getGlobalPreferences(), getEngine().getGameAssetManager());
+    buildup2PaintCan.init(getGlobalPreferences(), getEngine().getGameAssetManager());
+    buildup3PaintCan.init(getGlobalPreferences(), getEngine().getGameAssetManager());
+    buildup4PaintCan.init(getGlobalPreferences(), getEngine().getGameAssetManager());
+    explosionPaintCan.init(getGlobalPreferences(), getEngine().getGameAssetManager());
   }
 
   public void increaseStrength() {
@@ -53,17 +70,20 @@ public abstract class Bomb extends GridObject {
 
   @Override
   public void update(long ms) {
-
     if (bombTimer < bombExplodeTime) {
       bombTimer += ms;
       if (bombTimer < bombExplodeTime / 5 * 2) {
-        p.setARGB(255, 240, 255, 0);
+        currPaintCan = buildup1PaintCan;
+//        p.setARGB(255, 240, 255, 0);
       } else if (bombTimer < bombExplodeTime / 5 * 3) {
-        p.setARGB(255, 255, 206, 0);
+        currPaintCan = buildup2PaintCan;
+//        p.setARGB(255, 255, 206, 0);
       } else if (bombTimer < bombExplodeTime / 5 * 4) {
-        p.setARGB(255, 255, 154, 0);
+        currPaintCan = buildup3PaintCan;
+//        p.setARGB(255, 255, 154, 0);
       } else {
-        p.setARGB(250, 255, 90, 0);
+        currPaintCan = buildup4PaintCan;
+//        p.setARGB(250, 255, 90, 0);
       }
     } else if (bombTimer < bombExplodeTime + explosionDuration) {
       if (!duringExplosion) {
@@ -71,7 +91,8 @@ public abstract class Bomb extends GridObject {
         explode();
       }
       // actual explosion
-      p.setARGB(200, 255, 0, 0);
+      currPaintCan = explosionPaintCan;
+//      p.setARGB(200, 255, 0, 0);
       bombTimer += ms;
       duringExplosion = true;
     } else {
