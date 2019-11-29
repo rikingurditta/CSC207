@@ -156,6 +156,7 @@ public class RacerEngine extends GameObject implements EventObserver, Observable
                         .getTileSheet("RacerButton", "RacerButton")
                         .getTile(0, 0));
         this.adopt(pauseButton);
+        pauseButton.registerObserver(this);
 
         pauseMenu = new RacerPauseMenu(null, this);
         this.adopt(pauseMenu);
@@ -174,9 +175,9 @@ public class RacerEngine extends GameObject implements EventObserver, Observable
         } else if (observable == rightButton && observationEvent.getMsg().equals(Button.EVENT_DOWN)) {
             racer.setAbsolutePosition(new Vector(850, 1600));
             racer.setLane(3);
-        } else if (observable == pauseMenu && observationEvent.getMsg().equals(Button.EVENT_DOWN)) {
-            this.setEnable(false);
+        } else if (observable == pauseButton && observationEvent.getMsg().equals(Button.EVENT_DOWN)) {
             pauseMenu.setEnable(true);
+            setEnable(false);
         }
     }
 
@@ -251,7 +252,7 @@ public class RacerEngine extends GameObject implements EventObserver, Observable
     }
 
     public void endGame() {
-        gameOverMenu.setEnable(true);
+        /* gameOverMenu.setEnable(true); */
         disableAll();
         setLive();
     }

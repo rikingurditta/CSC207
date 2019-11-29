@@ -39,7 +39,7 @@ public class RacerPauseMenu extends GameMenu {
 
     public void observe(Observable observable, ObservationEvent observationEvent) {
         if (observable == resumeButton && observationEvent.getMsg().equals(Button.EVENT_DOWN)) {
-            setEnable(false);
+            setEnable(true);
             engine.setEnable(true);
         }
         else if (observable == exitButton && observationEvent.getMsg().equals(Button.EVENT_DOWN)) {
