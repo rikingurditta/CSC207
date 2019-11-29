@@ -6,8 +6,8 @@ import com.group0565.engine.interfaces.Canvas;
 import com.group0565.engine.interfaces.EventObserver;
 import com.group0565.engine.interfaces.Observable;
 import com.group0565.engine.interfaces.ObservationEvent;
-import com.group0565.engine.interfaces.Paint;
 import com.group0565.math.Vector;
+import com.group0565.racer.menus.RacerGameMenu;
 import com.group0565.racer.menus.RacerGameOverMenu;
 import com.group0565.racer.menus.RacerPauseMenu;
 import com.group0565.racer.obstacles.ObstacleManager;
@@ -15,7 +15,6 @@ import com.group0565.statistics.IAsyncStatisticsRepository;
 import com.group0565.statistics.IStatisticFactory;
 import com.group0565.statistics.StatisticRepositoryInjector;
 import com.group0565.statistics.enums.StatisticKey;
-import com.group0565.theme.Themes;
 
 public class RacerEngine extends GameObject implements EventObserver, Observable {
 
@@ -73,6 +72,8 @@ public class RacerEngine extends GameObject implements EventObserver, Observable
 
     /** Database object for game statistics */
     private IAsyncStatisticsRepository myStatRepo;
+
+    private RacerGameMenu gameMenu;
 
     private RacerGameOverMenu gameOverMenu;
 
@@ -141,6 +142,9 @@ public class RacerEngine extends GameObject implements EventObserver, Observable
         obsManager = new ObstacleManager(this);
         this.adopt(obsManager);
 
+        gameMenu = new RacerGameMenu(this);
+        this.adopt(gameMenu);
+
         gameOverMenu = new RacerGameOverMenu(null, this);
         this.adopt(gameOverMenu);
         gameOverMenu.setEnable(false);
@@ -195,13 +199,6 @@ public class RacerEngine extends GameObject implements EventObserver, Observable
         }
     }
 
-    /** Disables the racer and obstacles from rendering on the screen when the user loses the game */
-    public void disableAll() {
-        racer.setEnable(false);
-        obsManager.setEnable(false);
-        gameOverMenu.setEnable(true);
-    }
-
     /**
      * Updates the game
      *
@@ -228,32 +225,13 @@ public class RacerEngine extends GameObject implements EventObserver, Observable
     @Override
     public void draw(Canvas canvas) {
         super.draw(canvas);
-        Paint time = Paint.createInstance();
-        if (getGlobalPreferences().getTheme() == Themes.LIGHT) {
-            // Set background to white
-            canvas.drawRGB(255, 255, 255);
-            // Set text colour to black
-            time.setARGB(255, 0, 0, 0);
-        } else {
-            // Set background to black
-            canvas.drawRGB(0, 0, 0);
-            // Set text colour to white
-            time.setARGB(255, 255, 255, 255);
-        }
-        time.setTextSize(128);
-        // Set the colour of the lines
-        Paint colour = Paint.createInstance();
-        colour.setARGB(255, 255, 0, 0);
-        // Draw the red lines that separate the lanes
-        canvas.drawRect(canvas.getWidth() / 3 - 15, 0, canvas.getWidth() / 3 + 15, 2500, colour);
-        canvas.drawRect(
-                2 * canvas.getWidth() / 3 - 15, 0, 2 * canvas.getWidth() / 3 + 15, 2500, colour);
-        canvas.drawText(Long.toString(getTotalTime()), 600, 200, time);
     }
 
     public void endGame() {
-        /* gameOverMenu.setEnable(true); */
-        disableAll();
+        racer.setEnable(false);
+        obsManager.setEnable(false);
+        gameMenu.setEnable(false);
+        gameOverMenu.setEnable(true);
         setLive();
     }
 
