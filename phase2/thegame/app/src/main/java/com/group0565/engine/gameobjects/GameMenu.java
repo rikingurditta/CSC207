@@ -1,16 +1,22 @@
 package com.group0565.engine.gameobjects;
 
-import com.group0565.engine.enums.HorizontalAlignment;
-import com.group0565.engine.enums.VerticalAlignment;
-import com.group0565.engine.interfaces.Observable;
-import com.group0565.engine.interfaces.Observer;
+import com.group0565.engine.enums.HorizontalEdge;
+import com.group0565.engine.enums.VerticalEdge;
 import com.group0565.math.Vector;
+import com.group0565.racerGame.Menu;
+
+import static com.group0565.engine.enums.HorizontalEdge.*;
+import static com.group0565.engine.enums.VerticalEdge.*;
 
 import java.util.HashMap;
 
-public class GameMenu extends MenuObject implements Observer {
+public class GameMenu extends MenuObject {
     public static final String THIS = "this";
     private HashMap<String, MenuObject> menuComponents;
+
+    public GameMenu() {
+        super();
+    }
 
     public GameMenu(Vector size) {
         super(size);
@@ -25,8 +31,9 @@ public class GameMenu extends MenuObject implements Observer {
     }
 
     @Override
-    public void observe(Observable observable) {
-        super.observe(observable);
+    public void postInit() {
+        super.postInit();
+        updateAllPosition();
     }
 
     public MenuBuilder build(){
@@ -37,14 +44,19 @@ public class GameMenu extends MenuObject implements Observer {
         return menuComponents.get(name);
     }
 
+    public void updateAllPosition(){
+        super.updatePosition();
+        if (this.menuComponents != null)
+            for (MenuObject obj : this.menuComponents.values())
+                obj.updatePosition();
+    }
+
     protected class MenuBuilder extends MenuObjectBuilder{
         private HashMap<String, MenuObject> buildComponents;
         private MenuObject activeObject = null;
-        private Alignment defaultAlign;
         protected MenuBuilder(){
             buildComponents = new HashMap<>();
             buildComponents.put(THIS, GameMenu.this);
-            defaultAlign = new Alignment(GameMenu.this, HorizontalAlignment.Center, VerticalAlignment.Center);
         }
 
         public MenuBuilder add(String name, MenuObject object){
@@ -53,39 +65,56 @@ public class GameMenu extends MenuObject implements Observer {
             buildComponents.put(name, object);
             activeObject = object;
             activeObject.setName(name);
-            activeObject.registerObserver(GameMenu.this);
-            activeObject.setAlignment(defaultAlign);
             return this;
         }
 
-        public MenuBuilder setRelativePosition(String relativeTo, HorizontalAlignment hAlign, VerticalAlignment vAlign){
+        public MenuBuilder addAlignment(HorizontalEdge sourceEdge, String relativeTo, HorizontalEdge targetEdge){
+            return addAlignment(sourceEdge, relativeTo, targetEdge, 0);
+        }
+
+        public MenuBuilder addAlignment(VerticalEdge sourceEdge, String relativeTo, VerticalEdge targetEdge){
+            return addAlignment(sourceEdge, relativeTo, targetEdge, 0);
+        }
+
+        public MenuBuilder addAlignment(HorizontalEdge sourceEdge, String relativeTo, HorizontalEdge targetEdge, float offset){
             if (activeObject == null)
                 throw new MenuBuilderException("Unable to set relative position when no previous object has been added.");
             MenuObject object = buildComponents.get(relativeTo);
             if (object == null)
                 throw new MenuBuilderException("No MenuObject with name" + relativeTo + " is found");
-            Alignment alignment = new Alignment(object, hAlign, vAlign);
-            activeObject.setAlignment(alignment);
+            activeObject.addAlignment(new HorizontalAlignment(sourceEdge, object, targetEdge, offset));
             return this;
         }
 
-        public MenuBuilder setRelativePosition(String relativeTo, HorizontalAlignment hAlign){
-            return setRelativePosition(relativeTo, hAlign, VerticalAlignment.Center);
+        public MenuBuilder addAlignment(VerticalEdge sourceEdge, String relativeTo, VerticalEdge targetEdge, float offset){
+            if (activeObject == null)
+                throw new MenuBuilderException("Unable to set relative position when no previous object has been added.");
+            MenuObject object = buildComponents.get(relativeTo);
+            if (object == null)
+                throw new MenuBuilderException("No MenuObject with name" + relativeTo + " is found");
+            activeObject.addAlignment(new VerticalAlignment(sourceEdge, object, targetEdge, offset));
+            return this;
         }
 
-        public MenuBuilder setRelativePosition(String relativeTo, VerticalAlignment vAlign){
-            return setRelativePosition(relativeTo, HorizontalAlignment.Center, vAlign);
+        public MenuBuilder addCenteredAlignment(String relativeTo){
+            addAlignment(HCenter, relativeTo, HCenter);
+            addAlignment(VCenter, relativeTo, VCenter);
+            return this;
         }
 
-        public MenuBuilder setCenteredRelativePosition(String relativeTo){
-            return setRelativePosition(relativeTo, HorizontalAlignment.Center, VerticalAlignment.Center);
+        public MenuBuilder addCenteredAlignment(String relativeTo, float offset){
+            addAlignment(HCenter, relativeTo, HCenter, offset);
+            addAlignment(VCenter, relativeTo, VCenter, offset);
+            return this;
         }
 
         public GameMenu close(){
             super.close();
             buildComponents.remove(THIS);
             menuComponents = buildComponents;
-            refreshAll();
+            for (MenuObject menuComponent:menuComponents.values()) {
+                adopt(menuComponent);
+            }
             return GameMenu.this;
         }
 

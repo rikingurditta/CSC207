@@ -20,4 +20,8 @@ public class ObservationEvent <T> {
     public T getPayload() {
         return payload;
     }
+
+    public boolean isEvent(String event) {
+        return getMsg().equals(event);
+    }
 }

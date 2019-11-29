@@ -1,25 +1,38 @@
 package com.group0565.tsu.enums;
 
+import com.group0565.engine.assets.GameAssetManager;
+import com.group0565.engine.gameobjects.GlobalPreferences;
+import com.group0565.engine.render.ThemedPaintCan;
+
 public enum Grade {
-  SS(100_000_000, "SS", 5, 255, 215, 0),
-  S(50_000_000, "S", 4, 255, 215, 0),
-  A(1_000_000, "A", 3, 255, 0, 255),
-  B(500_000, "B", 2, 0, 255, 255),
-  C(100_000, "C", 1, 0, 255, 0),
-  F(0, "F", 0, 255, 0, 0);
 
-  int minScore;
-  String string;
-  int value;
-  int r, g, b;
+  SS(100_000_000, "SS", 5),
+  S(50_000_000, "S", 4),
+  A(1_000_000, "A", 3),
+  B(500_000, "B", 2),
+  C(100_000, "C", 1),
+  F(0, "F", 0);
 
-  Grade(int minScore, String string, int value, int r, int g, int b) {
+  //Asset Constants
+  private static final String SET = "Tsu";
+  private static final String ThemeFolder = "Grade.";
+
+  private int minScore;
+  private String string;
+  private int value;
+  private ThemedPaintCan paintCan;
+
+  Grade(int minScore, String string, int value) {
     this.minScore = minScore;
     this.string = string;
     this.value = value;
-    this.r = r;
-    this.g = g;
-    this.b = b;
+    this.paintCan = new ThemedPaintCan(SET, ThemeFolder + string);
+  }
+
+  public static void init(GlobalPreferences preferences, GameAssetManager manager){
+    for (Grade g : Grade.values()){
+      g.paintCan.init(preferences, manager);
+    }
   }
 
   public static Grade str2Grade(String str) {
@@ -82,15 +95,12 @@ public enum Grade {
     return value;
   }
 
-  public int getR() {
-    return r;
-  }
-
-  public int getG() {
-    return g;
-  }
-
-  public int getB() {
-    return b;
+  /**
+   * Getter for paintCan
+   *
+   * @return paintCan
+   */
+  public ThemedPaintCan getPaintCan() {
+    return paintCan;
   }
 }

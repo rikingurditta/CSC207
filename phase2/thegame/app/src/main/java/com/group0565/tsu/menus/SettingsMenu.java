@@ -1,7 +1,5 @@
 package com.group0565.tsu.menus;
 
-import com.group0565.engine.enums.HorizontalAlignment;
-import com.group0565.engine.enums.VerticalAlignment;
 import com.group0565.engine.gameobjects.Button;
 import com.group0565.engine.gameobjects.GameMenu;
 import com.group0565.engine.gameobjects.InputEvent;
@@ -17,7 +15,10 @@ import com.group0565.theme.Themes;
 import com.group0565.tsu.enums.ButtonBitmap;
 import com.group0565.tsu.core.Preferences;
 
-public class SettingsMenu extends GameMenu implements Observer, Observable {
+import static com.group0565.engine.enums.HorizontalEdge.*;
+import static com.group0565.engine.enums.VerticalEdge.*;
+
+public class SettingsMenu extends GameMenu implements Observable {
     //GUI Constants
     private static final Vector BUTTON_SIZE = new Vector(75);
     private static final Vector MARGINS = new Vector(75);
@@ -95,7 +96,9 @@ public class SettingsMenu extends GameMenu implements Observer, Observable {
             .add(ExitButtonName, new Button(BUTTON_SIZE, ButtonBitmap.ExitButton.getBitmap()).build()
                 .registerObserver(this::observeExit)
             .close())
-            .setRelativePosition("this", HorizontalAlignment.LeftAlign, VerticalAlignment.TopAlign)
+            .addAlignment(Left, THIS, Left)
+            .addAlignment(Top, THIS, Top)
+//            .setRelativePosition("this", HorizontalAlignment.LeftAlign, VerticalAlignment.TopAlign)
 
             //Light Button
             .add(LightButtonName, new Button(BUTTON_SIZE, ButtonBitmap.LightButton.getBitmap()).build()
@@ -103,78 +106,101 @@ public class SettingsMenu extends GameMenu implements Observer, Observable {
                 .setSelfEnable(() -> getGlobalPreferences().getTheme() == Themes.LIGHT)
                 .registerObserver(this::observeTheme)
             .close())
-            .setRelativePosition("this", HorizontalAlignment.LeftAlign, VerticalAlignment.TopAlign)
+            .addAlignment(Left, THIS, Left)
+            .addAlignment(Top, THIS, Top)
+//            .setRelativePosition("this", HorizontalAlignment.LeftAlign, VerticalAlignment.TopAlign)
 
             //Dark Button
             .add(DarkButtonName, new Button(BUTTON_SIZE, ButtonBitmap.DarkButton.getBitmap()).build()
                 .setSelfEnable(() -> getGlobalPreferences().getTheme() == Themes.DARK)
                 .registerObserver(this::observeTheme)
                 .close())
-            .setRelativePosition(LightButtonName, HorizontalAlignment.LeftAlign, VerticalAlignment.TopAlign)
+            .addCenteredAlignment(LightButtonName)
+//            .setRelativePosition(LightButtonName, HorizontalAlignment.LeftAlign, VerticalAlignment.TopAlign)
 
             //Volume Label
             .add(VolumeLabelName, new TextRenderer(new LanguageText(getGlobalPreferences(), getEngine().getGameAssetManager(), SET, VolumeStringName), textPaint).build()
                 .addOffset(0, BUFFERS.getY())
                 .close())
-            .setRelativePosition(LightButtonName, HorizontalAlignment.LeftAlign, VerticalAlignment.BottomOf)
+            .addAlignment(Left, LightButtonName, Left)
+            .addAlignment(Top, LightButtonName, Bottom)
+//            .setRelativePosition(LightButtonName, HorizontalAlignment.LeftAlign, VerticalAlignment.BottomOf)
 
             //Volume Sub Button
             .add(VolumeSubButtonName, new Button(BUTTON_SIZE, ButtonBitmap.SubButton.getBitmap()).build()
                 .addOffset(BUFFERS.getX(), 0)
                 .registerObserver(((observable, event) -> this.observeVolume(observable, event, false)))
             .close())
-            .setRelativePosition(VolumeLabelName, HorizontalAlignment.RightOf, VerticalAlignment.Center)
+            .addAlignment(Left, VolumeLabelName, Right)
+            .addAlignment(VCenter, VolumeLabelName, VCenter)
+//            .setRelativePosition(VolumeLabelName, HorizontalAlignment.RightOf, VerticalAlignment.Center)
 
             //Volume Value
             .add(VolumeValueName, new TextRenderer(() -> String.valueOf(getVolume()), textPaint).build()
                 .addOffset(BUFFERS.getX() * 0.5f, 0)
                 .close())
-            .setRelativePosition(VolumeSubButtonName, HorizontalAlignment.RightOf, VerticalAlignment.Center)
+            .addAlignment(Left, VolumeSubButtonName, Right)
+            .addAlignment(VCenter, VolumeSubButtonName, VCenter)
+//            .setRelativePosition(VolumeSubButtonName, HorizontalAlignment.RightOf, VerticalAlignment.Center)
 
             //Volume Add Button
             .add(VolumeAddButtonName, new Button(BUTTON_SIZE, ButtonBitmap.AddButton.getBitmap()).build()
                 .addOffset(BUFFERS.getX() * 0.5f, 0)
                 .registerObserver((observable, event) -> this.observeVolume(observable, event, true))
             .close())
-            .setRelativePosition(VolumeValueName, HorizontalAlignment.RightOf, VerticalAlignment.Center)
+            .addAlignment(Left, VolumeValueName, Right)
+            .addAlignment(VCenter, VolumeValueName, VCenter)
+//            .setRelativePosition(VolumeValueName, HorizontalAlignment.RightOf, VerticalAlignment.Center)
                 
             //Difficulty Label
             .add(DifficultyLabelName, new TextRenderer(new LanguageText(getGlobalPreferences(), getEngine().getGameAssetManager(), SET, DifficultyStringName), textPaint).build()
                 .addOffset(0, BUFFERS.getY() * 1.25f)
                 .close())
-            .setRelativePosition(VolumeLabelName, HorizontalAlignment.LeftAlign, VerticalAlignment.BottomOf)
+            .addAlignment(Left, VolumeLabelName, Left)
+            .addAlignment(Top, VolumeLabelName, Bottom)
+//            .setRelativePosition(VolumeLabelName, HorizontalAlignment.LeftAlign, VerticalAlignment.BottomOf)
 
             //Difficulty Sub Button
             .add(DifficultySubButtonName, new Button(BUTTON_SIZE, ButtonBitmap.SubButton.getBitmap()).build()
                 .addOffset(BUFFERS.getX(), 0)
                 .registerObserver((observable, event) -> this.observeDifficulty(observable, event, false))
             .close())
-            .setRelativePosition(DifficultyLabelName, HorizontalAlignment.RightOf, VerticalAlignment.Center)
+            .addAlignment(Left, DifficultyLabelName, Right)
+            .addAlignment(VCenter, DifficultyLabelName, VCenter)
+//            .setRelativePosition(DifficultyLabelName, HorizontalAlignment.RightOf, VerticalAlignment.Center)
 
             //Difficulty Value
             .add(DifficultyValueName, new TextRenderer(() -> String.valueOf(getDifficulty()), textPaint).build()
                 .addOffset(BUFFERS.getX() * 0.5f, 0)
                 .close())
-            .setRelativePosition(DifficultySubButtonName, HorizontalAlignment.RightOf, VerticalAlignment.Center)
+            .addAlignment(Left, DifficultySubButtonName, Right)
+            .addAlignment(VCenter, DifficultySubButtonName, VCenter)
+//            .setRelativePosition(DifficultySubButtonName, HorizontalAlignment.RightOf, VerticalAlignment.Center)
 
             //Difficulty Add Button
             .add(DifficultyAddButtonName, new Button(BUTTON_SIZE, ButtonBitmap.AddButton.getBitmap()).build()
                 .addOffset(BUFFERS.getX() * 0.5f, 0)
                 .registerObserver((observable, event) -> this.observeDifficulty(observable, event, true))
             .close())
-            .setRelativePosition(DifficultyValueName, HorizontalAlignment.RightOf, VerticalAlignment.Center)
+            .addAlignment(Left, DifficultyValueName, Right)
+            .addAlignment(VCenter, DifficultyValueName, VCenter)
+//            .setRelativePosition(DifficultyValueName, HorizontalAlignment.RightOf, VerticalAlignment.Center)
 
             //Cheats Label
             .add(CheatsLabelName, new TextRenderer(new LanguageText(getGlobalPreferences(), getEngine().getGameAssetManager(), SET, CheatsStringName), textPaint).build()
                 .addOffset(0, BUFFERS.getY() * 1.25f)
                 .close())
-            .setRelativePosition(DifficultyLabelName, HorizontalAlignment.LeftAlign, VerticalAlignment.BottomOf)
+            .addAlignment(Left, DifficultyLabelName, Left)
+            .addAlignment(Top, DifficultyLabelName, Bottom)
+//            .setRelativePosition(DifficultyLabelName, HorizontalAlignment.LeftAlign, VerticalAlignment.BottomOf)
                                 
             //Auto Label
             .add(AutoLabelName, new TextRenderer(new LanguageText(getGlobalPreferences(), getEngine().getGameAssetManager(), SET, AutoStringName), textPaint).build()
                 .addOffset(0, BUFFERS.getY() * 1.25f)
                 .close())
-            .setRelativePosition(CheatsLabelName, HorizontalAlignment.LeftAlign, VerticalAlignment.BottomOf)
+            .addAlignment(Left, CheatsLabelName, Left)
+            .addAlignment(Top, CheatsLabelName, Bottom)
+//            .setRelativePosition(CheatsLabelName, HorizontalAlignment.LeftAlign, VerticalAlignment.BottomOf)
 
             //AutoOn Button
             .add(AutoOnButtonName, new Button(BUTTON_SIZE, ButtonBitmap.AutoOnButton.getBitmap()).build()
@@ -182,14 +208,17 @@ public class SettingsMenu extends GameMenu implements Observer, Observable {
                 .setSelfEnable(() -> preferences.getAuto())
                 .registerObserver(this::observeAuto)
             .close())
-            .setRelativePosition(AutoLabelName, HorizontalAlignment.RightOf, VerticalAlignment.Center)
+            .addAlignment(Left, AutoLabelName, Right)
+            .addAlignment(VCenter, AutoLabelName, VCenter)
+//            .setRelativePosition(AutoLabelName, HorizontalAlignment.RightOf, VerticalAlignment.Center)
 
             //AutoOn Button
             .add(AutoOffButtonName, new Button(BUTTON_SIZE, ButtonBitmap.AutoOffButton.getBitmap()).build()
                 .setSelfEnable(() -> !preferences.getAuto())
                 .registerObserver(this::observeAuto)
             .close())
-            .setRelativePosition(AutoOnButtonName, HorizontalAlignment.Center, VerticalAlignment.Center)
+            .addCenteredAlignment(AutoOnButtonName)
+//            .setRelativePosition(AutoOnButtonName, HorizontalAlignment.Center, VerticalAlignment.Center)
         .close();
         // @formatter:on
     }

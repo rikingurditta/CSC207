@@ -1,0 +1,10 @@
+package com.group0565.engine.enums;
+
+/**
+ * Enums representing the edge of an object.
+ *
+ * CenterH is the center line up and down, CenterLR is the center line left and right
+ */
+public enum VerticalEdge {
+    Top, VCenter, Bottom
+}

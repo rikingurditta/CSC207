@@ -1,55 +1,41 @@
 package com.group0565.tsu.menus;
 
-import com.group0565.engine.android.AndroidPaint;
-import com.group0565.engine.enums.HorizontalAlignment;
-import com.group0565.engine.enums.VerticalAlignment;
 import com.group0565.engine.gameobjects.Button;
 import com.group0565.engine.gameobjects.GameMenu;
-import com.group0565.engine.gameobjects.MenuObject;
-import com.group0565.engine.interfaces.Bitmap;
 import com.group0565.engine.interfaces.Canvas;
 import com.group0565.engine.interfaces.Observable;
+import com.group0565.engine.interfaces.ObservationEvent;
 import com.group0565.engine.interfaces.Observer;
-import com.group0565.engine.interfaces.Paint;
 import com.group0565.hitObjectsRepository.SessionHitObjects;
 import com.group0565.math.Vector;
 import com.group0565.theme.Themes;
-import com.group0565.tsu.core.TsuGame;
 import com.group0565.tsu.enums.ButtonBitmap;
-import com.group0565.tsu.enums.ScrollBitmap;
+import com.group0565.tsu.game.HitObject;
 
+import static com.group0565.engine.enums.HorizontalEdge.*;
+import static com.group0565.engine.enums.VerticalEdge.*;
+
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
-public class StatsMenu extends GameMenu implements Observable, Observer {
+public class StatsMenu extends GameMenu implements Observable {
+    //Event Constants
+    public static final String HISTORY_UPDATE_EVENT = "History Updated";
+
     private static final Vector BUTTON_SIZE = new Vector(75);
     private static final Vector MARGIN = new Vector(75);
     private static final float HISTORY_LEFT_MARGIN = 25;
 
-    private static final float HISTORY_YMAR = 75;
     private static final float HISTORY_WIDTH = 650;
-    private static final float HISTORY_BUTTON_HEIGHT = 75;
-    private static final float HISTORY_COUNT = 4;
-    private static final float LOADING_SIZE = 200;
-
-    private static final float HISTORY_BOX_WIDTH = 650;
-    private static final float HISTORY_BUFFER = 50;
-    private static final Vector SCROLL_BUTTON_SIZE = new Vector(HISTORY_BOX_WIDTH, 75);
-
-    private static final float TIME_BUTTON_YOFFSET = 200;
 
     private static final String SET = "Tsu";
     //Back Button Constants
     private static final String BackButtonName = "BackButton";
-    //Scroll Up Constants
-    private static final String ScrollUpName = "ScrollUp";
-    //Scroll Up Constants
-    private static final String ScrollDownName = "ScrollDown";
+
     //History List Constants
     private static final String HistoryListName = "HistoryList";
-    //History Box Constants
-    private static final String HistoryBoxName = "HistoryBox";
     //Time Button Constants
     private static final String TimeButtonName = "TimeButton";
     private static final String TimeUpButtonName = "TimeUpButton";
@@ -58,156 +44,101 @@ public class StatsMenu extends GameMenu implements Observable, Observer {
     private static final String ScoreButtonName = "ScoreButton";
     private static final String ScoreUpButtonName = "ScoreUpButton";
     private static final String ScoreDownButtonName = "ScoreDownButton";
-    //History Displayers Constants
-    private static final String[] HistoryDisplayersName = {"HitoryDisplayer0", "HitoryDisplayer1", "HitoryDisplayer2", "HitoryDisplayer3"};
     //Full History Displayer Constants
     private static final String FullHistoryDisplayerName = "FullHistoryDisplayer";
 
-
-    private Button back;
-    private boolean exit;
-    private SessionHitObjects selectedObject = null;
     private List<SessionHitObjects> history = null;
-    private Bitmap loading;
-    private TsuGame tsuGame;
-    private Bitmap scrollUpEnb, scrollUpDsb;
-    private Bitmap scrollDownEnb, scrollDownDsb;
-    private Button scrollUp, scrollDown;
-    private int scroll = 0;
-    private List<HistoryDisplayer> historyDisplayers;
-    private Button sortTime, sortScore;
     private Sort sort = Sort.TimeDown;
-    private FullHistoryDisplayer fullHistoryDisplayer;
-
-    public StatsMenu(TsuGame tsuGame) {
-        super(null);
-        this.tsuGame = tsuGame;
-    }
 
     @Override
     public void init() {
+        super.init();
         ButtonBitmap.init(getEngine().getGameAssetManager());
+        HistoryList historyList;
         // @formatter:off
         this.build()
             .add(BackButtonName, new Button(BUTTON_SIZE, ButtonBitmap.BackButton.getBitmap()).build()
                 .addOffset(MARGIN)
                 .close())
-            .setRelativePosition(THIS, HorizontalAlignment.LeftAlign, VerticalAlignment.TopAlign)
+            .addAlignment(Left, THIS, Left)
+            .addAlignment(Top, THIS, Top)
 
-            .add(HistoryListName, new HistoryList(new Vector(HISTORY_WIDTH,getSize().getY() - 2 * MARGIN.getY())).build()
-                .addOffset(HISTORY_LEFT_MARGIN, 0)
+            .add(HistoryListName, (historyList = new HistoryList(this, new Vector(HISTORY_WIDTH, 0), this::getHistory)).build()
                 .close())
-            .setRelativePosition(BackButtonName, HorizontalAlignment.RightOf, VerticalAlignment.TopAlign)
+            .addAlignment(Left, BackButtonName, Right, HISTORY_LEFT_MARGIN)
+            .addAlignment(Top, THIS, Top, MARGIN.getY())
+            .addAlignment(Bottom, THIS, Bottom, -MARGIN.getY())
 
-            .add(TimeButtonName, new Button(BUTTON_SIZE, ButtonBitmap.TimeButton.getBitmap()).build()
-                .addOffset(0, TIME_BUTTON_YOFFSET)
+            .add(TimeButtonName, new Button(BUTTON_SIZE, ButtonBitmap.TimeButton.getBitmap(), Sort.TimeDown).build()
                 .setSelfEnable(() -> (sort == Sort.ScoreUp || sort == Sort.ScoreDown))
+                .registerObserver(this::observeSort)
                 .close())
-            .setRelativePosition(BackButtonName, HorizontalAlignment.Center, VerticalAlignment.BottomOf)
+            .addAlignment(HCenter, BackButtonName, HCenter)
+            .addAlignment(Bottom, THIS, VCenter, -BUTTON_SIZE.getY()/2)
 
-            .add(TimeUpButtonName, new Button(BUTTON_SIZE, ButtonBitmap.TimeUpButton.getBitmap()).build()
+            .add(TimeUpButtonName, new Button(BUTTON_SIZE, ButtonBitmap.TimeUpButton.getBitmap(), Sort.TimeDown).build()
                 .setSelfEnable(() -> sort == Sort.TimeUp)
+                .registerObserver(this::observeSort)
                 .close())
-            .setRelativePosition(TimeButtonName, HorizontalAlignment.Center, VerticalAlignment.Center)
+            .addCenteredAlignment(TimeButtonName)
 
-            .add(TimeDownButtonName, new Button(BUTTON_SIZE, ButtonBitmap.TimeDownButton.getBitmap()).build()
+            .add(TimeDownButtonName, new Button(BUTTON_SIZE, ButtonBitmap.TimeDownButton.getBitmap(), Sort.TimeUp).build()
                 .setSelfEnable(() -> sort == Sort.TimeDown)
+                .registerObserver(this::observeSort)
                 .close())
-            .setRelativePosition(TimeButtonName, HorizontalAlignment.Center, VerticalAlignment.Center)
-                
-            .add(ScoreButtonName, new Button(BUTTON_SIZE, ButtonBitmap.ScoreButton.getBitmap()).build()
+            .addCenteredAlignment(TimeButtonName)
+
+            .add(ScoreButtonName, new Button(BUTTON_SIZE, ButtonBitmap.ScoreButton.getBitmap(), Sort.ScoreDown).build()
                 .addOffset(0, BUTTON_SIZE.getY())
                 .setSelfEnable(() -> (sort == Sort.TimeUp || sort == Sort.TimeDown))
+                .registerObserver(this::observeSort)
                 .close())
-            .setRelativePosition(TimeButtonName, HorizontalAlignment.Center, VerticalAlignment.BottomOf)
+            .addAlignment(HCenter, TimeButtonName, HCenter)
+            .addAlignment(Bottom, THIS, VCenter, BUTTON_SIZE.getY()/2)
 
-            .add(ScoreUpButtonName, new Button(BUTTON_SIZE, ButtonBitmap.ScoreUpButton.getBitmap()).build()
+            .add(ScoreUpButtonName, new Button(BUTTON_SIZE, ButtonBitmap.ScoreUpButton.getBitmap(), Sort.ScoreDown).build()
                 .setSelfEnable(() -> sort == Sort.ScoreUp)
+                .registerObserver(this::observeSort)
                 .close())
-            .setRelativePosition(ScoreButtonName, HorizontalAlignment.Center, VerticalAlignment.Center)
+            .addCenteredAlignment(ScoreButtonName)
 
-            .add(ScoreDownButtonName, new Button(BUTTON_SIZE, ButtonBitmap.ScoreDownButton.getBitmap()).build()
+            .add(ScoreDownButtonName, new Button(BUTTON_SIZE, ButtonBitmap.ScoreDownButton.getBitmap(), Sort.ScoreUp).build()
                 .setSelfEnable(() -> sort == Sort.ScoreDown)
+                .registerObserver(this::observeSort)
                 .close())
-            .setRelativePosition(ScoreButtonName, HorizontalAlignment.Center, VerticalAlignment.Center)
+            .addCenteredAlignment(ScoreButtonName)
 
-            .add(FullHistoryDisplayerName, new FullHistoryDisplayer(this, new Vector(),
-                    getSize().subtract(new Vector(3*MARGIN.getX() + BUTTON_SIZE.getX() + HISTORY_LEFT_MARGIN + HISTORY_WIDTH, 2*MARGIN.getY()))).build()
+            .add(FullHistoryDisplayerName, new FullHistoryDisplayer(this, new Vector(), new Vector(), historyList).build()
                 .addOffset(MARGIN.getX(), 0)
                 .close())
-            .setRelativePosition(HistoryListName, HorizontalAlignment.RightOf, VerticalAlignment.TopAlign)
+            .addAlignment(Left, HistoryListName, Right, MARGIN.getX())
+            .addAlignment(Right, THIS, Right, -MARGIN.getX())
+            .addAlignment(Top, THIS, Top, MARGIN.getY())
+            .addAlignment(Bottom, THIS, Bottom, -MARGIN.getY())
         .close();
         // @formatter:on
+    }
 
-//
-//        loading = getEngine().getGameAssetManager().getTileSheet("Tsu", "Buttons").getTile(14, 0);
-//
-//        scrollUpEnb = getEngine().getGameAssetManager().getTileSheet("Tsu", "Scroll").getTile(0, 0);
-//        scrollUpDsb = getEngine().getGameAssetManager().getTileSheet("Tsu", "Scroll").getTile(1, 0);
-//        scrollDownEnb = getEngine().getGameAssetManager().getTileSheet("Tsu", "Scroll").getTile(0, 1);
-//        scrollDownDsb = getEngine().getGameAssetManager().getTileSheet("Tsu", "Scroll").getTile(1, 1);
-//
-//        scrollUp = new Button(new Vector(HISTORY_LEFT, HISTORY_YMAR), new Vector(HISTORY_WIDTH, HISTORY_BUTTON_HEIGHT), scrollUpDsb, scrollUpDsb);
-//        scrollDown = new Button(new Vector(HISTORY_LEFT, getEngine().getSize().getY() - HISTORY_YMAR - HISTORY_BUTTON_HEIGHT), new Vector(HISTORY_WIDTH, HISTORY_BUTTON_HEIGHT), scrollDownDsb, scrollDownDsb);
-//
-//        scrollUp.registerObserver(this);
-//        scrollDown.registerObserver(this);
-//        this.adopt(scrollUp);
-//        this.adopt(scrollDown);
-//
-//        Bitmap backBitmap = getEngine().getGameAssetManager().getTileSheet("Tsu", "Buttons").getTile(8, 0);
-//        this.back = new Button(this.getAbsolutePosition().add(new Vector(MARGIN, MARGIN)),
-//                new Vector(BUTTON_SIZE, BUTTON_SIZE), backBitmap, backBitmap);
-//        back.registerObserver(this);
-//        adopt(back);
-//
-//        float hh = (getEngine().getSize().getY()) - HISTORY_TOP + HISTORY_BOT;
-//        historyDisplayers = new ArrayList<>();
-//        for (int i = 0; i < HISTORY_COUNT; i++) {
-//            HistoryDisplayer displayer = new HistoryDisplayer(this, new Vector(HISTORY_LEFT, HISTORY_TOP + i * (hh / 4)),
-//                    new Vector(HISTORY_WIDTH, hh / 4), null);
-//            displayer.registerObserver(this);
-//            adopt(displayer);
-//            displayer.setEnable(false);
-//            historyDisplayers.add(displayer);
-//        }
-//
-//        Bitmap time = getEngine().getGameAssetManager().getTileSheet("Tsu", "Buttons").getTile(15, 0);
-//        Bitmap timeUp = getEngine().getGameAssetManager().getTileSheet("Tsu", "Buttons").getTile(16, 0);
-//        Bitmap timeDown = getEngine().getGameAssetManager().getTileSheet("Tsu", "Buttons").getTile(17, 0);
-//        Bitmap score = getEngine().getGameAssetManager().getTileSheet("Tsu", "Buttons").getTile(18, 0);
-//        Bitmap scoreUp = getEngine().getGameAssetManager().getTileSheet("Tsu", "Buttons").getTile(19, 0);
-//        Bitmap scoreDown = getEngine().getGameAssetManager().getTileSheet("Tsu", "Buttons").getTile(20, 0);
-//
-//        Sort.TimeDown.setTimeBitmap(timeDown);
-//        Sort.TimeDown.setScoreBitmap(score);
-//
-//        Sort.TimeUp.setTimeBitmap(timeUp);
-//        Sort.TimeUp.setScoreBitmap(score);
-//
-//        Sort.ScoreDown.setTimeBitmap(time);
-//        Sort.ScoreDown.setScoreBitmap(scoreDown);
-//
-//        Sort.ScoreUp.setTimeBitmap(time);
-//        Sort.ScoreUp.setScoreBitmap(scoreUp);
-//
-//        sortTime = new Button(this.getAbsolutePosition().add(new Vector(MARGIN, getEngine().getSize().getY() / 2 - BUTTON_SIZE - BUTTON_SIZE / 2)),
-//                new Vector(BUTTON_SIZE, BUTTON_SIZE));
-//        sortScore = new Button(this.getAbsolutePosition().add(new Vector(MARGIN, getEngine().getSize().getY() / 2 + BUTTON_SIZE / 2)),
-//                new Vector(BUTTON_SIZE, BUTTON_SIZE));
-//
-//        sortTime.registerObserver(this);
-//        sortScore.registerObserver(this);
-//
-//        adopt(sortTime);
-//        adopt(sortScore);
-//
-//        setSort(Sort.TimeDown);
-//
-//        fullHistoryDisplayer = new FullHistoryDisplayer(this, new Vector(HISTORY_LEFT + HISTORY_WIDTH + HISTORY_BUFFER,
-//                HISTORY_YMAR), new Vector(getEngine().getSize().getX() - (HISTORY_LEFT + HISTORY_WIDTH + HISTORY_BUFFER) - HISTORY_YMAR, getEngine().getSize().getY() - 2 * HISTORY_YMAR));
-//        this.adopt(fullHistoryDisplayer);
-//        super.init();
+    @Override
+    public void postInit() {
+        super.postInit();
+        List<SessionHitObjects> hitObjects = new ArrayList<>();
+        SessionHitObjects objects = new SessionHitObjects();
+        objects.addToList(new HitObject());
+        objects.addToList(new HitObject());
+        objects.setMaxCombo(100);
+        objects.setCheats(true);
+        objects.setScore(1000);
+        objects.setGrade(4);
+        objects.setDifficulty(5);
+        objects.setDatetime("ABCD");
+        hitObjects.add(objects);
+        hitObjects.add(objects);
+        hitObjects.add(objects);
+        hitObjects.add(objects);
+        hitObjects.add(objects);
+        hitObjects.add(objects);
+        this.setHistory(hitObjects);
     }
 
     @Override
@@ -217,88 +148,12 @@ public class StatsMenu extends GameMenu implements Observable, Observer {
             canvas.drawRGB(255, 255, 255);
         else if (getGlobalPreferences().getTheme() == Themes.DARK)
             canvas.drawRGB(0, 0, 0);
-//        canvas.drawRect(HISTORY_LEFT, HISTORY_TOP, HISTORY_LEFT + HISTORY_WIDTH, canvas.getHeight() + HISTORY_BOT, historyPaint);
-//        if (history == null) {
-//            canvas.drawBitmap(loading, null, new RectF(HISTORY_LEFT + (HISTORY_WIDTH - LOADING_SIZE) / 2f, (canvas.getHeight() - LOADING_SIZE) / 2f,
-//                    HISTORY_LEFT + (HISTORY_WIDTH + LOADING_SIZE) / 2f, (canvas.getHeight() + LOADING_SIZE) / 2f));
-//        }
     }
 
-    @Override
-    public void observe(Observable observable) {
-        if (observable == back) {
-            if (back.isPressed()) {
-                exit = true;
-                this.notifyObservers();
-            }
-        } else if (observable == scrollUp) {
-            if (scrollUp.isPressed()) {
-                if (history != null && scroll > 0) {
-                    scroll--;
-                    updateDisplayers();
-                }
-            }
-        } else if (observable == scrollDown) {
-            if (scrollDown.isPressed()) {
-                if (history != null && scroll + HISTORY_COUNT < history.size()) {
-                    scroll++;
-                    updateDisplayers();
-                }
-            }
-        } else if (observable == sortTime) {
-            if (sortTime.isPressed()) {
-                if (sort == Sort.TimeDown || sort == Sort.TimeUp)
-                    setSort(sort.next);
-                else
-                    setSort(Sort.TimeDown);
-            }
-        } else if (observable == sortScore) {
-            if (sortScore.isPressed()) {
-                if (sort == Sort.ScoreDown || sort == Sort.ScoreUp)
-                    setSort(sort.next);
-                else
-                    setSort(Sort.ScoreDown);
-            }
-        } else if (observable instanceof HistoryDisplayer) {
-            HistoryDisplayer displayer = (HistoryDisplayer) observable;
-            if (displayer.isPressed()) {
-                setSelectedObject(displayer.getObjects());
-            }
+    private void observeSort(Observable observable, ObservationEvent<Sort> event){
+        if (event.isEvent(Button.EVENT_DOWN)){
+            this.setSort(event.getPayload());
         }
-    }
-
-    private void updateDisplayers() {
-        if (this.history != null && historyDisplayers != null) {
-            for (int i = 0; i < historyDisplayers.size(); i++) {
-                historyDisplayers.get(i).setEnable(true);
-                if (scroll + i < history.size())
-                    historyDisplayers.get(i).setObjects(history.get(scroll + i));
-                else
-                    historyDisplayers.get(i).setObjects(null);
-            }
-            scrollUp.setUp(scroll <= 0 ? scrollUpDsb : scrollUpEnb);
-            scrollUp.setDown(scroll <= 0 ? scrollUpDsb : scrollUpEnb);
-
-            scrollDown.setUp(scroll + HISTORY_COUNT >= history.size() ? scrollDownDsb : scrollDownEnb);
-            scrollDown.setDown(scroll + HISTORY_COUNT >= history.size() ? scrollDownDsb : scrollDownEnb);
-        }
-    }
-
-    public boolean isExit() {
-        return exit;
-    }
-
-    public void setExit(boolean exit) {
-        this.exit = exit;
-    }
-
-    public SessionHitObjects getSelectedObject() {
-        return selectedObject;
-    }
-
-    public void setSelectedObject(SessionHitObjects selectedObject) {
-        this.selectedObject = selectedObject;
-        this.notifyObservers();
     }
 
     public List<SessionHitObjects> getHistory() {
@@ -314,51 +169,7 @@ public class StatsMenu extends GameMenu implements Observable, Observer {
         this.sort = sort;
         if (history != null)
             Collections.sort(history, sort.comparator);
-        this.updateDisplayers();
-    }
-
-    private class HistoryList extends GameMenu{
-        private Paint historyPaint;
-        public HistoryList(Vector size) {
-            super(size);
-        }
-
-        @Override
-        public void init(){
-            super.init();
-            ScrollBitmap.init(getEngine().getGameAssetManager());
-            this.historyPaint = new AndroidPaint();
-            this.historyPaint.setARGB(255, 128, 128, 128);
-            this.build()
-                .add(ScrollUpName, new Button(SCROLL_BUTTON_SIZE, ScrollBitmap.SCROLL_UP.getBitmap()).build()
-                        .close())
-                .setRelativePosition(THIS, HorizontalAlignment.Center, VerticalAlignment.TopAlign)
-
-                .add(HistoryBoxName,
-                    (new MenuObject(new Vector(HISTORY_WIDTH, getSize().getY() - 2 * (SCROLL_BUTTON_SIZE.getY() + HISTORY_BUFFER))){
-                        @Override
-                        public void draw(Canvas canvas, Vector pos, Vector size) {
-                            super.draw(canvas, pos, size);
-                            canvas.drawRect(pos, size, historyPaint);
-                        }
-                    }).build()
-                        .addOffset(0, HISTORY_BUFFER)
-                        .close())
-                .setRelativePosition(ScrollUpName, HorizontalAlignment.Center, VerticalAlignment.BottomOf)
-
-                .add(ScrollDownName, new Button(SCROLL_BUTTON_SIZE, ScrollBitmap.SCROLL_DOWN.getBitmap()).build()
-                        .close())
-                .setRelativePosition(THIS, HorizontalAlignment.Center, VerticalAlignment.BottomAlign)
-
-//                .add(HistoryDisplayersName, new HistoryDisplayer(StatsMenu.this, ))
-            .close();
-        }
-
-        @Override
-        public void draw(Canvas canvas, Vector pos, Vector size) {
-            super.draw(canvas, pos, size);
-        }
-
+        this.notifyObservers(new ObservationEvent<>(HISTORY_UPDATE_EVENT, history));
     }
 
     private enum Sort {
@@ -367,22 +178,10 @@ public class StatsMenu extends GameMenu implements Observable, Observer {
         TimeUp((SessionHitObjects o1, SessionHitObjects o2) -> (o1.getDatetime().compareTo(o2.getDatetime()))),
         TimeDown((SessionHitObjects o1, SessionHitObjects o2) -> (o2.getDatetime().compareTo(o1.getDatetime())));
 
-        static {
-            ScoreUp.next = ScoreDown;
-            ScoreDown.next = ScoreUp;
-            TimeUp.next = TimeDown;
-            TimeDown.next = TimeUp;
-        }
-
         private Comparator<SessionHitObjects> comparator;
-        private Sort next;
 
         Sort(Comparator<SessionHitObjects> comparator) {
             this.comparator = comparator;
-        }
-
-        public Comparator<SessionHitObjects> getComparator() {
-            return comparator;
         }
     }
 }

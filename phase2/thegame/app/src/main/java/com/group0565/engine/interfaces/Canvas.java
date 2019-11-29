@@ -20,6 +20,13 @@ public interface Canvas {
     }
 
     /**
+     * Wrapper method for {@link #drawText(String, float, float, Paint)}
+     */
+    default void drawText(String text, Vector position, PaintCan paint) {
+        this.drawText(text, position.getX(), position.getY(), paint.getPaint());
+    }
+
+    /**
      * @see android.graphics.Canvas#drawText(String, float, float, android.graphics.Paint)
      */
     void drawText(String text, float x, float y, Paint paint);

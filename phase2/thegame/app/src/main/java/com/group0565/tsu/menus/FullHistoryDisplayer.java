@@ -9,6 +9,7 @@ import com.group0565.engine.gameobjects.GameObject;
 import com.group0565.engine.interfaces.Bitmap;
 import com.group0565.engine.interfaces.Canvas;
 import com.group0565.engine.interfaces.Observable;
+import com.group0565.engine.interfaces.ObservationEvent;
 import com.group0565.engine.interfaces.Observer;
 import com.group0565.engine.interfaces.Paint;
 import com.group0565.hitObjectsRepository.SessionHitObjects;
@@ -45,7 +46,7 @@ public class FullHistoryDisplayer extends GameMenu implements Observer {
     private GraphRenderer graphRenderer;
 
 
-    public FullHistoryDisplayer(StatsMenu menu, Vector position, Vector size) {
+    public FullHistoryDisplayer(StatsMenu menu, Vector position, Vector size, HistoryList list) {
         super(size);
         this.setRelativePosition(position);
         this.rim = new AndroidPaint();
@@ -70,6 +71,11 @@ public class FullHistoryDisplayer extends GameMenu implements Observer {
         this.datePaint = new AndroidPaint();
         this.datePaint.setTextSize(size.getY() * 0.075f);
         this.datePaint.setARGB(255, 0, 0, 0);
+        list.registerObserver(this::observeChange);
+    }
+
+    private void observeChange(Observable observable, ObservationEvent<SessionHitObjects> event){
+        this.objects = event.getPayload();
     }
 
     @Override
@@ -115,7 +121,7 @@ public class FullHistoryDisplayer extends GameMenu implements Observer {
         float gyb = 0;
         {
             Grade grade = Grade.num2Grade(objects.getGrade());
-            gradePaint.setARGB(255, grade.getR(), grade.getG(), grade.getB());
+//            gradePaint.setARGB(255, grade.getR(), grade.getG(), grade.getB());
             String gradeStr = grade.getString();
             Rect gradeRect = new Rect();
             this.gradePaint.getTextBounds(gradeStr, 0, gradeStr.length(), gradeRect);
@@ -186,12 +192,20 @@ public class FullHistoryDisplayer extends GameMenu implements Observer {
 
     @Override
     public void observe(Observable observable) {
-        super.observe(observable);
         if (observable == menu) {
-            this.objects = menu.getSelectedObject();
+//            this.objects = menu.getSelectedObject();
             if (this.graphRenderer != null)
                 this.graphRenderer.calculate();
         }
+    }
+
+    /**
+     * Setter for objects.
+     *
+     * @param objects The new value for objects
+     */
+    public void setObjects(SessionHitObjects objects) {
+        this.objects = objects;
     }
 
     private class GraphRenderer extends GameObject {

@@ -159,6 +159,22 @@ public class Vector {
         return y;
     }
 
+    /**
+     * Returns a new Vector with this vector's y
+     * @param x The new Vector's x
+     */
+    public Vector newSetX(float x) {
+        return new Vector(x, y);
+    }
+
+    /**
+     * Returns a new Vector with this vector's x
+     * @param y The new Vector's y
+     */
+    public Vector newSetY(float y) {
+        return new Vector(x, y);
+    }
+
     @NonNull
     @Override
     public String toString() {
