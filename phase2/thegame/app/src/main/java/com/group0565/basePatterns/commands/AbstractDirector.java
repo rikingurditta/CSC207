@@ -2,6 +2,11 @@ package com.group0565.basePatterns.commands;
 
 import java.util.HashMap;
 
+/**
+ * An abstract base class for the Director in the command design pattern
+ *
+ * @param <T> The command type
+ */
 public abstract class AbstractDirector<T extends ICommand> {
 
   /** A local HashMap of the IDs and their respective commands */

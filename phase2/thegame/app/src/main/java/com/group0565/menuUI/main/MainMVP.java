@@ -1,6 +1,7 @@
 package com.group0565.menuUI.main;
 
 import com.group0565.basePatterns.mvp.BaseMVP;
+import com.group0565.menuUI.main.enums.ActivityNames;
 import com.group0565.menuUI.main.enums.GameID;
 import com.group0565.menuUI.main.enums.MenuOptionID;
 
@@ -42,22 +43,11 @@ public interface MainMVP {
     /** Show the normal Main screen */
     void showNormalScreen();
 
-    /** Redirect to game 1 activity */
-    void goToGame1();
-
-    /** Redirect to game 1 activity */
-    void goToGame2();
-
-    /** Redirect to game 1 activity */
-    void goToGame3();
-
-    /** Redirect to settings activity */
-    void goToSettings();
-
-    /** Redirect to statistics activity */
-    void goToStatistics();
-
-    /** Redirect to achievements activity */
-    void goToAchievements();
+    /**
+     * Launch designated activity
+     *
+     * @param targetActivity The target activity
+     */
+    void goToActivity(ActivityNames targetActivity);
   }
 }

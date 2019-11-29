@@ -20,6 +20,10 @@ public class StatisticsRowsPresenterImp implements StatisticsMVP.StatisticsRowsP
   /** A reference to the statistics list */
   private List<IStatistic> statistics;
 
+  /**
+   * Create a new instance of StatisticsRowsPresenterImp
+   * @param statistics The list of given statistics
+   */
   StatisticsRowsPresenterImp(List<IStatistic> statistics) {
     this.statistics = statistics;
 

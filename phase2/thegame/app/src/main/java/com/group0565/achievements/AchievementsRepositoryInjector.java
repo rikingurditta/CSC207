@@ -9,7 +9,7 @@ import com.group0565.users.IUsersInteractor;
 public class AchievementsRepositoryInjector {
 
   /**
-   * Inject the caller with the statistics repository after getting user id from server
+   * Inject the caller with the Achievements repository after getting user id from server
    *
    * @param listener A listener for success of injection
    */

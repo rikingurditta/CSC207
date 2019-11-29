@@ -10,15 +10,16 @@ import com.group0565.theme.ThemeManager;
 
 import java.util.List;
 
+/** An implementation of AchievementsPresenter for the Achievements screen */
 public class AchievementsPresenterImp implements AchievementsMVP.AchievementsPresenter {
 
   /** Reference to the attached view */
   private AchievementsMVP.AchievementsView achievementsView;
 
   /**
-   * Instantiate a new StatisticsPresenterImp
+   * Instantiate a new AchievementsPresenterImp
    *
-   * @param achievementsView The attached StatisticsView
+   * @param achievementsView The attached AchievementsView
    */
   AchievementsPresenterImp(AchievementsMVP.AchievementsView achievementsView) {
     this.achievementsView = achievementsView;
@@ -31,7 +32,7 @@ public class AchievementsPresenterImp implements AchievementsMVP.AchievementsPre
   }
 
   /**
-   * Sets the stats to the recycler using the given repository
+   * Sets the achievements to the recycler using the given repository
    *
    * @param repository The repository to get the data from
    */

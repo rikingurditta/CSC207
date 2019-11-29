@@ -133,4 +133,20 @@ public class MockAchievementsRepository implements IAsyncAchievementsRepository 
 
     Log.d("MockStatisticRepository", "push: " + achievement.getAchievementKey());
   }
+
+  /**
+   * Add an achievement to the database - mark as achieved
+   *
+   * @param achievement The achievement to add
+   * @param timeAdded The time of adding
+   */
+  @Override
+  public void push(IAchievement achievement, Long timeAdded) {
+    userAchievements.add(achievement);
+    achievement.setAchieved(timeAdded);
+
+    updateLiveData();
+
+    Log.d("MockStatisticRepository", "push: " + achievement.getAchievementKey());
+  }
 }

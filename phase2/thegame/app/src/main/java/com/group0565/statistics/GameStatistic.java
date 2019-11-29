@@ -1,10 +1,6 @@
 package com.group0565.statistics;
 
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
+import androidx.annotation.NonNull;
 
 /**
  * An implementation of IStatistic for GameStatistics
@@ -100,7 +96,7 @@ class GameStatistic<T> implements IStatistic<T> {
    *     this object.
    */
   @Override
-  public int compareTo(IStatistic<T> o) {
+  public int compareTo(@NonNull IStatistic<T> o) {
     if (statKey == null || o.getStatKey() == null) {
       return 0;
     } else {

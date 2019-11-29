@@ -87,7 +87,7 @@ public class TheGameApplication extends Application implements IErrorDisplayer {
     // Get from db and plant in SharedPreference
     rep.getAll(this::editSharedPreferences);
 
-    // Listen to sharedpreference and update db
+    // Listen to sharedPreferences and update db
     preferences.registerOnSharedPreferenceChangeListener(listener);
   }
 

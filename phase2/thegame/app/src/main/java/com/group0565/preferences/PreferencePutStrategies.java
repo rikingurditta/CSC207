@@ -2,7 +2,9 @@ package com.group0565.preferences;
 
 import android.content.SharedPreferences;
 
+/** A wrapper class for the strategy design pattern to deal with persistence put calls */
 class PreferencePutStrategies {
+  /** The strategy for float values */
   public static class PreferencePutFloat implements IPreferencePutStrategy<Float> {
     /**
      * Put the given value into the editor
@@ -16,6 +18,7 @@ class PreferencePutStrategies {
     }
   }
 
+  /** The strategy for int values */
   public static class PreferencePutInt implements IPreferencePutStrategy<Integer> {
 
     /**
@@ -31,6 +34,7 @@ class PreferencePutStrategies {
     }
   }
 
+  /** The strategy for string values */
   public static class PreferencePutString implements IPreferencePutStrategy<String> {
 
     /**
@@ -46,6 +50,7 @@ class PreferencePutStrategies {
     }
   }
 
+  /** The strategy for bool values */
   public static class PreferencePutBool implements IPreferencePutStrategy<Boolean> {
 
     /**
@@ -61,6 +66,7 @@ class PreferencePutStrategies {
     }
   }
 
+  /** The strategy for long values */
   public static class PreferencePutLong implements IPreferencePutStrategy<Long> {
 
     /**
@@ -76,6 +82,7 @@ class PreferencePutStrategies {
     }
   }
 
+  /** The strategy for double values */
   public static class PreferencePutDouble implements IPreferencePutStrategy<Double> {
 
     /**

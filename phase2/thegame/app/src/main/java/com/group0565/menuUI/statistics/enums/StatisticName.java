@@ -15,16 +15,24 @@ public enum StatisticName {
   TSU_SCORE(R.string.tsu_score_text),
   DEFAULT(R.string.stat_missing_text);
 
+  /** A map from value to enum name */
   private static Map map = new HashMap<>();
 
   static {
+    /* Fill map with defined values */
     for (StatisticName statisticName : StatisticName.values()) {
       map.put(statisticName.value, statisticName);
     }
   }
 
+  /** The value of the enum */
   private int value;
 
+  /**
+   * Create a new instance of the enum with the given value
+   *
+   * @param value The given value
+   */
   StatisticName(int value) {
     this.value = value;
   }
@@ -56,6 +64,11 @@ public enum StatisticName {
     }
   }
 
+  /**
+   * Get the value of the instance
+   *
+   * @return The value
+   */
   public int getValue() {
     return value;
   }

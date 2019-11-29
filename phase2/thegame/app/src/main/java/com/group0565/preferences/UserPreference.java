@@ -1,6 +1,6 @@
 package com.group0565.preferences;
 
-/** An implementation of the IPreference interface for user-specific com.group0565.preferences */
+/** An implementation of the IPreference interface for user-specific preferences */
 class UserPreference<T> implements IPreference<T> {
 
   /** The preference's name */

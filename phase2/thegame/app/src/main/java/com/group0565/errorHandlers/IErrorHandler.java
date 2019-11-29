@@ -1,7 +1,7 @@
 package com.group0565.errorHandlers;
 
 /**
- * General non-platform specific error handler interface
+ * General platform-neutral error handler interface
  *
  * @param <T> The Throwable type to be handled by the class
  */

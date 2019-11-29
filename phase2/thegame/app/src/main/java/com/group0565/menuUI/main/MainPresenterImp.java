@@ -1,6 +1,7 @@
 package com.group0565.menuUI.main;
 
 import com.group0565.menuUI.main.menuCommands.AchievementsMenuCommand;
+import com.group0565.menuUI.main.navigationCommands.RacerCommand;
 import com.group0565.preferences.PreferencesInjector;
 import com.group0565.menuUI.main.enums.GameID;
 import com.group0565.menuUI.main.enums.MenuOptionID;
@@ -8,9 +9,8 @@ import com.group0565.menuUI.main.menuCommands.MenuDirector;
 import com.group0565.menuUI.main.menuCommands.SettingsMenuCommand;
 import com.group0565.menuUI.main.menuCommands.SignOutMenuCommand;
 import com.group0565.menuUI.main.menuCommands.StatisticsMenuCommand;
-import com.group0565.menuUI.main.navigationCommands.Game1Command;
-import com.group0565.menuUI.main.navigationCommands.Game2Command;
-import com.group0565.menuUI.main.navigationCommands.Game3Command;
+import com.group0565.menuUI.main.navigationCommands.TsuCommand;
+import com.group0565.menuUI.main.navigationCommands.BomberCommand;
 import com.group0565.menuUI.main.navigationCommands.NavigationDirector;
 import com.group0565.errorHandlers.ExceptionErrorHandler;
 import com.group0565.errorHandlers.IErrorHandler;
@@ -52,9 +52,9 @@ public class MainPresenterImp implements MainPresenter {
     this.mainView = mainView;
 
     navDir = new NavigationDirector();
-    navDir.register(GameID.GAME1, new Game1Command(mainView));
-    navDir.register(GameID.GAME2, new Game2Command(mainView));
-    navDir.register(GameID.GAME3, new Game3Command(mainView));
+    navDir.register(GameID.GAME1, new TsuCommand(mainView));
+    navDir.register(GameID.GAME2, new BomberCommand(mainView));
+    navDir.register(GameID.GAME3, new RacerCommand(mainView));
 
     menuDir = new MenuDirector();
     menuDir.register(MenuOptionID.SETTINGS, new SettingsMenuCommand(mainView));
@@ -160,7 +160,6 @@ public class MainPresenterImp implements MainPresenter {
    */
   @Override
   public int getAppTheme() {
-    int themeID = ThemeManager.getTheme(PreferencesInjector.inject().getTheme());
-    return themeID;
+    return ThemeManager.getTheme(PreferencesInjector.inject().getTheme());
   }
 }

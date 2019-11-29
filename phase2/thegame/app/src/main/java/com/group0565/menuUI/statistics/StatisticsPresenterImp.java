@@ -12,6 +12,9 @@ public class StatisticsPresenterImp implements StatisticsMVP.StatisticsPresenter
   /** Reference to the attached view */
   private StatisticsMVP.StatisticsView statisticsView;
 
+  /** A reference to the preferences interactor */
+  private IPreferenceInteractor preferenceInteractor;
+
   /**
    * Instantiate a new StatisticsPresenterImp
    *
@@ -19,6 +22,7 @@ public class StatisticsPresenterImp implements StatisticsMVP.StatisticsPresenter
    */
   StatisticsPresenterImp(StatisticsMVP.StatisticsView statisticsView) {
     this.statisticsView = statisticsView;
+    this.preferenceInteractor = PreferencesInjector.inject();
   }
 
   /**
@@ -54,9 +58,7 @@ public class StatisticsPresenterImp implements StatisticsMVP.StatisticsPresenter
    */
   @Override
   public String getDisplayLanguage() {
-    IPreferenceInteractor prefInteractor = PreferencesInjector.inject();
-
-    return prefInteractor.getLanguage();
+    return preferenceInteractor.getLanguage();
   }
 
   /**
@@ -66,8 +68,6 @@ public class StatisticsPresenterImp implements StatisticsMVP.StatisticsPresenter
    */
   @Override
   public int getAppTheme() {
-    IPreferenceInteractor prefInteractor = PreferencesInjector.inject();
-
-    return ThemeManager.getTheme(prefInteractor.getTheme());
+    return ThemeManager.getTheme(preferenceInteractor.getTheme());
   }
 }

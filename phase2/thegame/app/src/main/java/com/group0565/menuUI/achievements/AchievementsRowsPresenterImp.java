@@ -14,6 +14,10 @@ public class AchievementsRowsPresenterImp implements AchievementsMVP.Achievement
   /** A reference to the achievements list */
   private List<IAchievement> achievements;
 
+  /**
+   * Create a new AchievementsRowsPresenterImp with the given achievements list
+   * @param achievements The list of achievements
+   */
   AchievementsRowsPresenterImp(List<IAchievement> achievements) {
     this.achievements = achievements;
   }

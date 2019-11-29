@@ -17,7 +17,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerViewGame1"
+        android:id="@+id/recyclerViewTsu"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
@@ -37,10 +37,10 @@
         android:layout_marginTop="16dp"
         android:text="@string/Game2Name"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/recyclerViewGame1" />
+        app:layout_constraintTop_toBottomOf="@+id/recyclerViewTsu" />
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerViewGame2"
+        android:id="@+id/recyclerViewBomber"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
@@ -48,7 +48,7 @@
         android:layout_marginEnd="32dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/recyclerViewGame1">
+        app:layout_constraintTop_toBottomOf="@+id/recyclerViewTsu">
 
     </androidx.recyclerview.widget.RecyclerView>
 
@@ -60,10 +60,10 @@
         android:layout_marginTop="16dp"
         android:text="@string/Game3Name"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/recyclerViewGame2" />
+        app:layout_constraintTop_toBottomOf="@+id/recyclerViewBomber" />
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerViewGame3"
+        android:id="@+id/recyclerViewRacer"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
@@ -71,7 +71,7 @@
         android:layout_marginEnd="32dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/recyclerViewGame2">
+        app:layout_constraintTop_toBottomOf="@+id/recyclerViewBomber">
 
     </androidx.recyclerview.widget.RecyclerView>
 

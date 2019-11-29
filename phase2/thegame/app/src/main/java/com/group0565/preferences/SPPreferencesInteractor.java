@@ -8,6 +8,7 @@ import com.group0565.menuUI.TheGameApplication;
 
 import java.util.List;
 
+/** An implementation of IPreferenceInteractor that uses SharedPreferences */
 class SPPreferencesInteractor implements IPreferenceInteractor {
   /**
    * Get the current selected theme
@@ -84,6 +85,7 @@ class SPPreferencesInteractor implements IPreferenceInteractor {
 
   /**
    * Preform the update of the SharedPreferences
+   *
    * @param prefEditor The SharedPreferences.Editor to use
    * @param pref The pref to update
    */

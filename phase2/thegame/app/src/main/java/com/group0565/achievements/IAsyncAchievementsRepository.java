@@ -19,4 +19,12 @@ public interface IAsyncAchievementsRepository extends IAsyncRepository<IAchievem
    * @param achievementName The achievement key
    */
   void push(String achievementName);
+
+  /**
+   * Add an achievement to the database - mark as achieved
+   *
+   * @param achievement The achievement to add
+   * @param timeAdded The time of adding
+   */
+  void push(IAchievement achievement, Long timeAdded);
 }

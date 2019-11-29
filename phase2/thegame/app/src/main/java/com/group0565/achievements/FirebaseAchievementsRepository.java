@@ -16,7 +16,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /** A Firebase implementation of the IAsyncAchievementsRepository */
-public class FirebaseAchievementsRepository implements IAsyncAchievementsRepository {
+class FirebaseAchievementsRepository implements IAsyncAchievementsRepository {
 
   /** A reference to the Firebase database */
   private DatabaseReference mDatabase;
@@ -43,9 +43,9 @@ public class FirebaseAchievementsRepository implements IAsyncAchievementsReposit
   }
 
   /**
-   * Gets the observable LiveData of all the IStatistic objects in the database
+   * Gets the observable LiveData of all the IAchievement objects in the database
    *
-   * @return An observable object wrapping the list of IStatistic with all statistics
+   * @return An observable object wrapping the list of IAchievement with all achievements
    */
   @Override
   public LiveData<List<IAchievement>> getObservable() {
@@ -95,10 +95,21 @@ public class FirebaseAchievementsRepository implements IAsyncAchievementsReposit
    * Add an achievement to the database - mark as achieved
    *
    * @param achievement The achievement to add
+   * @param timeAdded The time of adding
+   */
+  @Override
+  public void push(IAchievement achievement, Long timeAdded) {
+    achievement.setAchieved(timeAdded);
+    mDatabase.push().setValue(achievement);
+  }
+
+  /**
+   * Add an achievement to the database
+   *
+   * @param achievement The achievement to add
    */
   @Override
   public void push(IAchievement achievement) {
-    achievement.setAchieved(System.currentTimeMillis());
     mDatabase.push().setValue(achievement);
   }
 
@@ -150,7 +161,7 @@ public class FirebaseAchievementsRepository implements IAsyncAchievementsReposit
     mDatabase.push().setValue(achievement);
   }
 
-  /** An implementation of ChildEventListener for PreferenceRepository */
+  /** An implementation of ChildEventListener for AchievementsRepository */
   private class MyChildEventListener implements ChildEventListener {
 
     /**

@@ -19,7 +19,7 @@ public class GameAchievement implements IAchievement {
   private Long achievementDate;
 
   /**
-   * Creates a new GameStatistic with the given key
+   * Creates a new GameAchievement with the given key
    *
    * @param achievementKey The achievement unique key
    */
@@ -28,7 +28,7 @@ public class GameAchievement implements IAchievement {
   }
 
   /**
-   * Creates a new GameStatistic with the given key and status
+   * Creates a new GameAchievement with the given key and status
    *
    * @param achievementKey The achievement unique key
    * @param isAchieved The achievement's status
@@ -75,7 +75,7 @@ public class GameAchievement implements IAchievement {
   }
 
   /**
-   * Sets the achievement's status to true *
+   * Sets the achievement's status to true
    *
    * @param achieveDate The date of achievement
    */
