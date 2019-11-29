@@ -13,7 +13,7 @@ public class Lane extends GameObject {
     private boolean racerLane;
     private ArrayList laneContents;
 
-    Lane(Vector position, double z) {
+    public Lane(Vector position, double z) {
         super(position, z);
         laneContents = new ArrayList();
     }

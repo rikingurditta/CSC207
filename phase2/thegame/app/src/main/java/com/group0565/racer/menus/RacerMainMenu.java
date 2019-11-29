@@ -4,12 +4,12 @@ import com.group0565.engine.gameobjects.GameMenu;
 import com.group0565.engine.interfaces.Canvas;
 import com.group0565.engine.interfaces.Observable;
 
-public class RacerMenu extends GameMenu implements Observable {
+public class RacerMainMenu extends GameMenu implements Observable {
     //Event Constants
     public static final String TO_GAME = "Go To Game";
     public static final String TO_STATS = "Go To Stats";
 
-    public RacerMenu() {
+    public RacerMainMenu() {
         super(null);
     }
 

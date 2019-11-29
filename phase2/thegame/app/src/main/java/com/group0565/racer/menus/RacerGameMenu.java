@@ -4,12 +4,20 @@ import com.group0565.engine.gameobjects.GameMenu;
 import com.group0565.engine.interfaces.Canvas;
 import com.group0565.engine.interfaces.Observable;
 import com.group0565.engine.interfaces.Paint;
+import com.group0565.math.Vector;
+import com.group0565.racer.core.Lane;
 import com.group0565.racer.core.RacerEngine;
 import com.group0565.theme.Themes;
 
 public class RacerGameMenu extends GameMenu implements Observable {
 
     private RacerEngine engine;
+
+    private Lane leftLane;
+
+    private Lane middleLane;
+
+    private Lane rightLane;
 
     public RacerGameMenu(RacerEngine engine) {
         super(null);
@@ -19,7 +27,13 @@ public class RacerGameMenu extends GameMenu implements Observable {
     @Override
     public void init() {
         super.init();
+        leftLane = new Lane(new Vector(0, 0), 0);
+        middleLane = new Lane(new Vector(0, 0), 0);
+        rightLane = new Lane(new Vector(0, 0), 0);
 
+        this.adopt(leftLane);
+        this.adopt(middleLane);
+        this.adopt(rightLane);
     }
 
     /**

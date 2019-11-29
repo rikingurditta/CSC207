@@ -46,12 +46,6 @@ public class RacerEngine extends GameObject implements EventObserver, Observable
      */
     private boolean live = true;
 
-    private Lane leftLane;
-
-    private Lane middleLane;
-
-    private Lane rightLane;
-
     /** The left button (moves racer object to left most lane) */
     private Button leftButton;
 
@@ -84,13 +78,7 @@ public class RacerEngine extends GameObject implements EventObserver, Observable
     }
 
     public void init() {
-        leftLane = new Lane(new Vector(0, 0), 0);
-        middleLane = new Lane(new Vector(0, 0), 0);
-        rightLane = new Lane(new Vector(0, 0), 0);
-
-        this.adopt(leftLane);
-        this.adopt(middleLane);
-        this.adopt(rightLane);
+        super.init();
 
         leftButton =
                 new Button(
