@@ -1,4 +1,4 @@
-package com.group0565.racer.core;
+package com.group0565.racer.objects;
 
 import com.group0565.engine.gameobjects.GameObject;
 import com.group0565.engine.interfaces.Canvas;

@@ -1,4 +1,4 @@
-package com.group0565.racer.obstacles;
+package com.group0565.racer.objects;
 
 import com.group0565.engine.gameobjects.GameObject;
 import com.group0565.math.Vector;

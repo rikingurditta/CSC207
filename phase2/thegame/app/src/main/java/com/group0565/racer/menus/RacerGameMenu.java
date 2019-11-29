@@ -5,7 +5,7 @@ import com.group0565.engine.interfaces.Canvas;
 import com.group0565.engine.interfaces.Observable;
 import com.group0565.engine.interfaces.Paint;
 import com.group0565.math.Vector;
-import com.group0565.racer.core.Lane;
+import com.group0565.racer.objects.Lane;
 import com.group0565.racer.core.RacerEngine;
 import com.group0565.theme.Themes;
 

@@ -1,4 +1,4 @@
-package com.group0565.racer.core;
+package com.group0565.racer.objects;
 
 import android.graphics.Paint;
 
