@@ -10,6 +10,7 @@ public class TextRenderer extends MenuObject {
     private Paint paint;
     private PaintCan paintCan;
     private Source<String> textSource;
+    private String last = "";
 
     public TextRenderer(Vector position, String string, PaintCan paintCan) {
         super(paintCan.getPaint().getTextBounds(string));
@@ -57,12 +58,26 @@ public class TextRenderer extends MenuObject {
         this.textSource = text;
     }
 
+    public TextRenderer(Source<String> text, PaintCan paintCan, Vector size) {
+        super(paintCan.getPaint().getTextBounds(text.getValue()));
+        this.setPaintCan(paintCan);
+        this.textSource = text;
+        this.setSize(size);
+    }
+
     public TextRenderer(Source<String> text, Paint paint) {
         super(paint.getTextBounds(text.getValue()));
         this.setPaint(paint);
         this.textSource = text;
     }
 
+    @Override
+    public void update(long ms) {
+        super.update(ms);
+        if (!last.equals(textSource.getValue()))
+            setSize(getSize());
+        last = textSource.getValue();
+    }
 
     @Override
     public void draw(Canvas canvas, Vector pos, Vector size) {
@@ -74,13 +89,25 @@ public class TextRenderer extends MenuObject {
     }
 
     public void setPaint(Paint paint) {
-        this.paint = paint;
+        this.paint = paint.clone();
         this.paintCan = null;
     }
 
     public void setPaintCan(PaintCan paintCan) {
-        this.paintCan = paintCan;
+        this.paintCan = paintCan.clone();
         this.paint = null;
+    }
+
+    @Override
+    public void setSize(Vector size) {
+        if (paint != null){
+            super.setSize(size.newSetX(paint.getTextBounds(textSource.getValue()).getX()));
+            paint.setTextSize(size.getY());
+        }else if (paintCan != null){
+            super.setSize(size.newSetX(paintCan.getPaint().getTextBounds(textSource.getValue()).getX()));
+            paintCan.setTextSize(size.getY());
+        }else
+            super.setSize(size);
     }
 
     public String getString(){

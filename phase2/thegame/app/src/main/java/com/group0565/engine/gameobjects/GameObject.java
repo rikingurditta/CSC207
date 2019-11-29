@@ -391,6 +391,58 @@ public class GameObject implements LifecycleListener, Drawable {
     }
 
     /**
+     * Sets the X coordinate of the relative position of this vector to its parent. If parent is null, this becomes
+     * the absolute position.
+     *
+     * @param relativePositionX The X coordinate of the relative position
+     * @return This Object to allow chaining
+     */
+    public GameObject setRelativePositionX(float relativePositionX) {
+        this.relativePosition = new Vector(relativePositionX, this.relativePosition.getY());
+        invalidateCache();
+        return this;
+    }
+
+    /**
+     * Sets the Y coordinate of the relative position of this vector to its parent. If parent is null, this becomes
+     * the absolute position.
+     *
+     * @param relativePositionY The Y coordinate of the relative position of this vector.
+     * @return This Object to allow chaining
+     */
+    public GameObject setRelativePositionY(float relativePositionY) {
+        this.relativePosition = new Vector(this.relativePosition.getX(), relativePositionY);
+        invalidateCache();
+        return this;
+    }
+
+    /**
+     * Sets the X coordinate of the absolute position of this vector to its parent. If parent is null, this becomes
+     * the absolute position.
+     *
+     * @param absolutePositionX The X coordinate of the absolute position
+     * @return This Object to allow chaining
+     */
+    public GameObject setAbsolutePositionX(float absolutePositionX) {
+        this.setAbsolutePosition(new Vector(absolutePositionX, getAbsolutePosition().getY()));
+        invalidateCache();
+        return this;
+    }
+
+    /**
+     * Sets the Y coordinate of the absolute position of this vector to its parent. If parent is null, this becomes
+     * the absolute position.
+     *
+     * @param absolutePositionY The Y coordinate of the absolute position of this vector.
+     * @return This Object to allow chaining
+     */
+    public GameObject setAbsolutePositionY(float absolutePositionY) {
+        this.setAbsolutePosition(new Vector(getAbsolutePosition().getX(), absolutePositionY));
+        invalidateCache();
+        return this;
+    }
+
+    /**
      * Sets the position either relative or absolute
      *
      * @param position The position
@@ -452,6 +504,16 @@ public class GameObject implements LifecycleListener, Drawable {
     }
 
     /**
+     * Converts the vector in relative position into absolute position
+     *
+     * @param relativePosition The relative position
+     * @return The vector in absolute position.
+     */
+    public Vector toAbsolutePosition(Vector relativePosition) {
+        return relativePosition.add(parentAbsolutePosition);
+    }
+
+    /**
      * Getter for this GameObject's Z value
      *
      * @return The current z value of this GameObject
@@ -465,8 +527,9 @@ public class GameObject implements LifecycleListener, Drawable {
      *
      * @param z The new Z value
      */
-    public void setZ(double z) {
+    public GameObject setZ(double z) {
         this.z = z;
+        return this;
     }
 
     /**

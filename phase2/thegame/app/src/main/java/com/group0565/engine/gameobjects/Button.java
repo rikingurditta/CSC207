@@ -15,6 +15,7 @@ public class Button extends MenuObject implements Observable {
     private boolean pressed;
     private Bitmap up;
     private Bitmap down;
+    private Object payload = null;
 
     public Button(Vector position, Vector size) {
         this(position, size, null, null);
@@ -39,6 +40,13 @@ public class Button extends MenuObject implements Observable {
         super(size);
         this.up = image;
         this.down = image;
+    }
+
+    public Button(Vector size, Bitmap image, Object payload) {
+        super(size);
+        this.up = image;
+        this.down = image;
+        this.payload = payload;
     }
 
     public Button(Vector size, GameAssetManager manager, String set, String name, int tileX, int tileY) {
@@ -69,10 +77,8 @@ public class Button extends MenuObject implements Observable {
                 }
             }
         }
-        if (!f && pressed) {
+        if (!f && pressed)
             setPressed(false);
-            notifyObservers();
-        }
     }
 
     @Override
@@ -116,7 +122,7 @@ public class Button extends MenuObject implements Observable {
 
     public void setPressed(boolean pressed) {
         this.pressed = pressed;
-        this.notifyObservers(new ObservationEvent(pressed ? EVENT_DOWN : EVENT_UP));
+        this.notifyObservers(new ObservationEvent<>(pressed ? EVENT_DOWN : EVENT_UP, payload));
     }
 
     public Bitmap getUp() {

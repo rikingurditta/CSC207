@@ -22,7 +22,7 @@ public class TsuGame extends GameObject implements EventObserver {
     private Preferences preferences;
 
     public TsuGame(){
-        this.stats = new StatsMenu(this);
+        this.stats = new StatsMenu();
         preferences = new Preferences();
         this.setGlobalPreferences(preferences);
         HitObjectsRepositoryInjector.inject(
@@ -33,6 +33,7 @@ public class TsuGame extends GameObject implements EventObserver {
 
     @Override
     public void init() {
+        super.init();
         this.menu = new TsuMenu();
 
         this.engine = new TsuEngine();
@@ -45,7 +46,6 @@ public class TsuGame extends GameObject implements EventObserver {
         menu.registerObserver(this);
         stats.registerObserver(this);
         engine.registerObserver(this);
-        super.init();
     }
 
     @Override
@@ -66,11 +66,11 @@ public class TsuGame extends GameObject implements EventObserver {
             }
         } else
         if (observable == stats) {
-            if (stats.isExit()) {
-                stats.setExit(false);
-                stats.setEnable(false);
-                menu.setEnable(true);
-            }
+//            if (stats.isExit()) {
+//                stats.setExit(false);
+//                stats.setEnable(false);
+//                menu.setEnable(true);
+//            }
         } else if (observable == engine) {
             if (engine.hasEnded()) {
                 SessionHitObjects objects = engine.getSessionHitObjects();
@@ -81,7 +81,7 @@ public class TsuGame extends GameObject implements EventObserver {
                         stats.setHistory(new ArrayList<>());
                     stats.getHistory().add(objects);
                     updateStats(stats.getHistory());
-                    stats.setSelectedObject(objects);
+//                    stats.setSelectedObject(objects);
                     stats.setEnable(true);
                 }else
                     menu.setEnable(true);

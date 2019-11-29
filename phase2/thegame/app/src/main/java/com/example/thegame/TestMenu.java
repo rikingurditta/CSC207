@@ -1,8 +1,6 @@
 package com.example.thegame;
 
 import com.group0565.engine.android.AndroidPaint;
-import com.group0565.engine.enums.HorizontalAlignment;
-import com.group0565.engine.enums.VerticalAlignment;
 import com.group0565.engine.gameobjects.GameMenu;
 import com.group0565.engine.gameobjects.MenuObject;
 import com.group0565.engine.interfaces.Canvas;

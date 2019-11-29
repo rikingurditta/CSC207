@@ -1,7 +1,5 @@
 package com.group0565.tsu.menus;
 
-import com.group0565.engine.enums.HorizontalAlignment;
-import com.group0565.engine.enums.VerticalAlignment;
 import com.group0565.engine.gameobjects.Button;
 import com.group0565.engine.gameobjects.GameMenu;
 import com.group0565.engine.interfaces.Canvas;
@@ -13,6 +11,8 @@ import com.group0565.engine.render.ThemedPaintCan;
 import com.group0565.math.Vector;
 import com.group0565.tsu.enums.ButtonBitmap;
 
+import static com.group0565.engine.enums.HorizontalEdge.*;
+import static com.group0565.engine.enums.VerticalEdge.*;
 
 public class TsuMenu extends GameMenu implements Observable {
     //Event Constants
@@ -70,41 +70,44 @@ public class TsuMenu extends GameMenu implements Observable {
             .add(TitleButtonName,  new Button(TITLE_SIZE, getEngine().getGameAssetManager(), SET, TitleButtonBMName).build()
                 .registerObserver(this::observeTitle)
                 .close())
-            .setCenteredRelativePosition("this")
+            .addCenteredAlignment(THIS)
 
             //Title String
             .add(TitleStringName, new TextRenderer(new LanguageText(getGlobalPreferences(), getEngine().getGameAssetManager(), SET, TitleStringTokenName), titlePaintCan).build()
                 .addOffset(TITLE_SIZE.elementMultiply(new Vector(0, 0.20f)))
                 .close())
-            .setCenteredRelativePosition(TitleButtonName)
+            .addCenteredAlignment(TitleButtonName)
 
             //Settings Menu
             .add(SettingsMenuName, (settingsMenu = new SettingsMenu(SETTINGS_SIZE)).build()
                 .setEnable(false)
                 .setZ(1)
                 .close())
-            .setCenteredRelativePosition("this")
+            .addCenteredAlignment("this")
 
             //Settings Button
             .add(SettingsButtonName, new Button(BUTTON_SIZE, ButtonBitmap.SettingsButton.getBitmap()).build()
                 .addOffset(SCREEN_MARGIN.multiply(-1))
                 .registerObserver(this::observeSettingsButton)
                 .close())
-            .setRelativePosition("this", HorizontalAlignment.RightAlign, VerticalAlignment.BottomAlign)
+            .addAlignment(Right, THIS, Right)
+            .addAlignment(Bottom, THIS, Bottom)
 
             //Language Button
             .add(LanguageButtonName, new Button(BUTTON_SIZE, ButtonBitmap.LanguageButton.getBitmap()).build()
                 .addOffset(SCREEN_MARGIN.elementMultiply(new Vector(-1, 1)))
                 .registerObserver(this::observeLanguageButton)
                 .close())
-            .setRelativePosition("this", HorizontalAlignment.RightAlign, VerticalAlignment.TopAlign)
+            .addAlignment(Right, THIS, Right)
+            .addAlignment(Top, THIS, Top)
 
             //Stats Button
             .add(StatsButtonName, new Button(BUTTON_SIZE, ButtonBitmap.StatsButton.getBitmap()).build()
                 .addOffset(SCREEN_MARGIN.elementMultiply(new Vector(1, -1)))
                 .registerObserver(this::observeStatsButton)
                 .close())
-            .setRelativePosition("this", HorizontalAlignment.LeftAlign, VerticalAlignment.BottomAlign)
+            .addAlignment(Left, THIS, Left)
+            .addAlignment(Bottom, THIS, Bottom)
         .close();
         // @formatter:on
     }

@@ -1,8 +1,6 @@
 package com.group0565.engine;
 
 import com.group0565.engine.assets.GameAssetManager;
-import com.group0565.engine.enums.HorizontalAlignment;
-import com.group0565.engine.enums.VerticalAlignment;
 import com.group0565.engine.gameobjects.GameMenu;
 import com.group0565.engine.interfaces.Bitmap;
 import com.group0565.engine.interfaces.Canvas;
@@ -11,10 +9,11 @@ import com.group0565.engine.render.BitmapDrawer;
 import com.group0565.engine.render.ClippedTextRenderer;
 import com.group0565.engine.render.LanguageText;
 import com.group0565.engine.render.PaintCan;
-import com.group0565.engine.render.TextRenderer;
 import com.group0565.engine.render.ThemedPaintCan;
 import com.group0565.math.LinearTemporalInterpolator;
 import com.group0565.math.Vector;
+import static com.group0565.engine.enums.HorizontalEdge.*;
+import static com.group0565.engine.enums.VerticalEdge.*;
 
 /**
  * An Achievement
@@ -92,6 +91,7 @@ public class Achievement extends GameMenu {
      * Initilize the Achievement
      */
     public void init(){
+        super.init();
         GameAssetManager assetManager = getEngine().getGameAssetManager();
         this.bgPaint = new ThemedPaintCan(SET, BG_Paint).init(getGlobalPreferences(), assetManager);
         PaintCan textPaint = new ThemedPaintCan(SET, TEXT_Paint).init(getGlobalPreferences(), assetManager);
@@ -101,13 +101,15 @@ public class Achievement extends GameMenu {
         this.build()
             //Icon
             .add(ICON_NAME, new BitmapDrawer(new Vector(getSize().getY()), icon))
-            .setRelativePosition(THIS, HorizontalAlignment.LeftAlign, VerticalAlignment.Center)
+            .addAlignment(Left, THIS, Left)
+            .addAlignment(VCenter, THIS, VCenter)
 
             //Text
             .add(STRING_NAME, new ClippedTextRenderer(() -> (timer < UNLOCK_TIME ? unlockText.getValue() : displayName), getSize().getX(), textPaint).build()
                 .addOffset(STRING_HBUFFER, 0)
                 .close())
-            .setRelativePosition(ICON_NAME, HorizontalAlignment.RightOf, VerticalAlignment.Center)
+            .addAlignment(Left, ICON_NAME, Right)
+            .addAlignment(VCenter, ICON_NAME, VCenter)
         .close();
         // @formatter:on
 

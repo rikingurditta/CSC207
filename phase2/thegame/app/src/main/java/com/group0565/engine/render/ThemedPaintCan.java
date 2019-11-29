@@ -1,5 +1,7 @@
 package com.group0565.engine.render;
 
+import androidx.annotation.NonNull;
+
 import com.group0565.engine.assets.GameAssetManager;
 import com.group0565.engine.gameobjects.GlobalPreferences;
 import com.group0565.engine.interfaces.Observable;
@@ -11,15 +13,22 @@ import com.group0565.theme.Themes;
 import java.util.HashMap;
 import java.util.Set;
 
-public class ThemedPaintCan extends PaintCan{
+public class ThemedPaintCan extends PaintCan implements Cloneable{
     private HashMap<Themes, Paint> registry = new HashMap<>();
     private String set;
     private String name;
 
     public ThemedPaintCan(String set, String name) {
-        super(null);
+        super((Paint) null);
         this.set = set;
         this.name = name;
+    }
+
+    public ThemedPaintCan(ThemedPaintCan paintCan){
+        super(paintCan);
+        this.set = paintCan.set;
+        this.name = paintCan.name;
+        this.registry = paintCan.registry;
     }
 
     public ThemedPaintCan init(GlobalPreferences preferences, GameAssetManager assetManager){
@@ -39,11 +48,17 @@ public class ThemedPaintCan extends PaintCan{
     }
 
     public void observe(Observable observable, ObservationEvent event) {
-        if (event.getMsg().equals(GlobalPreferences.THEME_CHANGE)){
+        if (event.isEvent(GlobalPreferences.THEME_CHANGE)){
             if (event.getPayload() instanceof Themes) {
                 Paint paint = registry.get(event.getPayload());
                 if (paint != null) this.setPaint(paint);
             }
         }
+    }
+
+    @NonNull
+    @Override
+    public ThemedPaintCan clone() {
+        return new ThemedPaintCan(this);
     }
 }

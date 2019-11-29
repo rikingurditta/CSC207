@@ -1,10 +1,12 @@
 package com.group0565.engine.render;
 
+import androidx.annotation.NonNull;
+
 import com.group0565.engine.interfaces.Observable;
 import com.group0565.engine.interfaces.Paint;
 import com.group0565.engine.interfaces.Typeface;
 
-public class PaintCan implements Observable {
+public class PaintCan implements Observable, Cloneable {
     private Paint paint;
     private Paint sourcePaint;
     private boolean setARGB = false;
@@ -21,6 +23,23 @@ public class PaintCan implements Observable {
     public PaintCan(Paint paint) {
         this.sourcePaint = paint;
         this.paint = (paint == null) ? null : sourcePaint.clone();
+    }
+
+    public PaintCan(PaintCan paintCan){
+        this(paintCan.paint);
+        this.a = paintCan.a;
+        this.r = paintCan.r;
+        this.g = paintCan.g;
+        this.b = paintCan.b;
+        this.color = paintCan.color;
+        this.textSize = paintCan.textSize;
+        this.width = paintCan.width;
+        this.typeface = paintCan.typeface;
+        this.setARGB = paintCan.setARGB;
+        this.setColor = paintCan.setColor;
+        this.setTextSize = paintCan.setTextSize;
+        this.setStrokeWidth = paintCan.setStrokeWidth;
+        this.setTextSize = paintCan.setTypeface;
     }
 
     public void setARGB(int a, int r, int g, int b) {
@@ -114,5 +133,11 @@ public class PaintCan implements Observable {
 
     public Paint getPaint() {
         return this.paint;
+    }
+
+    @NonNull
+    @Override
+    public PaintCan clone() {
+        return new PaintCan(this);
     }
 }
