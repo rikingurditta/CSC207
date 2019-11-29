@@ -60,12 +60,30 @@
         "Path": "Tsu/fr.json",
         "Default": "Chaîne Introuvable"
       }
+    },
+    "Bomber": {
+      "en": {
+        "Path": "Bomber/en.json",
+        "Default": "String Not Found"
+      },
+      "fr": {
+        "Path": "Bomber/fr.json",
+        "Default": "Chaîne Introuvable"
+      }
     }
   },
   "Theme": {
     "Tsu": {
       "LIGHT": {
         "Path": "Tsu/Light.json"
+      }
+    },
+    "Bomber": {
+      "LIGHT": {
+        "Path": "Bomber/Light.json"
+      },
+      "DARK": {
+        "Path": "Bomber/Dark.json"
       }
     }
   }
