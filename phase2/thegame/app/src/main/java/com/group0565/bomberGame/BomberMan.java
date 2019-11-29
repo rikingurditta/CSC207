@@ -98,7 +98,7 @@ public class BomberMan extends GridObject {
   public void draw(Canvas canvas) {
     Vector pos = getAbsolutePosition();
     // Draw an rectangle at our touch position
-    canvas.drawRect(pos, new Vector(100, 100), bodyPaintCan);
+    canvas.drawRect(pos, new Vector(grid.getTileWidth(), grid.getTileWidth()), bodyPaintCan);
     canvas.drawText("hp: " + hp, pos, textPaintCan);
   }
 

@@ -34,16 +34,20 @@ public class NormalBomb extends Bomb {
 
   @Override
   public void draw(Canvas canvas) {
+    int scale = grid.getTileWidth();
     if (!duringExplosion) {
-      canvas.drawRect(getAbsolutePosition(), new Vector(100, 100), currPaintCan);
+      // if not exploding, draw bomb as single tile
+      canvas.drawRect(getAbsolutePosition(), new Vector(scale, scale), currPaintCan);
     } else {
+      // if exploding, draw + shaped explosion
+      // horizontal rectangle 5 tiles wide and 1 tile tall
       canvas.drawRect(
-          getAbsolutePosition().add(new Vector(-(getStrength() * 100), 0)),
-          new Vector(2 * getStrength() * 100 + 100, 100),
+          getAbsolutePosition().add(new Vector(-getStrength() * scale, 0)),
+          new Vector(2 * getStrength() * scale + scale, scale),
           currPaintCan);
       canvas.drawRect(
-          getAbsolutePosition().add(new Vector(0, -(getStrength() * 100))),
-          new Vector(100, 2 * (getStrength() * 100) + 100),
+          getAbsolutePosition().add(new Vector(0, -getStrength() * scale)),
+          new Vector(scale, 2 * getStrength() * scale + scale),
           currPaintCan);
     }
   }

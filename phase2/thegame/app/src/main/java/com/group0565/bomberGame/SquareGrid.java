@@ -191,4 +191,8 @@ public class SquareGrid extends GameObject {
     Crate c = new Crate(r, 10, this, game);
     game.adoptLater(c);
   }
+
+  public int getTileWidth() {
+    return this.tileWidth;
+  }
 }

@@ -74,16 +74,12 @@ public abstract class Bomb extends GridObject {
       bombTimer += ms;
       if (bombTimer < bombExplodeTime / 5 * 2) {
         currPaintCan = buildup1PaintCan;
-//        p.setARGB(255, 240, 255, 0);
       } else if (bombTimer < bombExplodeTime / 5 * 3) {
         currPaintCan = buildup2PaintCan;
-//        p.setARGB(255, 255, 206, 0);
       } else if (bombTimer < bombExplodeTime / 5 * 4) {
         currPaintCan = buildup3PaintCan;
-//        p.setARGB(255, 255, 154, 0);
       } else {
         currPaintCan = buildup4PaintCan;
-//        p.setARGB(250, 255, 90, 0);
       }
     } else if (bombTimer < bombExplodeTime + explosionDuration) {
       if (!duringExplosion) {
@@ -92,7 +88,6 @@ public abstract class Bomb extends GridObject {
       }
       // actual explosion
       currPaintCan = explosionPaintCan;
-//      p.setARGB(200, 255, 0, 0);
       bombTimer += ms;
       duringExplosion = true;
     } else {

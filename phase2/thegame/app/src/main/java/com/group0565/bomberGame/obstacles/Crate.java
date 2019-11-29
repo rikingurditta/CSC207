@@ -10,6 +10,7 @@ import com.group0565.math.Vector;
 
 /** A destructable obstacle that takes up one grid block. */
 public class Crate extends GridObject {
+
   /** The game this Crate belongs to. */
   private BomberGame game;
 
@@ -70,6 +71,6 @@ public class Crate extends GridObject {
   public void draw(Canvas canvas) {
     Vector pos = getAbsolutePosition();
     // Draw a rectangle at our touch position
-    canvas.drawRect(pos, new Vector(100, 100), paintCan);
+    canvas.drawRect(pos, new Vector(grid.getTileWidth(), grid.getTileWidth()), paintCan);
   }
 }
