@@ -3,8 +3,9 @@ package com.group0565.racer.core;
 import com.group0565.engine.gameobjects.Button;
 import com.group0565.engine.gameobjects.GameObject;
 import com.group0565.engine.interfaces.Canvas;
+import com.group0565.engine.interfaces.EventObserver;
 import com.group0565.engine.interfaces.Observable;
-import com.group0565.engine.interfaces.Observer;
+import com.group0565.engine.interfaces.ObservationEvent;
 import com.group0565.engine.interfaces.Paint;
 import com.group0565.math.Vector;
 import com.group0565.racer.menus.RacerGameOverMenu;
@@ -16,7 +17,7 @@ import com.group0565.statistics.StatisticRepositoryInjector;
 import com.group0565.statistics.enums.StatisticKey;
 import com.group0565.theme.Themes;
 
-public class RacerEngine extends GameObject implements Observer, Observable {
+public class RacerEngine extends GameObject implements EventObserver, Observable {
 
     /** Game tag for purposes of database
      */
@@ -135,23 +136,25 @@ public class RacerEngine extends GameObject implements Observer, Observable {
         obsManager = new ObstacleManager(this);
         this.adopt(obsManager);
 
-//        gameOverMenu = new RacerGameOverMenu(size?);
-//        gameOverMenu.setEnable(false);
-//
-//        pauseMenu = new RacerPauseMenu();
-//        pauseMenu.setEnable(false);
+        gameOverMenu = new RacerGameOverMenu(null, this);
+        this.adopt(gameOverMenu);
+        gameOverMenu.setEnable(false);
+
+        pauseMenu = new RacerPauseMenu(null);
+        this.adopt(pauseMenu);
+        pauseMenu.setEnable(false);
 
     }
 
     /** @param observable Button objects */
-    public void observe(Observable observable) {
-        if (observable == leftButton) {
+    public void observe(Observable observable, ObservationEvent observationEvent) {
+        if (observable == leftButton && observationEvent.getMsg().equals(Button.EVENT_DOWN)) {
             racer.setAbsolutePosition(new Vector(100, 1600));
             racer.setLane(1);
-        } else if (observable == middleButton) {
+        } else if (observable == middleButton && observationEvent.getMsg().equals(Button.EVENT_DOWN)) {
             racer.setAbsolutePosition(new Vector(475, 1600));
             racer.setLane(2);
-        } else if (observable == rightButton) {
+        } else if (observable == rightButton && observationEvent.getMsg().equals(Button.EVENT_DOWN)) {
             racer.setAbsolutePosition(new Vector(850, 1600));
             racer.setLane(3);
         }

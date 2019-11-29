@@ -23,8 +23,8 @@ public class RacerPauseMenu extends GameObject implements Observer, Observable {
     private boolean exit;
 
 
-    public RacerPauseMenu(Vector position, Vector size) {
-        super(position);
+    public RacerPauseMenu(Vector size) {
+        super(size);
         this.size = size;
     }
 
