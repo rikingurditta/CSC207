@@ -3,7 +3,9 @@ package com.group0565.bomberGame;
 import com.group0565.bomberGame.input.InputSystem;
 import com.group0565.bomberGame.input.JoystickInput;
 import com.group0565.bomberGame.input.RandomInput;
+import com.group0565.bomberGame.menus.GameOverMenu;
 import com.group0565.engine.assets.GameAssetManager;
+import com.group0565.engine.gameobjects.GameMenu;
 import com.group0565.engine.gameobjects.GameObject;
 import com.group0565.engine.gameobjects.GlobalPreferences;
 import com.group0565.engine.interfaces.Canvas;
@@ -28,36 +30,54 @@ public class BomberGame extends GameObject {
   private ArrayList<GameObject> itemsToBeAdopted = new ArrayList<>();
   private ArrayList<GameObject> itemsToBeRemoved = new ArrayList<>();
   private BomberMan meBomberMan;
-  private int gameTimer = 60000;
+  private int gameTimer = 60000 / 12;
   private boolean gameEnded = false;
   private long startTime;
   /** The repository to interact with the stats DB */
   private IAsyncStatisticsRepository myStatRepo;
 
+  /** LanguageTexts for in-game time/stats displays. */
   private LanguageText bombsPlacedLT;
+
   private LanguageText damageDealtLT;
   private LanguageText hpRemainingLT;
   private LanguageText timeLeftLT;
   private LanguageText gameOverLT;
   private ThemedPaintCan bgPaintCan = new ThemedPaintCan("Bomber", "Background.Background");
   private ThemedPaintCan textPaintCan = new ThemedPaintCan("Bomber", "Text.Text");
+  private GameMenu gameOverMenu;
 
+  /** Create a new game. Construct game grid and objects within it. */
   public BomberGame(Vector position) {
     super(position);
+
+    // TODO: reposition, rescale displayed objects based on screen size
+
+    SquareGrid grid = new SquareGrid(new Vector(100, 100), 0, 15, 8, 100, this);
+    adopt(grid);
+
+    // create player
     InputSystem joystickInput =
         new JoystickInput(new Vector(150, 750), 100, new Vector(0, 0), new Vector(1700, 100), 100);
     adopt(joystickInput);
-    InputSystem randomInput = new RandomInput(1000);
-    adopt(randomInput);
-    SquareGrid grid = new SquareGrid(new Vector(100, 100), 0, 15, 8, 100, this);
-    adopt(grid);
     BomberMan bm = new BomberMan(new Coords(0, 0), 20, joystickInput, this, grid, 10);
     adopt(bm);
     meBomberMan = bm;
-    BomberMan bm2 = new BomberMan(new Coords(10, 6), 20, randomInput, this, grid, 10);
-    adopt(bm2);
+
+    // create NPC player using RandomInput
+    InputSystem randomInput = new RandomInput(1000);
+    adopt(randomInput);
+    adopt(new BomberMan(new Coords(10, 6), 20, randomInput, this, grid, 10));
+
     // make 25 crates
     for (int i = 0; i < 25; i++) grid.makeRandomCrate();
+
+    // create game over menu
+    this.gameOverMenu = new GameOverMenu(new Vector(500, 500));
+    gameOverMenu.setAbsolutePosition(new Vector(500, 250));
+    gameOverMenu.setZ(100);
+    gameOverMenu.setEnable(false);
+    this.adopt(gameOverMenu);
 
     listener =
         repository -> {
@@ -116,7 +136,7 @@ public class BomberGame extends GameObject {
     if (gameTimer <= 0 && !gameEnded) {
       sendStats();
       gameEnded = true;
-
+      gameOverMenu.setEnable(true);
     } else {
       if (gameEnded) {
         // TODO need to write code from proper game ending procedure
