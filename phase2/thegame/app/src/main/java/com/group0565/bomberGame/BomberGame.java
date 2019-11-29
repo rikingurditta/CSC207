@@ -30,7 +30,7 @@ public class BomberGame extends GameObject {
   private ArrayList<GameObject> itemsToBeAdopted = new ArrayList<>();
   private ArrayList<GameObject> itemsToBeRemoved = new ArrayList<>();
   private BomberMan meBomberMan;
-  private int gameTimer = 60000 / 12;
+  private int gameTimer = 60000;
   private boolean gameEnded = false;
   private long startTime;
   /** The repository to interact with the stats DB */
@@ -73,11 +73,11 @@ public class BomberGame extends GameObject {
     for (int i = 0; i < 25; i++) grid.makeRandomCrate();
 
     // create game over menu
-    this.gameOverMenu = new GameOverMenu(new Vector(500, 500));
+    gameOverMenu = new GameOverMenu(new Vector(500, 500));
     gameOverMenu.setAbsolutePosition(new Vector(500, 250));
     gameOverMenu.setZ(100);
     gameOverMenu.setEnable(false);
-    this.adopt(gameOverMenu);
+    adopt(gameOverMenu);
 
     listener =
         repository -> {
@@ -150,14 +150,14 @@ public class BomberGame extends GameObject {
 
   private void updateChildren() {
     for (GameObject item : itemsToBeAdopted) {
-      this.adopt(item);
+      adopt(item);
       item.init();
     }
     itemsToBeAdopted.clear();
 
     for (GameObject item : itemsToBeRemoved) {
       UUID objID = item.getUUID();
-      Map<UUID, GameObject> gameChildren = this.getChildren();
+      Map<UUID, GameObject> gameChildren = getChildren();
       gameChildren.remove(objID);
     }
     itemsToBeRemoved.clear();
