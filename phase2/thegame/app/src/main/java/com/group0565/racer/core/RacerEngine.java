@@ -62,6 +62,9 @@ public class RacerEngine extends GameObject implements EventObserver, Observable
     /** The right button(moves racer object to right most lane) */
     private Button rightButton;
 
+    /** Pauses game when pressed, brings up a paused menu */
+    private Button pauseButton;
+
     /** ObstacleManager that spawns and manages all of this game's obstacles */
     private ObstacleManager obsManager;
 
@@ -142,6 +145,18 @@ public class RacerEngine extends GameObject implements EventObserver, Observable
         this.adopt(gameOverMenu);
         gameOverMenu.setEnable(false);
 
+        pauseButton = new Button(new Vector(900, 150),
+                new Vector(100, 100),
+                getEngine()
+                        .getGameAssetManager()
+                        .getTileSheet("RacerButton", "RacerButton")
+                        .getTile(0, 0),
+                getEngine()
+                        .getGameAssetManager()
+                        .getTileSheet("RacerButton", "RacerButton")
+                        .getTile(0, 0));
+        this.adopt(pauseButton);
+
         pauseMenu = new RacerPauseMenu(null, this);
         this.adopt(pauseMenu);
         pauseMenu.setEnable(false);
@@ -159,6 +174,9 @@ public class RacerEngine extends GameObject implements EventObserver, Observable
         } else if (observable == rightButton && observationEvent.getMsg().equals(Button.EVENT_DOWN)) {
             racer.setAbsolutePosition(new Vector(850, 1600));
             racer.setLane(3);
+        } else if (observable == pauseMenu && observationEvent.getMsg().equals(Button.EVENT_DOWN)) {
+            this.setEnable(false);
+            pauseMenu.setEnable(true);
         }
     }
 

@@ -3,6 +3,8 @@ package com.group0565.racer.menus;
 import com.group0565.engine.gameobjects.Button;
 import com.group0565.engine.gameobjects.GameMenu;
 import com.group0565.engine.interfaces.Canvas;
+import com.group0565.engine.interfaces.Observable;
+import com.group0565.engine.interfaces.ObservationEvent;
 import com.group0565.engine.interfaces.Paint;
 import com.group0565.math.Vector;
 import com.group0565.racer.core.RacerEngine;
@@ -42,6 +44,15 @@ public class RacerGameOverMenu extends GameMenu {
                         .getTileSheet("RacerButton", "RacerButton")
                         .getTile(0, 0));
         this.adopt(exitButton);
+    }
+
+    public void observe(Observable observable, ObservationEvent observationEvent) {
+        if (observable == restartButton && observationEvent.getMsg().equals(Button.EVENT_DOWN)) {
+            setEnable(false);
+        }
+        else if (observable == exitButton && observationEvent.getMsg().equals(Button.EVENT_DOWN)) {
+
+        }
     }
 
     @Override
