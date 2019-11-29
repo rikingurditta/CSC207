@@ -35,6 +35,8 @@ public class RacerEngine extends GameObject implements EventObserver, Observable
     /** Time in milliseconds since last object spawn */
     private long spawnTime = 0;
 
+    private long spawnDelay = 750;
+
     private boolean ended = false;
 
     private boolean paused = false;
@@ -140,7 +142,7 @@ public class RacerEngine extends GameObject implements EventObserver, Observable
         this.adopt(gameOverMenu);
         gameOverMenu.setEnable(false);
 
-        pauseMenu = new RacerPauseMenu(null);
+        pauseMenu = new RacerPauseMenu(null, this);
         this.adopt(pauseMenu);
         pauseMenu.setEnable(false);
 
@@ -189,11 +191,12 @@ public class RacerEngine extends GameObject implements EventObserver, Observable
     @Override
     public void update(long ms) {
         if (live) {
-            this.spawnTime += ms;
-            this.totalTime += ms;
-            if (this.spawnTime >= 750) {
+            spawnTime += ms;
+            totalTime += ms;
+            if (spawnTime >= spawnDelay) {
                 obsManager.spawnObstacle();
-                this.spawnTime = 0;
+                spawnTime = 0;
+                spawnDelay -= 1;
             }
         }
     }
