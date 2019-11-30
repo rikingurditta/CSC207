@@ -9,12 +9,10 @@ public class SquareObstacle extends Obstacle {
   /**
    * Constructor for a SquareObstacle Object
    *
-   * @param lane the lane that this object occupies
-   * @param z the rendering level
-   * @param parent the ObstacleManager that this object is adopted by
+   * @param lane the ObstacleManager that this object is adopted by
    */
-  SquareObstacle(int lane, double z, ObstacleManager parent) {
-    super(lane, z, parent);
+  SquareObstacle(Lane lane) {
+    super(lane);
   }
 
   /**

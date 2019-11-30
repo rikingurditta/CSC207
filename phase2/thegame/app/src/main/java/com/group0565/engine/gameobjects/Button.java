@@ -28,6 +28,11 @@ public class Button extends MenuObject implements Observable {
         this.down = down;
     }
 
+    public Button(Vector position, Vector size, Bitmap up, Bitmap down, Object payload) {
+        this(position, size, up, down);
+        this.payload = payload;
+    }
+
     public Button(Vector position, Vector size, Bitmap image) {
         this(position, size, image, image);
     }

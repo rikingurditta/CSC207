@@ -1,16 +1,15 @@
 package com.group0565.racer.objects;
 
 import com.group0565.engine.gameobjects.GameObject;
+import com.group0565.engine.gameobjects.MenuObject;
 import com.group0565.math.Vector;
 
 /** An Obstacle in the game */
-public abstract class Obstacle extends GameObject {
+public abstract class Obstacle extends MenuObject {
 
-  /** The lane in the game that this Obstacle occupies */
-  private int lane;
 
   /** An ObstacleManager that this object is adopted by */
-  private ObstacleManager obsManager;
+  private Lane lane;
 
   // Need to add falling faster over time functionality
   /** The current speed of the object, used for calculations in update method */
@@ -22,14 +21,11 @@ public abstract class Obstacle extends GameObject {
   /**
    * Constructs a new Obstacle Object
    *
-   * @param lane the lane that this object occupies
-   * @param z the rendering level of this object
-   * @param parent the ObstacleManager that this object is adopted by
+   * @param lane the ObstacleManager that this object is adopted by
    */
-  Obstacle(int lane, double z, ObstacleManager parent) {
-    super(new Vector(lane * 275, 0), z);
+  Obstacle(Lane lane) {
+    super(new Vector(0, 0));
     this.lane = lane;
-    this.obsManager = parent;
   }
 
   /**
@@ -37,13 +33,8 @@ public abstract class Obstacle extends GameObject {
    * collided.
    */
   private void checkCollision() {
-    float racerY = obsManager.parent.getRacer().getAbsolutePosition().getY();
-    float thisY = this.getAbsolutePosition().getY();
-    if (Math.abs(thisY - racerY) <= 50 && lane == obsManager.parent.getRacer().getLane()) {
-      collided = true;
-      obsManager.parent.updateDB(
-          obsManager.parent.getTotalTime() + obsManager.parent.getSpawnTime());
-      obsManager.parent.endGame();
+    if (lane.getRacerLane()) {
+
     }
   }
 

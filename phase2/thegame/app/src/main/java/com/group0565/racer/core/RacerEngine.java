@@ -1,6 +1,5 @@
 package com.group0565.racer.core;
 
-import com.group0565.engine.gameobjects.Button;
 import com.group0565.engine.gameobjects.GameObject;
 import com.group0565.engine.interfaces.Canvas;
 import com.group0565.engine.interfaces.EventObserver;
@@ -10,7 +9,6 @@ import com.group0565.math.Vector;
 import com.group0565.racer.menus.RacerGameMenu;
 import com.group0565.racer.menus.RacerGameOverMenu;
 import com.group0565.racer.menus.RacerPauseMenu;
-import com.group0565.racer.objects.ObstacleManager;
 import com.group0565.racer.objects.Racer;
 import com.group0565.statistics.IAsyncStatisticsRepository;
 import com.group0565.statistics.IStatisticFactory;
@@ -47,21 +45,6 @@ public class RacerEngine extends GameObject implements EventObserver, Observable
      */
     private boolean live = true;
 
-    /** The left button (moves racer object to left most lane) */
-    private Button leftButton;
-
-    /** The middle button (moves racer object to middle lane) */
-    private Button middleButton;
-
-    /** The right button(moves racer object to right most lane) */
-    private Button rightButton;
-
-    /** Pauses game when pressed, brings up a paused menu */
-    private Button pauseButton;
-
-    /** ObstacleManager that spawns and manages all of this game's obstacles */
-    private ObstacleManager obsManager;
-
     /** The racer object that the player controls with */
     private Racer racer;
 
@@ -81,75 +64,15 @@ public class RacerEngine extends GameObject implements EventObserver, Observable
     public void init() {
         super.init();
 
-        leftButton =
-                new Button(
-                        new Vector(100, 1750),
-                        new Vector(150, 150),
-                        getEngine()
-                                .getGameAssetManager()
-                                .getTileSheet("RacerButton", "RacerButton")
-                                .getTile(0, 0),
-                        getEngine()
-                                .getGameAssetManager()
-                                .getTileSheet("RacerButton", "RacerButton")
-                                .getTile(0, 0));
-        middleButton =
-                new Button(
-                        new Vector(475, 1750),
-                        new Vector(150, 150),
-                        getEngine()
-                                .getGameAssetManager()
-                                .getTileSheet("RacerButton", "RacerButton")
-                                .getTile(0, 0),
-                        getEngine()
-                                .getGameAssetManager()
-                                .getTileSheet("RacerButton", "RacerButton")
-                                .getTile(0, 0));
-        rightButton =
-                new Button(
-                        new Vector(850, 1750),
-                        new Vector(150, 150),
-                        getEngine()
-                                .getGameAssetManager()
-                                .getTileSheet("RacerButton", "RacerButton")
-                                .getTile(0, 0),
-                        getEngine()
-                                .getGameAssetManager()
-                                .getTileSheet("RacerButton", "RacerButton")
-                                .getTile(0, 0));
-
-        this.adopt(leftButton);
-        this.adopt(middleButton);
-        this.adopt(rightButton);
-        leftButton.registerObserver(this);
-        middleButton.registerObserver(this);
-        rightButton.registerObserver(this);
+        gameMenu = new RacerGameMenu(this);
+        this.adopt(gameMenu);
 
         racer = new Racer(new Vector(475, 1600), 2);
         this.adopt(racer);
 
-        obsManager = new ObstacleManager(this);
-        this.adopt(obsManager);
-
-        gameMenu = new RacerGameMenu(this);
-        this.adopt(gameMenu);
-
         gameOverMenu = new RacerGameOverMenu(null, this);
         this.adopt(gameOverMenu);
         gameOverMenu.setEnable(false);
-
-        pauseButton = new Button(new Vector(900, 150),
-                new Vector(100, 100),
-                getEngine()
-                        .getGameAssetManager()
-                        .getTileSheet("RacerButton", "RacerButton")
-                        .getTile(0, 0),
-                getEngine()
-                        .getGameAssetManager()
-                        .getTileSheet("RacerButton", "RacerButton")
-                        .getTile(0, 0));
-        this.adopt(pauseButton);
-        pauseButton.registerObserver(this);
 
         pauseMenu = new RacerPauseMenu(null, this);
         this.adopt(pauseMenu);
@@ -159,19 +82,7 @@ public class RacerEngine extends GameObject implements EventObserver, Observable
 
     /** @param observable Button objects */
     public void observe(Observable observable, ObservationEvent observationEvent) {
-        if (observable == leftButton && observationEvent.getMsg().equals(Button.EVENT_DOWN)) {
-            racer.setAbsolutePosition(new Vector(100, 1600));
-            racer.setLane(1);
-        } else if (observable == middleButton && observationEvent.getMsg().equals(Button.EVENT_DOWN)) {
-            racer.setAbsolutePosition(new Vector(475, 1600));
-            racer.setLane(2);
-        } else if (observable == rightButton && observationEvent.getMsg().equals(Button.EVENT_DOWN)) {
-            racer.setAbsolutePosition(new Vector(850, 1600));
-            racer.setLane(3);
-        } else if (observable == pauseButton && observationEvent.getMsg().equals(Button.EVENT_DOWN)) {
-            pauseMenu.setEnable(true);
-            setEnable(false);
-        }
+
     }
 
     /**
@@ -199,7 +110,7 @@ public class RacerEngine extends GameObject implements EventObserver, Observable
             spawnTime += ms;
             totalTime += ms;
             if (spawnTime >= spawnDelay) {
-                obsManager.spawnObstacle();
+                spawnObstacle();
                 spawnTime = 0;
                 spawnDelay -= 1;
             }
@@ -218,7 +129,6 @@ public class RacerEngine extends GameObject implements EventObserver, Observable
 
     public void endGame() {
         racer.setEnable(false);
-        obsManager.setEnable(false);
         gameMenu.setEnable(false);
         gameOverMenu.setEnable(true);
         setLive();
@@ -270,6 +180,10 @@ public class RacerEngine extends GameObject implements EventObserver, Observable
     /** Sets the live attribute of this variable to the opposite value */
     public void setLive() {
         live = !live;
+    }
+
+    public void spawnObstacle() {
+        gameMenu.spawnObstacle();
     }
 
 

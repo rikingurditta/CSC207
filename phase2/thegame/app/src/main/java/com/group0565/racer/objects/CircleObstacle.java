@@ -9,12 +9,10 @@ public class CircleObstacle extends Obstacle {
   /**
    * Constructor for a CircleObstacle object
    *
-   * @param lane the lane that this obstacle occupies
-   * @param z the rendering level of this object
-   * @param parent the ObstacleManager that this Obstacle is adopted by
+   * @param lane the ObstacleManager that this Obstacle is adopted by
    */
-  CircleObstacle(int lane, double z, ObstacleManager parent) {
-    super(lane, z, parent);
+  CircleObstacle(Lane lane) {
+    super(lane);
   }
 
   /**

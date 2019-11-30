@@ -17,7 +17,7 @@ public class Racer extends GameObject {
    * @param position a Vector representing the position of this object on the screen
    * @param z the rendering level of this object
    */
-  Racer(Vector position, double z) {
+  public Racer(Vector position, double z) {
     super(position, z);
     this.lane = 2;
   }
@@ -36,7 +36,7 @@ public class Racer extends GameObject {
    *
    * @param lane Set the lane attribute to parameter lane.
    */
-  void setLane(int lane) {
+  public void setLane(int lane) {
     this.lane = lane;
   }
 

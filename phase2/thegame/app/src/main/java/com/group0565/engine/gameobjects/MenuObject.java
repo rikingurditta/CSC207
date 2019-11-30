@@ -31,7 +31,7 @@ public class MenuObject extends GameObject implements Observable {
     private Source<Boolean> selfEnable = () -> true;
 
     //TODO: REMOVE
-    public boolean debug = false;
+    public boolean debug = true;
 
     public MenuObject(Vector size) {
         this.setSize(size);
