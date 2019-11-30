@@ -4,115 +4,201 @@ import com.group0565.engine.interfaces.Observable;
 import com.group0565.engine.interfaces.Paint;
 import com.group0565.engine.interfaces.Typeface;
 
+/** A class representing a base PaintCan */
 public class PaintCan implements Observable {
-    private Paint paint;
-    private Paint sourcePaint;
-    private boolean setARGB = false;
-    private boolean setColor = false;
-    private boolean setTextSize = false;
-    private boolean setStrokeWidth = false;
-    private boolean setTypeface = false;
-    private int a = 0, r = 0, g = 0, b = 0;
-    private int color = 0;
-    private float textSize = 0;
-    private float width = 0;
-    private Typeface typeface = null;
+  /** The underlying paint */
+  private Paint paint;
+  /** The sourcePaint - not to be directly changed */
+  private Paint sourcePaint;
+  /** A bool to note if ARGB was set */
+  private boolean setARGB = false;
+  /** A bool to note if Color was set */
+  private boolean setColor = false;
+  /** A bool to note if TextSize was set */
+  private boolean setTextSize = false;
+  /** A bool to note if StrokeWidth was set */
+  private boolean setStrokeWidth = false;
+  /** A bool to note if TypeFace was set */
+  private boolean setTypeface = false;
+  /** The ARGB values */
+  private int a = 0, r = 0, g = 0, b = 0;
+  /** The color of the paint */
+  private int color = 0;
+  /** The text size for the paint */
+  private float textSize = 0;
+  /** The width of the paint */
+  private float width = 0;
+  /** The Typeface for the paint */
+  private Typeface typeface = null;
 
-    public PaintCan(Paint paint) {
-        this.sourcePaint = paint;
-        this.paint = (paint == null) ? null : sourcePaint.clone();
-    }
+  /**
+   * Create a new instance of a PaintCan
+   *
+   * @param paint The underlying Paint
+   */
+  public PaintCan(Paint paint) {
+    this.sourcePaint = paint;
+    this.paint = (paint == null) ? null : sourcePaint.clone();
+  }
 
-    public void setARGB(int a, int r, int g, int b) {
-        this.a = a;
-        this.r = r;
-        this.g = g;
-        this.b = b;
-        setARGB = true;
-        paint.setARGB(a, r, g, b);
-    }
+  /**
+   * Set the ARGB for the paintCan
+   *
+   * @param a Alpha
+   * @param r Red
+   * @param g Green
+   * @param b Blue
+   */
+  public void setARGB(int a, int r, int g, int b) {
+    this.a = a;
+    this.r = r;
+    this.g = g;
+    this.b = b;
+    setARGB = true;
+    paint.setARGB(a, r, g, b);
+  }
 
-    public void setTextSize(float textSize) {
-        this.textSize = textSize;
-        setTextSize = true;
-        paint.setTextSize(textSize);
-    }
+  /**
+   * Sets the text size Change setTextSize to true
+   *
+   * @param textSize Target text size
+   */
+  public void setTextSize(float textSize) {
+    this.textSize = textSize;
+    setTextSize = true;
+    paint.setTextSize(textSize);
+  }
 
-    public void setColor(int color) {
-        this.color = color;
-        setColor = true;
-        paint.setColor(color);
-    }
+  /**
+   * Sets the color Change setColor to true
+   *
+   * @param color Target color
+   */
+  public void setColor(int color) {
+    this.color = color;
+    setColor = true;
+    paint.setColor(color);
+  }
 
-    public void setStrokeWidth(float width) {
-        this.width = width;
-        setStrokeWidth = true;
-        paint.setStrokeWidth(width);
-    }
+  /**
+   * Sets the stroke width Change setStrokeWidth to true
+   *
+   * @param width Target width
+   */
+  public void setStrokeWidth(float width) {
+    this.width = width;
+    setStrokeWidth = true;
+    paint.setStrokeWidth(width);
+  }
 
-    public void setTypeface(Typeface typeface) {
-        this.typeface = typeface;
-        setTypeface = true;
-        paint.setTypeface(typeface);
-    }
+  /**
+   * Sets the stroke width Change setTypeface to true
+   *
+   * @param typeface Target width
+   */
+  public void setTypeface(Typeface typeface) {
+    this.typeface = typeface;
+    setTypeface = true;
+    paint.setTypeface(typeface);
+  }
 
-    public boolean hasSetARGB() {
-        return setARGB;
-    }
+  /**
+   * Get whether ARGB have been set
+   *
+   * @return True if ARGB has been set, false otherwise
+   */
+  public boolean hasSetARGB() {
+    return setARGB;
+  }
 
-    public void unsetARGB() {
-        this.setARGB = false;
-        this.paint = this.sourcePaint.clone();
-    }
+  /** Change setARGB to false and reset paint to sourcePaint */
+  public void unsetARGB() {
+    this.setARGB = false;
+    this.paint = this.sourcePaint.clone();
+  }
 
-    public boolean hasSetColor() {
-        return setColor;
-    }
+  /**
+   * Get whether color have been set
+   *
+   * @return True if color has been set, false otherwise
+   */
+  public boolean hasSetColor() {
+    return setColor;
+  }
 
-    public void unsetColor() {
-        this.setColor = false;
-        this.paint = this.sourcePaint.clone();
-    }
+  /** Change setColor to false and reset paint to sourcePaint */
+  public void unsetColor() {
+    this.setColor = false;
+    this.paint = this.sourcePaint.clone();
+  }
 
-    public boolean hasSetTextSize() {
-        return setTextSize;
-    }
+  /**
+   * Get whether text size have been set
+   *
+   * @return True if text size has been set, false otherwise
+   */
+  public boolean hasSetTextSize() {
+    return setTextSize;
+  }
 
-    public void unsetTextSize() {
-        this.setTextSize = false;
-        this.paint = this.sourcePaint.clone();
-    }
+  /** Change setTextSize to false and reset paint to sourcePaint */
+  public void unsetTextSize() {
+    this.setTextSize = false;
+    this.paint = this.sourcePaint.clone();
+  }
 
-    public boolean hasSetStrokeWidth() {
-        return setStrokeWidth;
-    }
+  /**
+   * Get whether stroke width have been set
+   *
+   * @return True if stroke width has been set, false otherwise
+   */
+  public boolean hasSetStrokeWidth() {
+    return setStrokeWidth;
+  }
 
-    public void unsetStrokeWidth() {
-        this.setStrokeWidth = false;
-        this.paint = this.sourcePaint.clone();
-    }
+  /** Change setStrokeWidth to false and reset paint to sourcePaint */
+  public void unsetStrokeWidth() {
+    this.setStrokeWidth = false;
+    this.paint = this.sourcePaint.clone();
+  }
 
-    public boolean hasSetTypeface() {
-        return setTypeface;
-    }
+  /**
+   * Get whether typeface have been set
+   *
+   * @return True if typeface has been set, false otherwise
+   */
+  public boolean hasSetTypeface() {
+    return setTypeface;
+  }
 
-    public void unsetTypeface(boolean setTypeface) {
-        this.setTypeface = setTypeface;
-        this.paint = this.sourcePaint.clone();
-    }
+  /** Change setTypeface to false and reset paint to sourcePaint */
+  public void unsetTypeface(boolean setTypeface) {
+    this.setTypeface = setTypeface;
+    this.paint = this.sourcePaint.clone();
+  }
 
-    public void setPaint(Paint sourcePaint) {
-        this.sourcePaint = sourcePaint;
-        this.paint = sourcePaint.clone();
-        if (setTypeface)    this.paint.setTypeface(typeface);
-        if (setARGB)        this.paint.setARGB(a, r, g, b);
-        if (setStrokeWidth) this.paint.setStrokeWidth(width);
-        if (setTextSize)    this.paint.setTextSize(textSize);
-        if (setColor)       this.paint.setColor(color);
-        this.notifyObservers();
-    }
+  /**
+   * Sets the paint to sourcePaint and then change all the changed values to their new values
+   *
+   * @param sourcePaint The starting paint
+   */
+  public void setPaint(Paint sourcePaint) {
+    this.sourcePaint = sourcePaint;
+    this.paint = sourcePaint.clone();
+    if (setTypeface) this.paint.setTypeface(typeface);
+    if (setARGB) this.paint.setARGB(a, r, g, b);
+    if (setStrokeWidth) this.paint.setStrokeWidth(width);
+    if (setTextSize) this.paint.setTextSize(textSize);
+    if (setColor) this.paint.setColor(color);
+    this.notifyObservers();
+  }
 
-    public Paint getPaint() {
-        return this.paint;
-    }
+  /**
+   * Get the paint of this can
+   *
+   * @return The underlying paint
+   */
+  public Paint getPaint() {
+    return this.paint;
+  }
 }

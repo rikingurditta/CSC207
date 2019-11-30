@@ -1,13 +1,27 @@
 package com.group0565.engine.interfaces;
 
-public interface Bitmap{
+/** An interface for a Bitmap */
+public interface Bitmap {
+  /**
+   * Get the width of the bitmap
+   *
+   * @return The object width
+   */
+  int getWidth();
 
-    int getWidth();
-    int getHeight();
+  /**
+   * Get the height of the bitmap
+   *
+   * @return The object height
+   */
+  int getHeight();
 
-    int getPixel(int x, int y);
-
-    static Bitmap createBitmap(Bitmap source, int x, int y, int width, int height){
-        return null;
-    }
+  /**
+   * Get the pixel at given coordinates
+   *
+   * @param x The x coordinate
+   * @param y The y coordinate
+   * @return The pixel at the x and y coordinates
+   */
+  int getPixel(int x, int y);
 }
