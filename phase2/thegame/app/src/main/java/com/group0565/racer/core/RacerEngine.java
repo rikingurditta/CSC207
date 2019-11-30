@@ -186,5 +186,14 @@ public class RacerEngine extends GameObject implements EventObserver, Observable
         gameMenu.spawnObstacle();
     }
 
+    public void moveRacer(int lane) {
+        if (lane == 1) {
+            racer.setAbsolutePosition(new Vector(150, 500));
+        } else if (lane == 2) {
+            racer.setAbsolutePosition(new Vector(150, 1000));
+        } else {
+            racer.setAbsolutePosition(new Vector(150, 1500));
+        }
+    }
 
 }

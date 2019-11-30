@@ -104,6 +104,7 @@ public class RacerGameMenu extends GameMenu implements Observable {
             middleLane.setRacerLane(false);
             rightLane.setRacerLane(false);
             leftLane.setRacerLane(true);
+            engine.moveRacer(1);
         }
     }
 
@@ -112,6 +113,7 @@ public class RacerGameMenu extends GameMenu implements Observable {
             leftLane.setRacerLane(false);
             rightLane.setRacerLane(false);
             middleLane.setRacerLane(true);
+            engine.moveRacer(2);
         }
     }
 
@@ -120,6 +122,7 @@ public class RacerGameMenu extends GameMenu implements Observable {
             leftLane.setRacerLane(false);
             middleLane.setRacerLane(false);
             rightLane.setRacerLane(true);
+            engine.moveRacer(3);
         }
     }
 
