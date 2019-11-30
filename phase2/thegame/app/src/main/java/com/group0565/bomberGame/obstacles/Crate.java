@@ -1,8 +1,11 @@
 package com.group0565.bomberGame.obstacles;
 
 import com.group0565.bomberGame.BomberGame;
+import com.group0565.bomberGame.Droppable;
 import com.group0565.bomberGame.GridObject;
 import com.group0565.bomberGame.SquareGrid;
+import com.group0565.bomberGame.bombs.NormalBomb;
+import com.group0565.engine.gameobjects.GameObject;
 import com.group0565.engine.interfaces.Canvas;
 import com.group0565.engine.render.ThemedPaintCan;
 import com.group0565.math.Coords;
@@ -54,11 +57,20 @@ public class Crate extends GridObject {
     if (d > 0) {
       grid.remove(this);
       game.removeLater(this);
+
+      GameObject loot = new Droppable(gridCoords, -2, grid, this.game);
+      game.adoptLater(loot);
     }
+
   }
 
   @Override
   public boolean isBomb() {
+    return false;
+  }
+
+  @Override
+  public boolean isDroppable() {
     return false;
   }
 

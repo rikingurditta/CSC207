@@ -10,9 +10,8 @@ import com.group0565.math.Coords;
 public abstract class Bomb extends GridObject {
 
   boolean duringExplosion = false;
-  BomberMan placedBy;
-  private int strength = 2;
-  private int numSimultaneousBombs = 1;
+  private BomberMan placedBy;
+
   private long bombExplodeTime = 5000;
   private long explosionDuration = 1000;
   private long bombTimer = 0;
@@ -45,27 +44,27 @@ public abstract class Bomb extends GridObject {
   }
 
   public void increaseStrength() {
-    strength += 1;
+    placedBy.setBombStrength(placedBy.getBombStrength() + 1);
   }
 
   public void decreaseStrength() {
-    strength -= 1;
+    placedBy.setBombStrength(placedBy.getBombStrength() - 1);
   }
 
   public void increaseNumSumultaneousBombs() {
-    numSimultaneousBombs += 1;
+    placedBy.setNumSimultaneousBombs(placedBy.getNumSimultaneousBombs() + 1);
   }
 
   public void decreaseNumSumultaneousBombs() {
-    numSimultaneousBombs -= 1;
+    placedBy.setNumSimultaneousBombs(placedBy.getNumSimultaneousBombs() + 1);
   }
 
   public int getStrength() {
-    return strength;
+    return placedBy.getBombStrength();
   }
 
   public int getNumSimultaneousBombs() {
-    return numSimultaneousBombs;
+    return placedBy.getNumSimultaneousBombs();
   }
 
   @Override
@@ -92,6 +91,7 @@ public abstract class Bomb extends GridObject {
       duringExplosion = true;
     } else {
       // remove from game
+
       grid.remove(this);
       game.removeLater(this);
     }
@@ -102,4 +102,11 @@ public abstract class Bomb extends GridObject {
   public boolean isBomb() {
     return true;
   }
+
+  public boolean isDroppable() { return false; }
+
+  public BomberMan getPlacedBy() {
+    return placedBy;
+  }
+
 }

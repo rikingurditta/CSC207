@@ -1,5 +1,7 @@
 package com.group0565.bomberGame;
 
+import android.util.Log;
+
 import com.group0565.bomberGame.bombs.NormalBomb;
 import com.group0565.bomberGame.input.BomberInput;
 import com.group0565.bomberGame.input.InputSystem;
@@ -46,6 +48,11 @@ public class BomberMan extends GridObject {
   private ThemedPaintCan bodyPaintCan = new ThemedPaintCan("Bomber", "BomberMan.Body");
 
   private ThemedPaintCan textPaintCan = new ThemedPaintCan("Bomber", "Text.Text");
+
+  private int bombStrength = 2;
+  private int numSimultaneousBombs = 1;
+
+
 
   /**
    * Constructs a new BomberMan.
@@ -142,7 +149,7 @@ public class BomberMan extends GridObject {
 
       readyToMove = false;
     }
-
+    recieveDroppable();
     Vector newPos = pos.add(direction.multiply((float) ms * speed));
 
     // if the calculated position is past the target, only move to the target
@@ -164,6 +171,21 @@ public class BomberMan extends GridObject {
     game.adoptLater(bomb);
     numBombsPlaced += 1;
     return true;
+  }
+
+  public void recieveDroppable(){
+    Coords pos = gridCoords;
+
+    for (GridObject g : grid.getItems()) {
+      Coords gPos = g.getGridCoords();
+      if (pos.equals(gPos) && g.isDroppable()){
+        Log.i("Game Logic", "Recieved droppable");
+        this.bombStrength += 1;
+        grid.remove(g);
+        game.removeLater(g);
+      }
+    }
+
   }
 
   public void damage(int d) {
@@ -189,5 +211,23 @@ public class BomberMan extends GridObject {
   @Override
   public boolean isBomb() {
     return false;
+  }
+  @Override
+  public boolean isDroppable() { return false; }
+
+  public int getBombStrength() {
+    return bombStrength;
+  }
+
+  public int getNumSimultaneousBombs() {
+    return numSimultaneousBombs;
+  }
+
+  public void setBombStrength(int bombStrength) {
+    this.bombStrength = bombStrength;
+  }
+
+  public void setNumSimultaneousBombs(int numSimultaneousBombs) {
+    this.numSimultaneousBombs = numSimultaneousBombs;
   }
 }

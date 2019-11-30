@@ -26,7 +26,7 @@ public class NormalBomb extends Bomb {
           || (Math.abs(gPos.y - pos.y) <= getStrength() && gPos.x == pos.x)) {
         if (g != this) {
           g.damage(1);
-          placedBy.increaseDamageDealt();
+          this.getPlacedBy().increaseDamageDealt();
         }
       }
     }

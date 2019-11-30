@@ -40,4 +40,6 @@ public abstract class GridObject extends GameObject {
   public void damage(int d) {}
 
   public abstract boolean isBomb();
+
+  public abstract boolean isDroppable();
 }

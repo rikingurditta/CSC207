@@ -61,7 +61,7 @@ public class SquareGrid extends GameObject {
    * @param width How many tiles wide this grid is.
    * @param height How many tiles tall this grid is.
    * @param tileWidth How wide each tile is, in pixels.
-   * @param game
+   * @param game Main Game gameOBJ
    */
   public SquareGrid(Vector position, int width, int height, int tileWidth, BomberGame game) {
     this(position, 0, width, height, tileWidth, game);
@@ -139,7 +139,7 @@ public class SquareGrid extends GameObject {
   /** @return true if g can move to the tile with coordinates p. */
   public boolean isValidMove(GridObject g, Coords p) {
     for (GridObject item : items) {
-      if (item != g && item.gridCoords.equals(p)) {
+      if (!item.isDroppable() && item != g && item.gridCoords.equals(p)) {
         return false;
       }
     }
