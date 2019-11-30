@@ -35,7 +35,6 @@ public class RacerGameMenu extends GameMenu implements Observable {
 
         this.build()
                 .add("Left Lane", (leftLane = new Lane(new Vector(getSize().getX() / 3, 0), this::observeLeftLane)).build()
-                        .registerObserver(this::observeLane)
                         .close())
                 .addAlignment(Left, THIS, Left)
                 .addAlignment(Bottom, THIS, Bottom)
@@ -43,14 +42,12 @@ public class RacerGameMenu extends GameMenu implements Observable {
 
 
                 .add("Middle Lane", (middleLane = new Lane(new Vector(getSize().getX() / 3, 0), this::observeMiddleLane)).build()
-                        .registerObserver(this::observeLane)
                         .close())
                 .addAlignment(HCenter, THIS, HCenter)
                 .addAlignment(Bottom, THIS, Bottom)
                 .addAlignment(Top, THIS, Top)
 
                 .add("Right Lane", (rightLane = new Lane(new Vector(getSize().getX() / 3, 0), this::observeRightLane)).build()
-                        .registerObserver(this::observeLane)
                         .close())
                 .addAlignment(Right, THIS, Right)
                 .addAlignment(Bottom, THIS, Bottom)
@@ -70,6 +67,12 @@ public class RacerGameMenu extends GameMenu implements Observable {
                 .close()
                 )
         .close();
+
+        leftLane.registerObserver(this::observeLane);
+        middleLane.registerObserver(this::observeLane);
+        rightLane.registerObserver(this::observeLane);
+
+        middleLane.setRacerLane(true);
     }
 
     /**
@@ -149,7 +152,7 @@ public class RacerGameMenu extends GameMenu implements Observable {
     }
 
     public void observeLane(Observable observable, ObservationEvent observationEvent) {
-        if (observationEvent.getPayload().equals("Collision")) {
+        if (observationEvent.getMsg().equals("Collision")) {
             engine.endGame();
         }
     }

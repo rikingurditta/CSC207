@@ -57,10 +57,10 @@ public class ObstacleManager extends GameMenu implements Observable {
     }
 
     public void observeObstacle(Observable observable, ObservationEvent observationEvent) {
-        if (observationEvent.getPayload().equals("Dead")) {
+        if (observationEvent.getMsg().equals("Dead")) {
             Obstacle obstacle = (Obstacle) observable;
             deadObstacles.add(obstacle);
-        } else if (observationEvent.getPayload().equals("Collision")) {
+        } else if (observationEvent.getMsg().equals("Collision")) {
             notifyObservers(observationEvent);
         }
     }

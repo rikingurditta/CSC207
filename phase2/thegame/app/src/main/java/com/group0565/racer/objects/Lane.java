@@ -17,7 +17,7 @@ import static com.group0565.engine.enums.VerticalEdge.*;
 
 public class Lane extends GameMenu implements Observable {
 
-    private boolean isOccupied;
+    private boolean isOccupied = false;
     private ObstacleManager obstacleManager;
     private EventObserver buttonObserver;
 
@@ -45,8 +45,9 @@ public class Lane extends GameMenu implements Observable {
                 .add("ObstacleManager", (obstacleManager = new ObstacleManager(new Vector(150, 150), this)).build().close())
                         .addAlignment(HCenter, THIS, HCenter)
                         .addAlignment(Top, THIS, Top)
-                        .registerObserver(this::observeObstacleManager)
                 .close();
+
+        obstacleManager.registerObserver(this::observeObstacleManager);
 
     }
 
@@ -79,8 +80,8 @@ public class Lane extends GameMenu implements Observable {
     }
 
     public void observeObstacleManager(Observable observable, ObservationEvent observationEvent) {
-        if (observationEvent.getPayload().equals("Collision")) {
-
+        if (observationEvent.getMsg().equals("Collision")) {
+            notifyObservers(observationEvent);
         }
     }
 }
