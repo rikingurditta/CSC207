@@ -8,9 +8,6 @@ import com.group0565.math.Vector;
 /** A Racer object (Player-controlled) */
 public class Racer extends GameObject {
 
-  /** The lane that this object occupies */
-  private int lane;
-
   /**
    * A constructor for a Racer object
    *
@@ -19,25 +16,6 @@ public class Racer extends GameObject {
    */
   public Racer(Vector position, double z) {
     super(position, z);
-    this.lane = 2;
-  }
-
-  /**
-   * Getter method for the lane attribute of this Racer Object
-   *
-   * @return the integer value that this lane is assigned
-   */
-  public int getLane() {
-    return lane;
-  }
-
-  /**
-   * Setter method for the lane attribute of this Racer Object
-   *
-   * @param lane Set the lane attribute to parameter lane.
-   */
-  public void setLane(int lane) {
-    this.lane = lane;
   }
 
   /**
