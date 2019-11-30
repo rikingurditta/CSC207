@@ -41,7 +41,9 @@ public class Lane extends GameMenu implements Observable {
                                 .registerObserver(buttonObserver)
                         .close()
                         )
-                .add("ObstacleManager", (obstacleManager = new ObstacleManager(null, this)))
+                .add("ObstacleManager", (obstacleManager = new ObstacleManager(null, this)).build().close())
+                        .addAlignment(HCenter, THIS, HCenter)
+                        .addAlignment(Top, THIS, Top)
                 .close();
 
     }
