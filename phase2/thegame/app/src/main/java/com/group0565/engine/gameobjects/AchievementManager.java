@@ -8,6 +8,7 @@ import java.util.HashMap;
 
 /** A manager of Achievements */
 public class AchievementManager extends GameObject {
+  /** A map of achievements name to object */
   private HashMap<String, HashMap<String, Achievement>> achievements = new HashMap<>();
 
   /** Achievements repository for DB interactions */
