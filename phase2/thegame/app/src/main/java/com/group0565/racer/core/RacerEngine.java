@@ -64,6 +64,8 @@ public class RacerEngine extends GameObject implements EventObserver, Observable
     public void init() {
         super.init();
 
+        startTime = 0;
+
         gameMenu = new RacerGameMenu(this);
         this.adopt(gameMenu);
 

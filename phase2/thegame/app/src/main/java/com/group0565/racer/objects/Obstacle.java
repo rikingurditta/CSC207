@@ -46,7 +46,7 @@ public abstract class Obstacle extends GameObject implements Observable {
    * collided.
    */
   private boolean checkCollision() {
-    if (obstacleManager.getLane().getIsOccupied() && getRelativePosition().getY() >= 1550) {
+    if (obstacleManager.getLane().getIsOccupied() && 1550 <= getRelativePosition().getY() && getRelativePosition().getY() <= 1700) {
       ObservationEvent event = new ObservationEvent("Collision");
       notifyObservers(event);
       return true;
@@ -82,7 +82,7 @@ public abstract class Obstacle extends GameObject implements Observable {
   }
 
   public void checkDead() {
-    if (getRelativePosition().getY() > 2500) {
+    if (getRelativePosition().getY() > 1700) {
       ObservationEvent event = new ObservationEvent("Dead");
       notifyObservers(event);
     }
