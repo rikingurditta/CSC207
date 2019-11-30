@@ -28,7 +28,7 @@ public class ObstacleManager extends GameMenu {
 
     public void spawnCircleObstacle() {
         this.build()
-                .add("Circle", (new CircleObstacle(this)).build().close())
+                .add("Circle", (new CircleObstacle(new Vector(175, 0), this)).build().close())
                 .addAlignment(HCenter, THIS, HCenter)
                 .addAlignment(Top, THIS, Top)
                 .close();
@@ -38,7 +38,7 @@ public class ObstacleManager extends GameMenu {
 
     public void spawnSquareObstacle() {
         this.build()
-                .add("Square", (new SquareObstacle(this)).build().close())
+                .add("Square", (new SquareObstacle(new Vector(175, 0), this)).build().close())
                 .addAlignment(HCenter, THIS, HCenter)
                 .addAlignment(Top, THIS, Top)
                 .close();

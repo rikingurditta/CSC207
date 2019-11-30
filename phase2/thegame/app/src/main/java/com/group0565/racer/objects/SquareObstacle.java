@@ -2,6 +2,7 @@ package com.group0565.racer.objects;
 
 import com.group0565.engine.interfaces.Canvas;
 import com.group0565.engine.interfaces.Paint;
+import com.group0565.math.Vector;
 
 /** A Square-shaped Obstacle */
 public class SquareObstacle extends Obstacle {
@@ -10,8 +11,8 @@ public class SquareObstacle extends Obstacle {
    * Constructor for a SquareObstacle Object
 
    */
-  SquareObstacle(ObstacleManager obstacleManager) {
-    super(obstacleManager);
+  SquareObstacle(Vector position, ObstacleManager obstacleManager) {
+    super(position, obstacleManager);
   }
 
   /**

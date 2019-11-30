@@ -2,6 +2,7 @@ package com.group0565.racer.objects;
 
 import com.group0565.engine.interfaces.Canvas;
 import com.group0565.engine.interfaces.Paint;
+import com.group0565.math.Vector;
 
 /** A Circle-shaped Obstacle */
 public class CircleObstacle extends Obstacle {
@@ -10,8 +11,8 @@ public class CircleObstacle extends Obstacle {
    * Constructor for a CircleObstacle object
    *
    */
-  CircleObstacle(ObstacleManager obstacleManager) {
-    super(obstacleManager);
+  CircleObstacle(Vector position, ObstacleManager obstacleManager) {
+    super(position, obstacleManager);
   }
 
   /**

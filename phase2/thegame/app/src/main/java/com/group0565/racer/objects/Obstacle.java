@@ -28,8 +28,9 @@ public abstract class Obstacle extends MenuObject {
    * Constructs a new Obstacle Object
    *
    */
-  Obstacle(ObstacleManager obstacleManager) {
+  Obstacle(Vector position, ObstacleManager obstacleManager) {
     super();
+    this.setRelativePosition(position);
     this.obstacleManager = obstacleManager;
   }
 
