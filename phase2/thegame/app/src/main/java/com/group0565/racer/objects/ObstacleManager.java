@@ -3,6 +3,9 @@ package com.group0565.racer.objects;
 import com.group0565.engine.gameobjects.GameMenu;
 import com.group0565.math.Vector;
 
+import static com.group0565.engine.enums.HorizontalEdge.*;
+import static com.group0565.engine.enums.VerticalEdge.*;
+
 public class ObstacleManager extends GameMenu {
 
     private Lane lane;
@@ -24,13 +27,21 @@ public class ObstacleManager extends GameMenu {
     }
 
     public void spawnCircleObstacle() {
-        this.adopt(new CircleObstacle(this));
+        this.build()
+                .add("Circle", (new CircleObstacle(this)).build().close())
+                .addAlignment(HCenter, THIS, HCenter)
+                .addAlignment(Top, THIS, Top)
+                .close();
 
 
     }
 
     public void spawnSquareObstacle() {
-        this.adopt(new SquareObstacle(this));
+        this.build()
+                .add("Square", (new SquareObstacle(this)).build().close())
+                .addAlignment(HCenter, THIS, HCenter)
+                .addAlignment(Top, THIS, Top)
+                .close();
     }
 
     public Lane getLane() {
