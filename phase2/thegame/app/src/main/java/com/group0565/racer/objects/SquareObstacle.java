@@ -1,5 +1,6 @@
 package com.group0565.racer.objects;
 
+import com.group0565.engine.gameobjects.GameObject;
 import com.group0565.engine.interfaces.Canvas;
 import com.group0565.engine.interfaces.Paint;
 import com.group0565.math.Vector;
@@ -11,8 +12,8 @@ public class SquareObstacle extends Obstacle {
    * Constructor for a SquareObstacle Object
 
    */
-  SquareObstacle(Vector position, ObstacleManager obstacleManager) {
-    super(position, obstacleManager);
+  SquareObstacle(ObstacleManager obstacleManager) {
+    super(obstacleManager);
   }
 
   /**
@@ -35,9 +36,9 @@ public class SquareObstacle extends Obstacle {
     }
 
     canvas.drawRect(
-        getAbsolutePosition().getX() - 75,
+        getAbsolutePosition().getX(),
         getAbsolutePosition().getY() - 75,
-        getAbsolutePosition().getX() + 75,
+        getAbsolutePosition().getX() + 150,
         getAbsolutePosition().getY() + 75,
         colour);
   }

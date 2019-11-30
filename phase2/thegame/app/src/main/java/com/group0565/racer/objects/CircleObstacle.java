@@ -11,8 +11,8 @@ public class CircleObstacle extends Obstacle {
    * Constructor for a CircleObstacle object
    *
    */
-  CircleObstacle(Vector position, ObstacleManager obstacleManager) {
-    super(position, obstacleManager);
+  CircleObstacle(ObstacleManager obstacleManager) {
+    super(obstacleManager);
   }
 
   /**
@@ -33,6 +33,6 @@ public class CircleObstacle extends Obstacle {
       colour.setARGB(255, 255, 0, 0);
     }
 
-    canvas.drawCircle(getRelativePosition().getX(), getRelativePosition().getY(), 75, colour);
+    canvas.drawCircle(getAbsolutePosition().getX() + 75, getAbsolutePosition().getY(), 75, colour);
   }
 }

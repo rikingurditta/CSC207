@@ -27,25 +27,17 @@ public class ObstacleManager extends GameMenu {
     }
 
     public void spawnCircleObstacle() {
-//        this.build()
-//                .add("Circle", (new CircleObstacle(new Vector(175, 0), this)).build().close())
-//                .addAlignment(HCenter, THIS, HCenter)
-//                .addAlignment(Top, THIS, Top)
-//                .close();
+        CircleObstacle circle = new CircleObstacle(this);
 
-        this.adopt(new CircleObstacle(new Vector(175, 0), this));
-
-
+        this.adopt(circle);
+        circle.setRelativePosition(new Vector(0, 0));
     }
 
     public void spawnSquareObstacle() {
-//        this.build()
-//                .add("Square", (new SquareObstacle(new Vector(175, 0), this)).build().close())
-//                .addAlignment(HCenter, THIS, HCenter)
-//                .addAlignment(Top, THIS, Top)
-//                .close();
+        SquareObstacle square = new SquareObstacle(this);
 
-        this.adopt(new SquareObstacle(new Vector(175, 0), this));
+        this.adopt(square);
+        square.setRelativePosition(new Vector(0, 0));
     }
 
     public Lane getLane() {

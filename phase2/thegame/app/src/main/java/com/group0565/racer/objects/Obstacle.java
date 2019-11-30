@@ -5,7 +5,7 @@ import com.group0565.engine.gameobjects.MenuObject;
 import com.group0565.math.Vector;
 
 /** An Obstacle in the game */
-public abstract class Obstacle extends MenuObject {
+public abstract class Obstacle extends GameObject {
 
 
   /**
@@ -28,10 +28,15 @@ public abstract class Obstacle extends MenuObject {
    * Constructs a new Obstacle Object
    *
    */
-  Obstacle(Vector position, ObstacleManager obstacleManager) {
+  Obstacle(ObstacleManager obstacleManager) {
     super();
-    this.setRelativePosition(position);
+    setRelativePosition(new Vector(0, 0));
     this.obstacleManager = obstacleManager;
+  }
+
+  @Override
+  public GameObject setRelativePosition(Vector relativePosition) {
+    return super.setRelativePosition(relativePosition);
   }
 
   /**
@@ -61,11 +66,11 @@ public abstract class Obstacle extends MenuObject {
    */
   @Override
   public void update(long ms) {
-    Vector position = this.getAbsolutePosition();
+    Vector position = this.getRelativePosition();
     Vector delta = new Vector();
     delta = delta.add(new Vector(0, speed));
     delta = delta.multiply(ms);
-    this.setAbsolutePosition(position.add(delta));
+    this.setRelativePosition(position.add(delta));
     checkCollision();
   }
 }
