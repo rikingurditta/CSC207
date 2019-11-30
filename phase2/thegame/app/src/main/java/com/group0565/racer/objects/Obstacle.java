@@ -29,7 +29,7 @@ public abstract class Obstacle extends MenuObject {
    *
    */
   Obstacle(ObstacleManager obstacleManager) {
-    super(new Vector(0, 0));
+    super();
     this.obstacleManager = obstacleManager;
   }
 
