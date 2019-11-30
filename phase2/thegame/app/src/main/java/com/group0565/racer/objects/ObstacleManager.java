@@ -5,8 +5,11 @@ import com.group0565.math.Vector;
 
 public class ObstacleManager extends GameMenu {
 
-    public ObstacleManager(Vector size) {
+    private Lane lane;
+
+    public ObstacleManager(Vector size, Lane lane) {
         super(size);
+        this.lane = lane;
     }
 
     public void spawnObstacle() {
@@ -21,10 +24,16 @@ public class ObstacleManager extends GameMenu {
     }
 
     public void spawnCircleObstacle() {
+        this.adopt(new CircleObstacle(this));
+
 
     }
 
     public void spawnSquareObstacle() {
+        this.adopt(new SquareObstacle(this));
+    }
 
+    public Lane getLane() {
+        return lane;
     }
 }

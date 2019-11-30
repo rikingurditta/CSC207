@@ -8,11 +8,10 @@ public class SquareObstacle extends Obstacle {
 
   /**
    * Constructor for a SquareObstacle Object
-   *
-   * @param lane the ObstacleManager that this object is adopted by
+
    */
-  SquareObstacle(Lane lane) {
-    super(lane);
+  SquareObstacle(ObstacleManager obstacleManager) {
+    super(obstacleManager);
   }
 
   /**

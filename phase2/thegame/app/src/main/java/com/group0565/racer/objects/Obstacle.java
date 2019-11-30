@@ -8,34 +8,40 @@ import com.group0565.math.Vector;
 public abstract class Obstacle extends MenuObject {
 
 
-  /** An ObstacleManager that this object is adopted by */
-  private Lane lane;
+  /**
+   * An ObstacleManager that this object is adopted by
+   */
+  private ObstacleManager obstacleManager;
 
   // Need to add falling faster over time functionality
-  /** The current speed of the object, used for calculations in update method */
+  /**
+   * The current speed of the object, used for calculations in update method
+   */
   private float speed = 0.5f;
 
-  /** Boolean representing whether or not the Racer has hit this Obstacle */
+  /**
+   * Boolean representing whether or not the Racer has hit this Obstacle
+   */
   private boolean collided = false;
 
   /**
    * Constructs a new Obstacle Object
    *
-   * @param lane the ObstacleManager that this object is adopted by
    */
-  Obstacle(Lane lane) {
+  Obstacle(ObstacleManager obstacleManager) {
     super(new Vector(0, 0));
-    this.lane = lane;
+    this.obstacleManager = obstacleManager;
   }
 
   /**
    * checks if this Obstacle object has collided with a Racer. Returns True if the object has
    * collided.
    */
-  private void checkCollision() {
-    if (lane.getRacerLane()) {
-
+  private boolean checkCollision() {
+    if (obstacleManager.getLane().getIsOccupied()) {
+      return false;
     }
+    return true;
   }
 
   /**

@@ -16,7 +16,7 @@ import static com.group0565.engine.enums.VerticalEdge.*;
 
 public class Lane extends GameMenu implements Observable {
 
-    private boolean racerLane;
+    private boolean isOccupied;
     private ObstacleManager obstacleManager;
     private EventObserver buttonObserver;
 
@@ -41,16 +41,17 @@ public class Lane extends GameMenu implements Observable {
                                 .registerObserver(buttonObserver)
                         .close()
                         )
+                .add("ObstacleManager", (obstacleManager = new ObstacleManager(null, this)))
                 .close();
 
     }
 
-    public void setRacerLane(boolean racerLane) {
-        this.racerLane = racerLane;
+    public void setRacerLane(boolean occupied) {
+        this.isOccupied = occupied;
     }
 
-    public boolean getRacerLane() {
-        return this.racerLane;
+    public boolean getIsOccupied() {
+        return this.isOccupied;
     }
 
     public void spawnObstacle() {

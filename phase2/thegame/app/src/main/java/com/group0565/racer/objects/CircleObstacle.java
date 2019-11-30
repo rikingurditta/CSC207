@@ -9,10 +9,9 @@ public class CircleObstacle extends Obstacle {
   /**
    * Constructor for a CircleObstacle object
    *
-   * @param lane the ObstacleManager that this Obstacle is adopted by
    */
-  CircleObstacle(Lane lane) {
-    super(lane);
+  CircleObstacle(ObstacleManager obstacleManager) {
+    super(obstacleManager);
   }
 
   /**

@@ -75,6 +75,17 @@ public class RacerGameMenu extends GameMenu implements Observable {
      */
     public void draw(Canvas canvas) {
         super.draw(canvas);
+        if (getGlobalPreferences().getTheme() == Themes.LIGHT) {
+            // Set background to white
+            canvas.drawRGB(255, 255, 255);
+            // Set text colour to black
+            //time.setARGB(255, 0, 0, 0);
+        } else {
+            // Set background to black
+            canvas.drawRGB(0, 0, 0);
+            // Set text colour to white
+            //time.setARGB(255, 255, 255, 255);
+        }
         Paint time = Paint.createInstance();
         time.setARGB(255, 0, 0, 0);
         time.setTextSize(128);
