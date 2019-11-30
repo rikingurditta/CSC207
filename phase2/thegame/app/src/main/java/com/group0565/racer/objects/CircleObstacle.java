@@ -32,6 +32,6 @@ public class CircleObstacle extends Obstacle {
       colour.setARGB(255, 255, 0, 0);
     }
 
-    canvas.drawCircle(getAbsolutePosition().getX(), getAbsolutePosition().getY(), 75, colour);
+    canvas.drawCircle(getRelativePosition().getX(), getRelativePosition().getY(), 75, colour);
   }
 }
