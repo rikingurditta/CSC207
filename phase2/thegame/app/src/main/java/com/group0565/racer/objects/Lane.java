@@ -5,6 +5,7 @@ import com.group0565.engine.gameobjects.GameMenu;
 import com.group0565.engine.interfaces.Canvas;
 import com.group0565.engine.interfaces.EventObserver;
 import com.group0565.engine.interfaces.Observable;
+import com.group0565.engine.interfaces.ObservationEvent;
 import com.group0565.engine.interfaces.Paint;
 import com.group0565.math.Vector;
 import com.group0565.theme.Themes;
@@ -44,6 +45,7 @@ public class Lane extends GameMenu implements Observable {
                 .add("ObstacleManager", (obstacleManager = new ObstacleManager(new Vector(150, 150), this)).build().close())
                         .addAlignment(HCenter, THIS, HCenter)
                         .addAlignment(Top, THIS, Top)
+                        .registerObserver(this::observeObstacleManager)
                 .close();
 
     }
@@ -74,5 +76,11 @@ public class Lane extends GameMenu implements Observable {
 //            // Set text colour to white
 //            time.setARGB(255, 255, 255, 255);
 //        }
+    }
+
+    public void observeObstacleManager(Observable observable, ObservationEvent observationEvent) {
+        if (observationEvent.getPayload().equals("Collision")) {
+
+        }
     }
 }

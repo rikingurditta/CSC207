@@ -7,7 +7,7 @@ import com.group0565.math.Vector;
 
 import java.util.ArrayList;
 
-public class ObstacleManager extends GameMenu {
+public class ObstacleManager extends GameMenu implements Observable {
 
     private Lane lane;
 
@@ -57,7 +57,11 @@ public class ObstacleManager extends GameMenu {
     }
 
     public void observeObstacle(Observable observable, ObservationEvent observationEvent) {
-        Obstacle obstacle = (Obstacle) observable;
-        deadObstacles.add(obstacle);
+        if (observationEvent.getPayload().equals("Dead")) {
+            Obstacle obstacle = (Obstacle) observable;
+            deadObstacles.add(obstacle);
+        } else if (observationEvent.getPayload().equals("Collision")) {
+            notifyObservers(observationEvent);
+        }
     }
 }

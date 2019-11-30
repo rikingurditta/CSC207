@@ -35,18 +35,22 @@ public class RacerGameMenu extends GameMenu implements Observable {
 
         this.build()
                 .add("Left Lane", (leftLane = new Lane(new Vector(getSize().getX() / 3, 0), this::observeLeftLane)).build()
+                        .registerObserver(this::observeLane)
                         .close())
                 .addAlignment(Left, THIS, Left)
                 .addAlignment(Bottom, THIS, Bottom)
                 .addAlignment(Top, THIS, Top)
 
+
                 .add("Middle Lane", (middleLane = new Lane(new Vector(getSize().getX() / 3, 0), this::observeMiddleLane)).build()
+                        .registerObserver(this::observeLane)
                         .close())
                 .addAlignment(HCenter, THIS, HCenter)
                 .addAlignment(Bottom, THIS, Bottom)
                 .addAlignment(Top, THIS, Top)
 
                 .add("Right Lane", (rightLane = new Lane(new Vector(getSize().getX() / 3, 0), this::observeRightLane)).build()
+                        .registerObserver(this::observeLane)
                         .close())
                 .addAlignment(Right, THIS, Right)
                 .addAlignment(Bottom, THIS, Bottom)
@@ -141,6 +145,12 @@ public class RacerGameMenu extends GameMenu implements Observable {
             middleLane.spawnObstacle();
         } else {
             rightLane.spawnObstacle();
+        }
+    }
+
+    public void observeLane(Observable observable, ObservationEvent observationEvent) {
+        if (observationEvent.getPayload().equals("Collision")) {
+            engine.endGame();
         }
     }
 }
