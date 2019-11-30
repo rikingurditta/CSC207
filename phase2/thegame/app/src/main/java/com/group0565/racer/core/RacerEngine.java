@@ -67,7 +67,7 @@ public class RacerEngine extends GameObject implements EventObserver, Observable
         gameMenu = new RacerGameMenu(this);
         this.adopt(gameMenu);
 
-        racer = new Racer(new Vector(475, 1600), 2);
+        racer = new Racer(new Vector(540, 1550), 2);
         this.adopt(racer);
 
         gameOverMenu = new RacerGameOverMenu(null, this);
@@ -188,11 +188,11 @@ public class RacerEngine extends GameObject implements EventObserver, Observable
 
     public void moveRacer(int lane) {
         if (lane == 1) {
-            racer.setAbsolutePosition(new Vector(150, 500));
+            racer.setAbsolutePosition(new Vector(180, 1550));
         } else if (lane == 2) {
-            racer.setAbsolutePosition(new Vector(150, 1000));
+            racer.setAbsolutePosition(new Vector(540, 1550));
         } else {
-            racer.setAbsolutePosition(new Vector(150, 1500));
+            racer.setAbsolutePosition(new Vector(900, 1550));
         }
     }
 
