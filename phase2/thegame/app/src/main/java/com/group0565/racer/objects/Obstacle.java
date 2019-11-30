@@ -2,10 +2,12 @@ package com.group0565.racer.objects;
 
 import com.group0565.engine.gameobjects.GameObject;
 import com.group0565.engine.gameobjects.MenuObject;
+import com.group0565.engine.interfaces.Observable;
+import com.group0565.engine.interfaces.ObservationEvent;
 import com.group0565.math.Vector;
 
 /** An Obstacle in the game */
-public abstract class Obstacle extends GameObject {
+public abstract class Obstacle extends GameObject implements Observable {
 
 
   /**
@@ -71,6 +73,16 @@ public abstract class Obstacle extends GameObject {
     delta = delta.add(new Vector(0, speed));
     delta = delta.multiply(ms);
     this.setRelativePosition(position.add(delta));
+
     checkCollision();
+
+    checkDead();
+  }
+
+  public void checkDead() {
+    if (getAbsolutePosition().getY() > 2500) {
+      ObservationEvent event = new ObservationEvent("Dead");
+      notifyObservers(event);
+    }
   }
 }
