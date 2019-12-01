@@ -36,7 +36,7 @@ public abstract class Obstacle extends GameObject implements Observable {
   /**
    * The current speed of the Obstacle, used for calculations in update method.
    */
-  private static final Vector SPEED = new Vector(0, 0.5f);
+  private static final Vector SPEED = new Vector(0, 0.8f);
 
 
   /**

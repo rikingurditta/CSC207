@@ -77,7 +77,7 @@ public class RacerEngine extends GameObject implements EventObserver, Observable
   /**
    *  The time between each spawn
    */
-  private long spawnDelay = 750;
+  private long spawnDelay = 600;
 
   /**
    * Whether or not this racer is still alive
@@ -170,7 +170,7 @@ public class RacerEngine extends GameObject implements EventObserver, Observable
   /**
    * Unpauses the game
    */
-  public void unPauseGame() {
+  public void unpauseGame() {
     paused = false;
     gameMenu.setEnable(true);
     pauseMenu.setEnable(false);
