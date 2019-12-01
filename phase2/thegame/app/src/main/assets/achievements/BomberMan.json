@@ -1,17 +1,6 @@
 {
-  "Fire Power 5": {
-    "DisplayName": "Fire Power 5",
-    "Icon": {
-      "Set": "Tsu",
-      "Sheet": "Buttons",
-      "Tile X": 15,
-      "Tile Y": 0
-    },
-    "Description": "Fire Power 5",
-    "Hidden": false
-  },
   "Fire Power 6": {
-    "DisplayName": "MAX FIRE POWER",
+    "DisplayName": "Fire Power 6",
     "Icon": {
       "Set": "Tsu",
       "Sheet": "Buttons",
@@ -19,6 +8,17 @@
       "Tile Y": 0
     },
     "Description": "Fire Power 6",
+    "Hidden": false
+  },
+  "Fire Power MAX": {
+    "DisplayName": "MAX FIRE POWER",
+    "Icon": {
+      "Set": "Tsu",
+      "Sheet": "Buttons",
+      "Tile X": 15,
+      "Tile Y": 0
+    },
+    "Description": "Fire Power MAX",
     "Hidden": false
   },
   "Multiple Bomb 5": {

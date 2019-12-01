@@ -9,6 +9,7 @@ import com.group0565.bomberGame.gridobjects.droppables.Droppable;
 import com.group0565.bomberGame.grid.Grid;
 import com.group0565.bomberGame.input.BomberInput;
 import com.group0565.bomberGame.input.InputSystem;
+import com.group0565.bomberGame.input.RandomInput;
 import com.group0565.engine.interfaces.Canvas;
 import com.group0565.engine.render.ThemedPaintCan;
 import com.group0565.math.Coords;
@@ -111,6 +112,16 @@ public class BomberMan extends GridObject {
     canvas.drawText("hp: " + hp, pos, textPaintCan);
   }
 
+  public void checkAchievements(){
+    if (!(inputSystem instanceof RandomInput)) {
+      if (bombs.size() == 2) {
+        getEngine().getAchievementManager().unlockAchievement("BomberMan", "two bombs at once");
+      }
+      if (bombs.size() == 3) {
+        getEngine().getAchievementManager().unlockAchievement("BomberMan", "three bombs at once");
+      }
+    }
+  }
   /**
    * Updates the player based on input, as processed by this player's InputSystem.
    *
@@ -118,6 +129,9 @@ public class BomberMan extends GridObject {
    */
   @Override
   public void update(long ms) {
+
+    checkAchievements();
+
 
     if (hp <= 0) {
       grid.remove(this);
@@ -152,8 +166,10 @@ public class BomberMan extends GridObject {
 
       readyToMove = false;
     }
-
+    //after u move to new tile check if theres a droppable there
     collectDroppable();
+
+    //graphic move
     Vector newPos = pos.add(direction.multiply((float) ms * speed));
 
     // if the calculated position is past the target, only move to the target
@@ -174,15 +190,6 @@ public class BomberMan extends GridObject {
     NormalBomb bomb = new NormalBomb(gridCoords, -1, this.game, grid, this);
     game.adoptLater(bomb);
     this.bombs.add(bomb);
-
-    if (this.bombs.size() == 2) {
-      getEngine().getAchievementManager().unlockAchievement("BomberMan", "two bombs at once");
-    }
-    if (this.bombs.size() == 3) {
-      getEngine().getAchievementManager().unlockAchievement("BomberMan", "three bombs at once");
-    }
-
-    //placed 3 boms achive
 
     // TODO make stats tracking nicer
     numBombsPlaced += 1;
