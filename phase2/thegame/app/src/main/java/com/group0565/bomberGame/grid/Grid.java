@@ -1,12 +1,16 @@
 package com.group0565.bomberGame.grid;
 
 import com.group0565.bomberGame.core.BomberEngine;
+import com.group0565.bomberGame.gridobjects.GridObject;
+import com.group0565.bomberGame.gridobjects.bombs.Bomb;
+import com.group0565.bomberGame.gridobjects.droppables.Droppable;
 import com.group0565.bomberGame.gridobjects.obstacles.Crate;
 import com.group0565.engine.gameobjects.GameObject;
 import com.group0565.math.Coords;
 import com.group0565.math.Vector;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 /** An abstract class for Grids, so that they may be implemented in different shapes. */
@@ -75,7 +79,7 @@ public abstract class Grid extends GameObject {
   /** @return true if g can move to the tile with coordinates p. */
   public boolean isValidMove(GridObject g, Coords p) {
     for (GridObject item : items) {
-      if (!item.isDroppable() && item != g && item.gridCoords.equals(p)) {
+      if (!(item instanceof Droppable)&& item != g && item.getGridCoords().equals(p)) {
         return false;
       }
     }
@@ -106,12 +110,12 @@ public abstract class Grid extends GameObject {
       // choose random coords to place the crate on
       r = randomCoordsInGrid();
       for (GridObject g : items) {
-        if (g.gridCoords.equals(r)) {
+        if (g.getGridCoords().equals(r)) {
           done = false;
         }
       }
       for (GridObject g : itemsToBeAdded) {
-        if (g.gridCoords.equals(r)) {
+        if (g.getGridCoords().equals(r)) {
           done = false;
         }
       }
@@ -126,16 +130,26 @@ public abstract class Grid extends GameObject {
    */
   public boolean canPlaceBomb(Coords p) {
     for (GridObject g : items) {
-      if (g.gridCoords.equals(p) && g.isBomb()) {
+      if (g.getGridCoords().equals(p) && g instanceof Bomb) {
         return false;
       }
     }
     for (GridObject g : itemsToBeAdded) {
-      if (g.gridCoords.equals(p) && g.isBomb()) {
+      if (g.getGridCoords().equals(p) && g instanceof Bomb) {
         return false;
       }
     }
     return true;
+  }
+
+  public Set<Droppable> getDroppables() {
+    Set<Droppable> droppables = new HashSet<>();
+    for (GridObject g : items) {
+      if (g instanceof Droppable) {
+        droppables.add((Droppable) g);
+      }
+    }
+    return droppables;
   }
 
   public Set<GridObject> getItems() {

@@ -3,7 +3,7 @@ package com.group0565.bomberGame.gridobjects.droppables;
 import com.group0565.bomberGame.core.BomberEngine;
 import com.group0565.bomberGame.gridobjects.BomberMan;
 import com.group0565.bomberGame.grid.Grid;
-import com.group0565.bomberGame.grid.GridObject;
+import com.group0565.bomberGame.gridobjects.GridObject;
 import com.group0565.math.Coords;
 
 public abstract class Droppable extends GridObject {
@@ -45,15 +45,5 @@ public abstract class Droppable extends GridObject {
       grid.remove(this);
       game.removeLater(this);
     }
-  }
-
-  @Override
-  public boolean isBomb() {
-    return false;
-  }
-
-  @Override
-  public boolean isDroppable() {
-    return true;
   }
 }

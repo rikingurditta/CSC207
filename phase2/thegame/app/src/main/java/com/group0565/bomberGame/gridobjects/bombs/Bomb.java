@@ -3,7 +3,7 @@ package com.group0565.bomberGame.gridobjects.bombs;
 import com.group0565.bomberGame.core.BomberEngine;
 import com.group0565.bomberGame.gridobjects.BomberMan;
 import com.group0565.bomberGame.grid.Grid;
-import com.group0565.bomberGame.grid.GridObject;
+import com.group0565.bomberGame.gridobjects.GridObject;
 import com.group0565.engine.render.ThemedPaintCan;
 import com.group0565.math.Coords;
 
@@ -95,14 +95,6 @@ public abstract class Bomb extends GridObject {
   }
 
   public abstract void explode();
-
-  public boolean isBomb() {
-    return true;
-  }
-
-  public boolean isDroppable() {
-    return false;
-  }
 
   public BomberMan getPlacedBy() {
     return placedBy;

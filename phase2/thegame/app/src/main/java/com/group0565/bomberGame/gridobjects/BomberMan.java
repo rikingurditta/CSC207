@@ -7,7 +7,6 @@ import com.group0565.bomberGame.gridobjects.bombs.Bomb;
 import com.group0565.bomberGame.gridobjects.bombs.NormalBomb;
 import com.group0565.bomberGame.gridobjects.droppables.Droppable;
 import com.group0565.bomberGame.grid.Grid;
-import com.group0565.bomberGame.grid.GridObject;
 import com.group0565.bomberGame.input.BomberInput;
 import com.group0565.bomberGame.input.InputSystem;
 import com.group0565.engine.interfaces.Canvas;
@@ -184,15 +183,10 @@ public class BomberMan extends GridObject {
   public void collectDroppable() {
     Coords pos = gridCoords;
 
-    for (GridObject g : grid.getItems()) {
-      Coords gPos = g.getGridCoords();
-      if (pos.equals(gPos) && g.isDroppable()) {
-        Log.i("Game Logic", "Recieved droppable");
-        // ask rikin better approach
-        // approach rn is casting. but i can move affect player
-        // to grid obj and just have droppable as an interface
-        Droppable d = (Droppable) g;
-        d.affectPlayer(this);
+    for (Droppable g : grid.getDroppables()) {
+      if (g.getGridCoords().equals(pos)) {
+        Log.i("Game Logic", "Received droppable");
+        g.affectPlayer(this);
         grid.remove(g);
         game.removeLater(g);
       }
@@ -217,16 +211,6 @@ public class BomberMan extends GridObject {
 
   public int getHp() {
     return hp;
-  }
-
-  @Override
-  public boolean isBomb() {
-    return false;
-  }
-
-  @Override
-  public boolean isDroppable() {
-    return false;
   }
 
   public int getBombStrength() {
