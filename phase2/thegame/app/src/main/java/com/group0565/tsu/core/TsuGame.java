@@ -18,6 +18,7 @@ public class TsuGame extends GameObject implements EventObserver {
     private TsuMenu menu;
     private StatsMenu stats;
     private TsuEngine engine;
+    private BeatmapMenu beatmapMenu;
     private ISessionHitObjectsRepository repository;
     private Preferences preferences;
 
@@ -45,8 +46,13 @@ public class TsuGame extends GameObject implements EventObserver {
         this.adopt(engine);
         this.adopt(stats);
 
+        this.beatmapMenu = new BeatmapMenu();
+        this.beatmapMenu.setEnable(false);
+        this.adopt(beatmapMenu);
+
         menu.registerObserver(this);
         stats.registerObserver(this);
+        beatmapMenu.registerObserver(this);
         engine.registerObserver(this);
     }
 
@@ -94,6 +100,26 @@ public class TsuGame extends GameObject implements EventObserver {
                     stats.setEnable(true);
                 }else
                     menu.setEnable(true);
+            }
+        }else if (observable == beatmapMenu){
+            if (event.isEvent(BeatmapMenu.STATS_EVENT)){
+                Object payload = event.getPayload();
+                if (payload instanceof Beatmap){
+                    stats.setSelectedBeatmap((Beatmap) payload);
+                    beatmapMenu.setEnable(false);
+                    stats.setEnable(true);
+                }
+            }else if (event.isEvent(BeatmapMenu.PLAY_EVENT)){
+                Object payload = event.getPayload();
+                if (payload instanceof Beatmap){
+                    engine.setBeatmap((Beatmap) payload);
+                    beatmapMenu.setEnable(false);
+                    engine.setEnable(true);
+                    engine.startGame();
+                }
+            }else if (event.isEvent(BeatmapMenu.BACK_EVENT)){
+                beatmapMenu.setEnable(false);
+                menu.setEnable(true);
             }
         }
         else if (observable == engine){

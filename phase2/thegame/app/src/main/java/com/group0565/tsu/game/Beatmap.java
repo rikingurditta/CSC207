@@ -5,6 +5,7 @@ import android.util.Log;
 import com.group0565.engine.assets.AudioAsset;
 import com.group0565.engine.assets.GameAssetManager;
 import com.group0565.engine.assets.JsonFile;
+import com.group0565.engine.interfaces.Bitmap;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -14,95 +15,295 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Beatmap {
-  private static final String TAG = "Beatmap";
-  private JsonFile jsonFile;
-  private JSONObject jsonObject;
-  private String name;
-  private String audioSet;
-  private String audioFile;
-  private AudioAsset audio;
-  private String title;
-  private String artist;
-  private String arranger;
-  private String mapper;
-  private double difficulty;
-  private long leadin;
-  private List<HitObject> hitObjects;
+    //Tag used for error reporting
+    private static final String TAG = "AndroidBeatmap";
+    //Constants For Parsing Beatmap Json
+    private static final String JsonName = "Name";
+    private static final String JsonAudioSetName = "AudioSet";
+    private static final String JsonAudioFileName = "AudioFile";
+    private static final String JsonTitleName = "Title";
+    private static final String JsonArtistName = "Artist";
+    private static final String JsonCreatorName = "Creator";
+    private static final String JsonDifficultyName = "Difficulty";
+    private static final String JsonLeadInName = "LeadIn";
+    private static final String JsonHitObjectsName = "HitObjects";
+    private static final String JsonNoteWidthName = "NoteWidth";
+    private static final String JsonBackgroundName = "Background";
+    private static final String JsonBackgroundSetName = "Set";
+    private static final String JsonBackgroundSheetName = "Name";
+    private static final String JsonBackgroundTileXName = "tileX";
+    private static final String JsonBackgroundTileYName = "tileY";
 
-  public Beatmap(String set, String name, GameAssetManager manager) {
-    super();
-    this.jsonFile = manager.getJsonFile(set, name);
-    this.jsonObject = jsonFile.getJsonObject();
-    try {
-      this.name = jsonObject.getString("Name");
-      this.audioSet = jsonObject.getString("AudioSet");
-      this.audioFile = jsonObject.getString("AudioFile");
-      this.audio = manager.getAudioAsset(audioSet, audioFile);
-      this.title = jsonObject.getString("Title");
-      this.artist = jsonObject.getString("Artist");
-      this.arranger = jsonObject.getString("Arranger");
-      this.mapper = jsonObject.getString("Mapper");
-      this.difficulty = jsonObject.getDouble("Difficulty");
-      this.leadin = jsonObject.getLong("LeadIn");
-      JSONArray array = jsonObject.getJSONArray("HitObjects");
-      hitObjects = new ArrayList<>(array.length());
-      for (int i = 0; i < array.length(); i++) {
-        hitObjects.add(new HitObject(array.getJSONObject(i)));
-      }
-    } catch (JSONException e) {
-      Log.e(TAG, "Parsing Beatmap Failed", e);
+    //Beatmap Information
+    private String name;
+    private String audioSet;
+    private String audioFile;
+    private AudioAsset audio;
+    private String title;
+    private String artist;
+    private String creator;
+    private double difficulty;
+    private long leadin;
+    private float noteWidth;
+    private Bitmap background;
+    private List<HitObject> hitObjects;
+
+    private JSONArray hitObjectsJson;
+
+    public Beatmap(String set, String name, GameAssetManager manager) {
+        super();
+        JsonFile jsonFile = manager.getJsonFile(set, name);
+        JSONObject jsonObject = jsonFile.getJsonObject();
+        try {
+            this.setName(jsonObject.getString(JsonName));
+            this.setAudioSet(jsonObject.getString(JsonAudioSetName));
+            this.setAudioFile(jsonObject.getString(JsonAudioFileName));
+            this.setAudio(manager.getAudioAsset(getAudioSet(), getAudioFile()));
+            this.setTitle(jsonObject.getString(JsonTitleName));
+            this.setArtist(jsonObject.getString(JsonArtistName));
+            this.setCreator(jsonObject.getString(JsonCreatorName));
+            this.setDifficulty(jsonObject.getDouble(JsonDifficultyName));
+            this.setLeadin(jsonObject.getLong(JsonLeadInName));
+            this.setNoteWidth((float) jsonObject.getDouble(JsonNoteWidthName));
+            JSONObject background = jsonObject.getJSONObject(JsonBackgroundName);
+            String bgSet = background.getString(JsonBackgroundSetName);
+            String sheet = background.getString(JsonBackgroundSheetName);
+            int tileX = background.getInt(JsonBackgroundTileXName);
+            int tileY = background.getInt(JsonBackgroundTileYName);
+            Bitmap backgroundBitmap = manager.getTileSheet(bgSet, sheet).getTile(tileX, tileY);
+            this.setBackground(backgroundBitmap);
+            hitObjectsJson = jsonObject.getJSONArray(JsonHitObjectsName);
+        } catch (JSONException e) {
+            Log.e(TAG, "Parsing AndroidBeatmap Failed", e);
+        }
     }
-  }
 
-  public JsonFile getJsonFile() {
-    return jsonFile;
-  }
+    public void initBeatmap() {
+        try {
+            List<HitObject> hitObjects = new ArrayList<>(hitObjectsJson.length());
+            for (int i = 0; i < hitObjectsJson.length(); i++) {
+                hitObjects.add(new HitObject(hitObjectsJson.getJSONObject(i)));
+            }
+            this.setHitObjects(hitObjects);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
 
-  public JSONObject getJsonObject() {
-    return jsonObject;
-  }
 
-  public String getName() {
-    return name;
-  }
+    /**
+     * Getter for name
+     *
+     * @return name
+     */
+    public String getName() {
+        return name;
+    }
 
-  public String getAudioSet() {
-    return audioSet;
-  }
+    /**
+     * Getter for audioSet
+     *
+     * @return audioSet
+     */
+    public String getAudioSet() {
+        return audioSet;
+    }
 
-  public String getAudioFile() {
-    return audioFile;
-  }
+    /**
+     * Getter for audioFile
+     *
+     * @return audioFile
+     */
+    public String getAudioFile() {
+        return audioFile;
+    }
 
-  public String getTitle() {
-    return title;
-  }
+    /**
+     * Getter for audio
+     *
+     * @return audio
+     */
+    public AudioAsset getAudio() {
+        return audio;
+    }
 
-  public String getArtist() {
-    return artist;
-  }
+    /**
+     * Getter for title
+     *
+     * @return title
+     */
+    public String getTitle() {
+        return title;
+    }
 
-  public String getArranger() {
-    return arranger;
-  }
+    /**
+     * Getter for artist
+     *
+     * @return artist
+     */
+    public String getArtist() {
+        return artist;
+    }
 
-  public String getMapper() {
-    return mapper;
-  }
+    /**
+     * Getter for creator
+     *
+     * @return creator
+     */
+    public String getCreator() {
+        return creator;
+    }
 
-  public double getDifficulty() {
-    return difficulty;
-  }
+    /**
+     * Getter for difficulty
+     *
+     * @return difficulty
+     */
+    public double getDifficulty() {
+        return difficulty;
+    }
 
-  public long getLeadin() {
-    return leadin;
-  }
+    /**
+     * Getter for leadin
+     *
+     * @return leadin
+     */
+    public long getLeadin() {
+        return leadin;
+    }
 
-  public List<HitObject> getHitObjects() {
-    return hitObjects;
-  }
+    /**
+     * Getter for hitObjects
+     *
+     * @return hitObjects
+     */
+    public List<HitObject> getHitObjects() {
+        return hitObjects;
+    }
 
-  public AudioAsset getAudio() {
-    return audio;
-  }
+    /**
+     * Setter for name
+     *
+     * @param name The new value for name
+     */
+    protected void setName(String name) {
+        this.name = name;
+    }
+
+    /**
+     * Setter for audioSet
+     *
+     * @param audioSet The new value for audioSet
+     */
+    protected void setAudioSet(String audioSet) {
+        this.audioSet = audioSet;
+    }
+
+    /**
+     * Setter for audioFile
+     *
+     * @param audioFile The new value for audioFile
+     */
+    protected void setAudioFile(String audioFile) {
+        this.audioFile = audioFile;
+    }
+
+    /**
+     * Setter for audio
+     *
+     * @param audio The new value for audio
+     */
+    protected void setAudio(AudioAsset audio) {
+        this.audio = audio;
+    }
+
+    /**
+     * Setter for title
+     *
+     * @param title The new value for title
+     */
+    protected void setTitle(String title) {
+        this.title = title;
+    }
+
+    /**
+     * Setter for artist
+     *
+     * @param artist The new value for artist
+     */
+    protected void setArtist(String artist) {
+        this.artist = artist;
+    }
+
+    /**
+     * Setter for creator
+     *
+     * @param creator The new value for creator
+     */
+    protected void setCreator(String creator) {
+        this.creator = creator;
+    }
+
+    /**
+     * Setter for difficulty
+     *
+     * @param difficulty The new value for difficulty
+     */
+    protected void setDifficulty(double difficulty) {
+        this.difficulty = difficulty;
+    }
+
+    /**
+     * Setter for leadin
+     *
+     * @param leadin The new value for leadin
+     */
+    protected void setLeadin(long leadin) {
+        this.leadin = leadin;
+    }
+
+    /**
+     * Setter for hitObjects
+     *
+     * @param hitObjects The new value for hitObjects
+     */
+    protected void setHitObjects(List<HitObject> hitObjects) {
+        this.hitObjects = hitObjects;
+    }
+
+    /**
+     * Getter for noteWidth
+     *
+     * @return noteWidth
+     */
+    public float getNoteWidth() {
+        return noteWidth;
+    }
+
+    /**
+     * Setter for noteWidth
+     *
+     * @param noteWidth The new value for noteWidth
+     */
+    protected void setNoteWidth(float noteWidth) {
+        this.noteWidth = noteWidth;
+    }
+
+    /**
+     * Getter for background
+     *
+     * @return background
+     */
+    public Bitmap getBackground() {
+        return background;
+    }
+
+    /**
+     * Setter for background
+     *
+     * @param background The new value for background
+     */
+    protected void setBackground(Bitmap background) {
+        this.background = background;
+    }
 }

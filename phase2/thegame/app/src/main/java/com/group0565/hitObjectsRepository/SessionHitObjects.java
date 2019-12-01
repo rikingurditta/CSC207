@@ -19,6 +19,7 @@ public class SessionHitObjects {
   private HashMap<Scores, Setter<Integer>> scoresSetters = new HashMap<>();
   private List<HitObject> hitObjects;
   private Set<ArchiveInputEvent> archive;
+  private String beatmapName;
   private int score;
   private int grade;
   private double difficulty;
@@ -35,6 +36,7 @@ public class SessionHitObjects {
     this.score = 0;
     this.grade = 0;
     this.difficulty = 0;
+    this.beatmapName = "";
     this.datetime = "";
     this.cheats = false;
     this.maxCombo = 0;
@@ -160,7 +162,25 @@ public class SessionHitObjects {
   public void setDatetime(String datetime) {
     this.datetime = datetime;
   }
-  
+
+  /**
+   * Getter for beatmapName
+   *
+   * @return beatmapName
+   */
+  public String getBeatmapName() {
+    return beatmapName;
+  }
+
+  /**
+   * Setter for beatmapName
+   *
+   * @param beatmapName The new value for beatmapName
+   */
+  public void setBeatmapName(String beatmapName) {
+    this.beatmapName = beatmapName;
+  }
+
   /**
    * Getter for maxCombo
    *

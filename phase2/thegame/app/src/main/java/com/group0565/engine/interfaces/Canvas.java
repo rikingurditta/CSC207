@@ -83,6 +83,35 @@ public interface Canvas {
         this.drawBitmap(bitmap, null, new RectF(pos.getX(), pos.getY(), sum.getX(), sum.getY()));
     }
 
+    /**
+     * @see android.graphics.Canvas#drawBitmap(android.graphics.Bitmap, Rect, Rect, android.graphics.Paint)
+     */
+    void drawBitmap(Bitmap bitmap, Vector pos, Vector size, Vector bPos, Vector bSize);
+
+
+    /**
+     * @see android.graphics.Canvas#drawBitmap(android.graphics.Bitmap, Rect, Rect, android.graphics.Paint)
+     */
+    default void drawBitmap(Bitmap bitmap, Vector pos, Vector size, boolean aspect){
+        if (!aspect)
+            drawBitmap(bitmap, pos, size);
+        else{
+            double bwidth = bitmap.getWidth();
+            double bheight = bitmap.getHeight();
+            float newWidth;
+            float newHeight;
+            double ratio = ((double) size.getX())/size.getY();
+            if ((bwidth/bheight) < ratio){
+                newWidth = bitmap.getWidth();
+                newHeight = (float) (newWidth / ratio);
+            }else{
+                newHeight = bitmap.getHeight();
+                newWidth = (float) (newHeight * ratio);
+            }
+            drawBitmap(bitmap, pos, size, new Vector(), new Vector(newWidth, newHeight));
+        }
+    }
+
 
     /**
      * Wrapper method for {@link #drawCircle(float, float, float, Paint)}

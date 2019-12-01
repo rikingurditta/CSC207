@@ -71,10 +71,6 @@ public class TextRenderer extends MenuObject {
         this.textSource = text;
     }
 
-    protected TextRenderer(){
-
-    }
-
     @Override
     public void update(long ms) {
         super.update(ms);
@@ -105,11 +101,11 @@ public class TextRenderer extends MenuObject {
     @Override
     public void setSize(Vector size) {
         if (paint != null){
-            super.setSize(size.newSetX(paint.getTextBounds(textSource.getValue()).getX()));
             paint.setTextSize(size.getY());
+            super.setSize(size.newSetX(paint.getTextBounds(textSource.getValue()).getX()));
         }else if (paintCan != null){
-            super.setSize(size.newSetX(paintCan.getPaint().getTextBounds(textSource.getValue()).getX()));
             paintCan.setTextSize(size.getY());
+            super.setSize(size.newSetX(paintCan.getPaint().getTextBounds(textSource.getValue()).getX()));
         }else
             super.setSize(size);
     }

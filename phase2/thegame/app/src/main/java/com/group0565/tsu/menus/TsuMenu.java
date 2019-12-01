@@ -17,7 +17,6 @@ import static com.group0565.engine.enums.VerticalEdge.*;
 public class TsuMenu extends GameMenu implements Observable {
     //Event Constants
     public static final String TO_GAME = "Go To Game";
-    public static final String TO_STATS = "Go To Stats";
 
     //GUI Constants
     private static final Vector TITLE_SIZE = new Vector(500);
@@ -41,8 +40,6 @@ public class TsuMenu extends GameMenu implements Observable {
     private static final String SettingsButtonName = "SettingsButton";
     //Language Button Constants
     private static final String LanguageButtonName = "LanguageButton";
-    //Stats Button Constants
-    private static final String StatsButtonName = "StatsButton";
 
     private ThemedPaintCan bgPaintCan = new ThemedPaintCan(SET, BGPaintName);
     private ThemedPaintCan titlePaintCan = new ThemedPaintCan(SET, TitleStringPaintName);
@@ -100,14 +97,6 @@ public class TsuMenu extends GameMenu implements Observable {
                 .close())
             .addAlignment(Right, THIS, Right)
             .addAlignment(Top, THIS, Top)
-
-            //Stats Button
-            .add(StatsButtonName, new Button(BUTTON_SIZE, ButtonBitmap.StatsButton.getBitmap()).build()
-                .addOffset(SCREEN_MARGIN.elementMultiply(new Vector(1, -1)))
-                .registerObserver(this::observeStatsButton)
-                .close())
-            .addAlignment(Left, THIS, Left)
-            .addAlignment(Bottom, THIS, Bottom)
         .close();
         // @formatter:on
     }
@@ -143,53 +132,6 @@ public class TsuMenu extends GameMenu implements Observable {
             }
         }
     }
-
-    /**
-     * Event observing method for StatsButton
-     */
-    private void observeStatsButton(Observable observable, ObservationEvent event){
-        if (event.getMsg().equals(Button.EVENT_DOWN)){
-            notifyObservers(new ObservationEvent(TO_STATS));
-        }
-    }
-
-//    @Override
-//    public void observe(Observable observable) {
-//        if (observable == titleButton) {
-//            if (titleButton.isPressed()) {
-//                started = true;
-//                this.notifyObservers();
-//            }
-//        } else if (observable == settingsButton) {
-//            if (settingsButton.isPressed()) {
-//                settingsMenu.setDifficulty((int) this.difficulty);
-//                settingsMenu.setAuto(this.auto);
-//                settingsMenu.setEnable(true);
-//            }
-//        } else if (observable == languageButton) {
-//            if (languageButton.isPressed()) {
-//                if (getGlobalPreferences().getLanguage().equals("en")) {
-//                    getGlobalPreferences().setLanguage("fr");
-//                } else if (getGlobalPreferences().getLanguage().equals("fr")) {
-//                    getGlobalPreferences().setLanguage("en");
-//                }
-//                tsuGame.setPreferences(getGlobalPreferences());
-//            }
-//        } else if (observable == statsButton) {
-//            if (statsButton.isPressed()) {
-//                stats = true;
-//                this.notifyObservers();
-//            }
-//        } else if (observable == settingsMenu) {
-//            if (!settingsMenu.isEnable()) {
-//                this.difficulty = settingsMenu.getDifficulty();
-//                this.auto = settingsMenu.getAuto();
-//                tsuGame.setPreferences(getGlobalPreferences());
-//                tsuGame.setPreferences(tsuGame.getDifficultyPrefName(), this.difficulty);
-//                tsuGame.setPreferences(tsuGame.getAutoPrefName(), this.auto);
-//            }
-//        }
-//    }
 
     @Override
     public void draw(Canvas canvas) {

@@ -78,6 +78,18 @@ public class AndroidCanvas implements com.group0565.engine.interfaces.Canvas {
     }
 
     @Override
+    public void drawBitmap(Bitmap bitmap, Vector pos, Vector size, Vector bPos, Vector bSize) {
+        if (bitmap instanceof AndroidBitmap) {
+            AndroidBitmap androidBitmap = (AndroidBitmap) bitmap;
+            Vector psum = pos.add(size);
+            Vector bsum = bPos.add(bSize);
+            aCanvas.drawBitmap(androidBitmap.getBitmap(), new Rect((int) bPos.getX(), (int) bPos.getY(), (int) bsum.getX(), (int) bsum.getY()),
+                    new RectF(pos.getX(), pos.getY(), psum.getX(), psum.getY()), null);
+        } else
+            throw new IllegalArgumentException("Only AndroidBitmap can be drawn.");
+    }
+
+    @Override
     public void drawLine(Vector start, Vector end, Paint paint){
         if (paint instanceof AndroidPaint) {
             AndroidPaint aPaint = (AndroidPaint) paint;

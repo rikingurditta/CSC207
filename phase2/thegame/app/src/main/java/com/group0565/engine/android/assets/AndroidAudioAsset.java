@@ -19,11 +19,16 @@ public class AndroidAudioAsset extends AudioAsset {
   public AndroidAudioAsset(String name, String path, float volume, AssetManager assetManager) {
     super(name, path, volume);
     this.assetManager = assetManager;
+    this.player = null;
+    this.fd = null;
   }
 
-  @Override
-  public void init() {
-    super.init();
+  /**
+   * Instead of overriding init, this allows lazy loading of expensive audio assets.
+   */
+  public void initAudioAsset(){
+    if (player != null)
+      return;
     try {
       fd = assetManager.openFd(AUDIO_FOLDER + getPath());
       player = new MediaPlayer();
@@ -37,42 +42,49 @@ public class AndroidAudioAsset extends AudioAsset {
 
   @Override
   public void play() {
+    initAudioAsset();
     player.start();
   }
 
   @Override
   public void seekTo(int msec) {
+    initAudioAsset();
     player.seekTo(msec);
   }
 
   @Override
   public long progress() {
+    initAudioAsset();
     return player.getCurrentPosition();
   }
 
   @Override
   public void pause() {
+    initAudioAsset();
     player.pause();
   }
 
   @Override
   public void stop() {
+    initAudioAsset();
     player.stop();
   }
 
   @Override
   public void setVolume(float volume) {
+    initAudioAsset();
     super.setVolume(volume);
     player.setVolume(volume, volume);
   }
 
   @Override
   public void close() {
-    player.release();
-    try {
-      fd.close();
-    } catch (IOException e) {
-      Log.e(TAG, "Audio Asset " + getName() + " Failed to close", e);
-    }
+    if (player != null) player.release();
+    if (fd != null)
+      try {
+        fd.close();
+      } catch (IOException e) {
+        Log.e(TAG, "Audio Asset " + getName() + " Failed to close", e);
+      }
   }
 }

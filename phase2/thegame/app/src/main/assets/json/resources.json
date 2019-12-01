@@ -44,9 +44,12 @@
     }
   },
   "Json": {
-    "Tsu": {
-      "BeatMap": {
-        "Path": "beatmaps/Butterfly.json"
+    "Tsu-Beatmap": {
+      "Umeboshi Chazuke - Bison Charge (_Asha) [Advanced]": {
+        "Path": "beatmaps/Umeboshi Chazuke - Bison Charge (_Asha) [Advanced].json"
+      },
+      "KOTOKO - unfinished (TV Size) (ljqandylee) [4K Accel]": {
+        "Path": "beatmaps/KOTOKO - unfinished (TV Size) (ljqandylee) [4K Accel].json"
       }
     }
   },

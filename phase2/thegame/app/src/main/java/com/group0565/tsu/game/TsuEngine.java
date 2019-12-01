@@ -478,7 +478,7 @@ public class TsuEngine extends GameObject implements Observer, Observable {
             .addAlignment(HCenter, THIS, HCenter, ComboMargin.getX())
             .addAlignment(Top, HitScoreName, Bottom, ComboMargin.getY())
 
-            .add(BackgroundName, new BitmapDrawer(new Vector(), () -> background).setZ(-1))
+            .add(BackgroundName, new BitmapDrawer(new Vector(), () -> background, true).setZ(-1))
             .addAlignment(Left, THIS, Left)
             .addAlignment(Right, THIS, Right)
             .addAlignment(Top, THIS, Top)
@@ -497,9 +497,6 @@ public class TsuEngine extends GameObject implements Observer, Observable {
             .addAlignment(Left, THIS, Left, PauseButtonMargin.getX())
             .addAlignment(Top, THIS, Top, PauseButtonMargin.getY())
         .close();
-
-        Beatmap beatmap = new AndroidBeatmap("Tsu", "KOTOKO - unfinished (TV Size) (ljqandylee) [4K Accel]", getEngine().getGameAssetManager());
-        this.setBeatmap(beatmap);
     }
 
     @Override
@@ -683,6 +680,7 @@ public class TsuEngine extends GameObject implements Observer, Observable {
      */
     public void setBeatmap(Beatmap beatmap) {
         this.beatmap = beatmap;
+        this.beatmap.initBeatmap();
         this.hitObjects = beatmap.getHitObjects();
         this.audio = beatmap.getAudio();
         this.background = beatmap.getBackground();

@@ -250,6 +250,56 @@
       ],
       "TextSize": 50
     }
+  },
+  "StatsMenu": {
+    "BeatMapPaint": {
+      "ARGB": [
+        255,
+        0,
+        0,
+        255
+      ],
+      "TextSize": 100
+    },
+    "BackgroundPaint": {
+      "ARGB": [
+        255,
+        255,
+        255,
+        255
+      ]
+    }
+  },
+  "BeatmapMenu": {
+    "BeatMapNamePaint": {
+      "ARGB": [
+        255,
+        0,
+        0,
+        255
+      ],
+      "TextSize": 75
+    },
+    "CreatorPaint": {
+      "ARGB": [
+        255,
+        19, 240, 232
+      ],
+      "TextSize": 75
+    },
+    "ArtistPaint": {
+      "ARGB": [
+        255,
+        19, 240, 232
+      ],
+      "TextSize": 75
+    },
+    "DifficultyPaint": {
+      "ARGB": [
+        255,
+        19, 240, 232
+      ],
+      "TextSize": 75
+    }
   }
-
 }

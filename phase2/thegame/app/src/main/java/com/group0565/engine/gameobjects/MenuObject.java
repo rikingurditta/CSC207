@@ -147,15 +147,21 @@ public class MenuObject extends GameObject implements Observable {
             if (hAligns[0].sourceEdge == HorizontalEdge.Left){
                 if (hAligns[1].sourceEdge == HorizontalEdge.HCenter){
                     this.size = this.size.newSetX(2*(hAligns[1].getTargetEdgePosition() - this.getAbsolutePosition().getX()));
+                    this.initialSizeUpdate(size);
                 } else if (hAligns[1].sourceEdge == HorizontalEdge.Right){
                     this.size = this.size.newSetX(hAligns[1].getTargetEdgePosition() - this.getAbsolutePosition().getX());
+                    this.initialSizeUpdate(size);
                 }
             }
             else if(hAligns[0].sourceEdge == HorizontalEdge.HCenter){
                 this.size = this.size.newSetX(hAligns[1].getTargetEdgePosition() - hAligns[0].getTargetEdgePosition());
+                this.initialSizeUpdate(size);
                 setAbsolutePositionX(hAligns[0].getTargetEdgePosition() - size.getX()/2f);
             }
         }
+    }
+
+    protected void initialSizeUpdate(Vector size) {
     }
 
     private void updateVertical(){
@@ -201,12 +207,15 @@ public class MenuObject extends GameObject implements Observable {
             if (vAligns[0].sourceEdge == VerticalEdge.Top){
                 if (vAligns[1].sourceEdge == VerticalEdge.VCenter){
                     this.size = this.size.newSetY(2*(vAligns[1].getTargetEdgePosition() - this.getAbsolutePosition().getY()));
+                    this.initialSizeUpdate(size);
                 } else if (vAligns[1].sourceEdge == VerticalEdge.Bottom){
                     this.size = this.size.newSetY(vAligns[1].getTargetEdgePosition() - this.getAbsolutePosition().getY());
+                    this.initialSizeUpdate(size);
                 }
             }
             else if(vAligns[0].sourceEdge == VerticalEdge.VCenter){
                 this.size = this.size.newSetY(vAligns[1].getTargetEdgePosition() - vAligns[0].getTargetEdgePosition());
+                this.initialSizeUpdate(size);
                 setAbsolutePositionY(vAligns[0].getTargetEdgePosition() - size.getY()/2f);
             }
         }

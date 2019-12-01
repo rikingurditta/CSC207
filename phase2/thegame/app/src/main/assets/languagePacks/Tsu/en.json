@@ -8,6 +8,5 @@
   "Combo": "Combo",
   "Title": "Title",
   "Artist": "Artist",
-  "Arranger": "Arranger",
-  "Mapper": "Mapper"
+  "Creator": "Creator"
 }

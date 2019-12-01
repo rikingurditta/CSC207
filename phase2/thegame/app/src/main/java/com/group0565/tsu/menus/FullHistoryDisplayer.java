@@ -81,15 +81,7 @@ public class FullHistoryDisplayer extends GameMenu {
 
     private ThemedPaintCan rim;
     private ThemedPaintCan center;
-    private ThemedPaintCan countPaint;
-    private ThemedPaintCan scorePaint;
-    private ThemedPaintCan comboPaint;
-    private ThemedPaintCan difficultyPaint;
-    private ThemedPaintCan datePaint;
 
-    private Vector size;
-    private Bitmap cheat;
-    private StatsMenu menu;
     private Source<SessionHitObjects> objectsSource;
 
     private GraphRenderer graphRenderer;
@@ -106,11 +98,11 @@ public class FullHistoryDisplayer extends GameMenu {
         Grade.init(getGlobalPreferences(), getEngine().getGameAssetManager());
         rim = new ThemedPaintCan(SET, RimPaintName).init(getGlobalPreferences(), getEngine().getGameAssetManager());
         center = new ThemedPaintCan(SET, CenterPaintName).init(getGlobalPreferences(), getEngine().getGameAssetManager());
-        countPaint = new ThemedPaintCan(SET, CountPaintName).init(getGlobalPreferences(), getEngine().getGameAssetManager());
-        scorePaint = new ThemedPaintCan(SET, ScorePaintName).init(getGlobalPreferences(), getEngine().getGameAssetManager());
-        comboPaint = new ThemedPaintCan(SET, ComboPaintName).init(getGlobalPreferences(), getEngine().getGameAssetManager());
-        difficultyPaint = new ThemedPaintCan(SET, DifficultyPaintName).init(getGlobalPreferences(), getEngine().getGameAssetManager());
-        datePaint = new ThemedPaintCan(SET, DatePaintName).init(getGlobalPreferences(), getEngine().getGameAssetManager());
+        ThemedPaintCan countPaint = new ThemedPaintCan(SET, CountPaintName).init(getGlobalPreferences(), getEngine().getGameAssetManager());
+        ThemedPaintCan scorePaint = new ThemedPaintCan(SET, ScorePaintName).init(getGlobalPreferences(), getEngine().getGameAssetManager());
+        ThemedPaintCan comboPaint = new ThemedPaintCan(SET, ComboPaintName).init(getGlobalPreferences(), getEngine().getGameAssetManager());
+        ThemedPaintCan difficultyPaint = new ThemedPaintCan(SET, DifficultyPaintName).init(getGlobalPreferences(), getEngine().getGameAssetManager());
+        ThemedPaintCan datePaint = new ThemedPaintCan(SET, DatePaintName).init(getGlobalPreferences(), getEngine().getGameAssetManager());
         LanguageText difficultyLabel = new LanguageText(getGlobalPreferences(), getEngine().getGameAssetManager(), SET, DifficultyToken);
         // @formatter:off
         this.build()

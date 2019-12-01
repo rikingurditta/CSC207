@@ -5,11 +5,13 @@ import com.group0565.engine.gameobjects.GameMenu;
 import com.group0565.engine.interfaces.Canvas;
 import com.group0565.engine.interfaces.Observable;
 import com.group0565.engine.interfaces.ObservationEvent;
-import com.group0565.engine.interfaces.Observer;
+import com.group0565.engine.render.ScrollingTextRenderer;
+import com.group0565.engine.render.ThemedPaintCan;
 import com.group0565.hitObjectsRepository.SessionHitObjects;
 import com.group0565.math.Vector;
 import com.group0565.theme.Themes;
 import com.group0565.tsu.enums.ButtonBitmap;
+import com.group0565.tsu.game.Beatmap;
 import com.group0565.tsu.game.HitObject;
 
 import static com.group0565.engine.enums.HorizontalEdge.*;
@@ -27,14 +29,22 @@ public class StatsMenu extends GameMenu implements Observable {
 
     private static final Vector BUTTON_SIZE = new Vector(75);
     private static final Vector MARGIN = new Vector(75);
+    private static final Vector INTERNAL_MARGIN = new Vector(25);
     private static final float HISTORY_LEFT_MARGIN = 25;
 
     private static final float HISTORY_WIDTH = 650;
 
     private static final String SET = "Tsu";
+    private static final String THEME_FOLDER = "StatsMenu.";
+    private static final String BackgroundPaintName = THEME_FOLDER + "Background";
+
     //Back Button Constants
     private static final String BackButtonName = "BackButton";
-
+    //BeatMap Name Constants
+    private static final String BeatmapName = "Beatmap";
+    private static final String BeatmapPaintName = THEME_FOLDER + "BeatMap";
+    private static final long ScrollTime = 1500;
+    private static final long HoldTime = 500;
     //History List Constants
     private static final String HistoryListName = "HistoryList";
     //Time Button Constants
@@ -48,14 +58,22 @@ public class StatsMenu extends GameMenu implements Observable {
     //Full History Displayer Constants
     private static final String FullHistoryDisplayerName = "FullHistoryDisplayer";
 
+    private String selectedBeatmapName;
+
     private HistoryList historyList;
     private List<SessionHitObjects> history = null;
+    private List<SessionHitObjects> filteredHistory = null;
     private Sort sort = Sort.TimeDown;
+
+    private ThemedPaintCan beatmapPaint;
+    private ThemedPaintCan bgPaintCan;
 
     @Override
     public void init() {
         super.init();
         ButtonBitmap.init(getEngine().getGameAssetManager());
+        beatmapPaint = new ThemedPaintCan(SET, BeatmapPaintName).init(getGlobalPreferences(), getEngine().getGameAssetManager());
+        bgPaintCan = new ThemedPaintCan(SET, BackgroundPaintName).init(getGlobalPreferences(), getEngine().getGameAssetManager());
 
         // @formatter:off
         this.build()
@@ -66,10 +84,17 @@ public class StatsMenu extends GameMenu implements Observable {
             .addAlignment(Left, THIS, Left)
             .addAlignment(Top, THIS, Top)
 
-            .add(HistoryListName, (historyList = new HistoryList(this, new Vector(HISTORY_WIDTH, 0), this::getHistory)).build()
+            .add(BeatmapName, new ScrollingTextRenderer(() -> selectedBeatmapName == null ? "Beatmap not found" : selectedBeatmapName,
+                    ScrollTime, HoldTime,
+                    beatmapPaint, bgPaintCan, new Vector(1, 1)))
+            .addAlignment(Left, BackButtonName, Right, INTERNAL_MARGIN.getX())
+            .addAlignment(Right, THIS, Right, -MARGIN.getX())
+            .addAlignment(Top, THIS, Top, INTERNAL_MARGIN.getY())
+
+            .add(HistoryListName, (historyList = new HistoryList(this, new Vector(HISTORY_WIDTH, 0), this::getFilteredHistory)).build()
                 .close())
             .addAlignment(Left, BackButtonName, Right, HISTORY_LEFT_MARGIN)
-            .addAlignment(Top, THIS, Top, MARGIN.getY())
+            .addAlignment(Top, BeatmapName, Bottom, INTERNAL_MARGIN.getY())
             .addAlignment(Bottom, THIS, Bottom, -MARGIN.getY())
 
             .add(TimeButtonName, new Button(BUTTON_SIZE, ButtonBitmap.TimeButton.getBitmap(), Sort.TimeDown).build()
@@ -112,9 +137,9 @@ public class StatsMenu extends GameMenu implements Observable {
             .addCenteredAlignment(ScoreButtonName)
 
             .add(FullHistoryDisplayerName, new FullHistoryDisplayer(historyList::getSelectedObject, new Vector()))
-            .addAlignment(Left, HistoryListName, Right, MARGIN.getX())
+            .addAlignment(Left, HistoryListName, Right, INTERNAL_MARGIN.getX())
             .addAlignment(Right, THIS, Right, -MARGIN.getX())
-            .addAlignment(Top, THIS, Top, MARGIN.getY())
+            .addAlignment(Top, BeatmapName, Bottom, INTERNAL_MARGIN.getY())
             .addAlignment(Bottom, THIS, Bottom, -MARGIN.getY())
         .close();
         // @formatter:on
@@ -128,18 +153,30 @@ public class StatsMenu extends GameMenu implements Observable {
 //        objects.getHitObjects().add(new HitObject());
 //        objects.getHitObjects().add(new HitObject());
 //        objects.setMaxCombo(100);
+//        objects.setBeatmapName("B1");
 //        objects.setCheats(true);
 //        objects.setScore(1000);
 //        objects.setGrade(4);
 //        objects.setDifficulty(5);
 //        objects.setDatetime("ABCD");
+//        SessionHitObjects objects2 = new SessionHitObjects();
+//        objects2.getHitObjects().add(new HitObject());
+//        objects2.getHitObjects().add(new HitObject());
+//        objects2.setMaxCombo(100000000);
+//        objects2.setCheats(true);
+//        objects2.setBeatmapName("KOTOKO - unfinished (TV Size) (ljqandylee) [4K Accel]");
+//        objects2.setScore(1000000000);
+//        objects2.setGrade(5);
+//        objects2.setDifficulty(5);
+//        objects2.setDatetime("ABCD");
 //        hitObjects.add(objects);
 //        hitObjects.add(objects);
 //        hitObjects.add(objects);
-//        hitObjects.add(objects);
-//        hitObjects.add(objects);
-//        hitObjects.add(objects);
+//        hitObjects.add(objects2);
+//        hitObjects.add(objects2);
+//        hitObjects.add(objects2);
 //        this.setHistory(hitObjects);
+//        this.setSelectedObject(objects2);
 //    }
 
     @Override
@@ -169,6 +206,7 @@ public class StatsMenu extends GameMenu implements Observable {
 
     public void setHistory(List<SessionHitObjects> history) {
         this.history = history;
+        refilter();
         setSort(sort);
     }
 
@@ -181,6 +219,52 @@ public class StatsMenu extends GameMenu implements Observable {
 
     public void setSelectedObject(SessionHitObjects object) {
         historyList.setSelectedObject(object);
+        this.setSelectedBeatmap(object.getBeatmapName());
+        refilter();
+    }
+
+    /**
+     * Getter for filteredHistory
+     *
+     * @return filteredHistory
+     */
+    public List<SessionHitObjects> getFilteredHistory() {
+        return filteredHistory;
+    }
+
+    /**
+     * Setter for selected Beatmap
+     *
+     * @param selectedBeatmap The new value for selectedBeatmap
+     */
+    public void setSelectedBeatmap(String selectedBeatmap) {
+        this.selectedBeatmapName = selectedBeatmap;
+        refilter();
+    }
+
+    /**
+     * Setter for selected Beatmap
+     *
+     * @param selectedBeatmap The new value for selectedBeatmap
+     */
+    public void setSelectedBeatmap(Beatmap selectedBeatmap) {
+        this.setSelectedBeatmap(selectedBeatmap.getName());
+    }
+
+    private void refilter() {
+        if (this.history == null){
+            this.filteredHistory = null;
+            return;
+        }
+        if (this.filteredHistory == null)
+                this.filteredHistory = new ArrayList<>(history.size());
+        else
+            this.filteredHistory.clear();
+        for (SessionHitObjects sessionHitObjects : history){
+            if (sessionHitObjects.getBeatmapName().equals(this.selectedBeatmapName))
+                filteredHistory.add(sessionHitObjects);
+        }
+        this.notifyObservers(new ObservationEvent<>(HISTORY_UPDATE_EVENT, history));
     }
 
     private enum Sort {
