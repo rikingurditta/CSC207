@@ -5,11 +5,9 @@ import com.group0565.engine.gameobjects.GameMenu;
 import com.group0565.engine.interfaces.Canvas;
 import com.group0565.engine.interfaces.Observable;
 import com.group0565.engine.interfaces.ObservationEvent;
-import com.group0565.engine.interfaces.Paint;
 import com.group0565.engine.render.ThemedPaintCan;
 import com.group0565.math.Vector;
 import com.group0565.racer.core.RacerEngine;
-import com.group0565.theme.Themes;
 
 /**
  * The Pause Menu that displays when the game is paused

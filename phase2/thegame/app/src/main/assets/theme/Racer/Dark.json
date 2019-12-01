@@ -50,5 +50,15 @@
         0
       ]
     }
+  },
+  "GameOver": {
+    "GameOverPaint": {
+      "ARGB": [
+        255,
+        165,
+        0,
+        0
+      ]
+    }
   }
 }
