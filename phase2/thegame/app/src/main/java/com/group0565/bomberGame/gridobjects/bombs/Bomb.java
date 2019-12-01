@@ -1,10 +1,10 @@
 package com.group0565.bomberGame.gridobjects.bombs;
 
 import com.group0565.bomberGame.core.BomberEngine;
-import com.group0565.bomberGame.gridobjects.BomberMan;
 import com.group0565.bomberGame.grid.Grid;
+import com.group0565.bomberGame.gridobjects.BomberMan;
 import com.group0565.bomberGame.gridobjects.GridObject;
-import com.group0565.engine.render.ThemedPaintCan;
+import com.group0565.engine.interfaces.Bitmap;
 import com.group0565.math.Coords;
 
 /** A bomb (abstract), a detonatable object. */
@@ -23,16 +23,14 @@ public abstract class Bomb extends GridObject {
   /** The game this Bomb belongs to. */
   private BomberEngine game;
 
-  /** PaintCans for the various colour stages of the bomb's life cycle. */
-  private final ThemedPaintCan buildup1PaintCan = new ThemedPaintCan("Bomber", "Bomb.Buildup1");
+  private Bitmap BUILDUP_1_IMAGE;
+  private Bitmap BUILDUP_2_IMAGE;
+  private Bitmap BUILDUP_3_IMAGE;
+  private Bitmap BUILDUP_4_IMAGE;
+  private Bitmap EXPLOSION_IMAGE;
 
-  private final ThemedPaintCan buildup2PaintCan = new ThemedPaintCan("Bomber", "Bomb.Buildup2");
-  private final ThemedPaintCan buildup3PaintCan = new ThemedPaintCan("Bomber", "Bomb.Buildup3");
-  private final ThemedPaintCan buildup4PaintCan = new ThemedPaintCan("Bomber", "Bomb.Buildup4");
-  private final ThemedPaintCan explosionPaintCan = new ThemedPaintCan("Bomber", "Bomb.Explosion");
+  Bitmap currImage;
 
-  /** PaintCan for the current state of the bomb. */
-  ThemedPaintCan currPaintCan = buildup1PaintCan;
 
   /**
    * Constructs a new Bomb.
@@ -52,11 +50,12 @@ public abstract class Bomb extends GridObject {
   @Override
   public void init() {
     super.init();
-    buildup1PaintCan.init(getGlobalPreferences(), getEngine().getGameAssetManager());
-    buildup2PaintCan.init(getGlobalPreferences(), getEngine().getGameAssetManager());
-    buildup3PaintCan.init(getGlobalPreferences(), getEngine().getGameAssetManager());
-    buildup4PaintCan.init(getGlobalPreferences(), getEngine().getGameAssetManager());
-    explosionPaintCan.init(getGlobalPreferences(), getEngine().getGameAssetManager());
+    BUILDUP_1_IMAGE = getEngine().getGameAssetManager().getTileSheet("Bomber", "Grid_Objects").getTile(0, 1);
+    BUILDUP_2_IMAGE = getEngine().getGameAssetManager().getTileSheet("Bomber", "Grid_Objects").getTile(1, 1);
+    BUILDUP_3_IMAGE = getEngine().getGameAssetManager().getTileSheet("Bomber", "Grid_Objects").getTile(2, 1);
+    BUILDUP_4_IMAGE = getEngine().getGameAssetManager().getTileSheet("Bomber", "Grid_Objects").getTile(3, 1);
+    EXPLOSION_IMAGE = getEngine().getGameAssetManager().getTileSheet("Bomber", "Grid_Objects").getTile(0, 2);
+    currImage = BUILDUP_1_IMAGE;
   }
 
   /**
@@ -69,21 +68,20 @@ public abstract class Bomb extends GridObject {
     if (bombTimer < BOMB_EXPLODE_TIME) {
       bombTimer += ms;
       if (bombTimer < BOMB_EXPLODE_TIME / 5 * 2) {
-        currPaintCan = buildup1PaintCan;
+        currImage = BUILDUP_1_IMAGE;
       } else if (bombTimer < BOMB_EXPLODE_TIME / 5 * 3) {
-        currPaintCan = buildup2PaintCan;
+        currImage = BUILDUP_2_IMAGE;
       } else if (bombTimer < BOMB_EXPLODE_TIME / 5 * 4) {
-        currPaintCan = buildup3PaintCan;
+        currImage = BUILDUP_3_IMAGE;
       } else {
-        currPaintCan = buildup4PaintCan;
+        currImage = BUILDUP_4_IMAGE;
       }
     } else if (bombTimer < BOMB_EXPLODE_TIME + EXPLOSION_DURATION) {
       if (!duringExplosion) {
-        // System.out.println("explosion " + this.getUUID());
         explode();
       }
       // actual explosion
-      currPaintCan = explosionPaintCan;
+      currImage = EXPLOSION_IMAGE;
       bombTimer += ms;
       duringExplosion = true;
     } else {

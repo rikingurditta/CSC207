@@ -1,7 +1,5 @@
 package com.group0565.bomberGame.gridobjects;
 
-import android.util.Log;
-
 import com.group0565.bomberGame.core.BomberEngine;
 import com.group0565.bomberGame.grid.Grid;
 import com.group0565.bomberGame.gridobjects.bombs.Bomb;
@@ -166,7 +164,6 @@ public class BomberMan extends GridObject {
         direction = target.subtract(this.getAbsolutePosition());
       }
       if (input.bomb) dropBomb();
-      Log.i("bombs size", "size : " + bombs.size());
 
       readyToMove = false;
     }
@@ -205,7 +202,6 @@ public class BomberMan extends GridObject {
 
     for (Droppable g : grid.getDroppables()) {
       if (g.getGridCoords().equals(pos)) {
-        Log.i("Game Logic", "Received droppable");
         g.affectPlayer(this);
         grid.remove(g);
         game.removeLater(g);
