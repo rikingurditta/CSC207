@@ -73,16 +73,20 @@ public class AndroidThemeAsset extends ThemeAsset {
                 reader.beginObject();
                 String family = null;
                 String style = null;
-                while (reader.peek() == JsonToken.NAME){
+                while (reader.peek() == JsonToken.NAME) {
                     String fontToken = reader.nextName();
-                    if (fontToken.equals("Family"))
-                        family = reader.nextString();
-                    else if(fontToken.equals("Style"))
+                    if (fontToken.equals("Family")){
+                        family = null;
+                        if (reader.peek() == JsonToken.STRING)
+                            family = reader.nextString();
+                        else
+                            reader.nextNull();
+                    }else if(fontToken.equals("Style"))
                         style = reader.nextString();
-                    if (style == null)
-                        throw new IllegalThemeAssetException("Type of Font must exist.");
-                    paint.setTypeface(Typeface.create(family, Typeface.Style.valueOf(style)));
                 }
+                if (style == null)
+                    throw new IllegalThemeAssetException("Type of Font must exist.");
+                paint.setTypeface(Typeface.create(family, Typeface.Style.valueOf(style)));
                 reader.endObject();
             }
         }

@@ -1,9 +1,7 @@
 package com.group0565.tsu.menus;
 
-import android.graphics.Rect;
-import android.graphics.RectF;
-
 import com.group0565.engine.android.AndroidPaint;
+import com.group0565.engine.gameobjects.GameMenu;
 import com.group0565.engine.gameobjects.GameObject;
 import com.group0565.engine.gameobjects.MenuObject;
 import com.group0565.engine.interfaces.Bitmap;
@@ -11,187 +9,209 @@ import com.group0565.engine.interfaces.Canvas;
 import com.group0565.engine.interfaces.Observable;
 import com.group0565.engine.interfaces.Observer;
 import com.group0565.engine.interfaces.Paint;
+import com.group0565.engine.interfaces.Source;
+import com.group0565.engine.render.BitmapDrawer;
+import com.group0565.engine.render.LanguageText;
+import com.group0565.engine.render.TextRenderer;
+import com.group0565.engine.render.ThemedPaintCan;
 import com.group0565.hitObjectsRepository.SessionHitObjects;
 import com.group0565.math.Vector;
-import com.group0565.racerGame.Menu;
-import com.group0565.theme.Themes;
+import com.group0565.tsu.enums.ButtonBitmap;
 import com.group0565.tsu.enums.Grade;
 import com.group0565.tsu.enums.Scores;
-import com.group0565.engine.interfaces.Typeface;
-import com.group0565.tsu.menus.StatsMenu;
+import com.group0565.tsu.render.GradeRenderer;
+import com.group0565.tsu.render.HitScoreRenderer;
+import com.group0565.tsu.render.NumberRenderer;
 
-import java.util.List;
+import static com.group0565.engine.enums.HorizontalEdge.*;
+import static com.group0565.engine.enums.VerticalEdge.*;
 
-public class FullHistoryDisplayer extends MenuObject implements Observer {
-    private static final float CHEAT_BUF = 10;
-    private static final float XMAR = 25;
-    private static final float YMAR = 35;
-    private static final float CHEAT_SIZE = 75;
-    private static final float SCORE_WIDTH = 300;
-    private static final float SCORE_HEIGHT = 100;
-    private static final float SCORE_YBUFF = 10;
+public class FullHistoryDisplayer extends GameMenu {
+
     private static final int SAMPLES = 50;
+
+    //Asset Constants
+    private static final String SET = "Tsu";
+    private static final String PaintFolder = "FullHistoryDisplayer.";
+    private static final String RimPaintName = PaintFolder + "Rim";
+    private static final String CenterPaintName = PaintFolder + "Center";
+    private static final String CountPaintName = PaintFolder + "Count";
+    private static final String ScorePaintName = PaintFolder + "Score";
+    private static final String ComboPaintName = PaintFolder + "Combo";
+    private static final String DifficultyPaintName = PaintFolder + "Difficulty";
+    private static final String DatePaintName = PaintFolder + "Date";
+
+    //General Constants
+    private static final Vector MARGINS = new Vector(25);
+    private static final Vector INTERNAL_MARGINS = new Vector(25);
+    //Grade Constants
+    private static final String GradeName = "Grade";
+    private static final Vector GradeSize = new Vector(200);
+    //Background Constants
+    private static final String BackgroundName = "Background";
+    private static final Vector RIM_SIZE = new Vector(10);
+    private static final Vector RIM_RADIUS = new Vector(15);
+    //S Constants
+    private static final float SHeight = 100;
+    private static final float NumberWidth = 50;
+    //S300 Constants
+    private static final String S300Name = "S300";
+    private static final String S300CountName = "S300Count";
+    //S150 Constants
+    private static final String S150Name = "S150";
+    private static final String S150CountName = "S150Count";
+    //S50 Constants
+    private static final String S50Name = "S50";
+    private static final String S50CountName = "S50Count";
+    //S0 Constants
+    private static final String S0Name = "S0";
+    private static final String S0CountName = "S0Count";
+    //Score Constants
+    private static final String ScoreName = "Score";
+    //Combo Constants
+    private static final String ComboName = "Combo";
+    //Difficulty Constants
+    private static final String DifficultyName = "Difficulty";
+    private static final String DifficultyToken = "Difficulty";
+    //Date Constants
+    private static final String DateName = "Date";
+    //Cheats Constants
+    private static final String CheatName = "Cheat";
+    private static final Vector CHEAT_SIZE = new Vector(75);
+
+    private ThemedPaintCan rim;
+    private ThemedPaintCan center;
+    private ThemedPaintCan countPaint;
+    private ThemedPaintCan scorePaint;
+    private ThemedPaintCan comboPaint;
+    private ThemedPaintCan difficultyPaint;
+    private ThemedPaintCan datePaint;
+
     private Vector size;
     private Bitmap cheat;
-    private Paint rim;
-    private Paint center;
     private StatsMenu menu;
-    private SessionHitObjects objects;
-    private Paint gradePaint;
-    private Paint countPaint;
-    private Paint scorePaint;
-    private Paint comboPaint;
-    private Paint difficultyPaint;
-    private Paint datePaint;
+    private Source<SessionHitObjects> objectsSource;
+
     private GraphRenderer graphRenderer;
 
 
-    public FullHistoryDisplayer(StatsMenu menu, Vector position, Vector size) {
-        super(position);
-        this.size = size;
-        this.rim = new AndroidPaint();
-        this.rim.setARGB(255, 128, 128, 128);
-        this.center = new AndroidPaint();
-        this.menu = menu;
-        this.menu.registerObserver(this);
-        this.gradePaint = new AndroidPaint();
-        this.gradePaint.setTextSize(size.getY() * 0.3f);
-        this.gradePaint.setTypeface(Typeface.DEFAULT_BOLD);
-        this.countPaint = new AndroidPaint();
-        this.countPaint.setTextSize(SCORE_HEIGHT);
-        this.scorePaint = new AndroidPaint();
-        this.scorePaint.setTextSize(size.getY() * 0.1f);
-        this.scorePaint.setARGB(255, 0, 0, 0);
-        this.comboPaint = new AndroidPaint();
-        this.comboPaint.setTextSize(size.getY() * 0.1f);
-        this.comboPaint.setARGB(255, 0, 0, 0);
-        this.difficultyPaint = new AndroidPaint();
-        this.difficultyPaint.setTextSize(size.getY() * 0.075f);
-        this.difficultyPaint.setARGB(255, 0, 0, 0);
-        this.datePaint = new AndroidPaint();
-        this.datePaint.setTextSize(size.getY() * 0.075f);
-        this.datePaint.setARGB(255, 0, 0, 0);
+    public FullHistoryDisplayer(Source<SessionHitObjects> objectsSource, Vector size) {
+        super(size);
+        this.objectsSource = objectsSource;
     }
 
     @Override
     public void init() {
-        float x = getAbsolutePosition().getX();
-        float y = getAbsolutePosition().getY();
-        float w = size.getX();
-        float h = size.getY();
-        this.cheat = getEngine().getGameAssetManager().getTileSheet("Tsu", "Buttons").getTile(21, 0);
-        this.graphRenderer = new GraphRenderer(new Vector(x + w / 2, y + h / 2),
-                new Vector(w / 2 - XMAR, h / 2 - YMAR), SAMPLES);
-        adopt(graphRenderer);
         super.init();
-    }
+        Grade.init(getGlobalPreferences(), getEngine().getGameAssetManager());
+        rim = new ThemedPaintCan(SET, RimPaintName).init(getGlobalPreferences(), getEngine().getGameAssetManager());
+        center = new ThemedPaintCan(SET, CenterPaintName).init(getGlobalPreferences(), getEngine().getGameAssetManager());
+        countPaint = new ThemedPaintCan(SET, CountPaintName).init(getGlobalPreferences(), getEngine().getGameAssetManager());
+        scorePaint = new ThemedPaintCan(SET, ScorePaintName).init(getGlobalPreferences(), getEngine().getGameAssetManager());
+        comboPaint = new ThemedPaintCan(SET, ComboPaintName).init(getGlobalPreferences(), getEngine().getGameAssetManager());
+        difficultyPaint = new ThemedPaintCan(SET, DifficultyPaintName).init(getGlobalPreferences(), getEngine().getGameAssetManager());
+        datePaint = new ThemedPaintCan(SET, DatePaintName).init(getGlobalPreferences(), getEngine().getGameAssetManager());
+        LanguageText difficultyLabel = new LanguageText(getGlobalPreferences(), getEngine().getGameAssetManager(), SET, DifficultyToken);
+        // @formatter:off
+        this.build()
+            .add(BackgroundName, new MenuObject(){
+                { setZ(-1); }
+                @Override
+                public void draw(Canvas canvas, Vector pos, Vector size) {
+                    super.draw(canvas, pos, size);
+                    canvas.drawRoundRect(pos, size, RIM_RADIUS, rim);
+                    canvas.drawRoundRect(pos.add(RIM_SIZE), size.subtract(RIM_SIZE.multiply(2)), RIM_RADIUS, center);
+                }
+            })
+            .addAlignment(Left, THIS, Left)
+            .addAlignment(Right, THIS, Right)
+            .addAlignment(Top, THIS, Top)
+            .addAlignment(Bottom, THIS, Bottom)
 
-    @Override
-    public void draw(Canvas canvas) {
-        super.draw(canvas);
-//        float x = getAbsolutePosition().getX();
-//        float y = getAbsolutePosition().getY();
-//        float w = size.getX();
-//        float h = size.getY();
-//        canvas.drawRoundRect(x, y, x + w, y + h, 50, 50, rim);
-//        if (getGlobalPreferences().getTheme() == Themes.LIGHT) {
-//            center.setARGB(255, 255, 255, 255);
-//            countPaint.setARGB(255, 0, 0, 0);
-//            this.scorePaint.setARGB(255, 0, 0, 0);
-//            this.comboPaint.setARGB(255, 0, 0, 0);
-//            this.difficultyPaint.setARGB(255, 0, 0, 0);
-//            this.datePaint.setARGB(255, 0, 0, 0);
-//        } else if (getGlobalPreferences().getTheme() == Themes.DARK) {
-//            center.setARGB(255, 0, 0, 0);
-//            countPaint.setARGB(255, 255, 255, 255);
-//            this.scorePaint.setARGB(255, 255, 255, 255);
-//            this.comboPaint.setARGB(255, 255, 255, 255);
-//            this.difficultyPaint.setARGB(255, 255, 255, 255);
-//            this.datePaint.setARGB(255, 255, 255, 255);
-//        }
-//        canvas.drawRoundRect(x + 10, y + 10, x + w - 10, y + h - 10, 50, 50, center);
-//
-//        if (objects == null)
-//            return;
-//        float gyb = 0;
-//        {
-//            Grade grade = Grade.num2Grade(objects.getGrade());
-//            gradePaint.setARGB(255, grade.getR(), grade.getG(), grade.getB());
-//            String gradeStr = grade.getString();
-//            Rect gradeRect = new Rect();
-//            this.gradePaint.getTextBounds(gradeStr, 0, gradeStr.length(), gradeRect);
-//            canvas.drawText(gradeStr, x + XMAR, y + YMAR + gradeRect.height(), gradePaint);
-//            gyb = y + YMAR + gradeRect.height();
-//            if (objects.hasCheats()) {
-//                canvas.drawBitmap(cheat, null, new RectF(x + XMAR + gradeRect.width() + CHEAT_BUF,
-//                        y + YMAR + gradeRect.height() - CHEAT_SIZE, x + XMAR + gradeRect.width() + CHEAT_BUF + CHEAT_SIZE, y + YMAR + gradeRect.height()));
-//            }
-//        }
-//        {
-//            int i = 0;
-//            for (Scores scores : Scores.values()) {
-//                if (scores == Scores.SU)
-//                    continue;
-//                float fy = gyb + SCORE_YBUFF + i * (SCORE_HEIGHT + SCORE_YBUFF);
-//                canvas.drawBitmap(scores.getBitmap(), null, new RectF(x + XMAR, y + fy,
-//                        x + XMAR + SCORE_WIDTH, y + fy + SCORE_HEIGHT));
-//                int count = getScoreCount(scores);
-//                String countStr = ": " + count;
-//                Rect countRect = new Rect();
-//                this.countPaint.getTextBounds(countStr, 0, countStr.length(), countRect);
-//                canvas.drawText(countStr, x + XMAR + SCORE_WIDTH, y + fy + SCORE_HEIGHT, countPaint);
-//                i++;
-//            }
-//            float fy = gyb + SCORE_YBUFF + i * (SCORE_HEIGHT + SCORE_YBUFF);
-//            String dateStr = objects.getDatetime();
-//            Rect dateRect = new Rect();
-//            this.difficultyPaint.getTextBounds(dateStr, 0, dateStr.length(), dateRect);
-//            canvas.drawText(dateStr, x + XMAR, y + fy + dateRect.height(), difficultyPaint);
-//        }
-//        {
-//            String scoreStr = getEngine().getGameAssetManager().getLanguagePack("Tsu", getGlobalPreferences().getLanguage()).getToken("Score") + ": " +
-//                    objects.getScore();
-//            Rect scoreRect = new Rect();
-//            this.scorePaint.getTextBounds(scoreStr, 0, scoreStr.length(), scoreRect);
-//            canvas.drawText(scoreStr, x + size.getX() - scoreRect.width() - XMAR, y + YMAR + scoreRect.height(), scorePaint);
-//
-//            String comboStr = getEngine().getGameAssetManager().getLanguagePack("Tsu", getGlobalPreferences().getLanguage()).getToken("Combo") + ": " + objects.getMaxCombo();
-//            Rect comboRect = new Rect();
-//            this.comboPaint.getTextBounds(comboStr, 0, comboStr.length(), comboRect);
-//            canvas.drawText(comboStr, x + size.getX() - comboRect.width() - XMAR, y + YMAR + scoreRect.height() + comboRect.height() + SCORE_YBUFF, comboPaint);
-//
-//            String difficultyStr = String.format(getEngine().getGameAssetManager().getLanguagePack("Tsu", getGlobalPreferences().getLanguage()).getToken("Difficulty")
-//                            + ": %.1f",
-//                    objects.getDifficulty());
-//            Rect difficultyRect = new Rect();
-//            this.difficultyPaint.getTextBounds(difficultyStr, 0, difficultyStr.length(), difficultyRect);
-//            canvas.drawText(difficultyStr, x + size.getX() - difficultyRect.width() - XMAR, y + YMAR + scoreRect.height() + comboRect.height() + SCORE_YBUFF
-//                    + difficultyRect.height() + SCORE_YBUFF, difficultyPaint);
-//        }
-    }
+            .add(GradeName, new GradeRenderer(GradeSize, () -> (objectsSource.getValue() == null ? null : Grade.num2Grade(objectsSource.getValue().getGrade()))))
+            .addAlignment(Left, THIS, Left, MARGINS.getX())
+            .addAlignment(Top, THIS, Top, MARGINS.getY())
 
-    private int getScoreCount(Scores score) {
-        if (objects == null)
-            return 0;
-        switch (score) {
-            case S300:
-                return objects.getS300();
-            case S150:
-                return objects.getS150();
-            case S50:
-                return objects.getS50();
-            default:
-                return objects.getS0();
-        }
-    }
+            .add(S300Name, new HitScoreRenderer(SHeight, () -> Scores.S300).build()
+                .setSelfEnable(() -> objectsSource.getValue() != null)
+                .close())
+            .addAlignment(Left, THIS, Left, MARGINS.getX())
+            .addAlignment(Top, GradeName, Bottom, INTERNAL_MARGINS.getY())
 
-    @Override
-    public void observe(Observable observable) {
-//        if (observable == menu) {
-//            this.objects = menu.getSelectedObject();
-//            if (this.graphRenderer != null)
-//                this.graphRenderer.calculate();
-//        }
+            .add(S300CountName, new TextRenderer(() -> (objectsSource.getValue() == null ? "0" : String.valueOf(objectsSource.getValue().getS300())), countPaint).build()
+                .setSelfEnable(() -> objectsSource.getValue() != null)
+                .close())
+            .addAlignment(Left, S300Name, Right, INTERNAL_MARGINS.getX())
+            .addAlignment(VCenter, S300Name, VCenter, 15)
+                
+            .add(S150Name, new HitScoreRenderer(SHeight, () -> Scores.S150).build()
+                .setSelfEnable(() -> objectsSource.getValue() != null)
+                .close())
+            .addAlignment(Left, THIS, Left, MARGINS.getX())
+            .addAlignment(Top, S300Name, Bottom, INTERNAL_MARGINS.getY())
+
+            .add(S150CountName, new TextRenderer(() -> (objectsSource.getValue() == null ? "0" : String.valueOf(objectsSource.getValue().getS150())), countPaint).build()
+                .setSelfEnable(() -> objectsSource.getValue() != null)
+                .close())
+            .addAlignment(Left, S150Name, Right, INTERNAL_MARGINS.getX())
+            .addAlignment(VCenter, S150Name, VCenter, 15)
+                
+            .add(S50Name, new HitScoreRenderer(SHeight, () -> Scores.S50).build()
+                .setSelfEnable(() -> objectsSource.getValue() != null)
+                .close())
+            .addAlignment(Left, THIS, Left, MARGINS.getX())
+            .addAlignment(Top, S150Name, Bottom, INTERNAL_MARGINS.getY())
+
+            .add(S50CountName, new TextRenderer(() -> (objectsSource.getValue() == null ? "0" : String.valueOf(objectsSource.getValue().getS50())), countPaint).build()
+                .setSelfEnable(() -> objectsSource.getValue() != null)
+                .close())
+            .addAlignment(Left, S50Name, Right, INTERNAL_MARGINS.getX())
+            .addAlignment(VCenter, S50Name, VCenter, 15)
+                
+            .add(S0Name, new HitScoreRenderer(SHeight, () -> Scores.S0).build()
+                .setSelfEnable(() -> objectsSource.getValue() != null)
+                .close())
+            .addAlignment(Left, THIS, Left, MARGINS.getX())
+            .addAlignment(Top, S50Name, Bottom, INTERNAL_MARGINS.getY())
+
+            .add(S0CountName, new TextRenderer(() -> (objectsSource.getValue() == null ? "0" : String.valueOf(objectsSource.getValue().getS0())), countPaint).build()
+                .setSelfEnable(() -> objectsSource.getValue() != null)
+                .close())
+            .addAlignment(Left, S0Name, Right, INTERNAL_MARGINS.getX())
+            .addAlignment(VCenter, S0Name, VCenter, 15)
+
+            .add(ScoreName, new TextRenderer(() -> (objectsSource.getValue() == null ? "0" : String.valueOf(objectsSource.getValue().getScore())), scorePaint).build()
+                .setSelfEnable(() -> objectsSource.getValue() != null)
+                .close())
+            .addAlignment(Right, THIS, Right, -MARGINS.getX())
+            .addAlignment(Top, THIS, Top, MARGINS.getY())
+
+            .add(ComboName, new TextRenderer(() -> (objectsSource.getValue() == null ? "0" : String.valueOf(objectsSource.getValue().getMaxCombo())), comboPaint).build()
+                .setSelfEnable(() -> objectsSource.getValue() != null)
+                .close())
+            .addAlignment(Right, THIS, Right, -MARGINS.getX())
+            .addAlignment(Top, ScoreName, Bottom, INTERNAL_MARGINS.getY())
+
+            .add(DifficultyName, new TextRenderer(() -> difficultyLabel.getValue() + ": "
+                    + (objectsSource.getValue() == null ? "" : String.valueOf(objectsSource.getValue().getDifficulty())), difficultyPaint).build()
+                .setSelfEnable(() -> objectsSource.getValue() != null)
+                .close())
+            .addAlignment(Right, THIS, Right, -MARGINS.getX())
+            .addAlignment(Top, ComboName, Bottom, INTERNAL_MARGINS.getY())
+
+            .add(DateName, new TextRenderer(() -> (objectsSource.getValue() == null ? "0" : objectsSource.getValue().getDatetime()), datePaint).build()
+                .setSelfEnable(() -> objectsSource.getValue() != null)
+                .close())
+            .addAlignment(Left, THIS, Left, MARGINS.getX())
+            .addAlignment(Top, S0Name, Bottom, INTERNAL_MARGINS.getY())
+
+            .add(CheatName, new BitmapDrawer(CHEAT_SIZE, ButtonBitmap.CheatIcon::getBitmap).build()
+                .setSelfEnable(() -> (objectsSource.getValue() != null && objectsSource.getValue().hasCheats()))
+                .close())
+            .addAlignment(Left, GradeName, Right, INTERNAL_MARGINS.getX())
+            .addAlignment(Bottom, GradeName, Bottom)
+        .close();
+        // @formatter:on
     }
 
     private class GraphRenderer extends GameObject {

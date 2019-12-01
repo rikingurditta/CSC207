@@ -1,7 +1,5 @@
 package com.group0565.tsu.game;
 
-import android.graphics.LinearGradient;
-
 import com.group0565.engine.gameobjects.GameMenu;
 import com.group0565.engine.gameobjects.InputEvent;
 import com.group0565.engine.interfaces.Canvas;
@@ -10,10 +8,10 @@ import com.group0565.engine.interfaces.Paint;
 import com.group0565.engine.interfaces.Source;
 import com.group0565.engine.render.ThemedPaintCan;
 import com.group0565.math.Vector;
-import com.group0565.tsu.enums.Scores;
 import com.group0565.tsu.util.ColorCalculator;
 
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 
 import static com.group0565.tsu.util.ScoreCalculator.calculateDistribution;
@@ -36,6 +34,9 @@ public class Judgementer extends GameMenu {
     private ThemedPaintCan judgementPaint = new ThemedPaintCan(SET, JudgementLinePaintName);
     private HashMap<InputEvent, HitObject> hitMap = new HashMap<>();
     private HashMap<InputEvent, HitObject> captureMap = new HashMap<>();
+
+    private HashMap<InputEvent, ArchiveInputEvent> activeArchiveMap = new HashMap<>();
+    private HashSet<ArchiveInputEvent> archive = new HashSet<>();
 
     private Source<Integer> passedPointer;
     private Source<Beatmap> beatmap;
@@ -106,6 +107,8 @@ public class Judgementer extends GameMenu {
             //If it is inside the bounds of the object, register it to light up
             if (x <= event.getPos().getX() && event.getPos().getX() <= x + width) {
                 captureMap.put(event, object);
+                //Also archive this event
+                activeArchiveMap.put(event, new ArchiveInputEvent(x + width/2, currentTime.getValue(), 0));
                 break;
             }
         }
@@ -120,6 +123,10 @@ public class Judgementer extends GameMenu {
             notifyObservers(new ObservationEvent<>(NOTE_RELEASE, object));
         }
         captureMap.remove(event); //Remove it from capture map. No need to check if its there.
+        ArchiveInputEvent archiveInputEvent = activeArchiveMap.remove(event); //Remove the event from the active map
+        if (archiveInputEvent != null) //If it actually exists
+            archiveInputEvent.endTime = currentTime.getValue();
+        archive.add(archiveInputEvent);
     }
 
     @Override
@@ -139,11 +146,13 @@ public class Judgementer extends GameMenu {
             for (int y = 0; y >= -GLOW_HEIGHT; y --){
                 for (InputEvent event : hitMap.keySet()){
                     HitObject object = hitMap.get(event);
-                    drawGlowLine(canvas, pos, size, y, object);
+                    if (object != null)
+                        drawGlowLine(canvas, pos, size, y, object);
                 }
                 for (InputEvent event : captureMap.keySet()){
                     HitObject object = captureMap.get(event);
-                    drawGlowLine(canvas, pos, size, y, object);
+                    if (object != null)
+                        drawGlowLine(canvas, pos, size, y, object);
                 }
             }
         }
@@ -159,5 +168,14 @@ public class Judgementer extends GameMenu {
         colorPaint.setColor(ColorCalculator.computeColor(object));
         colorPaint.setAlpha((int) (GLOW_OPACITY * (1+y/GLOW_HEIGHT)));
         canvas.drawRect(pos.add(new Vector(x, y)), new Vector(width, 1), colorPaint);
+    }
+
+    /**
+     * Getter for archive
+     *
+     * @return archive
+     */
+    public HashSet<ArchiveInputEvent> getArchive() {
+        return archive;
     }
 }

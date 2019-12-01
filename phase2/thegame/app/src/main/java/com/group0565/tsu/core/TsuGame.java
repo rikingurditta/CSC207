@@ -39,11 +39,12 @@ public class TsuGame extends GameObject implements EventObserver {
 
         this.engine = new TsuEngine();
         this.engine.setEnable(false);
+
         this.stats.setZ(1);
         this.stats.setEnable(false);
         this.adopt(engine);
         this.adopt(stats);
-        this.adopt(menu);
+
         menu.registerObserver(this);
         stats.registerObserver(this);
         engine.registerObserver(this);
@@ -52,7 +53,8 @@ public class TsuGame extends GameObject implements EventObserver {
     @Override
     public void postInit() {
         super.postInit();
-        this.engine.start();
+        this.engine.resetGame();
+        this.engine.startGame();
     }
 
     @Override
@@ -92,6 +94,23 @@ public class TsuGame extends GameObject implements EventObserver {
                     stats.setEnable(true);
                 }else
                     menu.setEnable(true);
+            }
+        }
+        else if (observable == engine){
+            if (event.isEvent(TsuEngine.GAME_END)){
+                Object payload = event.getPayload();
+                if (payload instanceof SessionHitObjects){
+                    List<SessionHitObjects> history = stats.getHistory();
+                    history = history == null ? new ArrayList<>() : history;
+                    history.add((SessionHitObjects) payload);
+                    updateStats(history);
+                    stats.setHistory(history);
+                    stats.setSelectedObject((SessionHitObjects) payload);
+                    stats.setEnable(true);
+                }else
+                    menu.setEnable(true);
+                engine.resetGame();
+                engine.setEnable(false);
             }
         }
     }

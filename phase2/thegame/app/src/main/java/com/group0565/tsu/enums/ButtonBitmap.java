@@ -11,7 +11,8 @@ public enum ButtonBitmap {
     AutoOffButton(13, 0), BackButton(8, 0),
     TimeButton(15, 0), TimeUpButton(16, 0), TimeDownButton(17, 0),
     ScoreButton(18, 0), ScoreUpButton(19, 0), ScoreDownButton(20, 0),
-    CheatIcon(21, 0);
+    CheatIcon(21, 0), ResumeButton(10, 0), HomeButton(11, 0),
+    PauseButton(9, 0);
 
     private static final String SET = "Tsu";
     private static final String BUTTON_SHEET = "Buttons";

@@ -23,6 +23,7 @@ import java.util.List;
 public class StatsMenu extends GameMenu implements Observable {
     //Event Constants
     public static final String HISTORY_UPDATE_EVENT = "History Updated";
+    public static final String EXIT_EVENT = "Stats Exitted";
 
     private static final Vector BUTTON_SIZE = new Vector(75);
     private static final Vector MARGIN = new Vector(75);
@@ -47,6 +48,7 @@ public class StatsMenu extends GameMenu implements Observable {
     //Full History Displayer Constants
     private static final String FullHistoryDisplayerName = "FullHistoryDisplayer";
 
+    private HistoryList historyList;
     private List<SessionHitObjects> history = null;
     private Sort sort = Sort.TimeDown;
 
@@ -54,11 +56,12 @@ public class StatsMenu extends GameMenu implements Observable {
     public void init() {
         super.init();
         ButtonBitmap.init(getEngine().getGameAssetManager());
-        HistoryList historyList;
+
         // @formatter:off
         this.build()
             .add(BackButtonName, new Button(BUTTON_SIZE, ButtonBitmap.BackButton.getBitmap()).build()
                 .addOffset(MARGIN)
+                .registerObserver(this::observeBack)
                 .close())
             .addAlignment(Left, THIS, Left)
             .addAlignment(Top, THIS, Top)
@@ -108,9 +111,7 @@ public class StatsMenu extends GameMenu implements Observable {
                 .close())
             .addCenteredAlignment(ScoreButtonName)
 
-            .add(FullHistoryDisplayerName, new FullHistoryDisplayer(this, new Vector(), new Vector()).build()
-                .addOffset(MARGIN.getX(), 0)
-                .close())
+            .add(FullHistoryDisplayerName, new FullHistoryDisplayer(historyList::getSelectedObject, new Vector()))
             .addAlignment(Left, HistoryListName, Right, MARGIN.getX())
             .addAlignment(Right, THIS, Right, -MARGIN.getX())
             .addAlignment(Top, THIS, Top, MARGIN.getY())
@@ -119,27 +120,27 @@ public class StatsMenu extends GameMenu implements Observable {
         // @formatter:on
     }
 
-    @Override
-    public void postInit() {
-        super.postInit();
-        List<SessionHitObjects> hitObjects = new ArrayList<>();
-        SessionHitObjects objects = new SessionHitObjects();
-        objects.addToList(new HitObject());
-        objects.addToList(new HitObject());
-        objects.setMaxCombo(100);
-        objects.setCheats(true);
-        objects.setScore(1000);
-        objects.setGrade(4);
-        objects.setDifficulty(5);
-        objects.setDatetime("ABCD");
-        hitObjects.add(objects);
-        hitObjects.add(objects);
-        hitObjects.add(objects);
-        hitObjects.add(objects);
-        hitObjects.add(objects);
-        hitObjects.add(objects);
-        this.setHistory(hitObjects);
-    }
+//    @Override
+//    public void postInit() {
+//        super.postInit();
+//        List<SessionHitObjects> hitObjects = new ArrayList<>();
+//        SessionHitObjects objects = new SessionHitObjects();
+//        objects.getHitObjects().add(new HitObject());
+//        objects.getHitObjects().add(new HitObject());
+//        objects.setMaxCombo(100);
+//        objects.setCheats(true);
+//        objects.setScore(1000);
+//        objects.setGrade(4);
+//        objects.setDifficulty(5);
+//        objects.setDatetime("ABCD");
+//        hitObjects.add(objects);
+//        hitObjects.add(objects);
+//        hitObjects.add(objects);
+//        hitObjects.add(objects);
+//        hitObjects.add(objects);
+//        hitObjects.add(objects);
+//        this.setHistory(hitObjects);
+//    }
 
     @Override
     public void draw(Canvas canvas) {
@@ -148,6 +149,12 @@ public class StatsMenu extends GameMenu implements Observable {
             canvas.drawRGB(255, 255, 255);
         else if (getGlobalPreferences().getTheme() == Themes.DARK)
             canvas.drawRGB(0, 0, 0);
+    }
+
+    private void observeBack(Observable observable, ObservationEvent<Sort> event){
+        if (event.isEvent(Button.EVENT_DOWN)){
+            this.notifyObservers(new ObservationEvent(EXIT_EVENT));
+        }
     }
 
     private void observeSort(Observable observable, ObservationEvent<Sort> event){
@@ -170,6 +177,10 @@ public class StatsMenu extends GameMenu implements Observable {
         if (history != null)
             Collections.sort(history, sort.comparator);
         this.notifyObservers(new ObservationEvent<>(HISTORY_UPDATE_EVENT, history));
+    }
+
+    public void setSelectedObject(SessionHitObjects object) {
+        historyList.setSelectedObject(object);
     }
 
     private enum Sort {

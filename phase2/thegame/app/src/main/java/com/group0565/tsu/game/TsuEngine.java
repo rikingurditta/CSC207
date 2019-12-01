@@ -451,6 +451,7 @@ public class TsuEngine extends GameObject implements Observer, Observable {
     @Override
     public void init() {
         super.init();
+        ButtonBitmap.init(getEngine().getGameAssetManager());
 
         this.build()
             .add(RendererName, (tsuRenderer = new TsuRenderer(new Vector(PlayAreaWidth, 0), this::getPassedPointer, this::getCurrentTime, this::getHitWindow, this::getHitObjects, this::getBeatmap)))
@@ -458,7 +459,7 @@ public class TsuEngine extends GameObject implements Observer, Observable {
             .addAlignment(Top, THIS, Top)
             .addAlignment(Bottom, THIS, Bottom)
 
-            .add(JudgementName, new Judgementer(new Vector(PlayAreaWidth, HIT_AREA), this::getPassedPointer, this::getBeatmap, this::getHitObjects, this::getCurrentTime).build()
+            .add(JudgementName, (judgementer = new Judgementer(new Vector(PlayAreaWidth, HIT_AREA), this::getPassedPointer, this::getBeatmap, this::getHitObjects, this::getCurrentTime)).build()
                 .setZ(1)
                 .registerObserver(this::observeJudgement)
                 .close())
@@ -482,6 +483,19 @@ public class TsuEngine extends GameObject implements Observer, Observable {
             .addAlignment(Right, THIS, Right)
             .addAlignment(Top, THIS, Top)
             .addAlignment(Bottom, THIS, Bottom)
+
+            .add(PauseMenuName, (pauseMenu = new PauseMenu(PauseMenuSize)).build()
+                .setZ(4)
+                .registerObserver(this::observePauseMenu)
+                .close())
+            .addAlignment(HCenter, THIS, HCenter)
+            .addAlignment(VCenter, THIS, VCenter)
+
+            .add(PauseButtonName, new Button(PauseButtonSize, ButtonBitmap.PauseButton.getBitmap()).setZ(5).build()
+                .registerObserver(this::observePauseButton)
+                .close())
+            .addAlignment(Left, THIS, Left, PauseButtonMargin.getX())
+            .addAlignment(Top, THIS, Top, PauseButtonMargin.getY())
         .close();
 
         Beatmap beatmap = new AndroidBeatmap("Tsu", "KOTOKO - unfinished (TV Size) (ljqandylee) [4K Accel]", getEngine().getGameAssetManager());
@@ -492,24 +506,38 @@ public class TsuEngine extends GameObject implements Observer, Observable {
     public void update(long ms) {
         super.update(ms);
         if (running){
-            if (currentTime / 1000 != (currentTime + ms)/1000)
-                System.out.println(currentTime - audio.progress());
+            //Increment our timer
             currentTime += ms;
+
+            //If our timer and the progress on the audio differs too much, update our timer
             if (currentTime >= 0 && Math.abs(currentTime - audio.progress()) > 50)
                 currentTime = Math.max(0, audio.progress());
-            if (currentTime + ms >= -128 && audio.progress() == 0)
-                audio.play();
 
+            //When our lead in almost ends, start the audio, accounting for the delay with starting the audio
+            if (currentTime + ms >= -START_OFFSET && !audioPlaying) {
+                audioPlaying = true;
+                audio.play();
+            }
+
+            //Update our pointer to the most recent active object
             while (passedPointer < hitObjects.size() && hitObjects.get(passedPointer).getMsEnd() < tsuRenderer.getScreenTime()) {
+                //If we havent reached the end and the most recent hitObject has gone off screen
                 HitObject object = hitObjects.get(passedPointer);
+                //If this object never got hit
                 if (object.getHitTime() < 0)
+                    //We grade it a Miss
                     observeJudgement(this, new ObservationEvent<>(Judgementer.NOTE_HIT, object));
+                //Increment our pointer to remove the object from our active section
                 passedPointer++;
+            }
+
+            if (passedPointer >= hitObjects.size()){
+                endGame();
             }
         }
     }
 
-    public void observeJudgement(Observable observable, ObservationEvent<HitObject> event){
+    private void observeJudgement(Observable observable, ObservationEvent<HitObject> event){
         if (event.isEvent(Judgementer.NOTE_HIT)) {
             lastHit = ScoreCalculator.computeScore(event.getPayload(), ScoreCalculator.calculateDistribution(beatmap.getDifficulty()), true);
             if (lastHit == S0)
@@ -521,12 +549,23 @@ public class TsuEngine extends GameObject implements Observer, Observable {
         }
     }
 
-    @Override
-    public void renderAll(Canvas canvas) {
-        super.renderAll(canvas);
+    private void observePauseButton(Observable observable, ObservationEvent event){
+        if (event.isEvent(Button.EVENT_DOWN)){
+            pauseGame();
+        }
     }
 
-    public void start(){
+    private void observePauseMenu(Observable observable, ObservationEvent<String> event){
+        if (event.isEvent(Button.EVENT_DOWN)){
+            if (event.getPayload().equals(PauseMenu.RESUME))
+                resumeGame();
+            else if(event.getPayload().equals(PauseMenu.HOME))
+                exitGame();
+        }
+    }
+
+
+    public void startGame(){
         if (beatmap != null && hitObjects != null && audio != null){
             audio.seekTo(0);
             currentTime = -beatmap.getLeadin() - hitWindow;
@@ -534,13 +573,44 @@ public class TsuEngine extends GameObject implements Observer, Observable {
         }
     }
 
+    @Override
+    public void pause() {
+        super.pause();
+        this.pauseGame();
+    }
+
+    public void pauseGame(){
+        if (audioPlaying)
+            audio.pause();
+        running = false;
+        audioPlaying = false;
+        pauseMenu.setEnable(true);
+    }
+
+    public void resumeGame(){
+        running = true;
+        pauseMenu.setEnable(false);
+    }
+
+    private void endGame(){
+        SessionHitObjects sessionHitObjects = ScoreCalculator.constructSessionHitObjects(beatmap, judgementer.getArchive());
+        if (getGlobalPreferences() instanceof Preferences)
+            sessionHitObjects.setCheats(((Preferences) getGlobalPreferences()).getAuto());
+        this.notifyObservers(new ObservationEvent<>(GAME_END, sessionHitObjects));
+    }
+
+    private void exitGame(){
+        this.notifyObservers(new ObservationEvent(GAME_END));
+    }
+
     /**
      * Resets the Tsu Engine
      */
-    public void reset(){
+    public void resetGame(){
         this.currentTime = 0;
         this.passedPointer = 0;
         this.running = false;
+        pauseMenu.setEnable(false);
     }
 
     /**

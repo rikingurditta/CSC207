@@ -102,7 +102,11 @@
         255,
         215,
         0
-      ]
+      ],
+      "Font": {
+        "Family": null,
+        "Style": "BOLD_ITALIC"
+      }
     },
     "SPaint": {
       "ARGB": [
@@ -110,7 +114,11 @@
         255,
         215,
         0
-      ]
+      ],
+      "Font": {
+        "Family": null,
+        "Style": "BOLD_ITALIC"
+      }
     },
     "APaint": {
       "ARGB": [
@@ -118,7 +126,11 @@
         255,
         0,
         255
-      ]
+      ],
+      "Font": {
+        "Family": null,
+        "Style": "BOLD_ITALIC"
+      }
     },
     "BPaint": {
       "ARGB": [
@@ -126,7 +138,11 @@
         0,
         255,
         255
-      ]
+      ],
+      "Font": {
+        "Family": null,
+        "Style": "BOLD_ITALIC"
+      }
     },
     "CPaint": {
       "ARGB": [
@@ -134,7 +150,11 @@
         0,
         255,
         0
-      ]
+      ],
+      "Font": {
+        "Family": null,
+        "Style": "BOLD_ITALIC"
+      }
     },
     "FPaint": {
       "ARGB": [
@@ -142,7 +162,11 @@
         255,
         0,
         0
-      ]
+      ],
+      "Font": {
+        "Family": null,
+        "Style": "BOLD_ITALIC"
+      }
     }
   }
 }
