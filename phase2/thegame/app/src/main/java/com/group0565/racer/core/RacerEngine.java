@@ -51,6 +51,8 @@ public class RacerEngine extends GameObject implements EventObserver, Observable
 
     private boolean alive = true;
 
+    private boolean paused = false;
+
     /**
      * Database object for game statistics
      */
@@ -91,6 +93,22 @@ public class RacerEngine extends GameObject implements EventObserver, Observable
         gameMenu.spawnObstacle();
     }
 
+    public boolean isPaused() {
+        return paused;
+    }
+
+    public void pauseGame() {
+        paused = true;
+        gameMenu.setEnable(false);
+        pauseMenu.setEnable(true);
+    }
+
+    public void unPauseGame() {
+        paused = false;
+        gameMenu.setEnable(true);
+        pauseMenu.setEnable(false);
+    }
+
     public void endGame() {
         alive = false;
         racer.setEnable(false);
@@ -115,7 +133,7 @@ public class RacerEngine extends GameObject implements EventObserver, Observable
      */
     @Override
     public void update(long ms) {
-        if (alive) {
+        if (alive && !paused) {
             spawnTime += ms;
             totalTime += ms;
             if (spawnTime >= spawnDelay) {

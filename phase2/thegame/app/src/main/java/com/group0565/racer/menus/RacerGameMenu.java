@@ -146,7 +146,11 @@ public class RacerGameMenu extends GameMenu implements Observable {
 
     public void observePauseButton(Observable observable, ObservationEvent event) {
         if (event.isEvent(Button.EVENT_DOWN)) {
-
+            if (engine.isPaused()) {
+                engine.unPauseGame();
+            } else {
+                engine.pauseGame();
+            }
         }
     }
 
