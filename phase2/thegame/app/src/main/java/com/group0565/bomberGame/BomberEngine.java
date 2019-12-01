@@ -28,7 +28,7 @@ import java.util.Map;
 import java.util.UUID;
 
 public class BomberEngine extends GameObject implements Observable {
-  private int GAME_DURATION = 60000;
+  private long GAME_DURATION = 60000;
 
   /** Create a STRONG reference to the listener so it won't get garbage collected */
   StatisticRepositoryInjector.RepositoryInjectionListener listener;
@@ -40,7 +40,7 @@ public class BomberEngine extends GameObject implements Observable {
   private BomberMan meBomberMan;
 
   /** The timer counting how many ms are left in the game. */
-  private int gameTimer;
+  private long gameTimer;
 
   private boolean gameEnded = false;
   private long startTime;
