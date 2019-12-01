@@ -1,5 +1,7 @@
 package com.group0565.bomberGame;
 
+import com.group0565.bomberGame.grid.Grid;
+import com.group0565.bomberGame.grid.GridObject;
 import com.group0565.engine.interfaces.Canvas;
 import com.group0565.engine.render.ThemedPaintCan;
 import com.group0565.math.Coords;
@@ -20,7 +22,7 @@ public class Droppable extends GridObject {
      * @param game The game this crate belongs to.
      * @param grid The grid this crate is within.
      */
-    public Droppable(Coords position, double z, SquareGrid grid, BomberEngine game) {
+    public Droppable(Coords position, double z, Grid grid, BomberEngine game) {
         super(position, z, grid);
         this.game = game;
         this.grid.addItem(this, position);
@@ -33,7 +35,7 @@ public class Droppable extends GridObject {
      * @param game The game this crate belongs to.
      * @param grid The grid this crate is within.
      */
-    public Droppable(Coords position, SquareGrid grid, BomberEngine  game) {
+    public Droppable(Coords position, Grid grid, BomberEngine  game) {
         this(position, 0, grid, game);
     }
 

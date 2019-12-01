@@ -2,15 +2,15 @@ package com.group0565.bomberGame.bombs;
 
 import com.group0565.bomberGame.BomberEngine;
 import com.group0565.bomberGame.BomberMan;
-import com.group0565.math.Coords;
-import com.group0565.bomberGame.GridObject;
-import com.group0565.bomberGame.SquareGrid;
+import com.group0565.bomberGame.grid.Grid;
+import com.group0565.bomberGame.grid.GridObject;
 import com.group0565.engine.interfaces.Canvas;
+import com.group0565.math.Coords;
 import com.group0565.math.Vector;
 
 public class NormalBomb extends Bomb {
 
-  public NormalBomb(Coords position, int z, BomberEngine game, SquareGrid grid, BomberMan placedBy) {
+  public NormalBomb(Coords position, int z, BomberEngine game, Grid grid, BomberMan placedBy) {
     super(position, z, game, grid, placedBy);
   }
 

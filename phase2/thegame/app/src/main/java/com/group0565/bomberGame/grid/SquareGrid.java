@@ -1,37 +1,23 @@
-package com.group0565.bomberGame;
+package com.group0565.bomberGame.grid;
 
 import android.util.Log;
 
-import com.group0565.bomberGame.obstacles.Crate;
-import com.group0565.engine.gameobjects.GameObject;
+import com.group0565.bomberGame.BomberEngine;
 import com.group0565.engine.interfaces.Canvas;
 import com.group0565.engine.render.ThemedPaintCan;
 import com.group0565.math.Coords;
 import com.group0565.math.Vector;
 
-import java.util.HashSet;
-import java.util.Set;
-
 /** A grid with square-shaped tiles. */
-public class SquareGrid extends GameObject {
+public class SquareGrid extends Grid {
   /** How many tiles wide the grid is. */
   private final int width;
   /** How many tiles tall the grid is. */
   private final int height;
-  /** The items in this grid. */
-  private final Set<GridObject> items = new HashSet<>();
-  /** The items to be added to the grid on the next update. */
-  private final Set<GridObject> itemsToBeAdded = new HashSet<>();
-  /** The items to be removed from the grid on the next update. */
-  private final Set<GridObject> itemsToBeRemoved = new HashSet<>();
-  /** How wide each tile is, in pixels. */
-  private int tileWidth;
   /** How wide the grid is, in pixels. */
   private float windowWidth;
   /** How tall the grid is, in pixels. */
   private float windowHeight;
-  /** The game that this SquareGrid is for. * */
-  private BomberEngine game;
   /** PaintCan for this grid's lines. */
   private ThemedPaintCan paintCan = new ThemedPaintCan("Bomber", "Grid.Line");
 
@@ -43,15 +29,13 @@ public class SquareGrid extends GameObject {
    * @param width How many tiles wide this grid is.
    * @param height How many tiles tall this grid is.
    * @param tileWidth How wide each tile is, in pixels.
-   * @param game
+   * @param game The game this SquareGrid belongs to.
    */
   public SquareGrid(
       Vector position, double z, int width, int height, int tileWidth, BomberEngine game) {
-    super(position, z);
+    super(position, z, tileWidth, game);
     this.width = width;
     this.height = height;
-    this.tileWidth = tileWidth;
-    this.game = game;
     this.windowWidth = width * tileWidth;
     this.windowHeight = height * tileWidth;
   }
@@ -74,39 +58,6 @@ public class SquareGrid extends GameObject {
     super.init();
     Log.i("SquareGrid", "init");
     paintCan.init(getGlobalPreferences(), getEngine().getGameAssetManager());
-  }
-
-  /**
-   * Add an item to the grid.
-   *
-   * @param g The object to be added.
-   * @param gridPosition The position in the grid to add the object.
-   * @return Whether the item is already in the grid or is already queued to be added.
-   */
-  public boolean addItem(GridObject g, Coords gridPosition) {
-    if (items.contains(g)) {
-      return false;
-    }
-    return itemsToBeAdded.add(g);
-  }
-
-  /**
-   * Remove an item from the grid.
-   *
-   * @param g The item to be removed.
-   * @return Whether the item is already queued to be removed.
-   */
-  public boolean remove(GridObject g) {
-    return itemsToBeRemoved.add(g);
-  }
-
-  @Override
-  public void update(long ms) {
-    // update the items in the grid
-    items.removeAll(itemsToBeRemoved);
-    itemsToBeRemoved.clear();
-    items.addAll(itemsToBeAdded);
-    itemsToBeAdded.clear();
   }
 
   @Override
@@ -139,16 +90,6 @@ public class SquareGrid extends GameObject {
     return p.x >= 0 && p.x < width && p.y >= 0 && p.y < height;
   }
 
-  /** @return true if g can move to the tile with coordinates p. */
-  public boolean isValidMove(GridObject g, Coords p) {
-    for (GridObject item : items) {
-      if (!item.isDroppable() && item != g && item.gridCoords.equals(p)) {
-        return false;
-      }
-    }
-    return isValidTile(p);
-  }
-
   /** @return the absolute position of the the tile with coordinates p, whether or not it exists. */
   public Vector gridCoordsToAbsolutePosition(Coords p) {
     // TODO: maybe throw an error if there is no tile with coordinates p
@@ -156,46 +97,9 @@ public class SquareGrid extends GameObject {
     return new Vector(pos.getX() + p.x * tileWidth, pos.getY() + p.y * tileWidth);
   }
 
-  public Set<GridObject> getItems() {
-    return items;
-  }
-
-  public boolean canPlaceBomb(Coords p) {
-    for (GridObject g : items) {
-      if (g.gridCoords.equals(p) && g.isBomb()) {
-        return false;
-      }
-    }
-    for (GridObject g : itemsToBeAdded) {
-      if (g.gridCoords.equals(p) && g.isBomb()) {
-        return false;
-      }
-    }
-    return true;
-  }
-
-  public void makeRandomCrate() {
-    boolean done;
-    Coords r;
-    do {
-      done = true;
-      r = Coords.random(0, 0, width, height);
-      for (GridObject g : items) {
-        if (g.gridCoords.equals(r)) {
-          done = false;
-        }
-      }
-      for (GridObject g : itemsToBeAdded) {
-        if (g.gridCoords.equals(r)) {
-          done = false;
-        }
-      }
-    } while (!done);
-    Crate c = new Crate(r, 10, this, game);
-    game.adoptLater(c);
-  }
-
-  public int getTileWidth() {
-    return this.tileWidth;
+  @Override
+  /** @return The position of a random valid tile on the grid. */
+  public Coords randomCoordsInGrid() {
+    return Coords.random(0, 0, width, height);
   }
 }

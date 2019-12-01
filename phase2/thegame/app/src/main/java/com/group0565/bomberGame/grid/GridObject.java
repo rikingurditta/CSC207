@@ -1,11 +1,11 @@
-package com.group0565.bomberGame;
+package com.group0565.bomberGame.grid;
 
 import com.group0565.engine.gameobjects.GameObject;
 import com.group0565.math.Coords;
 
 public abstract class GridObject extends GameObject {
   /** The grid this object belongs to. */
-  protected final SquareGrid grid;
+  protected final Grid grid;
 
   /** This object's position on the grid. */
   protected Coords gridCoords;
@@ -17,7 +17,7 @@ public abstract class GridObject extends GameObject {
    * @param z The z-level of the object.
    * @param grid The grid this object is within.
    */
-  public GridObject(Coords position, double z, SquareGrid grid) {
+  public GridObject(Coords position, double z, Grid grid) {
     super(grid.gridCoordsToAbsolutePosition(position), z);
     this.gridCoords = position;
     this.grid = grid;
@@ -29,7 +29,7 @@ public abstract class GridObject extends GameObject {
    * @param position The position of this object on the grid.
    * @param grid The grid this object is within.
    */
-  public GridObject(Coords position, SquareGrid grid) {
+  public GridObject(Coords position, Grid grid) {
     this(position, 0, grid);
   }
 

@@ -1,9 +1,9 @@
 package com.group0565.bomberGame.obstacles;
 
-import com.group0565.bomberGame.Droppable;
-import com.group0565.bomberGame.GridObject;
-import com.group0565.bomberGame.SquareGrid;
 import com.group0565.bomberGame.BomberEngine;
+import com.group0565.bomberGame.Droppable;
+import com.group0565.bomberGame.grid.Grid;
+import com.group0565.bomberGame.grid.GridObject;
 import com.group0565.engine.gameobjects.GameObject;
 import com.group0565.engine.interfaces.Canvas;
 import com.group0565.engine.render.ThemedPaintCan;
@@ -27,7 +27,7 @@ public class Crate extends GridObject {
    * @param game The game this crate belongs to.
    * @param grid The grid this crate is within.
    */
-  public Crate(Coords position, double z, SquareGrid grid, BomberEngine game) {
+  public Crate(Coords position, double z, Grid grid, BomberEngine game) {
     super(position, z, grid);
     this.game = game;
     this.grid.addItem(this, position);
@@ -40,7 +40,7 @@ public class Crate extends GridObject {
    * @param game The game this crate belongs to.
    * @param grid The grid this crate is within.
    */
-  public Crate(Coords position, SquareGrid grid, BomberEngine game) {
+  public Crate(Coords position, Grid grid, BomberEngine game) {
     this(position, 0, grid, game);
   }
 
@@ -60,7 +60,6 @@ public class Crate extends GridObject {
       GameObject loot = new Droppable(gridCoords, -2, grid, this.game);
       game.adoptLater(loot);
     }
-
   }
 
   @Override

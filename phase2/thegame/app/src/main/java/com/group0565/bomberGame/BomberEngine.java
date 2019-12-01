@@ -2,6 +2,7 @@ package com.group0565.bomberGame;
 
 import android.util.Log;
 
+import com.group0565.bomberGame.grid.SquareGrid;
 import com.group0565.bomberGame.input.InputSystem;
 import com.group0565.bomberGame.input.JoystickInput;
 import com.group0565.bomberGame.input.RandomInput;

@@ -2,8 +2,8 @@ package com.group0565.bomberGame.bombs;
 
 import com.group0565.bomberGame.BomberEngine;
 import com.group0565.bomberGame.BomberMan;
-import com.group0565.bomberGame.GridObject;
-import com.group0565.bomberGame.SquareGrid;
+import com.group0565.bomberGame.grid.Grid;
+import com.group0565.bomberGame.grid.GridObject;
 import com.group0565.engine.render.ThemedPaintCan;
 import com.group0565.math.Coords;
 
@@ -27,7 +27,7 @@ public abstract class Bomb extends GridObject {
   /** PaintCan for the current state of the bomb. */
   protected ThemedPaintCan currPaintCan = buildup1PaintCan;
 
-  public Bomb(Coords position, int z, BomberEngine game, SquareGrid grid, BomberMan placedBy) {
+  public Bomb(Coords position, int z, BomberEngine game, Grid grid, BomberMan placedBy) {
     super(position, z, grid);
     this.game = game;
     this.placedBy = placedBy;

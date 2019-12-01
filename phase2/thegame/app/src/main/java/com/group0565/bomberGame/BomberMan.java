@@ -3,6 +3,8 @@ package com.group0565.bomberGame;
 import android.util.Log;
 
 import com.group0565.bomberGame.bombs.NormalBomb;
+import com.group0565.bomberGame.grid.Grid;
+import com.group0565.bomberGame.grid.GridObject;
 import com.group0565.bomberGame.input.BomberInput;
 import com.group0565.bomberGame.input.InputSystem;
 import com.group0565.engine.gameobjects.GameObject;
@@ -68,7 +70,7 @@ public class BomberMan extends GridObject {
       double z,
       InputSystem inputSystem,
       BomberEngine game,
-      SquareGrid grid,
+      Grid grid,
       int hp) {
     super(position, z, grid);
     this.inputSystem = inputSystem;
@@ -85,7 +87,7 @@ public class BomberMan extends GridObject {
    * @param grid The grid this player is within.
    */
   public BomberMan(
-          Coords position, InputSystem inputSystem, BomberEngine game, SquareGrid grid, int hp) {
+          Coords position, InputSystem inputSystem, BomberEngine game, Grid grid, int hp) {
     this(position, 0, inputSystem, game, grid, hp);
   }
 
