@@ -53,6 +53,53 @@
         "TileWidth": 280,
         "TileHeight": 280
       }
+    },
+    "Bomber": {
+      "Title": {
+        "Path": "Bomber_Title_TEMP.png",
+        "TileWidth": 593,
+        "TileHeight": 249
+      },
+      "To_Menu": {
+        "Path": "Bomber_To_Menu_TEMP.png",
+        "TileWidth": 593,
+        "TileHeight": 249
+      },
+      "Grid_Objects": {
+        "Path": "Bomber_Grid_Objects.png",
+        "TileWidth": 64,
+        "TileHeight": 64
+      },
+      "Fire_Power_6": {
+        "Path": "Bomber_Fire_Power_6.png",
+        "TileWidth": 256,
+        "TileHeight": 256
+      },
+      "Fire_Power_MAX": {
+        "Path": "Bomber_Fire_Power_MAX.png",
+        "TileWidth": 256,
+        "TileHeight": 256
+      },
+      "Multiple_Bomb_5": {
+        "Path": "Bomber_Multiple_Bomb_5.png",
+        "TileWidth": 256,
+        "TileHeight": 256
+      },
+      "Multiple_Bomb_6": {
+        "Path": "Bomber_Multiple_Bomb_6.png",
+        "TileWidth": 256,
+        "TileHeight": 256
+      },
+      "Two_bombs_at_once": {
+        "Path": "Bomber_Two_bombs_at_once.png",
+        "TileWidth": 256,
+        "TileHeight": 256
+      },
+      "Three_bombs_at_once": {
+        "Path": "Bomber_Three_bombs_at_once.png",
+        "TileWidth": 256,
+        "TileHeight": 256
+      }
     }
   },
   "Audio": {
@@ -160,5 +207,6 @@
   "Achievements": {
     "Tsu": "Tsu.json",
     "Racer": "Racer.json"
+    "BomberMan": "BomberMan.json"
   }
 }

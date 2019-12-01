@@ -1,0 +1,68 @@
+{
+  "Bomber_Fire_Power_6": {
+    "DisplayName": "Fire Power 6",
+    "Icon": {
+      "Set": "Bomber",
+      "Sheet": "Fire_Power_6",
+      "Tile X": 0,
+      "Tile Y": 0
+    },
+    "Description": "Fire Power 6",
+    "Hidden": false
+  },
+  "Bomber_Fire_Power_MAX": {
+    "DisplayName": "MAX FIRE POWER",
+    "Icon": {
+      "Set": "Bomber",
+      "Sheet": "Fire_Power_MAX",
+      "Tile X": 0,
+      "Tile Y": 0
+    },
+    "Description": "Fire Power MAX",
+    "Hidden": false
+  },
+  "Bomber_Multiple_Bomb_5": {
+    "DisplayName": "Multiple Bomb 5",
+    "Icon": {
+      "Set": "Bomber",
+      "Sheet": "Multiple_Bomb_5",
+      "Tile X": 0,
+      "Tile Y": 0
+    },
+    "Description": "Multiple Bomb 5",
+    "Hidden": false
+  },
+  "Bomber_Multiple_Bomb_6": {
+    "DisplayName": "Multiple Bomb 6",
+    "Icon": {
+      "Set": "Bomber",
+      "Sheet": "Multiple_Bomb_6",
+      "Tile X": 0,
+      "Tile Y": 0
+    },
+    "Description": "Multiple Bomb 6",
+    "Hidden": false
+  },
+  "Bomber_Two_bombs_at_once": {
+    "DisplayName": "You've placed 2 bombs at once",
+    "Icon": {
+      "Set": "Bomber",
+      "Sheet": "Two_bombs_at_once",
+      "Tile X": 0,
+      "Tile Y": 0
+    },
+    "Description": "placed three bombs at once",
+    "Hidden": false
+  },
+  "Bomber_Three_bombs_at_once": {
+    "DisplayName": "You've placed 3 bombs at once",
+    "Icon": {
+      "Set": "Bomber",
+      "Sheet": "Three_bombs_at_once",
+      "Tile X": 0,
+      "Tile Y": 0
+    },
+    "Description": "placed three bombs at once",
+    "Hidden": false
+  }
+}

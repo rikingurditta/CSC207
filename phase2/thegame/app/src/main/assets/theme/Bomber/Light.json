@@ -24,9 +24,9 @@
     "LinePaint": {
       "ARGB": [
         255,
-        255,
-        255,
-        255
+        0,
+        0,
+        0
       ],
       "StrokeWidth": 1
     }
@@ -108,6 +108,24 @@
         102,
         46,
         10
+      ]
+    }
+  },
+  "Droppable": {
+    "FirepowerDroppablePaint": {
+      "ARGB": [
+        255,
+        255,
+        0,
+        255
+      ]
+    },
+    "MultiplebombDroppablePaint": {
+      "ARGB": [
+        255,
+        10,
+        255,
+        250
       ]
     }
   }

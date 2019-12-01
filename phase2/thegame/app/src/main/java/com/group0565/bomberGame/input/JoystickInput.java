@@ -28,6 +28,7 @@ public class JoystickInput extends InputSystem {
 
   /** PaintCans for the joystick and button. */
   private ThemedPaintCan stickPaintCan = new ThemedPaintCan("Bomber", "Joystick.Stick");
+
   private ThemedPaintCan buttonPaintCan = new ThemedPaintCan("Bomber", "Joystick.Button");
 
   /**

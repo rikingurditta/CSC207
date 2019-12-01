@@ -1,12 +1,20 @@
-package com.group0565.bomberGame;
+package com.group0565.bomberGame.core;
 
+import android.util.Log;
+
+import com.group0565.bomberGame.grid.SquareGrid;
+import com.group0565.bomberGame.gridobjects.BomberMan;
 import com.group0565.bomberGame.input.InputSystem;
 import com.group0565.bomberGame.input.JoystickInput;
 import com.group0565.bomberGame.input.RandomInput;
+import com.group0565.bomberGame.menus.GameOverMenu;
 import com.group0565.engine.assets.GameAssetManager;
+import com.group0565.engine.gameobjects.GameMenu;
 import com.group0565.engine.gameobjects.GameObject;
 import com.group0565.engine.gameobjects.GlobalPreferences;
 import com.group0565.engine.interfaces.Canvas;
+import com.group0565.engine.interfaces.Observable;
+import com.group0565.engine.interfaces.ObservationEvent;
 import com.group0565.engine.render.LanguageText;
 import com.group0565.engine.render.ThemedPaintCan;
 import com.group0565.math.Coords;
@@ -20,67 +28,109 @@ import java.util.ArrayList;
 import java.util.Map;
 import java.util.UUID;
 
-public class BomberGame extends GameObject {
+public class BomberEngine extends GameObject implements Observable {
+  private static final long GAME_DURATION = 120000;
+  public static final String GAME_NAME = "BomberGame";
 
   /** Create a STRONG reference to the listener so it won't get garbage collected */
   StatisticRepositoryInjector.RepositoryInjectionListener listener;
 
   private ArrayList<GameObject> itemsToBeAdopted = new ArrayList<>();
   private ArrayList<GameObject> itemsToBeRemoved = new ArrayList<>();
+
+  /** The user's BomberMan. */
   private BomberMan meBomberMan;
-  private int gameTimer = 60000;
+
+  /** The timer counting how many ms are left in the game. */
+  private long gameTimer;
+
   private boolean gameEnded = false;
   private long startTime;
   /** The repository to interact with the stats DB */
   private IAsyncStatisticsRepository myStatRepo;
 
+  /** LanguageTexts for in-game time/stats displays. */
   private LanguageText bombsPlacedLT;
+
   private LanguageText damageDealtLT;
   private LanguageText hpRemainingLT;
   private LanguageText timeLeftLT;
-  private LanguageText gameOverLT;
-  private ThemedPaintCan bgPaintCan = new ThemedPaintCan("Bomber", "Background.Background");
-  private ThemedPaintCan textPaintCan = new ThemedPaintCan("Bomber", "Text.Text");
+  private ThemedPaintCan bgPaintCan;
+  private ThemedPaintCan textPaintCan;
 
-  public BomberGame(Vector position) {
-    super(position);
-    InputSystem joystickInput =
-        new JoystickInput(new Vector(150, 750), 100, new Vector(0, 0), new Vector(1700, 100), 100);
-    adopt(joystickInput);
-    InputSystem randomInput = new RandomInput(1000);
-    adopt(randomInput);
-    SquareGrid grid = new SquareGrid(new Vector(100, 100), 0, 15, 8, 100, this);
-    adopt(grid);
-    BomberMan bm = new BomberMan(new Coords(0, 0), 20, joystickInput, this, grid, 10);
-    adopt(bm);
-    meBomberMan = bm;
-    BomberMan bm2 = new BomberMan(new Coords(10, 6), 20, randomInput, this, grid, 10);
-    adopt(bm2);
-    // make 25 crates
-    for (int i = 0; i < 25; i++) grid.makeRandomCrate();
+  /** Menu with options for what to do when game is over. */
+  private GameMenu gameOverMenu;
 
-    listener =
-        repository -> {
-          myStatRepo = repository;
-        };
-    StatisticRepositoryInjector.inject("BomberGame", listener);
+  /** Create a new game. Construct game grid and objects within it. */
+  public BomberEngine() {
+    super(new Vector());
   }
 
   @Override
   public void init() {
-    updateChildren();
-    super.init();
+    listener =
+        repository -> {
+          myStatRepo = repository;
+        };
+    StatisticRepositoryInjector.inject(GAME_NAME, listener);
+
+    gameEnded = false;
+
+    // set time stuff
+    gameTimer = GAME_DURATION;
     startTime = System.currentTimeMillis();
+
+    // TODO: reposition, rescale displayed objects based on screen size
+
+    // TODO: figure out how to properly init without using adoptLater
+
+    // create grid
+    SquareGrid grid = new SquareGrid(new Vector(100, 100), 0, 17, 8, 100, this);
+    adoptLater(grid);
+
+    // create player
+    InputSystem joystickInput =
+        new JoystickInput(new Vector(150, 750), 100, new Vector(0), new Vector(1700, 100), 100);
+    adoptLater(joystickInput);
+    meBomberMan = new BomberMan(new Coords(0, 0), 20, joystickInput, this, grid, 10);
+    adoptLater(meBomberMan);
+
+    // create NPC player using RandomInput
+
+    InputSystem randomInput = new RandomInput(1000);
+    adoptLater(randomInput);
+    BomberMan bm2 = new BomberMan(new Coords(10, 6), 20, randomInput, this, grid, 10);
+    adoptLater(bm2); /**/
+
+    // make 25 crates
+    for (int i = 0; i < 25; i++) grid.makeRandomCrate();
+
+    // create game over menu
+    gameOverMenu = new GameOverMenu(new Vector(625, 625));
+    gameOverMenu.setAbsolutePosition(new Vector(500, 250));
+    gameOverMenu.setZ(1000);
+    gameOverMenu.setEnable(false);
+    gameOverMenu.registerObserver(this::observeGameOverMenu);
+    adoptLater(gameOverMenu);
 
     GlobalPreferences gp = getGlobalPreferences();
     GameAssetManager am = getEngine().getGameAssetManager();
+    bgPaintCan = new ThemedPaintCan("Bomber", "Background.Background");
+    textPaintCan = new ThemedPaintCan("Bomber", "Text.Text");
     bgPaintCan.init(gp, am);
     textPaintCan.init(gp, am);
-    gameOverLT = new LanguageText(gp, am, "Bomber", "Game_Over");
     bombsPlacedLT = new LanguageText(gp, am, "Bomber", "Bombs_Placed");
     damageDealtLT = new LanguageText(gp, am, "Bomber", "Damage_Dealt");
     hpRemainingLT = new LanguageText(gp, am, "Bomber", "HP_Remaining");
     timeLeftLT = new LanguageText(gp, am, "Bomber", "Time_Left");
+
+    updateChildren();
+    super.init();
+  }
+
+  public void restartEngine() {
+    getChildren().clear();
+    init();
   }
 
   @Override
@@ -89,14 +139,10 @@ public class BomberGame extends GameObject {
     // Fill background with White
     canvas.drawColor(bgPaintCan.getPaint().getColor());
 
-    if (!gameEnded) {
-      canvas.drawText(
-          timeLeftLT.getValue() + ": " + Math.floor(gameTimer / 1000) + "s",
-          new Vector(1600, 200),
-          textPaintCan);
-    } else {
-      canvas.drawText(gameOverLT.getValue(), new Vector(1600, 200), textPaintCan);
-    }
+    canvas.drawText(
+        timeLeftLT.getValue() + ": " + Math.floor(gameTimer / 1000) + "s",
+        new Vector(1600, 200),
+        textPaintCan);
     canvas.drawText(
         bombsPlacedLT.getValue() + ": " + meBomberMan.getNumBombsPlaced(),
         new Vector(1600, 260),
@@ -107,37 +153,36 @@ public class BomberGame extends GameObject {
         textPaintCan);
     canvas.drawText(
         hpRemainingLT.getValue() + ": " + meBomberMan.getHp(), new Vector(1600, 380), textPaintCan);
+
+    canvas.drawText(
+        "Max Bombs: " + meBomberMan.getNumSimultaneousBombs(), new Vector(450, 920), textPaintCan);
+    canvas.drawText(
+        "Bomb Strength: " + meBomberMan.getBombStrength(), new Vector(850, 910), textPaintCan);
   }
 
   @Override
   public void update(long ms) {
-    updateChildren();
-
-    if (gameTimer <= 0 && !gameEnded) {
-      sendStats();
-      gameEnded = true;
-
-    } else {
-      if (gameEnded) {
-        // TODO need to write code from proper game ending procedure
-        System.out.println("game ended");
+    if (!gameEnded) {
+      if (gameTimer <= 0) {
+        endGame(true);
       } else {
         // gameTimer > 0
         gameTimer -= ms;
+        updateChildren();
       }
     }
   }
 
   private void updateChildren() {
     for (GameObject item : itemsToBeAdopted) {
-      this.adopt(item);
+      adopt(item);
       item.init();
     }
     itemsToBeAdopted.clear();
 
     for (GameObject item : itemsToBeRemoved) {
       UUID objID = item.getUUID();
-      Map<UUID, GameObject> gameChildren = this.getChildren();
+      Map<UUID, GameObject> gameChildren = getChildren();
       gameChildren.remove(objID);
     }
     itemsToBeRemoved.clear();
@@ -166,5 +211,28 @@ public class BomberGame extends GameObject {
 
   public void removeLater(GameObject obj) {
     itemsToBeRemoved.add(obj);
+  }
+
+  public void observeGameOverMenu(Observable observable, ObservationEvent event) {
+    if (event.getMsg().equals("To menu")) {
+      Log.i("BomberEngine", "To menu");
+      notifyObservers(new ObservationEvent("To menu"));
+    }
+  }
+
+  private void endGame(boolean finished) {
+    if (finished) {
+      sendStats();
+    }
+    setEnded(true);
+    gameOverMenu.setEnable(true);
+  }
+
+  public boolean hasEnded() {
+    return gameEnded;
+  }
+
+  public void setEnded(boolean ended) {
+    gameEnded = ended;
   }
 }
