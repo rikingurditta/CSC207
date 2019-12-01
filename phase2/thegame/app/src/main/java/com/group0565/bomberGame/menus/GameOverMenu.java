@@ -1,7 +1,12 @@
 package com.group0565.bomberGame.menus;
 
+import android.util.Log;
+
+import com.group0565.engine.gameobjects.Button;
 import com.group0565.engine.gameobjects.GameMenu;
 import com.group0565.engine.interfaces.Canvas;
+import com.group0565.engine.interfaces.Observable;
+import com.group0565.engine.interfaces.ObservationEvent;
 import com.group0565.engine.render.LanguageText;
 import com.group0565.engine.render.TextRenderer;
 import com.group0565.engine.render.ThemedPaintCan;
@@ -30,14 +35,33 @@ public class GameOverMenu extends GameMenu {
         new LanguageText(
             getGlobalPreferences(), getEngine().getGameAssetManager(), "Bomber", "Game_Over");
 
-    MenuBuilder b = this.build();
-    b.add("GameOverText", new TextRenderer(new Vector(), gameOverLT.getValue(), textPaintCan))
+    build()
+        .add("GameOverText", new TextRenderer(new Vector(), gameOverLT.getValue(), textPaintCan))
+        .add(
+            "BackButton",
+            new Button(
+                    new Vector(593, 249).multiply(0.75f),
+                    getEngine().getGameAssetManager(),
+                    "Bomber",
+                    "To_Menu")
+                .build()
+                .registerObserver(this::observeBackButton)
+                .addOffset(new Vector(0, 150))
+                .close())
         .close();
+  }
+
+  private void observeBackButton(Observable observable, ObservationEvent event) {
+    Log.i("GameOverMenu", "BackButton");
+    if (!event.getMsg().equals("Observer Registered")) {
+      Log.i("GameOverMenu", "To menu");
+      notifyObservers(new ObservationEvent("To menu"));
+    }
   }
 
   @Override
   public void draw(Canvas canvas, Vector pos, Vector size) {
     super.draw(canvas, pos, size);
-    canvas.drawRoundRect(pos, size, new Vector(1), bgPaintCan);
+    canvas.drawRoundRect(pos, size, new Vector(50), bgPaintCan);
   }
 }

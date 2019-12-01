@@ -33,6 +33,18 @@
         "TileWidth": 256,
         "TileHeight": 256
       }
+    },
+    "Bomber": {
+      "Title": {
+        "Path": "Bomber_Title_TEMP.png",
+        "TileWidth": 593,
+        "TileHeight": 249
+      },
+      "To_Menu": {
+        "Path": "Bomber_To_Menu_TEMP.png",
+        "TileWidth": 593,
+        "TileHeight": 249
+      }
     }
   },
   "Audio": {

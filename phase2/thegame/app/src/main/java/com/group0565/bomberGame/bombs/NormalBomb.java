@@ -1,6 +1,6 @@
 package com.group0565.bomberGame.bombs;
 
-import com.group0565.bomberGame.BomberGame;
+import com.group0565.bomberGame.BomberEngine;
 import com.group0565.bomberGame.BomberMan;
 import com.group0565.math.Coords;
 import com.group0565.bomberGame.GridObject;
@@ -10,7 +10,7 @@ import com.group0565.math.Vector;
 
 public class NormalBomb extends Bomb {
 
-  public NormalBomb(Coords position, int z, BomberGame game, SquareGrid grid, BomberMan placedBy) {
+  public NormalBomb(Coords position, int z, BomberEngine game, SquareGrid grid, BomberMan placedBy) {
     super(position, z, game, grid, placedBy);
   }
 

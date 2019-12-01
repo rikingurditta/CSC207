@@ -15,7 +15,7 @@ import com.group0565.math.Vector;
 public class BomberMan extends GridObject {
 
   /** The game this BomberMan belongs to. */
-  private BomberGame game;
+  private BomberEngine game;
 
   /**
    * The object processing the input for this player. Is adopted by this BomberMan, so all input
@@ -67,7 +67,7 @@ public class BomberMan extends GridObject {
       Coords position,
       double z,
       InputSystem inputSystem,
-      BomberGame game,
+      BomberEngine game,
       SquareGrid grid,
       int hp) {
     super(position, z, grid);
@@ -85,7 +85,7 @@ public class BomberMan extends GridObject {
    * @param grid The grid this player is within.
    */
   public BomberMan(
-      Coords position, InputSystem inputSystem, BomberGame game, SquareGrid grid, int hp) {
+          Coords position, InputSystem inputSystem, BomberEngine game, SquareGrid grid, int hp) {
     this(position, 0, inputSystem, game, grid, hp);
   }
 

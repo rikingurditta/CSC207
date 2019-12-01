@@ -1,6 +1,6 @@
 package com.group0565.bomberGame.bombs;
 
-import com.group0565.bomberGame.BomberGame;
+import com.group0565.bomberGame.BomberEngine;
 import com.group0565.bomberGame.BomberMan;
 import com.group0565.bomberGame.GridObject;
 import com.group0565.bomberGame.SquareGrid;
@@ -15,7 +15,7 @@ public abstract class Bomb extends GridObject {
   private long bombExplodeTime = 5000;
   private long explosionDuration = 1000;
   private long bombTimer = 0;
-  private BomberGame game;
+  private BomberEngine game;
 
   /** PaintCans for the various colour stages of the bomb's life cycle. */
   private ThemedPaintCan buildup1PaintCan = new ThemedPaintCan("Bomber", "Bomb.Buildup1");
@@ -27,7 +27,7 @@ public abstract class Bomb extends GridObject {
   /** PaintCan for the current state of the bomb. */
   protected ThemedPaintCan currPaintCan = buildup1PaintCan;
 
-  public Bomb(Coords position, int z, BomberGame game, SquareGrid grid, BomberMan placedBy) {
+  public Bomb(Coords position, int z, BomberEngine game, SquareGrid grid, BomberMan placedBy) {
     super(position, z, grid);
     this.game = game;
     this.placedBy = placedBy;

@@ -15,7 +15,7 @@ import androidx.cardview.widget.CardView;
 import androidx.lifecycle.LifecycleOwner;
 
 import com.example.thegame.R;
-import com.group0565.bomberGame.BomberMainActivity;
+import com.group0565.bomberGame.core.BomberMainActivity;
 import com.group0565.menuUI.achievements.AchievementsActivity;
 import com.group0565.racerGame.RacerMainActivity;
 import com.group0565.menuUI.locale.LocaleManager;

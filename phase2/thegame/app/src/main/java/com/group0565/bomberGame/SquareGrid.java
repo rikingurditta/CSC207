@@ -1,5 +1,7 @@
 package com.group0565.bomberGame;
 
+import android.util.Log;
+
 import com.group0565.bomberGame.obstacles.Crate;
 import com.group0565.engine.gameobjects.GameObject;
 import com.group0565.engine.interfaces.Canvas;
@@ -29,7 +31,7 @@ public class SquareGrid extends GameObject {
   /** How tall the grid is, in pixels. */
   private float windowHeight;
   /** The game that this SquareGrid is for. * */
-  private BomberGame game;
+  private BomberEngine game;
   /** PaintCan for this grid's lines. */
   private ThemedPaintCan paintCan = new ThemedPaintCan("Bomber", "Grid.Line");
 
@@ -44,7 +46,7 @@ public class SquareGrid extends GameObject {
    * @param game
    */
   public SquareGrid(
-      Vector position, double z, int width, int height, int tileWidth, BomberGame game) {
+      Vector position, double z, int width, int height, int tileWidth, BomberEngine game) {
     super(position, z);
     this.width = width;
     this.height = height;
@@ -63,13 +65,14 @@ public class SquareGrid extends GameObject {
    * @param tileWidth How wide each tile is, in pixels.
    * @param game Main Game gameOBJ
    */
-  public SquareGrid(Vector position, int width, int height, int tileWidth, BomberGame game) {
+  public SquareGrid(Vector position, int width, int height, int tileWidth, BomberEngine game) {
     this(position, 0, width, height, tileWidth, game);
   }
 
   @Override
   public void init() {
     super.init();
+    Log.i("SquareGrid", "init");
     paintCan.init(getGlobalPreferences(), getEngine().getGameAssetManager());
   }
 

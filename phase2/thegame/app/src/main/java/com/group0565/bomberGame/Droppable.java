@@ -7,7 +7,7 @@ import com.group0565.math.Vector;
 
 public class Droppable extends GridObject {
     /** The game this Crate belongs to. */
-    private BomberGame game;
+    private BomberEngine game;
 
     /** PaintCan for this crate's fill. */
     private ThemedPaintCan paintCan = new ThemedPaintCan("Bomber", "Droppable.Droppable");
@@ -20,7 +20,7 @@ public class Droppable extends GridObject {
      * @param game The game this crate belongs to.
      * @param grid The grid this crate is within.
      */
-    public Droppable(Coords position, double z, SquareGrid grid, BomberGame game) {
+    public Droppable(Coords position, double z, SquareGrid grid, BomberEngine game) {
         super(position, z, grid);
         this.game = game;
         this.grid.addItem(this, position);
@@ -33,7 +33,7 @@ public class Droppable extends GridObject {
      * @param game The game this crate belongs to.
      * @param grid The grid this crate is within.
      */
-    public Droppable(Coords position, SquareGrid grid, BomberGame game) {
+    public Droppable(Coords position, SquareGrid grid, BomberEngine  game) {
         this(position, 0, grid, game);
     }
 

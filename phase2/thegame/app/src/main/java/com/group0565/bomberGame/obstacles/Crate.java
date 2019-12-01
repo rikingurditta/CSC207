@@ -1,10 +1,9 @@
 package com.group0565.bomberGame.obstacles;
 
-import com.group0565.bomberGame.BomberGame;
 import com.group0565.bomberGame.Droppable;
 import com.group0565.bomberGame.GridObject;
 import com.group0565.bomberGame.SquareGrid;
-import com.group0565.bomberGame.bombs.NormalBomb;
+import com.group0565.bomberGame.BomberEngine;
 import com.group0565.engine.gameobjects.GameObject;
 import com.group0565.engine.interfaces.Canvas;
 import com.group0565.engine.render.ThemedPaintCan;
@@ -15,7 +14,7 @@ import com.group0565.math.Vector;
 public class Crate extends GridObject {
 
   /** The game this Crate belongs to. */
-  private BomberGame game;
+  private BomberEngine game;
 
   /** PaintCan for this crate's fill. */
   private ThemedPaintCan paintCan = new ThemedPaintCan("Bomber", "Crate.Crate");
@@ -28,7 +27,7 @@ public class Crate extends GridObject {
    * @param game The game this crate belongs to.
    * @param grid The grid this crate is within.
    */
-  public Crate(Coords position, double z, SquareGrid grid, BomberGame game) {
+  public Crate(Coords position, double z, SquareGrid grid, BomberEngine game) {
     super(position, z, grid);
     this.game = game;
     this.grid.addItem(this, position);
@@ -41,7 +40,7 @@ public class Crate extends GridObject {
    * @param game The game this crate belongs to.
    * @param grid The grid this crate is within.
    */
-  public Crate(Coords position, SquareGrid grid, BomberGame game) {
+  public Crate(Coords position, SquareGrid grid, BomberEngine game) {
     this(position, 0, grid, game);
   }
 
