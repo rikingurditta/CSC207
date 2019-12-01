@@ -19,11 +19,34 @@ public class RacerEngine extends GameObject implements EventObserver, Observable
   /** Game tag for purposes of database */
   private static final String TAG = "RacerGame";
 
+  /*
+   * The starting position of the Racer.
+   */
   private static final Vector RACER_STARTING_POSITION = new Vector(540, 1550);
+
+  /*
+   * The position of the Racer when it is in the left Lane.
+   */
   private static final Vector RACER_LEFT_POSITION = new Vector(180, 1550);
+
+  /*
+   * The position of the Racer when it is in the middle Lane.
+   */
   private static final Vector RACER_MIDDLE_POSITION = new Vector(540, 1550);
+
+  /*
+   * The position of the Racer when it is in the right Lane.
+   */
   private static final Vector RACER_RIGHT_POSITION = new Vector(900, 1550);
+
+  /*
+   * The score required to earn the 15 second achievement.
+   */
   private static final int ACHIVEMENT_15_SEC_VALUE = 15000;
+
+  /*
+   * The score required to earn the 60 second achievement.
+   */
   private static final int ACHIEVEMENT_60_SEC_VALUE = 60000;
 
   /** Listener that updates database accordingly */

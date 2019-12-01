@@ -14,7 +14,6 @@ import com.group0565.racer.core.RacerEngine;
 import com.group0565.theme.Themes;
 
 public class RacerGameOverMenu extends GameMenu {
-  public static final Vector BUTTON_SIZE = new Vector(150, 150);
   private RacerEngine engine;
 
   public RacerGameOverMenu(Vector size, RacerEngine engine) {

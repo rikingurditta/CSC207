@@ -8,10 +8,29 @@ import com.group0565.math.Vector;
 /** A Racer object (Player-controlled) */
 public class Racer extends GameObject {
 
+  /*
+   * The radius of the Racer.
+   */
   public static final int RACER_RADIUS = 50;
+
+  /*
+   * The blue value of the Racer's colour.
+   */
   public static final int RACER_COLOUR_B = 255;
+
+  /*
+   * The alpha value of the Racer's colour.
+   */
   public static final int RACER_COLOUR_A = 255;
+
+  /*
+   * The red value of the Racer's colour.
+   */
   public static final int RACER_COLOUR_R = 77;
+
+  /*
+   * The green value of the Racer's colour.
+   */
   public static final int RACER_COLOUR_G = 166;
 
   /**

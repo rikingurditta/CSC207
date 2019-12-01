@@ -9,9 +9,24 @@ import com.group0565.math.Vector;
 /** An Obstacle in Racer */
 public abstract class Obstacle extends GameObject implements Observable {
 
+  /*
+   * The starting relative position of the Obstacle.
+   */
   public static final Vector STARTING_RELATIVE_POSITION = new Vector(0, 0);
+
+  /*
+   * The top y-coordinate of the collision hitbox.
+   */
   public static final int COLLISION_HIGHER_BOUND = 1550;
+
+  /*
+   * The bottom y-coordinate of the collision hitbox.
+   */
   public static final int COLLISION_LOWER_BOUND = 1700;
+
+  /*
+   * The observation message passed when a collision occurs.
+   */
   public static final String COLLISION_MSG = "Collision";
 
   /**

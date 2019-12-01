@@ -20,10 +20,26 @@ import static com.group0565.engine.enums.VerticalEdge.*;
  */
 public class Lane extends GameMenu implements Observable {
 
+    /*
+     * The size of the button in the Lane.
+     */
     public static final Vector BUTTON_SIZE = new Vector(150, 150);
+
+    /*
+     * The position of the button in the Lane.
+     */
     public static final Vector BUTTON_POSITION = new Vector(100, 1750);
+
+    /*
+     * The size of the obstacle manager in the Lane.
+     */
     public static final Vector OBSTACLE_MANAGER_SIZE = new Vector(150, 150);
+
+    /*
+     * The observation message passed when a collision occurs.
+     */
     public static final String COLLISION_MESSAGE = "Collision";
+
     /**
      * A boolean value that shows whether the Lane is occupied by the Racer.
      */
