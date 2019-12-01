@@ -16,15 +16,44 @@ import static com.group0565.engine.enums.VerticalEdge.*;
 
 public class RacerGameMenu extends GameMenu implements Observable {
 
+
     private static final ThemedPaintCan BACKGROUND_PAINT_CAN = new ThemedPaintCan("Racer", "Background.Background");
     private static final ThemedPaintCan SCORE_PAINT_CAN = new ThemedPaintCan("Racer", "Score.Score");
     private static final ThemedPaintCan LANE_PAINT_CAN = new ThemedPaintCan("Racer", "Divider.Divider");
+
+    /*
+     * The size of the pause button.
+     */
     public static final Vector PAUSE_BUTTON_SIZE = new Vector(100, 100);
+
+    /*
+     * The value of the left Lane used to move the Racer.
+     */
     public static final int LEFT_LANE_VALUE = 1;
+
+    /*
+     * The value of the middle Lane used to move the Racer.
+     */
     public static final int MIDDLE_LANE_VALUE = 2;
+
+    /*
+     * The value of the right Lane used to move the Racer.
+     */
     public static final int RIGHT_LANE_VALUE = 3;
+
+    /*
+     * The observation message passed when a collision occurs.
+     */
     public static final String COLLISION_MESSAGE = "Collision";
+
+    /*
+     * The position of the score value.
+     */
     public static final Vector SCORE_POSITION = new Vector(50, 170);
+
+    /*
+     * The size of the dividers inbetween the Lanes.
+     */
     public static final Vector DIVIDER = new Vector(30, 2500);
 
     /** An engine object */
@@ -122,7 +151,7 @@ public class RacerGameMenu extends GameMenu implements Observable {
     public void draw(Canvas canvas) {
         super.draw(canvas);
         canvas.drawRGB(BACKGROUND_PAINT_CAN);
-        canvas.drawRect(new Vector(canvas.getWidth() / 3 - 15, 0),DIVIDER, LANE_PAINT_CAN);
+        canvas.drawRect(new Vector(canvas.getWidth() / 3 - 15, 0), DIVIDER, LANE_PAINT_CAN);
         canvas.drawRect(new Vector(2 * canvas.getWidth() / 3 - 15, 0), DIVIDER, LANE_PAINT_CAN);
         SCORE_PAINT_CAN.setTextSize(96);
         canvas.drawText(Long.toString(engine.getTotalTime()), SCORE_POSITION, SCORE_PAINT_CAN);
