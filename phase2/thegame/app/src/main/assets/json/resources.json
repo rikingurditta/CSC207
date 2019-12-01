@@ -70,6 +70,16 @@
         "Path": "Engine/fr.json",
         "Default": "Chaîne Introuvable"
       }
+    },
+    "Racer": {
+      "en": {
+        "Path": "Racer/en.json",
+        "Default": "String Not Found"
+      },
+      "fr": {
+        "Path": "Racer/fr.json",
+        "Default": "String Not Found"
+      }
     }
   },
   "Theme": {

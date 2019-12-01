@@ -6,6 +6,7 @@ import com.group0565.engine.interfaces.Canvas;
 import com.group0565.engine.interfaces.Observable;
 import com.group0565.engine.interfaces.ObservationEvent;
 import com.group0565.engine.interfaces.Paint;
+import com.group0565.engine.render.LanguageText;
 import com.group0565.math.Vector;
 import com.group0565.racer.core.RacerEngine;
 import com.group0565.theme.Themes;
@@ -61,10 +62,14 @@ public class RacerGameOverMenu extends GameMenu {
         Paint font = Paint.createInstance();
         font.setARGB(255, 255, 255, 255);
         font.setTextSize(96);
-
         canvas.drawRGB(0, 0, 0);
-        canvas.drawText("GAME OVER", 50, 200, font);
-        canvas.drawText("Score: " + engine.getTotalTime(), 50, 400, font);
+
+        LanguageText gameOver = new LanguageText(getGlobalPreferences(), getEngine().getGameAssetManager(), "Racer", "Game Over");
+        LanguageText score = new LanguageText(getGlobalPreferences(), getEngine().getGameAssetManager(), "Racer", "Score");
+
+        canvas.drawText(gameOver.getValue(), 50, 200, font);
+        canvas.drawText(score.getValue() + engine.getTotalTime(), 50, 400, font);
+
 
     }
 }
