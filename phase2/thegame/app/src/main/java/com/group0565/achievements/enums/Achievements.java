@@ -10,9 +10,9 @@ import java.util.Map;
 
 /** An enum that acts as persistence for the UI view of all possible achievements */
 public enum Achievements {
-  TSU_ACHIEVEMENT(new GameAchievement("tsu_achievement")),
-  RACER_ACHIEVEMENT(new GameAchievement("racer_achievement")),
-  BOMBER_ACHIEVEMENT(new GameAchievement("bomber_achievement"));
+  RACER_15_SECONDS(new GameAchievement("racer_15_seconds")),
+  RACER_60_SECONDS(new GameAchievement("racer_60_seconds")),
+  ;
 
   /** A map from achievement key to achievement */
   private static Map map = new HashMap<>();

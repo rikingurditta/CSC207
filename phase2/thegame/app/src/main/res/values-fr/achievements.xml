@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="tsu_achievement_name">Tsu Réussite</string>
-    <string name="racer_achievement_name">Racer Réussite</string>
-    <string name="bomber_achievement_name">Bomber Réussite</string>
-    <string name="tsu_achievement_desc">Très descriptif pour tsu</string>
-    <string name="racer_achievement_desc">Très descriptif pour racer</string>
-    <string name="bomber_achievement_desc">Très descriptif pour bomber</string>
+    <!--    Achievement name must begin with the achievement's id -->
+    <string name="racer_15_seconds_name">Je suis un survivant (amateur)</string>
+    <string name="racer_60_seconds_name">Je suis un survivant (expert)</string>
+
+    <!--    Achievement desc must begin with the achievement's id -->
+    <string name="racer_15_seconds_desc">Survivre pendant 15 secondes</string>
+    <string name="racer_60_seconds_desc">Survivre pendant 60 secondes</string>
 </resources>

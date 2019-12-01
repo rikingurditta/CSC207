@@ -143,11 +143,11 @@ public class RacerEngine extends GameObject implements EventObserver, Observable
       }
 
       if (!achieved15Sec && totalTime > ACHIVEMENT_15_SEC_VALUE) {
-        this.getEngine().getAchievementManager().unlockAchievement("Racer", "15_Seconds");
+        this.getEngine().getAchievementManager().unlockAchievement("Racer", "racer_15_seconds");
         achieved15Sec = true;
       }
       if (!achieved60Sec && totalTime > ACHIEVEMENT_60_SEC_VALUE) {
-        this.getEngine().getAchievementManager().unlockAchievement("Racer", "60_Seconds");
+        this.getEngine().getAchievementManager().unlockAchievement("Racer", "racer_60_seconds");
         achieved60Sec = true;
       }
     }

@@ -1,5 +1,5 @@
 {
-  "15_Seconds": {
+  "racer_15_seconds": {
     "DisplayName": "Survive for 15 seconds",
     "Icon": {
       "Set": "Racer",
@@ -11,7 +11,7 @@
     "Hidden": false
   },
 
-  "60_Seconds": {
+  "racer_60_seconds": {
     "DisplayName": "Survive for 60 seconds",
     "Icon": {
       "Set": "Racer",
