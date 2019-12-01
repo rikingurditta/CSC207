@@ -574,7 +574,7 @@ public class GameObject implements LifecycleListener, Drawable {
   /**
    * Setter for global preferences
    *
-   * @param globalPreferences The new Global Preferences
+   * @param globalPreferences The new Global TsuPreferences
    * @return This object to allow chaining
    */
   public GameObject setGlobalPreferences(GlobalPreferences globalPreferences) {

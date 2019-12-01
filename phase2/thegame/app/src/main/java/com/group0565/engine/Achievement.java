@@ -1,8 +1,6 @@
 package com.group0565.engine;
 
 import com.group0565.engine.assets.GameAssetManager;
-import com.group0565.engine.enums.HorizontalAlignment;
-import com.group0565.engine.enums.VerticalAlignment;
 import com.group0565.engine.gameobjects.GameMenu;
 import com.group0565.engine.interfaces.Bitmap;
 import com.group0565.engine.interfaces.Canvas;

@@ -60,15 +60,6 @@ public abstract class TileSheet extends Asset implements LifecycleListener {
     }
 
     /**
-     * Getter for tileHeight
-     *
-     * @return tileHeight
-     */
-    public int getTileHeight() {
-        return tileHeight;
-    }
-
-    /**
      * Setter for tileHeight
      *
      * @param tileHeight The new value for tileHeight

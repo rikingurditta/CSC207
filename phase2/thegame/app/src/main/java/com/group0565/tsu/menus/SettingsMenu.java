@@ -6,14 +6,13 @@ import com.group0565.engine.gameobjects.InputEvent;
 import com.group0565.engine.interfaces.Canvas;
 import com.group0565.engine.interfaces.Observable;
 import com.group0565.engine.interfaces.ObservationEvent;
-import com.group0565.engine.interfaces.Observer;
 import com.group0565.engine.render.LanguageText;
 import com.group0565.engine.render.TextRenderer;
 import com.group0565.engine.render.ThemedPaintCan;
 import com.group0565.math.Vector;
 import com.group0565.theme.Themes;
+import com.group0565.tsu.core.TsuPreferences;
 import com.group0565.tsu.enums.ButtonBitmap;
-import com.group0565.tsu.core.Preferences;
 
 import static com.group0565.engine.enums.HorizontalEdge.*;
 import static com.group0565.engine.enums.VerticalEdge.*;
@@ -72,7 +71,7 @@ public class SettingsMenu extends GameMenu implements Observable {
     private ThemedPaintCan centerPaint = new ThemedPaintCan(SET, CenterPaintName);
     private ThemedPaintCan textPaint = new ThemedPaintCan(SET, TextPaintName);
 
-    private Preferences preferences;
+    private TsuPreferences preferences;
 
     public SettingsMenu(Vector size) {
         super(size);
@@ -81,9 +80,9 @@ public class SettingsMenu extends GameMenu implements Observable {
     @Override
     public void init() {
         super.init();
-        if (!(getGlobalPreferences() instanceof Preferences))
-            throw new RuntimeException("Preference for Tsu Must be com.group0565.tsu.gameObjects.Preferences");
-        preferences = (Preferences) getGlobalPreferences();
+        if (!(getGlobalPreferences() instanceof TsuPreferences))
+            throw new RuntimeException("Preference for Tsu Must be com.group0565.tsu.gameObjects.TsuPreferences");
+        preferences = (TsuPreferences) getGlobalPreferences();
 
         this.textPaint.init(getGlobalPreferences(), getEngine().getGameAssetManager());
         this.centerPaint.init(getGlobalPreferences(), getEngine().getGameAssetManager());

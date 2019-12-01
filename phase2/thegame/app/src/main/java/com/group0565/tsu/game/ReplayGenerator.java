@@ -18,7 +18,7 @@ public class ReplayGenerator extends InputGenerator {
     private HashSet<ArchiveInputEvent> used;
     private HashMap<ArchiveInputEvent, InputEvent> active;
 
-    public ReplayGenerator(TsuEngine engine, Set<ArchiveInputEvent> archive, Vector pos, Vector size) {
+    public ReplayGenerator(TsuEngine engine, List<ArchiveInputEvent> archive, Vector pos, Vector size) {
         super(engine);
         this.archive = new ArrayList<>(archive.size());
         this.archive.addAll(archive);

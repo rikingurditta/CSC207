@@ -29,7 +29,7 @@ public class MySettingsFragment extends PreferenceFragmentCompat {
   }
 
   /**
-   * Called upon creation of the Preferences fragment, sets up the
+   * Called upon creation of the TsuPreferences fragment, sets up the
    *
    * @param savedInstanceState The saved state of the instance
    * @param rootKey The preference root key

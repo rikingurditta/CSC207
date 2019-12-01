@@ -48,7 +48,7 @@ public class StatsExampleActivity extends GameActivity {
     public StatsExampleActivity() {
         super(new MainObject(new Vector()));
 
-        // Preferences Example
+        // TsuPreferences Example
         IPreferenceInteractor prefInter = PreferencesInjector.inject();
 
         lang = prefInter.getLanguage();

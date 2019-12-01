@@ -7,6 +7,7 @@ import android.util.JsonToken;
 import com.group0565.engine.android.AndroidPaint;
 import com.group0565.engine.assets.ThemeAsset;
 import com.group0565.engine.interfaces.Paint;
+import com.group0565.engine.interfaces.TypeFaceFactory;
 import com.group0565.engine.interfaces.Typeface;
 
 import java.io.IOException;
@@ -86,7 +87,7 @@ public class AndroidThemeAsset extends ThemeAsset {
                 }
                 if (style == null)
                     throw new IllegalThemeAssetException("Type of Font must exist.");
-                paint.setTypeface(Typeface.create(family, Typeface.Style.valueOf(style)));
+                paint.setTypeface(TypeFaceFactory.create(family, Typeface.Style.valueOf(style)));
                 reader.endObject();
             }
         }

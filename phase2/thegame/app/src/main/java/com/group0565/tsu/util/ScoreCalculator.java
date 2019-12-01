@@ -38,7 +38,7 @@ public class ScoreCalculator {
    * @param archive Set of input history
    * @return The constructed SessionHitObjects
    */
-  public static SessionHitObjects constructSessionHitObjects(Beatmap beatmap, Set<ArchiveInputEvent> archive) {
+  public static SessionHitObjects constructSessionHitObjects(Beatmap beatmap, List<ArchiveInputEvent> archive) {
     List<HitObject> objs = beatmap.getHitObjects();
     double difficulty = beatmap.getDifficulty();
     SessionHitObjects sessionHitObjects = new SessionHitObjects();

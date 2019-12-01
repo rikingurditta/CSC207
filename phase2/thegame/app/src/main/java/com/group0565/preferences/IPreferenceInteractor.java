@@ -2,7 +2,7 @@ package com.group0565.preferences;
 
 import java.util.List;
 
-/** An interface for consumption of Preferences in the app */
+/** An interface for consumption of TsuPreferences in the app */
 public interface IPreferenceInteractor {
 
   /**

@@ -2,6 +2,8 @@ package com.group0565.engine.android;
 
 import android.graphics.Bitmap;
 
+import com.group0565.engine.interfaces.Canvas;
+
 /**
  * An implementation of the Bitmap interface that is just a wrapper for an android.graphics.Bitmap
  */

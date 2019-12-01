@@ -10,6 +10,7 @@ import com.group0565.engine.render.ThemedPaintCan;
 import com.group0565.math.Vector;
 import com.group0565.tsu.util.ColorCalculator;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -36,7 +37,7 @@ public class Judgementer extends GameMenu {
     private HashMap<InputEvent, HitObject> captureMap = new HashMap<>();
 
     private HashMap<InputEvent, ArchiveInputEvent> activeArchiveMap = new HashMap<>();
-    private HashSet<ArchiveInputEvent> archive = new HashSet<>();
+    private List<ArchiveInputEvent> archive = new ArrayList<>();
 
     private Source<Integer> passedPointer;
     private Source<Beatmap> beatmap;
@@ -62,6 +63,13 @@ public class Judgementer extends GameMenu {
     public void init() {
         super.init();
         judgementPaint.init(getGlobalPreferences(), getEngine().getGameAssetManager());
+    }
+
+    public void reset(){
+        archive = new ArrayList<>();
+        activeArchiveMap.clear();
+        hitMap.clear();
+        captureMap.clear();
     }
 
     @Override
@@ -180,7 +188,7 @@ public class Judgementer extends GameMenu {
      *
      * @return archive
      */
-    public HashSet<ArchiveInputEvent> getArchive() {
+    public List<ArchiveInputEvent> getArchive() {
         return archive;
     }
 }

@@ -9,7 +9,6 @@ import com.group0565.hitObjectsRepository.ISessionHitObjectsRepository;
 import com.group0565.hitObjectsRepository.SessionHitObjects;
 import com.group0565.tsu.game.Beatmap;
 import com.group0565.tsu.game.TsuEngine;
-import com.group0565.tsu.game.TsuRenderer;
 import com.group0565.tsu.menus.BeatmapMenu;
 import com.group0565.tsu.menus.TsuMenu;
 import com.group0565.tsu.menus.StatsMenu;
@@ -23,11 +22,11 @@ public class TsuGame extends GameObject implements EventObserver {
     private TsuEngine engine;
     private BeatmapMenu beatmapMenu;
     private ISessionHitObjectsRepository repository;
-    private Preferences preferences;
+    private TsuPreferences preferences;
 
     public TsuGame(){
         this.stats = new StatsMenu();
-        preferences = new Preferences();
+        preferences = new TsuPreferences();
         preferences.reload();
         this.setGlobalPreferences(preferences);
         HitObjectsRepositoryInjector.inject(

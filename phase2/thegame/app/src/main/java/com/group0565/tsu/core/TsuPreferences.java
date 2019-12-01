@@ -16,7 +16,7 @@ import com.group0565.theme.Themes;
 /**
  * Class Responsible for reading and writing preferences to the repository;
  */
-public class Preferences extends GlobalPreferences implements Observable {
+public class TsuPreferences extends GlobalPreferences implements Observable {
     public static final String DIFFICULTY_CHANGE = "Difficulty Changed";
     public static final String AUTO_CHANGE = "Auto Changed";
 
@@ -33,7 +33,7 @@ public class Preferences extends GlobalPreferences implements Observable {
     /**
      * Reload the preferences to match the most updated preferences
      */
-    public Preferences reload(){
+    public TsuPreferences reload(){
         Resources resources = TheGameApplication.getInstance().getResources();
         ThemePrefName = resources.getString(R.string.theme_pref_id);
         LanguagePrefName = resources.getString(R.string.lan_pref_id);
@@ -48,7 +48,7 @@ public class Preferences extends GlobalPreferences implements Observable {
         super.setVolume(prefInter.getVolume() / 100D);
         Object difficulty = prefInter.getPreference(DifficultyPrefName, 5);
         if (!(difficulty instanceof Double) && !(difficulty instanceof Float))
-            difficulty = 5D;
+            difficulty = 0.5D;
         if (difficulty instanceof Double)
             this.difficulty = ((float) (double) difficulty);
         else if (difficulty instanceof Float)

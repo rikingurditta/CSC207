@@ -16,20 +16,20 @@ public class StatisticRepositoryInjector {
    */
   public static void inject(String gameName, RepositoryInjectionListener listener) {
     // Make sure listener sits on main thread
-    //    Handler handler = new Handler(Looper.getMainLooper());
-    //    handler.post(
-    //        () ->
-    //            IUsersInteractor.getInstance()
-    //                .getUserObservable()
-    //                .observeForever(
-    //                    iUser -> {
-    //                      if (iUser.isConnected()) {
-    //                        listener.onSuccess(
-    //                            new FirebaseStatisticRepository(iUser.getUid(), gameName));
-    //                      }
-    //                    }));
+        Handler handler = new Handler(Looper.getMainLooper());
+        handler.post(
+            () ->
+                IUsersInteractor.getInstance()
+                    .getUserObservable()
+                    .observeForever(
+                        iUser -> {
+                          if (iUser.isConnected()) {
+                            listener.onSuccess(
+                                new FirebaseStatisticRepository(iUser.getUid(), gameName));
+                          }
+                        }));
 
-    listener.onSuccess(new MockStatisticRepository());
+//    listener.onSuccess(new MockStatisticRepository());
   }
 
   /** The listener interface for the injection */

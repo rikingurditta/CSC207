@@ -29,11 +29,6 @@ public interface Canvas {
      */
     void drawText(String text, float x, float y, Paint paint);
 
-  /** Wrapper method for {@link #drawText(String, float, float, Paint)} */
-  default void drawText(String text, Vector position, PaintCan paintCan) {
-    this.drawText(text, position.getX(), position.getY(), paintCan.getPaint());
-  }
-
   /** Wrapper method for {@link #drawRect(float, float, float, float, Paint)} */
   default void drawRect(Vector pos, Vector size, Paint paint) {
     Vector sum = pos.add(size);
