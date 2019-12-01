@@ -29,7 +29,7 @@ import java.util.Map;
 import java.util.UUID;
 
 public class BomberEngine extends GameObject implements Observable {
-  private long GAME_DURATION = 60000;
+  private long GAME_DURATION = 120000;
 
   /** Create a STRONG reference to the listener so it won't get garbage collected */
   StatisticRepositoryInjector.RepositoryInjectionListener listener;

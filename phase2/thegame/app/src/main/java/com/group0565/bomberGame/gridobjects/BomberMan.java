@@ -56,7 +56,7 @@ public class BomberMan extends GridObject {
   private ThemedPaintCan textPaintCan = new ThemedPaintCan("Bomber", "Text.Text");
 
   /** The strength of the bombs this player can place. */
-  private int bombStrength = 1;
+  private int bombStrength = 2;
   /** The number of simultaneous bombs this player can place at once. */
   private int numSimultaneousBombs = 1;
 
@@ -175,6 +175,15 @@ public class BomberMan extends GridObject {
     NormalBomb bomb = new NormalBomb(gridCoords, -1, this.game, grid, this);
     game.adoptLater(bomb);
     this.bombs.add(bomb);
+
+    if (this.bombs.size() == 2) {
+      getEngine().getAchievementManager().unlockAchievement("BomberMan", "two bombs at once");
+    }
+    if (this.bombs.size() == 3) {
+      getEngine().getAchievementManager().unlockAchievement("BomberMan", "three bombs at once");
+    }
+
+    //placed 3 boms achive
 
     // TODO make stats tracking nicer
     numBombsPlaced += 1;

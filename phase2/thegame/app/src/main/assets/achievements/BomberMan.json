@@ -1,0 +1,68 @@
+{
+  "Fire Power 5": {
+    "DisplayName": "Fire Power 5",
+    "Icon": {
+      "Set": "Tsu",
+      "Sheet": "Buttons",
+      "Tile X": 15,
+      "Tile Y": 0
+    },
+    "Description": "Fire Power 5",
+    "Hidden": false
+  },
+  "Fire Power 6": {
+    "DisplayName": "MAX FIRE POWER",
+    "Icon": {
+      "Set": "Tsu",
+      "Sheet": "Buttons",
+      "Tile X": 15,
+      "Tile Y": 0
+    },
+    "Description": "Fire Power 6",
+    "Hidden": false
+  },
+  "Multiple Bomb 5": {
+    "DisplayName": "Multiple Bomb 5",
+    "Icon": {
+      "Set": "Tsu",
+      "Sheet": "Buttons",
+      "Tile X": 15,
+      "Tile Y": 0
+    },
+    "Description": "Multiple Bomb 5",
+    "Hidden": false
+  },
+  "Multiple Bomb 6": {
+    "DisplayName": "Multiple Bomb 6",
+    "Icon": {
+      "Set": "Tsu",
+      "Sheet": "Buttons",
+      "Tile X": 15,
+      "Tile Y": 0
+    },
+    "Description": "Multiple Bomb 6",
+    "Hidden": false
+  },
+  "two bombs at once": {
+    "DisplayName": "You've placed 2 bombs at once",
+    "Icon": {
+      "Set": "Tsu",
+      "Sheet": "Buttons",
+      "Tile X": 15,
+      "Tile Y": 0
+    },
+    "Description": "placed three bombs at once",
+    "Hidden": false
+  },
+  "three bombs at once": {
+    "DisplayName": "You've placed 3 bombs at once",
+    "Icon": {
+      "Set": "Tsu",
+      "Sheet": "Buttons",
+      "Tile X": 15,
+      "Tile Y": 0
+    },
+    "Description": "placed three bombs at once",
+    "Hidden": false
+  }
+}

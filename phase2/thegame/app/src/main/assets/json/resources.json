@@ -121,6 +121,7 @@
     }
   },
   "Achievements": {
-    "Tsu": "Tsu.json"
+    "Tsu": "Tsu.json",
+    "BomberMan": "BomberMan.json"
   }
 }
