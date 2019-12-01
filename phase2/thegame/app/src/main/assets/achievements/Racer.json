@@ -1,0 +1,13 @@
+{
+  "FirstGame": {
+    "DisplayName": "Survive for 15 seconds",
+    "Icon": {
+      "Set": "Racer",
+      "Sheet": "Buttons",
+      "Tile X": 15,
+      "Tile Y": 0
+    },
+    "Description": "Play A Game",
+    "Hidden": false
+  }
+}
