@@ -198,4 +198,7 @@ public class RacerEngine extends GameObject implements EventObserver, Observable
         }
     }
 
+    public RacerPauseMenu getPauseMenu() {
+        return pauseMenu;
+    }
 }

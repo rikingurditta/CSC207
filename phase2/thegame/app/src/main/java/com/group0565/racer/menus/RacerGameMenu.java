@@ -7,9 +7,12 @@ import com.group0565.engine.interfaces.Observable;
 import com.group0565.engine.interfaces.ObservationEvent;
 import com.group0565.engine.interfaces.Paint;
 import com.group0565.math.Vector;
+import com.group0565.racer.core.RacerGame;
 import com.group0565.racer.objects.Lane;
 import com.group0565.racer.core.RacerEngine;
+import com.group0565.racer.objects.Racer;
 import com.group0565.theme.Themes;
+import com.group0565.tsu.menus.PauseMenu;
 
 import static com.group0565.engine.enums.HorizontalEdge.*;
 import static com.group0565.engine.enums.VerticalEdge.*;
@@ -23,6 +26,10 @@ public class RacerGameMenu extends GameMenu implements Observable {
     private Lane middleLane;
 
     private Lane rightLane;
+
+    private RacerPauseMenu pauseMenu;
+
+    private RacerGameOverMenu gameOverMenu;
 
     public RacerGameMenu(RacerEngine engine) {
         super(null);
@@ -135,7 +142,15 @@ public class RacerGameMenu extends GameMenu implements Observable {
 
     public void observePauseButton(Observable observable, ObservationEvent event) {
         if (event.isEvent(Button.EVENT_DOWN)) {
-
+            if (engine.isPaused()) {
+                engine.setEnable(true);
+                engine.setPaused(false);
+                engine.getPauseMenu().setEnable(false);
+            } else {
+                engine.setEnable(false);
+                engine.setPaused(true);
+                engine.getPauseMenu().setEnable(true);
+            }
         }
     }
 
