@@ -2,15 +2,10 @@ package com.group0565.racer.objects;
 
 import com.group0565.engine.gameobjects.Button;
 import com.group0565.engine.gameobjects.GameMenu;
-import com.group0565.engine.interfaces.Canvas;
 import com.group0565.engine.interfaces.EventObserver;
 import com.group0565.engine.interfaces.Observable;
 import com.group0565.engine.interfaces.ObservationEvent;
-import com.group0565.engine.interfaces.Paint;
 import com.group0565.math.Vector;
-import com.group0565.theme.Themes;
-
-import java.util.ArrayList;
 
 import static com.group0565.engine.enums.HorizontalEdge.*;
 import static com.group0565.engine.enums.VerticalEdge.*;
@@ -20,10 +15,26 @@ import static com.group0565.engine.enums.VerticalEdge.*;
  */
 public class Lane extends GameMenu implements Observable {
 
-    public static final Vector BUTTON_SIZE = new Vector(150, 150);
-    public static final Vector BUTTON_POSITION = new Vector(100, 1750);
-    public static final Vector OBSTACLE_MANAGER_SIZE = new Vector(150, 150);
-    public static final String COLLISION_MESSAGE = "Collision";
+    /**
+     * The size of the button in the Lane.
+     */
+    private static final Vector BUTTON_SIZE = new Vector(150, 150);
+
+    /**
+     * The position of the button in the Lane.
+     */
+    private static final Vector BUTTON_POSITION = new Vector(100, 1750);
+
+    /**
+     * The size of the obstacle manager in the Lane.
+     */
+    private static final Vector OBSTACLE_MANAGER_SIZE = new Vector(150, 150);
+
+    /**
+     * The observation message passed when a collision occurs.
+     */
+    private static final String COLLISION_MESSAGE = "Collision";
+
     /**
      * A boolean value that shows whether the Lane is occupied by the Racer.
      */
@@ -86,7 +97,7 @@ public class Lane extends GameMenu implements Observable {
      *
      * @return the occupied status of this Lane.
      */
-    public boolean getIsOccupied() {
+    boolean getIsOccupied() {
         return this.isOccupied;
     }
 
@@ -100,10 +111,10 @@ public class Lane extends GameMenu implements Observable {
     /**
      * Observe when a collision has occured in this Lane.
      *
-     * @param observable
-     * @param observationEvent
+     * @param observable the object being observed
+     * @param observationEvent the event that is being observed
      */
-    public void observeObstacleManager(Observable observable, ObservationEvent observationEvent) {
+    private void observeObstacleManager(Observable observable, ObservationEvent observationEvent) {
         if (observationEvent.getMsg().equals(COLLISION_MESSAGE)) {
             notifyObservers(observationEvent);
         }

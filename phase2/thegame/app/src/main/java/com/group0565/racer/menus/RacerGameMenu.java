@@ -5,7 +5,6 @@ import com.group0565.engine.gameobjects.GameMenu;
 import com.group0565.engine.interfaces.Canvas;
 import com.group0565.engine.interfaces.Observable;
 import com.group0565.engine.interfaces.ObservationEvent;
-import com.group0565.engine.interfaces.Paint;
 import com.group0565.engine.render.ThemedPaintCan;
 import com.group0565.math.Vector;
 import com.group0565.racer.objects.Lane;
@@ -16,16 +15,55 @@ import static com.group0565.engine.enums.VerticalEdge.*;
 
 public class RacerGameMenu extends GameMenu implements Observable {
 
+    /**
+     * ThemedPaintCan for background
+     */
     private static final ThemedPaintCan BACKGROUND_PAINT_CAN = new ThemedPaintCan("Racer", "Background.Background");
+
+    /**
+     * ThemedPaintCan for Score
+     */
     private static final ThemedPaintCan SCORE_PAINT_CAN = new ThemedPaintCan("Racer", "Score.Score");
+
+    /**
+     * ThemedPaintCan for lane dividers
+     */
     private static final ThemedPaintCan LANE_PAINT_CAN = new ThemedPaintCan("Racer", "Divider.Divider");
-    public static final Vector PAUSE_BUTTON_SIZE = new Vector(100, 100);
-    public static final int LEFT_LANE_VALUE = 1;
-    public static final int MIDDLE_LANE_VALUE = 2;
-    public static final int RIGHT_LANE_VALUE = 3;
-    public static final String COLLISION_MESSAGE = "Collision";
-    public static final Vector SCORE_POSITION = new Vector(50, 170);
-    public static final Vector DIVIDER = new Vector(30, 2500);
+
+    /**
+     * The size of the pause button.
+     */
+    private static final Vector PAUSE_BUTTON_SIZE = new Vector(100, 100);
+
+    /**
+     * The value of the left Lane used to move the Racer.
+     */
+    private static final int LEFT_LANE_VALUE = 1;
+
+    /**
+     * The value of the middle Lane used to move the Racer.
+     */
+    private static final int MIDDLE_LANE_VALUE = 2;
+
+    /**
+     * The value of the right Lane used to move the Racer.
+     */
+    private static final int RIGHT_LANE_VALUE = 3;
+
+    /**
+     * The observation message passed when a collision occurs.
+     */
+    private static final String COLLISION_MESSAGE = "Collision";
+
+    /**
+     * The position of the score value.
+     */
+    private static final Vector SCORE_POSITION = new Vector(50, 170);
+
+    /**
+     * The size of the dividers inbetween the Lanes.
+     */
+    private static final Vector DIVIDER = new Vector(30, 2500);
 
     /** An engine object */
     private RacerEngine engine;
@@ -122,18 +160,18 @@ public class RacerGameMenu extends GameMenu implements Observable {
     public void draw(Canvas canvas) {
         super.draw(canvas);
         canvas.drawRGB(BACKGROUND_PAINT_CAN);
-        canvas.drawRect(new Vector(canvas.getWidth() / 3 - 15, 0),DIVIDER, LANE_PAINT_CAN);
+        canvas.drawRect(new Vector(canvas.getWidth() / 3 - 15, 0), DIVIDER, LANE_PAINT_CAN);
         canvas.drawRect(new Vector(2 * canvas.getWidth() / 3 - 15, 0), DIVIDER, LANE_PAINT_CAN);
         SCORE_PAINT_CAN.setTextSize(96);
         canvas.drawText(Long.toString(engine.getTotalTime()), SCORE_POSITION, SCORE_PAINT_CAN);
     }
 
     /**
-     *
-     * @param observable
-     * @param event
+     * Observes left lane
+     * @param observable the object being observed
+     * @param event the event being observed
      */
-    public void observeLeftLane(Observable observable, ObservationEvent event) {
+    private void observeLeftLane(Observable observable, ObservationEvent event) {
         if (event.isEvent(Button.EVENT_DOWN)) {
             middleLane.setRacerLane(false);
             rightLane.setRacerLane(false);
@@ -143,11 +181,11 @@ public class RacerGameMenu extends GameMenu implements Observable {
     }
 
     /**
-     *
-     * @param observable
-     * @param event
+     * Observes mid lane
+     * @param observable the object being observed
+     * @param event the event being observed
      */
-    public void observeMiddleLane(Observable observable, ObservationEvent event) {
+    private void observeMiddleLane(Observable observable, ObservationEvent event) {
         if (event.isEvent(Button.EVENT_DOWN)) {
             leftLane.setRacerLane(false);
             rightLane.setRacerLane(false);
@@ -157,11 +195,11 @@ public class RacerGameMenu extends GameMenu implements Observable {
     }
 
     /**
-     *
-     * @param observable
-     * @param event
+     * Observes right lane
+     * @param observable the object being observed
+     * @param event the event being observed
      */
-    public void observeRightLane(Observable observable, ObservationEvent event) {
+    private void observeRightLane(Observable observable, ObservationEvent event) {
         if (event.isEvent(Button.EVENT_DOWN)) {
             leftLane.setRacerLane(false);
             middleLane.setRacerLane(false);
@@ -171,23 +209,23 @@ public class RacerGameMenu extends GameMenu implements Observable {
     }
 
     /**
-     *
-     * @param observable
-     * @param event
+     * Observes pausing
+     * @param observable the object being observed
+     * @param event the event being observed
      */
-    public void observePauseButton(Observable observable, ObservationEvent event) {
+    private void observePauseButton(Observable observable, ObservationEvent event) {
         if (event.isEvent(Button.EVENT_DOWN)) {
             engine.pauseGame();
         }
     }
 
     /**
-     *
-     * @param observable
-     * @param observationEvent
+     * Observes collisions
+     * @param observable the object being observed
+     * @param observationEvent the event that is being observed
      */
 
-    public void observeCollision(Observable observable, ObservationEvent observationEvent) {
+    private void observeCollision(Observable observable, ObservationEvent observationEvent) {
         if (observationEvent.getMsg().equals(COLLISION_MESSAGE)) {
             engine.endGame();
         }

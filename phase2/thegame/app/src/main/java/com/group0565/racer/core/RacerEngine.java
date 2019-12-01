@@ -19,15 +19,38 @@ public class RacerEngine extends GameObject implements EventObserver, Observable
   /** Game tag for purposes of database */
   private static final String TAG = "RacerGame";
 
+  /*
+   * The starting position of the Racer.
+   */
   private static final Vector RACER_STARTING_POSITION = new Vector(540, 1550);
+
+  /*
+   * The position of the Racer when it is in the left Lane.
+   */
   private static final Vector RACER_LEFT_POSITION = new Vector(180, 1550);
+
+  /*
+   * The position of the Racer when it is in the middle Lane.
+   */
   private static final Vector RACER_MIDDLE_POSITION = new Vector(540, 1550);
+
+  /*
+   * The position of the Racer when it is in the right Lane.
+   */
   private static final Vector RACER_RIGHT_POSITION = new Vector(900, 1550);
+
+  /*
+   * The score required to earn the 15 second achievement.
+   */
   private static final int ACHIVEMENT_15_SEC_VALUE = 15000;
+
+  /*
+   * The score required to earn the 60 second achievement.
+   */
   private static final int ACHIEVEMENT_60_SEC_VALUE = 60000;
 
   /** Listener that updates database accordingly */
-  StatisticRepositoryInjector.RepositoryInjectionListener listener;
+  private StatisticRepositoryInjector.RepositoryInjectionListener listener;
 
   /** Date that this RacerGame was created (up to millisecond, used as ID for database purposes) */
   private long startTime;
@@ -60,7 +83,7 @@ public class RacerEngine extends GameObject implements EventObserver, Observable
 
   private RacerPauseMenu pauseMenu;
 
-  public RacerEngine() {
+  RacerEngine() {
     super(new Vector());
 
     listener = repository -> myStatRepo = repository;
@@ -88,12 +111,8 @@ public class RacerEngine extends GameObject implements EventObserver, Observable
     StatisticRepositoryInjector.inject(TAG, listener);
   }
 
-  public void spawnObstacle() {
+  private void spawnObstacle() {
     gameMenu.spawnObstacle();
-  }
-
-  public boolean isPaused() {
-    return paused;
   }
 
   public void pauseGame() {
@@ -158,7 +177,7 @@ public class RacerEngine extends GameObject implements EventObserver, Observable
    *
    * @param totalTime the player's time survived during this game
    */
-  public void updateDB(long totalTime) {
+  private void updateDB(long totalTime) {
     if (myStatRepo != null) {
       // You can always use put (also for new objects) because of the way that Firebase DB works
       myStatRepo.put(
@@ -169,10 +188,6 @@ public class RacerEngine extends GameObject implements EventObserver, Observable
 
   /** @param observable Button objects */
   public void observe(Observable observable, ObservationEvent observationEvent) {}
-
-  public RacerPauseMenu getPauseMenu() {
-    return pauseMenu;
-  }
 
   /**
    * Getter method that returns this game's Racer object
