@@ -1,20 +1,23 @@
-package com.group0565.racerGame;
+package com.group0565.racer.objects;
 
+import com.group0565.engine.gameobjects.GameObject;
 import com.group0565.engine.interfaces.Canvas;
 import com.group0565.engine.interfaces.Paint;
+import com.group0565.math.Vector;
 
 /** A Square-shaped Obstacle */
 public class SquareObstacle extends Obstacle {
 
+  public static final int SQUARE_BOTTOM = 75;
+  public static final int SQUARE_TOP = 75;
+  public static final int SQUARE_RIGHT = 150;
+
   /**
    * Constructor for a SquareObstacle Object
-   *
-   * @param lane the lane that this object occupies
-   * @param z the rendering level
-   * @param parent the ObstacleManager that this object is adopted by
+
    */
-  SquareObstacle(int lane, double z, ObstacleManager parent) {
-    super(lane, z, parent);
+  SquareObstacle(ObstacleManager obstacleManager) {
+    super(obstacleManager);
   }
 
   /**
@@ -37,10 +40,10 @@ public class SquareObstacle extends Obstacle {
     }
 
     canvas.drawRect(
-        getAbsolutePosition().getX() - 75,
-        getAbsolutePosition().getY() - 75,
-        getAbsolutePosition().getX() + 75,
-        getAbsolutePosition().getY() + 75,
+        getAbsolutePosition().getX(),
+        getAbsolutePosition().getY() - SQUARE_TOP,
+        getAbsolutePosition().getX() + SQUARE_RIGHT,
+        getAbsolutePosition().getY() + SQUARE_BOTTOM,
         colour);
   }
 }

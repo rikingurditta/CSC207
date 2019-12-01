@@ -1,0 +1,25 @@
+{
+  "15_Seconds": {
+    "DisplayName": "Survive for 15 seconds",
+    "Icon": {
+      "Set": "Racer",
+      "Sheet": "RacerAchievement15",
+      "Tile X": 0,
+      "Tile Y": 0
+    },
+    "Description": "Survive for 15 seconds",
+    "Hidden": false
+  },
+
+  "60_Seconds": {
+    "DisplayName": "Survive for 60 seconds",
+    "Icon": {
+      "Set": "Racer",
+      "Sheet": "RacerAchievement60",
+      "Tile X": 0,
+      "Tile Y": 0
+    },
+    "Description": "Survive for 60 seconds",
+    "Hidden": false
+  }
+}

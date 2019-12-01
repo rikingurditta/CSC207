@@ -1,7 +1,8 @@
-package com.group0565.racerGame;
+package com.group0565.racer.objects;
 
 import com.group0565.engine.interfaces.Canvas;
 import com.group0565.engine.interfaces.Paint;
+import com.group0565.math.Vector;
 
 /** A Circle-shaped Obstacle */
 public class CircleObstacle extends Obstacle {
@@ -9,12 +10,9 @@ public class CircleObstacle extends Obstacle {
   /**
    * Constructor for a CircleObstacle object
    *
-   * @param lane the lane that this obstacle occupies
-   * @param z the rendering level of this object
-   * @param parent the ObstacleManager that this Obstacle is adopted by
    */
-  CircleObstacle(int lane, double z, ObstacleManager parent) {
-    super(lane, z, parent);
+  CircleObstacle(ObstacleManager obstacleManager) {
+    super(obstacleManager);
   }
 
   /**
@@ -35,6 +33,6 @@ public class CircleObstacle extends Obstacle {
       colour.setARGB(255, 255, 0, 0);
     }
 
-    canvas.drawCircle(getAbsolutePosition().getX(), getAbsolutePosition().getY(), 75, colour);
+    canvas.drawCircle(getAbsolutePosition().getX() + 75, getAbsolutePosition().getY(), 75, colour);
   }
 }

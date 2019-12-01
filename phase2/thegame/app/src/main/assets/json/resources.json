@@ -37,11 +37,21 @@
         "TileHeight": -1
       }
     },
-    "RacerButton": {
+    "Racer": {
       "RacerButton": {
         "Path": "Button.png",
         "TileWidth": 256,
         "TileHeight": 256
+      },
+      "RacerAchievement15": {
+        "Path": "clock15.png",
+        "TileWidth": 280,
+        "TileHeight": 280
+      },
+      "RacerAchievement60": {
+        "Path": "clock60.png",
+        "TileWidth": 280,
+        "TileHeight": 280
       }
     }
   },
@@ -101,6 +111,16 @@
         "Path": "Engine/fr.json",
         "Default": "Chaîne Introuvable"
       }
+    },
+    "Racer": {
+      "en": {
+        "Path": "Racer/en.json",
+        "Default": "String Not Found"
+      },
+      "fr": {
+        "Path": "Racer/fr.json",
+        "Default": "String Not Found"
+      }
     }
   },
   "Theme": {
@@ -120,6 +140,14 @@
         "Path": "Tsu/Dark.json"
       }
     },
+    "Racer": {
+      "LIGHT": {
+        "Path": "Racer/Light.json"
+      },
+      "DARK": {
+        "Path": "Racer/Dark.json"
+      }
+    },
     "Bomber": {
       "LIGHT": {
         "Path": "Bomber/Light.json"
@@ -130,6 +158,7 @@
     }
   },
   "Achievements": {
-    "Tsu": "Tsu.json"
+    "Tsu": "Tsu.json",
+    "Racer": "Racer.json"
   }
 }

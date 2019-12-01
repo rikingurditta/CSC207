@@ -3,7 +3,6 @@ package com.group0565.engine.gameobjects;
 import com.group0565.engine.enums.HorizontalEdge;
 import com.group0565.engine.enums.VerticalEdge;
 import com.group0565.math.Vector;
-import com.group0565.racerGame.Menu;
 
 import static com.group0565.engine.enums.HorizontalEdge.*;
 import static com.group0565.engine.enums.VerticalEdge.*;
