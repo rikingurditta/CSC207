@@ -8,34 +8,49 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/** An enum that acts as persistence for the UI view of all possible achievements */
 public enum Achievements {
   TSU_ACHIEVEMENT(new GameAchievement("tsu_achievement")),
   RACER_ACHIEVEMENT(new GameAchievement("racer_achievement")),
   BOMBER_ACHIEVEMENT(new GameAchievement("bomber_achievement"));
 
+  /** A map from achievement key to achievement */
   private static Map map = new HashMap<>();
 
+  /* Fill the map with preset achievements */
   static {
     for (Achievements achievement : Achievements.values()) {
       map.put(achievement.value.getAchievementKey(), achievement.value);
     }
   }
 
+  /** The Enum's value */
   private GameAchievement value;
 
+  /**
+   * Create a new instance of the enum with the given value
+   *
+   * @param value The value of the enum
+   */
   Achievements(GameAchievement value) {
     this.value = value;
   }
 
-  public static Achievements getByKey(String achievementKey) {
-    return (Achievements) map.get(achievementKey);
-  }
-
-  public GameAchievement getValue() {
-    return value;
-  }
-
+  /**
+   * Get the list of values from the map
+   *
+   * @return A list of values
+   */
   public static List<IAchievement> getAllAchievements() {
     return new ArrayList(map.values());
+  }
+
+  /**
+   * Return the underlying value of the enum
+   *
+   * @return The object value
+   */
+  public GameAchievement getValue() {
+    return value;
   }
 }

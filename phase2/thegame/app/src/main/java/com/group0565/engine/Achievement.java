@@ -1,6 +1,8 @@
 package com.group0565.engine;
 
 import com.group0565.engine.assets.GameAssetManager;
+import com.group0565.engine.enums.HorizontalAlignment;
+import com.group0565.engine.enums.VerticalAlignment;
 import com.group0565.engine.gameobjects.GameMenu;
 import com.group0565.engine.interfaces.Bitmap;
 import com.group0565.engine.interfaces.Canvas;
@@ -9,83 +11,92 @@ import com.group0565.engine.render.BitmapDrawer;
 import com.group0565.engine.render.ClippedTextRenderer;
 import com.group0565.engine.render.LanguageText;
 import com.group0565.engine.render.PaintCan;
+import com.group0565.engine.render.TextRenderer;
 import com.group0565.engine.render.ThemedPaintCan;
 import com.group0565.math.LinearTemporalInterpolator;
 import com.group0565.math.Vector;
 import static com.group0565.engine.enums.HorizontalEdge.*;
 import static com.group0565.engine.enums.VerticalEdge.*;
 
-/**
- * An Achievement
- */
+/** An Achievement */
 public class Achievement extends GameMenu {
-    /**Set of Assets*/
-    private static final String SET = "Engine";
-    //Constants for Paint Assets
-    private static final String UNLOCK_STRING_NAME = "AchievementUnlock";
-    private static final String PAINT_FOLDER = "Achievements.";
-    private static final String BG_Paint = PAINT_FOLDER + "Background";
-    private static final String TEXT_Paint = PAINT_FOLDER + "Text";
-    //Timing Constants
-    private static final long TRANSITION_TIME = 750;
-    private static final long FDOWN_TIME = TRANSITION_TIME;
-    private static final long UNLOCK_TIME = FDOWN_TIME + 1000;
-    private static final long NAME_TIME = UNLOCK_TIME + 1000;
-    private static final long FUP_TIME = NAME_TIME + TRANSITION_TIME;
+  /** Set of Assets */
+  private static final String SET = "Engine";
+  // Constants for Paint Assets
+  private static final String UNLOCK_STRING_NAME = "AchievementUnlock";
+  private static final String PAINT_FOLDER = "Achievements.";
+  private static final String BG_Paint = PAINT_FOLDER + "Background";
+  private static final String TEXT_Paint = PAINT_FOLDER + "Text";
+  // Timing Constants
+  private static final long TRANSITION_TIME = 750;
+  private static final long FDOWN_TIME = TRANSITION_TIME;
+  private static final long UNLOCK_TIME = FDOWN_TIME + 1000;
+  private static final long NAME_TIME = UNLOCK_TIME + 1000;
+  private static final long FUP_TIME = NAME_TIME + TRANSITION_TIME;
 
-    //Icon Constants
-    private static final String ICON_NAME = "Icon";
-    //String Constants
-    private static final String STRING_NAME = "String";
-    private static final float STRING_HBUFFER = 25;
+  // Icon Constants
+  private static final String ICON_NAME = "Icon";
+  // String Constants
+  private static final String STRING_NAME = "String";
+  private static final float STRING_HBUFFER = 25;
 
-    /**Internal name of the Achievement**/
-    private String name;
-    /**Name of the achievement to display**/
-    private String displayName;
-    /**Description of the achievement**/
-    private String description;
-    /**Whether or not the achievement is hidden**/
-    private boolean hidden;
+  /** Internal name of the Achievement* */
+  private String name;
+  /** Name of the achievement to display* */
+  private String displayName;
+  /** Description of the achievement* */
+  private String description;
+  /** Whether or not the achievement is hidden* */
+  private boolean hidden;
 
-    /**Data to load bitmap with*/
-    private String set = null;
-    private String sheet = null;
-    private int tilex = 0;
-    private int tiley = 0;
+  /** Data to load bitmap with */
+  private String set = null;
 
+  private String sheet = null;
+  private int tilex = 0;
+  private int tiley = 0;
 
-    private LinearTemporalInterpolator interpolator = null;
-    private long timer;
+  private LinearTemporalInterpolator interpolator = null;
+  private long timer;
 
-    /**Whether or not this achievement has been unlocked*/
-    private boolean unlocked = false;
+  /** Whether or not this achievement has been unlocked */
+  private boolean unlocked = false;
 
-    /**Paint for the background*/
-    private PaintCan bgPaint;
+  /** Paint for the background */
+  private PaintCan bgPaint;
 
-    /**
-     * Creates a new Achievement
-     * @param size The size of the dropdown
-     * @param name The internal name of the Achievement
-     * @param displayName The displayed name of the Achievement
-     * @param set The set to obtain Bitmap from
-     * @param sheet The tilesheet to obtain Bitmap from
-     * @param tilex The tile coordinate to obtain Bitmap from
-     * @param tiley The tile coordinate to obtain Bitmap from
-     */
-    public Achievement(Vector size, String name, String displayName, String description, boolean hidden, String set, String sheet, int tilex, int tiley) {
-        super(size);
-        this.name = name;
-        this.displayName = displayName;
-        this.description = description;
-        this.hidden = hidden;
-        this.set = set;
-        this.sheet = sheet;
-        this.tilex = tilex;
-        this.tiley = tiley;
-        this.setEnable(false);
-    }
+  /**
+   * Creates a new Achievement
+   *
+   * @param size The size of the dropdown
+   * @param name The internal name of the Achievement
+   * @param displayName The displayed name of the Achievement
+   * @param set The set to obtain Bitmap from
+   * @param sheet The tilesheet to obtain Bitmap from
+   * @param tilex The tile coordinate to obtain Bitmap from
+   * @param tiley The tile coordinate to obtain Bitmap from
+   */
+  public Achievement(
+      Vector size,
+      String name,
+      String displayName,
+      String description,
+      boolean hidden,
+      String set,
+      String sheet,
+      int tilex,
+      int tiley) {
+    super(size);
+    this.name = name;
+    this.displayName = displayName;
+    this.description = description;
+    this.hidden = hidden;
+    this.set = set;
+    this.sheet = sheet;
+    this.tilex = tilex;
+    this.tiley = tiley;
+    this.setEnable(false);
+  }
 
     /**
      * Initilize the Achievement

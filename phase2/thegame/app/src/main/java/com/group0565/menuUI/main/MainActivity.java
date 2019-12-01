@@ -15,18 +15,13 @@ import androidx.cardview.widget.CardView;
 import androidx.lifecycle.LifecycleOwner;
 
 import com.example.thegame.R;
-import com.group0565.bomberGame.BomberMainActivity;
-import com.group0565.menuUI.achievements.AchievementsActivity;
-import com.group0565.racerGame.RacerMainActivity;
 import com.group0565.menuUI.locale.LocaleManager;
 import com.group0565.menuUI.login.LoginClick;
 import com.group0565.menuUI.main.MainMVP.MainPresenter;
 import com.group0565.menuUI.main.MainMVP.MainView;
+import com.group0565.menuUI.main.enums.ActivityNames;
 import com.group0565.menuUI.main.enums.GameID;
 import com.group0565.menuUI.main.enums.MenuOptionID;
-import com.group0565.menuUI.settings.SettingsActivity;
-import com.group0565.menuUI.statistics.StatisticsActivity;
-import com.group0565.tsu.core.TsuActivity;
 
 /** The MainActivity class */
 public class MainActivity extends AppCompatActivity implements MainView {
@@ -124,45 +119,14 @@ public class MainActivity extends AppCompatActivity implements MainView {
     setContentView(R.layout.activity_main);
   }
 
-  /** Redirect to game 1 activity */
+  /**
+   * Launch designated activity
+   *
+   * @param targetActivity The target activity
+   */
   @Override
-  public void goToGame1() {
-    Intent intent = new Intent(this, TsuActivity.class);
-    startActivity(intent);
-  }
-
-  /** Redirect to game 2 activity */
-  @Override
-  public void goToGame2() {
-    Intent intent = new Intent(this, BomberMainActivity.class);
-    startActivity(intent);
-  }
-
-  /** Redirect to game 3 activity */
-  @Override
-  public void goToGame3() {
-    Intent intent = new Intent(this, RacerMainActivity.class);
-    startActivity(intent);
-  }
-
-  /** Redirect to settings activity */
-  @Override
-  public void goToSettings() {
-    Intent intent = new Intent(MainActivity.this, SettingsActivity.class);
-    startActivity(intent);
-  }
-
-  /** Redirect to statistics activity */
-  @Override
-  public void goToStatistics() {
-    Intent intent = new Intent(MainActivity.this, StatisticsActivity.class);
-    startActivity(intent);
-  }
-
-  /** Redirect to statistics activity */
-  @Override
-  public void goToAchievements() {
-    Intent intent = new Intent(MainActivity.this, AchievementsActivity.class);
+  public void goToActivity(ActivityNames targetActivity) {
+    Intent intent = new Intent(MainActivity.this, targetActivity.getValue());
     startActivity(intent);
   }
 

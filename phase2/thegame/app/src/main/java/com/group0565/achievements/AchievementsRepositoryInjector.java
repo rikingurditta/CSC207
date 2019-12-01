@@ -9,25 +9,26 @@ import com.group0565.users.IUsersInteractor;
 public class AchievementsRepositoryInjector {
 
   /**
-   * Inject the caller with the statistics repository after getting user id from server
+   * Inject the caller with the Achievements repository after getting user id from server
    *
    * @param listener A listener for success of injection
    */
   public static void inject(RepositoryInjectionListener listener) {
     // Make sure listener sits on main thread
-//    Handler handler = new Handler(Looper.getMainLooper());
-//    handler.post(
-//        () ->
-//            IUsersInteractor.getInstance()
-//                .getUserObservable()
-//                .observeForever(
-//                    iUser -> {
-//                      if (iUser.isConnected()) {
-//                        listener.onSuccess(new FirebaseAchievementsRepository(iUser.getUid()));
-//                      }
-//                    }));
+    //    Handler handler = new Handler(Looper.getMainLooper());
+    //    handler.post(
+    //        () ->
+    //            IUsersInteractor.getInstance()
+    //                .getUserObservable()
+    //                .observeForever(
+    //                    iUser -> {
+    //                      if (iUser.isConnected()) {
+    //                        listener.onSuccess(new
+    // FirebaseAchievementsRepository(iUser.getUid()));
+    //                      }
+    //                    }));
 
-        listener.onSuccess(new MockAchievementsRepository());
+    listener.onSuccess(new MockAchievementsRepository());
   }
 
   /** The listener interface for the injection */

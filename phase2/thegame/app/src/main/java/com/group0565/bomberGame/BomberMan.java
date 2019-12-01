@@ -1,16 +1,13 @@
 package com.group0565.bomberGame;
 
-import android.graphics.Color;
-
 import com.group0565.bomberGame.bombs.NormalBomb;
 import com.group0565.bomberGame.input.BomberInput;
 import com.group0565.bomberGame.input.InputSystem;
-import com.group0565.engine.android.AndroidPaint;
 import com.group0565.engine.gameobjects.GameObject;
 import com.group0565.engine.interfaces.Canvas;
-import com.group0565.engine.interfaces.Paint;
+import com.group0565.engine.render.ThemedPaintCan;
+import com.group0565.math.Coords;
 import com.group0565.math.Vector;
-import com.group0565.theme.Themes;
 
 /** A BomberMan, aka a player in the game. */
 public class BomberMan extends GridObject {
@@ -36,14 +33,19 @@ public class BomberMan extends GridObject {
   /** The speed at which this player moves, in units per millisecond. */
   private float speed = 2.0f / 1000;
 
+  /** The number of health points this player has. */
   private int hp;
 
+  /** The number of bombs this player has placed. */
   private int numBombsPlaced;
 
+  /** The number of points of damage this player has dealt. */
   private int damageDealt;
 
-  private Paint bodyPaint = Paint.createInstance();
-  private Paint textPaint = Paint.createInstance();
+  /** PaintCans for this player's appearance and status text. */
+  private ThemedPaintCan bodyPaintCan = new ThemedPaintCan("Bomber", "BomberMan.Body");
+
+  private ThemedPaintCan textPaintCan = new ThemedPaintCan("Bomber", "Text.Text");
 
   /**
    * Constructs a new BomberMan.
@@ -77,22 +79,14 @@ public class BomberMan extends GridObject {
    */
   public BomberMan(
       Coords position, InputSystem inputSystem, BomberGame game, SquareGrid grid, int hp) {
-    super(position, grid);
-    this.inputSystem = inputSystem;
-    this.game = game;
-    this.hp = hp;
+    this(position, 0, inputSystem, game, grid, hp);
   }
 
   @Override
   public void init() {
     super.init();
-    bodyPaint.setARGB(180, 0, 255, 0);
-    textPaint.setTextSize(50);
-    if (getGlobalPreferences().getTheme() == Themes.LIGHT) {
-      textPaint.setColor(Color.BLACK);
-    } else if (getGlobalPreferences().getTheme() == Themes.DARK) {
-      textPaint.setColor(Color.WHITE);
-    }
+    bodyPaintCan.init(getGlobalPreferences(), getEngine().getGameAssetManager());
+    textPaintCan.init(getGlobalPreferences(), getEngine().getGameAssetManager());
   }
 
   /**
@@ -104,8 +98,8 @@ public class BomberMan extends GridObject {
   public void draw(Canvas canvas) {
     Vector pos = getAbsolutePosition();
     // Draw an rectangle at our touch position
-    canvas.drawRect(pos.getX(), pos.getY(), pos.getX() + 100, pos.getY() + 100, bodyPaint);
-    canvas.drawText("hp: " + hp, pos.getX(), pos.getY(), textPaint);
+    canvas.drawRect(pos, new Vector(100, 100), bodyPaintCan);
+    canvas.drawText("hp: " + hp, pos, textPaintCan);
   }
 
   /**

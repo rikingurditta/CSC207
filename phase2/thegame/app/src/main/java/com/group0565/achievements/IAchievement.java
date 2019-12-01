@@ -15,8 +15,19 @@ public interface IAchievement {
    *
    * @return True if achievement was unlocked and false otherwise
    */
-  boolean isAchieved();
+  boolean getIsAchieved();
 
-  /** Sets the achievement's status to true */
-  void setAchieved();
+  /**
+   * Gets the achievement's achieve date
+   *
+   * @return The date and time of achievement in milliseconds
+   */
+  Long getAchievementDate();
+
+  /**
+   * Sets the achievement's status to true
+   *
+   * @param achieveDate The date of achievement
+   */
+  void setAchieved(Long achieveDate);
 }

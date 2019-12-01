@@ -3,6 +3,7 @@ package com.group0565.engine.gameobjects;
 import java.util.Comparator;
 import java.util.UUID;
 
+/** A comparator implementation of display z values */
 public class ZComparator implements Comparator<UUID> {
 
   /**

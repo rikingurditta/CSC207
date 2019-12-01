@@ -8,12 +8,20 @@ import com.group0565.engine.gameobjects.GameObject;
 import com.group0565.engine.gameobjects.InputEvent;
 import com.group0565.math.Vector;
 
+/** A class in charge of managing any input to the user in the game */
 public class InputManager implements View.OnTouchListener {
-  private static final String TAG = "InputManager";
+    private static final String TAG = "InputManager";
 
+    /** Array to store InputEvents based on their pointerID* */
   private SparseArray<InputEvent> eventManager = new SparseArray<>();
+  /** The root GameObject to announce input events to* */
   private GameObject game;
 
+  /**
+   * Creates a new InputManager
+   *
+   * @param game The root GameObject of the game-
+   */
   public InputManager(GameObject game) {
     this.game = game;
   }
@@ -63,6 +71,11 @@ public class InputManager implements View.OnTouchListener {
     return true;
   }
 
+  /**
+   * Setter for game
+   *
+   * @param game The new value for game
+   */
   public void setGame(GameObject game) {
     this.game = game;
   }

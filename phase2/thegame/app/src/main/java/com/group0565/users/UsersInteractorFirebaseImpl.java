@@ -5,7 +5,7 @@ import androidx.lifecycle.MutableLiveData;
 
 import com.google.firebase.auth.FirebaseAuth;
 
-/** Firebase implementation of com.group0565.users service interface - a singleton */
+/** Firebase implementation of users service interface - a singleton */
 public class UsersInteractorFirebaseImpl implements IUsersInteractor {
 
   /** Singleton instance */

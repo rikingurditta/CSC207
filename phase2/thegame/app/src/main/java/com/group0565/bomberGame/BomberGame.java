@@ -1,46 +1,46 @@
 package com.group0565.bomberGame;
 
-import android.graphics.Color;
-
 import com.group0565.bomberGame.input.InputSystem;
 import com.group0565.bomberGame.input.JoystickInput;
 import com.group0565.bomberGame.input.RandomInput;
-import com.group0565.engine.android.AndroidPaint;
+import com.group0565.engine.assets.GameAssetManager;
 import com.group0565.engine.gameobjects.GameObject;
+import com.group0565.engine.gameobjects.GlobalPreferences;
 import com.group0565.engine.interfaces.Canvas;
-import com.group0565.engine.interfaces.Paint;
+import com.group0565.engine.render.LanguageText;
+import com.group0565.engine.render.ThemedPaintCan;
+import com.group0565.math.Coords;
 import com.group0565.math.Vector;
 import com.group0565.statistics.IAsyncStatisticsRepository;
 import com.group0565.statistics.IStatisticFactory;
 import com.group0565.statistics.StatisticRepositoryInjector;
 import com.group0565.statistics.enums.StatisticKey;
-import com.group0565.theme.Themes;
 
 import java.util.ArrayList;
 import java.util.Map;
 import java.util.UUID;
-import java.lang.Math;
 
 public class BomberGame extends GameObject {
 
   /** Create a STRONG reference to the listener so it won't get garbage collected */
   StatisticRepositoryInjector.RepositoryInjectionListener listener;
-  private ArrayList<GameObject> itemsToBeAdopted = new ArrayList<GameObject>();
-  private ArrayList<GameObject> itemsToBeRemoved = new ArrayList<GameObject>();
+
+  private ArrayList<GameObject> itemsToBeAdopted = new ArrayList<>();
+  private ArrayList<GameObject> itemsToBeRemoved = new ArrayList<>();
   private BomberMan meBomberMan;
-  private String numBombStats;
-  private String damageDealtStats;
-  private String currentHealth;
   private int gameTimer = 60000;
-  private int bgColor = Color.DKGRAY;
   private boolean gameEnded = false;
   private long startTime;
-  private String statisticName1 = "Bombs placed";
-  private String statisticName2 = "Damage dealt";
-  private String statisticName3 = "HP remaining";
-  private String timeLeftinLang = "Time Left";
   /** The repository to interact with the stats DB */
   private IAsyncStatisticsRepository myStatRepo;
+
+  private LanguageText bombsPlacedLT;
+  private LanguageText damageDealtLT;
+  private LanguageText hpRemainingLT;
+  private LanguageText timeLeftLT;
+  private LanguageText gameOverLT;
+  private ThemedPaintCan bgPaintCan = new ThemedPaintCan("Bomber", "Background.Background");
+  private ThemedPaintCan textPaintCan = new ThemedPaintCan("Bomber", "Text.Text");
 
   public BomberGame(Vector position) {
     super(position);
@@ -72,38 +72,41 @@ public class BomberGame extends GameObject {
     super.init();
     startTime = System.currentTimeMillis();
 
-    if (getGlobalPreferences().getTheme() == Themes.DARK) {
-      bgColor = Color.DKGRAY;
-    } else if (getGlobalPreferences().getTheme() == Themes.LIGHT) {
-      bgColor = Color.WHITE;
-    }
-
-    if (getGlobalPreferences().getLanguage().equals("en")) {
-      statisticName1 = "Bombs placed";
-      statisticName2 = "Damage dealt";
-      statisticName3 = "HP remaining";
-    } else if (getGlobalPreferences().getLanguage().equals("fr")) {
-      statisticName1 = "bombes placées";
-      statisticName2 = "dégâts infligés";
-      statisticName3 = "santé restante";
-      timeLeftinLang = "temps restant";
-    }
+    GlobalPreferences gp = getGlobalPreferences();
+    GameAssetManager am = getEngine().getGameAssetManager();
+    bgPaintCan.init(gp, am);
+    textPaintCan.init(gp, am);
+    gameOverLT = new LanguageText(gp, am, "Bomber", "Game_Over");
+    bombsPlacedLT = new LanguageText(gp, am, "Bomber", "Bombs_Placed");
+    damageDealtLT = new LanguageText(gp, am, "Bomber", "Damage_Dealt");
+    hpRemainingLT = new LanguageText(gp, am, "Bomber", "HP_Remaining");
+    timeLeftLT = new LanguageText(gp, am, "Bomber", "Time_Left");
   }
 
   @Override
   public void draw(Canvas canvas) {
     super.draw(canvas);
     // Fill background with White
-    canvas.drawColor(bgColor);
+    canvas.drawColor(bgPaintCan.getPaint().getColor());
 
-    Paint textPaint = Paint.createInstance();
-    textPaint.setTextSize(50);
-    textPaint.setColor(Color.BLACK);
-
-    canvas.drawText(timeLeftinLang + Math.floor(gameTimer / 1000) + "s", 1600, 200, textPaint);
-    canvas.drawText(numBombStats, 1600, 250, textPaint);
-    canvas.drawText(damageDealtStats, 1600, 300, textPaint);
-    canvas.drawText(currentHealth, 1600, 350, textPaint);
+    if (!gameEnded) {
+      canvas.drawText(
+          timeLeftLT.getValue() + ": " + Math.floor(gameTimer / 1000) + "s",
+          new Vector(1600, 200),
+          textPaintCan);
+    } else {
+      canvas.drawText(gameOverLT.getValue(), new Vector(1600, 200), textPaintCan);
+    }
+    canvas.drawText(
+        bombsPlacedLT.getValue() + ": " + meBomberMan.getNumBombsPlaced(),
+        new Vector(1600, 260),
+        textPaintCan);
+    canvas.drawText(
+        damageDealtLT.getValue() + ": " + meBomberMan.getDamageDealt(),
+        new Vector(1600, 320),
+        textPaintCan);
+    canvas.drawText(
+        hpRemainingLT.getValue() + ": " + meBomberMan.getHp(), new Vector(1600, 380), textPaintCan);
   }
 
   @Override
@@ -121,7 +124,6 @@ public class BomberGame extends GameObject {
       } else {
         // gameTimer > 0
         gameTimer -= ms;
-        updateStats();
       }
     }
   }
@@ -129,6 +131,7 @@ public class BomberGame extends GameObject {
   private void updateChildren() {
     for (GameObject item : itemsToBeAdopted) {
       this.adopt(item);
+      item.init();
     }
     itemsToBeAdopted.clear();
 
@@ -140,14 +143,7 @@ public class BomberGame extends GameObject {
     itemsToBeRemoved.clear();
   }
 
-  public void updateStats() {
-    numBombStats = statisticName1 + ": " + meBomberMan.getNumBombsPlaced();
-    damageDealtStats = statisticName2 + ": " + meBomberMan.getDamageDealt();
-    currentHealth = statisticName3 + ": " + meBomberMan.getHp();
-  }
-
   public void sendStats() {
-    timeLeftinLang = "GAME OVER ";
     if (myStatRepo != null) {
 
       myStatRepo.put(

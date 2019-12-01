@@ -5,8 +5,10 @@ import android.content.Context;
 import com.firebase.ui.auth.AuthUI;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
+/** A Firebase implementation for ILoginInteractor using Firebase AuthUI */
 public class FirebaseUILoginInteractor implements ILoginInteractor {
 
   /** Singleton instance */
@@ -17,10 +19,7 @@ public class FirebaseUILoginInteractor implements ILoginInteractor {
 
   /** A list of the used log in providers */
   private List<AuthUI.IdpConfig> providers =
-      Arrays.asList(
-          new AuthUI.IdpConfig.EmailBuilder().build()
-          //          ,new AuthUI.IdpConfig.GoogleBuilder().build()
-          );
+      Collections.singletonList(new AuthUI.IdpConfig.EmailBuilder().build());
 
   /** Initialize the interactor and get reference to Firebase UI */
   private FirebaseUILoginInteractor() {

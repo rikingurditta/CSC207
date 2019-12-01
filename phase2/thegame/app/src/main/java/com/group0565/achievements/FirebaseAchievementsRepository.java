@@ -16,7 +16,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /** A Firebase implementation of the IAsyncAchievementsRepository */
-public class FirebaseAchievementsRepository implements IAsyncAchievementsRepository {
+class FirebaseAchievementsRepository implements IAsyncAchievementsRepository {
 
   /** A reference to the Firebase database */
   private DatabaseReference mDatabase;
@@ -43,9 +43,9 @@ public class FirebaseAchievementsRepository implements IAsyncAchievementsReposit
   }
 
   /**
-   * Gets the observable LiveData of all the IStatistic objects in the database
+   * Gets the observable LiveData of all the IAchievement objects in the database
    *
-   * @return An observable object wrapping the list of IStatistic with all statistics
+   * @return An observable object wrapping the list of IAchievement with all achievements
    */
   @Override
   public LiveData<List<IAchievement>> getObservable() {
@@ -95,10 +95,21 @@ public class FirebaseAchievementsRepository implements IAsyncAchievementsReposit
    * Add an achievement to the database - mark as achieved
    *
    * @param achievement The achievement to add
+   * @param timeAdded The time of adding
+   */
+  @Override
+  public void push(IAchievement achievement, Long timeAdded) {
+    achievement.setAchieved(timeAdded);
+    mDatabase.push().setValue(achievement);
+  }
+
+  /**
+   * Add an achievement to the database
+   *
+   * @param achievement The achievement to add
    */
   @Override
   public void push(IAchievement achievement) {
-    achievement.setAchieved();
     mDatabase.push().setValue(achievement);
   }
 
@@ -121,16 +132,16 @@ public class FirebaseAchievementsRepository implements IAsyncAchievementsReposit
   /**
    * Does the user already have the achievement, send true to callback if achievement IS NOT in db
    *
-   * @param achievement The achievement earned
+   * @param achievementKey The achievement earned
    * @param callBack The callback to return the answer to
    */
   @Override
-  public void isNewAchievement(IAchievement achievement, AsyncDataCallBack<Boolean> callBack) {
+  public void isNewAchievement(String achievementKey, AsyncDataCallBack<Boolean> callBack) {
     getAll(
         data -> {
           boolean isFound = false;
           for (IAchievement currAchieve : data) {
-            if (achievement.getAchievementKey().equals(currAchieve.getAchievementKey())) {
+            if (achievementKey.equals(currAchieve.getAchievementKey())) {
               isFound = true;
               break;
             }
@@ -139,7 +150,18 @@ public class FirebaseAchievementsRepository implements IAsyncAchievementsReposit
         });
   }
 
-  /** An implementation of ChildEventListener for PreferenceRepository */
+  /**
+   * Create and push a new achievement with the given key
+   *
+   * @param achievementName The achievement key
+   */
+  @Override
+  public void push(String achievementName) {
+    IAchievement achievement = AchievementFactory.createGameAchievement(achievementName);
+    mDatabase.push().setValue(achievement);
+  }
+
+  /** An implementation of ChildEventListener for AchievementsRepository */
   private class MyChildEventListener implements ChildEventListener {
 
     /**

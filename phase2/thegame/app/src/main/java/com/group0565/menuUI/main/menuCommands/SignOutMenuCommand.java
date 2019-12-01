@@ -2,12 +2,13 @@ package com.group0565.menuUI.main.menuCommands;
 
 import com.group0565.menuUI.main.MainMVP;
 
+/** An implementation of NavigationCommand to sign out the user */
 public class SignOutMenuCommand implements MenuCommand {
   /** A reference for the presenter that will sign the user out */
   private MainMVP.MainPresenter mainPresenter;
 
   /**
-   * Initiates a new Game1Command with the view
+   * Initiates a new SignOutMenuCommand with the view
    *
    * @param mainPresenter The presenter that will sign out
    */

@@ -24,6 +24,7 @@ public class StatisticsActivity extends AppCompatActivity implements StatisticsM
   /** The StatisticsPresenter reference */
   StatisticsMVP.StatisticsPresenter statisticsPresenter;
 
+  /** A map of recycler views to game names */
   Map<String, RecyclerView> gameRecyclerMap;
 
   /**
@@ -55,16 +56,16 @@ public class StatisticsActivity extends AppCompatActivity implements StatisticsM
 
     gameRecyclerMap = new HashMap<>();
 
-    RecyclerView game1Stats = findViewById(R.id.recyclerViewGame1);
-    game1Stats.setLayoutManager(new LinearLayoutManager(this));
-    RecyclerView game2Stats = findViewById(R.id.recyclerViewGame2);
-    game2Stats.setLayoutManager(new LinearLayoutManager(this));
-    RecyclerView game3Stats = findViewById(R.id.recyclerViewGame3);
-    game3Stats.setLayoutManager(new LinearLayoutManager(this));
+    RecyclerView tsuStats = findViewById(R.id.recyclerViewTsu);
+    tsuStats.setLayoutManager(new LinearLayoutManager(this));
+    RecyclerView bomberStats = findViewById(R.id.recyclerViewBomber);
+    bomberStats.setLayoutManager(new LinearLayoutManager(this));
+    RecyclerView racerStats = findViewById(R.id.recyclerViewRacer);
+    racerStats.setLayoutManager(new LinearLayoutManager(this));
 
-    gameRecyclerMap.put(resources.getString(R.string.Game1Name), game1Stats);
-    gameRecyclerMap.put(resources.getString(R.string.Game2Name), game2Stats);
-    gameRecyclerMap.put(resources.getString(R.string.Game3Name), game3Stats);
+    gameRecyclerMap.put(resources.getString(R.string.Game1Name), tsuStats);
+    gameRecyclerMap.put(resources.getString(R.string.Game2Name), bomberStats);
+    gameRecyclerMap.put(resources.getString(R.string.Game3Name), racerStats);
 
     statisticsPresenter.getGameStatRepo(resources.getString(R.string.Game1Name));
     statisticsPresenter.getGameStatRepo(resources.getString(R.string.Game2Name));

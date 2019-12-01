@@ -6,57 +6,106 @@ import com.group0565.engine.interfaces.Paint;
 import com.group0565.engine.interfaces.Source;
 import com.group0565.math.Vector;
 
+/** Draws Text */
 public class TextRenderer extends MenuObject {
-    private Paint paint;
-    private PaintCan paintCan;
-    private Source<String> textSource;
-    private String last = "";
+  /** The Text's paint */
+  private Paint paint;
+  /** The text's PaintCan */
+  private PaintCan paintCan;
+  /** The text to draw */
+  private Source<String> textSource;
+  private String last = "";
+  /**
+   * Create a new TextRenderer
+   *
+   * @param position The target position to draw
+   * @param string The target text to draw
+   * @param paintCan The target paintCan to draw
+   */
+  public TextRenderer(Vector position, String string, PaintCan paintCan) {
+    super(paintCan.getPaint().getTextBounds(string));
+    this.setRelativePosition(position);
+    this.setPaintCan(paintCan);
+    this.textSource = new LanguageText(string);
+  }
 
-    public TextRenderer(Vector position, String string, PaintCan paintCan) {
-        super(paintCan.getPaint().getTextBounds(string));
-        this.setRelativePosition(position);
-        this.setPaintCan(paintCan);
-        this.textSource = new LanguageText(string);
-    }
+  /**
+   * Create a new TextRenderer
+   *
+   * @param position The target position to draw
+   * @param string The target text to draw
+   * @param paint The target paintCan to draw
+   */
+  public TextRenderer(Vector position, String string, Paint paint) {
+    super(paint.getTextBounds(string));
+    this.setRelativePosition(position);
+    this.setPaint(paint);
+    this.textSource = new LanguageText(string);
+  }
 
-    public TextRenderer(Vector position, String string, Paint paint) {
-        super(paint.getTextBounds(string));
-        this.setRelativePosition(position);
-        this.setPaint(paint);
-        this.textSource = new LanguageText(string);
-    }
+  /**
+   * Create a new TextRenderer
+   *
+   * @param position The target position to draw
+   * @param text The target text to draw
+   * @param paintCan The target paintCan to draw
+   */
+  public TextRenderer(Vector position, Source<String> text, PaintCan paintCan) {
+    super(paintCan.getPaint().getTextBounds(text.getValue()));
+    this.setRelativePosition(position);
+    this.setPaintCan(paintCan);
+    this.textSource = text;
+  }
 
-    public TextRenderer(Vector position, Source<String> text, PaintCan paintCan) {
-        super(paintCan.getPaint().getTextBounds(text.getValue()));
-        this.setRelativePosition(position);
-        this.setPaintCan(paintCan);
-        this.textSource = text;
-    }
+  /**
+   * Create a new TextRenderer
+   *
+   * @param position The target position to draw
+   * @param text The target text to draw
+   * @param paint The target paintCan to draw
+   */
+  public TextRenderer(Vector position, Source<String> text, Paint paint) {
+    super(paint.getTextBounds(text.getValue()));
+    this.setRelativePosition(position);
+    this.setPaint(paint);
+    this.textSource = text;
+  }
 
-    public TextRenderer(Vector position, Source<String> text, Paint paint) {
-        super(paint.getTextBounds(text.getValue()));
-        this.setRelativePosition(position);
-        this.setPaint(paint);
-        this.textSource = text;
-    }
+  /**
+   * Create a new TextRenderer
+   *
+   * @param string The target text to draw
+   * @param paintCan The target paintCan to draw
+   */
+  public TextRenderer(String string, PaintCan paintCan) {
+    super(paintCan.getPaint().getTextBounds(string));
+    this.setPaintCan(paintCan);
+    this.textSource = new LanguageText(string);
+  }
 
-    public TextRenderer(String string, PaintCan paintCan) {
-        super(paintCan.getPaint().getTextBounds(string));
-        this.setPaintCan(paintCan);
-        this.textSource = new LanguageText(string);
-    }
+  /**
+   * Create a new TextRenderer
+   *
+   * @param string The target text to draw
+   * @param paint The target paintCan to draw
+   */
+  public TextRenderer(String string, Paint paint) {
+    super(paint.getTextBounds(string));
+    this.setPaint(paint);
+    this.textSource = new LanguageText(string);
+  }
 
-    public TextRenderer(String string, Paint paint) {
-        super(paint.getTextBounds(string));
-        this.setPaint(paint);
-        this.textSource = new LanguageText(string);
-    }
-
-    public TextRenderer(Source<String> text, PaintCan paintCan) {
-        super(paintCan.getPaint().getTextBounds(text.getValue()));
-        this.setPaintCan(paintCan);
-        this.textSource = text;
-    }
+  /**
+   * Create a new TextRenderer
+   *
+   * @param text The target text to draw
+   * @param paintCan The target paintCan to draw
+   */
+  public TextRenderer(Source<String> text, PaintCan paintCan) {
+    super(paintCan.getPaint().getTextBounds(text.getValue()));
+    this.setPaintCan(paintCan);
+    this.textSource = text;
+  }
 
     public TextRenderer(Source<String> text, PaintCan paintCan, Vector size) {
         super(paintCan.getPaint().getTextBounds(text.getValue()));
@@ -64,7 +113,12 @@ public class TextRenderer extends MenuObject {
         this.textSource = text;
         this.setSize(size);
     }
-
+    /**
+     * Create a new TextRenderer
+     *
+     * @param text The target text to draw
+     * @param paint The target paintCan to draw
+     */
     public TextRenderer(Source<String> text, Paint paint) {
         super(paint.getTextBounds(text.getValue()));
         this.setPaint(paint);
@@ -87,12 +141,20 @@ public class TextRenderer extends MenuObject {
         else if (paintCan != null)
             canvas.drawText(getString(), pos, paintCan.getPaint());
     }
-
+    /**
+     * Sets the paint according to the given paint
+     *
+     * @param paint The target paint to use
+     */
     public void setPaint(Paint paint) {
         this.paint = paint.clone();
         this.paintCan = null;
     }
-
+    /**
+     * Sets the paint can
+     *
+     * @param paintCan The target paintCan
+     */
     public void setPaintCan(PaintCan paintCan) {
         this.paintCan = paintCan.clone();
         this.paint = null;
@@ -109,11 +171,19 @@ public class TextRenderer extends MenuObject {
         }else
             super.setSize(size);
     }
-
+    /**
+     * Get the text
+     *
+     * @return The text of the TextRenderer
+     */
     public String getString(){
         return this.textSource.getValue();
     }
-
+    /**
+     * Get the current paint
+     *
+     * @return The paint of TextRenderer
+     */
     protected Paint getPaint() {
         return paintCan != null ? paintCan.getPaint() : paint;
     }

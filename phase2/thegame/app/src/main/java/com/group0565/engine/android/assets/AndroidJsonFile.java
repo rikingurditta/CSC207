@@ -12,11 +12,22 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Scanner;
 
+/** Android-specific implementation of JsonFile */
 public class AndroidJsonFile extends JsonFile {
+  /** The json files folder */
   public static final String JSON_FOLDER = "json/";
+  /** Class tag constant */
   private static final String TAG = "AndroidJsonFile";
+  /** A reference to an AssetManager */
   private AssetManager assetManager;
 
+  /**
+   * Create an AndroidJsonFile
+   *
+   * @param name The file name
+   * @param path The file path
+   * @param assetManager The owner AssetManager
+   */
   public AndroidJsonFile(String name, String path, AssetManager assetManager) {
     super(name, path);
     this.assetManager = assetManager;

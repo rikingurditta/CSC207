@@ -5,6 +5,7 @@ import android.os.Looper;
 
 import com.group0565.users.IUsersInteractor;
 
+/** An injector for a HitObjectsSession Repository */
 public class HitObjectsRepositoryInjector {
 
   /**

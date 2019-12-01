@@ -22,13 +22,13 @@ public class GameMenu extends MenuObject {
         super(size);
     }
 
-    @Override
-    public void preInit() {
-        super.preInit();
-        if (this.getSize() == null){
-            this.setSize(getEngine().getSize());
-        }
+  @Override
+  public void preInit() {
+    super.preInit();
+    if (this.getSize() == null) {
+      this.setSize(getEngine().getSize());
     }
+  }
 
     @Override
     public void postInit() {
@@ -36,13 +36,24 @@ public class GameMenu extends MenuObject {
         updateAllPosition();
     }
 
-    public MenuBuilder build(){
-        return new MenuBuilder();
-    }
+  /**
+   * Begin build process
+   *
+   * @return A new MenuBuilder
+   */
+  public MenuBuilder build() {
+    return new MenuBuilder();
+  }
 
-    protected MenuObject getComponent(String name){
-        return menuComponents.get(name);
-    }
+  /**
+   * Get a child component by name
+   *
+   * @param name The child name
+   * @return The child
+   */
+  protected MenuObject getComponent(String name) {
+    return menuComponents.get(name);
+  }
 
     public void updateAllPosition(){
         super.updatePosition();
@@ -118,10 +129,16 @@ public class GameMenu extends MenuObject {
             return GameMenu.this;
         }
 
-        protected class MenuBuilderException extends MenuObjectBuilderException{
-            public MenuBuilderException(String s) {
-                super(s);
-            }
-        }
+    /** An exception for errors in building process */
+    protected class MenuBuilderException extends MenuObjectBuilderException {
+      /**
+       * Create a new exception
+       *
+       * @param s The exception message
+       */
+      public MenuBuilderException(String s) {
+        super(s);
+      }
     }
+  }
 }

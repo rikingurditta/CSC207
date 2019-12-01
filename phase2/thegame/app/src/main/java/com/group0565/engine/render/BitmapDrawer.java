@@ -6,15 +6,11 @@ import com.group0565.engine.interfaces.Canvas;
 import com.group0565.engine.interfaces.Source;
 import com.group0565.math.Vector;
 
-/**
- * MenuObject that draws a Bitmap
- */
+/** MenuObject that draws a Bitmap */
 public class BitmapDrawer extends MenuObject {
 
-    /**
-     * THe Bitmap to draw
-     */
-    private Source<Bitmap> bitmap;
+  /** THe Bitmap to draw */
+  private Source<Bitmap> bitmap;
 
     /**
      * Whether or not to lock aspect ratio.

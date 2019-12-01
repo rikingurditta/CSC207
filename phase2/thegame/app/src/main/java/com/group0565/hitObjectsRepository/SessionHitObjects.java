@@ -12,26 +12,43 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+/** An object representation of Session Hits */
 public class SessionHitObjects {
   /**
    * Lambda Map to set scores easier
    */
   private HashMap<Scores, Setter<Integer>> scoresSetters = new HashMap<>();
-  private List<HitObject> hitObjects;
+    /** A list of the user's session hits */
+    private List<HitObject> hitObjects;
   private Set<ArchiveInputEvent> archive;
   private String beatmapName;
-  private int score;
+    /** The session score */
+    private int score;
+  /** The session grade */
   private int grade;
+  /** Session difficulty */
   private double difficulty;
+  /** A string representation of the time the session started */
   private String datetime;
+  /** A boolean for whether cheats were used in the session */
   private boolean cheats;
+  /** The max session combo */
   private int maxCombo;
+  /** Amount of 300 point hits */
   private int S300;
+  /** Amount of 150 point hits */
   private int S150;
+  /** Amount of 50 point hits */
   private int S50;
+  /** Amount of 0 point hits */
   private int S0;
 
-  public SessionHitObjects(List<HitObject> hitObjects) {
+  /**
+   * Create a new object with the given HitObjects
+   *
+   * @param hitObjects The HitObjects of the session
+   */
+  private SessionHitObjects(List<HitObject> hitObjects) {
     this.hitObjects = hitObjects;
     this.score = 0;
     this.grade = 0;
@@ -51,14 +68,15 @@ public class SessionHitObjects {
     scoresSetters.put(Scores.S0, this::setS0);
   }
 
+  /** Create a new object with an empty list */
   public SessionHitObjects() {
     this(new ArrayList<>());
   }
 
   /**
-   * Getter for hitObjects
+   * Get the hitObjects for the session
    *
-   * @return hitObjects
+   * @return The hitObjects list
    */
   public List<HitObject> getHitObjects() {
     return hitObjects;
@@ -92,9 +110,9 @@ public class SessionHitObjects {
   }
 
   /**
-   * Getter for score
+   * Get the hitObjects for the session
    *
-   * @return score
+   * @return The hitObjects list
    */
   public int getScore() {
     return score;
@@ -287,23 +305,5 @@ public class SessionHitObjects {
    */
   public void setCheats(boolean cheats) {
     this.cheats = cheats;
-  }
-
-  public void setHitScore(Scores score, int count) {
-    Setter setter = scoresSetters.get(score);
-    if (setter != null)
-      setter.set(count);
-  }
-
-  public void setHitScore(Map<Scores, Integer> scoreCount) {
-    for (Scores score : scoreCount.keySet()) {
-      Integer value = scoreCount.get(score);
-      if (value != null)
-        setHitScore(score, value);
-    }
-  }
-
-  private interface Setter<T>{
-    void set(T t);
   }
 }

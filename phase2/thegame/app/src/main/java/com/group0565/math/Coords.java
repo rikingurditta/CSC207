@@ -1,4 +1,4 @@
-package com.group0565.bomberGame;
+package com.group0565.math;
 
 /** 2D integer coordinates. Pretty much just an immutable vector of ints. */
 public class Coords {
@@ -7,8 +7,7 @@ public class Coords {
 
   /** Create a new coordinate at the origin. */
   public Coords() {
-    this.x = 0;
-    this.y = 0;
+    this(0, 0);
   }
   /** Create a new coordinate (x, y). */
   public Coords(int x, int y) {
@@ -18,12 +17,15 @@ public class Coords {
 
   /** @return a coordinate with minX <= x < maxX, minY <= y < maxY. */
   public static Coords random(int minX, int minY, int maxX, int maxY) {
-    // TODO: make this function throw an error properly instead of just asserting
-    assert minX <= maxX;
-    assert minY <= maxY;
+    if (minX > maxX)
+      throw new IllegalArgumentException("min x must be less than max x");
+    else if (minY > maxY)
+      throw new IllegalArgumentException("min x must be less than max x");
 
-    return new Coords(
-        minX + (int) (Math.random() * (maxX - minX)), minY + (int) (Math.random() * (maxY - minY)));
+    int randX = minX + (int) (Math.random() * (maxX - minX));
+    int randY = minY + (int) (Math.random() * (maxY - minY));
+
+    return new Coords(randX, randY);
   }
 
   /** @return true if the coordinates have the same components. */

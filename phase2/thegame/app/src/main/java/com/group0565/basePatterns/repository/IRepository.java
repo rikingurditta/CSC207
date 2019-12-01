@@ -2,6 +2,7 @@ package com.group0565.basePatterns.repository;
 
 import java.util.List;
 
+/** An interface defining a repository */
 public interface IRepository<T> {
 
   /**

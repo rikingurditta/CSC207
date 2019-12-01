@@ -4,7 +4,7 @@ import androidx.lifecycle.LiveData;
 
 import java.util.List;
 
-/** An interface defining a repository */
+/** An interface defining an async repository that houses observable data */
 public interface IAsyncRepository<T> extends IRepository<T> {
 
   /**

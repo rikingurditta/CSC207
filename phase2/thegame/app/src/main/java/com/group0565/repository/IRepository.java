@@ -2,6 +2,11 @@ package com.group0565.repository;
 
 import java.util.List;
 
+/**
+ * An interface for a general repository
+ *
+ * @param <T> The data type of repository
+ */
 public interface IRepository<T> {
 
   /**

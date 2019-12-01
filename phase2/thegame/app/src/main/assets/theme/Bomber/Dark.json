@@ -1,0 +1,114 @@
+{
+  "Background": {
+    "BackgroundPaint": {
+      "ARGB": [
+        255,
+        68,
+        68,
+        68
+      ]
+    }
+  },
+  "Text": {
+    "TextPaint": {
+      "ARGB": [
+        255,
+        255,
+        255,
+        255
+      ],
+      "TextSize": 50
+    }
+  },
+  "Grid": {
+    "LinePaint": {
+      "ARGB": [
+        255,
+        255,
+        255,
+        255
+      ],
+      "StrokeWidth": 1
+    }
+  },
+  "Joystick": {
+    "StickPaint": {
+      "ARGB": [
+        128,
+        0,
+        0,
+        128
+      ]
+    },
+    "ButtonPaint": {
+      "ARGB": [
+        128,
+        255,
+        0,
+        0
+      ]
+    }
+  },
+  "BomberMan": {
+    "BodyPaint": {
+      "ARGB": [
+        180,
+        0,
+        255,
+        0
+      ]
+    }
+  },
+  "Bomb": {
+    "Buildup1Paint": {
+      "ARGB": [
+        255,
+        240,
+        255,
+        0
+      ]
+    },
+    "Buildup2Paint": {
+      "ARGB": [
+        255,
+        255,
+        206,
+        0
+      ]
+    },
+    "Buildup3Paint": {
+      "ARGB": [
+        255,
+        255,
+        154,
+        0
+      ]
+    },
+    "Buildup4Paint": {
+      "ARGB": [
+        250,
+        255,
+        90,
+        0
+      ]
+    },
+    "ExplosionPaint": {
+      "ARGB": [
+        200,
+        255,
+        0,
+        0
+      ]
+    }
+  },
+  "Crate": {
+    "CratePaint": {
+      "ARGB": [
+        255,
+        102,
+        46,
+        10
+      ]
+    }
+  }
+}

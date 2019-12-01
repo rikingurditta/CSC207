@@ -12,6 +12,7 @@ import com.group0565.tsu.game.HitObject;
 import java.util.ArrayList;
 import java.util.List;
 
+/** A firebase implementation of SessionHitObjectsRepository */
 public class FirebaseSessionHitObjectsRepository implements ISessionHitObjectsRepository {
 
   /** A reference to the Firebase database */
@@ -70,7 +71,7 @@ public class FirebaseSessionHitObjectsRepository implements ISessionHitObjectsRe
   }
 
   /**
-   * Updates an object in the database for the user
+   * Updates an SessionHitObjects in the database for the user
    *
    * @param obj The object to update based on its key
    */
@@ -81,7 +82,7 @@ public class FirebaseSessionHitObjectsRepository implements ISessionHitObjectsRe
   }
 
   /**
-   * Add a preference to the database for the user
+   * Add a SessionHitObjects to the database for the user
    *
    * @param obj The object to add
    */
@@ -92,7 +93,7 @@ public class FirebaseSessionHitObjectsRepository implements ISessionHitObjectsRe
   }
 
   /**
-   * Remove a preference from the database for the user
+   * Remove a SessionHitObjects from the database for the user
    *
    * @param obj The object to remove
    */
@@ -109,7 +110,7 @@ public class FirebaseSessionHitObjectsRepository implements ISessionHitObjectsRe
   }
 
   /**
-   * Pushes a list of HitObjects to the repository Also empties the current list of HitObjects
+   * Pushes a list of HitObjects to the repository. Also empties the current list of HitObjects
    *
    * @param sessionLists The list of HitObjects to push to the DB
    */

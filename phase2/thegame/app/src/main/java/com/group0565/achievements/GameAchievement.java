@@ -2,6 +2,8 @@ package com.group0565.achievements;
 
 import androidx.annotation.Nullable;
 
+import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 
 /** An implementation of IAchievements for GameAchievement */
@@ -13,24 +15,28 @@ public class GameAchievement implements IAchievement {
   /** The achievement's status */
   private boolean isAchieved;
 
+  /** The date of achievement */
+  private Long achievementDate;
+
   /**
-   * Creates a new GameStatistic with the given key
+   * Creates a new GameAchievement with the given key
    *
    * @param achievementKey The achievement unique key
    */
   public GameAchievement(String achievementKey) {
-    this(achievementKey, false);
+    this(achievementKey, false, null);
   }
 
   /**
-   * Creates a new GameStatistic with the given key and status
+   * Creates a new GameAchievement with the given key and status
    *
    * @param achievementKey The achievement unique key
    * @param isAchieved The achievement's status
    */
-  public GameAchievement(String achievementKey, boolean isAchieved) {
+  GameAchievement(String achievementKey, boolean isAchieved, Long achievedAt) {
     this.achievementKey = achievementKey;
     this.isAchieved = isAchieved;
+    this.achievementDate = achievedAt;
   }
 
   /** Default constructor - DO NOT USE! REQUIRED FOR FIREBASE DB */
@@ -54,13 +60,28 @@ public class GameAchievement implements IAchievement {
    * @return True if achievement was unlocked and false otherwise
    */
   @Override
-  public boolean isAchieved() {
+  public boolean getIsAchieved() {
     return isAchieved;
   }
 
-  /** Sets the achievement's status to true */
-  public void setAchieved() {
+  /**
+   * Gets the achievement's achieve date
+   *
+   * @return The date and time of achievement
+   */
+  @Override
+  public Long getAchievementDate() {
+    return this.achievementDate;
+  }
+
+  /**
+   * Sets the achievement's status to true
+   *
+   * @param achieveDate The date of achievement
+   */
+  public void setAchieved(Long achieveDate) {
     isAchieved = true;
+    this.achievementDate = achieveDate;
   }
 
   /**

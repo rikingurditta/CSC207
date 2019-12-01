@@ -9,13 +9,28 @@ import com.group0565.engine.assets.AudioAsset;
 
 import java.io.IOException;
 
+/** Android-specific implementation of AudioAsset */
 public class AndroidAudioAsset extends AudioAsset {
+  /** Target audio folder */
   public static final String AUDIO_FOLDER = "media/";
+  /** Class tag constant */
   private static final String TAG = "AndroidAudioAsset";
+
+  /** A reference to an AssetManager */
   private AssetManager assetManager;
+  /** A reference to an Android media player */
   private MediaPlayer player;
+  /** A reference to an asset file descriptor */
   private AssetFileDescriptor fd;
 
+  /**
+   * Create a new AndroidAudioAsset
+   *
+   * @param name The audio name
+   * @param path The audio path
+   * @param volume The starting volume
+   * @param assetManager The owner asset manager
+   */
   public AndroidAudioAsset(String name, String path, float volume, AssetManager assetManager) {
     super(name, path, volume);
     this.assetManager = assetManager;

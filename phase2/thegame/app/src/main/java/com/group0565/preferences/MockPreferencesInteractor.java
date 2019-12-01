@@ -7,6 +7,7 @@ import com.group0565.menuUI.TheGameApplication;
 
 import java.util.List;
 
+/** An implementation of IPreferenceInteractor that operates on mock data */
 public class MockPreferencesInteractor implements IPreferenceInteractor {
   /**
    * Get the current selected theme

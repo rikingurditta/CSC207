@@ -1,13 +1,11 @@
 package com.group0565.bomberGame;
 
-import android.graphics.Color;
-
 import com.group0565.bomberGame.obstacles.Crate;
 import com.group0565.engine.gameobjects.GameObject;
 import com.group0565.engine.interfaces.Canvas;
-import com.group0565.engine.interfaces.Paint;
+import com.group0565.engine.render.ThemedPaintCan;
+import com.group0565.math.Coords;
 import com.group0565.math.Vector;
-import com.group0565.theme.Themes;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -30,9 +28,10 @@ public class SquareGrid extends GameObject {
   private float windowWidth;
   /** How tall the grid is, in pixels. */
   private float windowHeight;
+  /** The game that this SquareGrid is for. * */
   private BomberGame game;
-
-  private Paint paint = Paint.createInstance();
+  /** PaintCan for this grid's lines. */
+  private ThemedPaintCan paintCan = new ThemedPaintCan("Bomber", "Grid.Line");
 
   /**
    * Create a new SquareGrid.
@@ -65,24 +64,13 @@ public class SquareGrid extends GameObject {
    * @param game
    */
   public SquareGrid(Vector position, int width, int height, int tileWidth, BomberGame game) {
-    super(position);
-    this.width = width;
-    this.height = height;
-    this.tileWidth = tileWidth;
-    this.game = game;
-    this.windowWidth = width * tileWidth;
-    this.windowHeight = height * tileWidth;
+    this(position, 0, width, height, tileWidth, game);
   }
 
   @Override
   public void init() {
     super.init();
-    paint.setStrokeWidth(1f);
-    if (getGlobalPreferences().getTheme() == Themes.LIGHT) {
-      paint.setColor(Color.BLACK);
-    } else {
-      paint.setColor(Color.WHITE);
-    }
+    paintCan.init(getGlobalPreferences(), getEngine().getGameAssetManager());
   }
 
   /**
@@ -121,21 +109,25 @@ public class SquareGrid extends GameObject {
   @Override
   public void draw(Canvas canvas) {
     Vector pos = this.getAbsolutePosition();
-    float x = pos.getX();
-    float y = pos.getY();
-    float endX = x + windowWidth;
-    float endY = y + windowHeight;
+    Vector topLeft = pos;
+    Vector topRight = pos.add(new Vector(windowWidth, 0));
+    Vector bottomLeft = pos.add(new Vector(0, windowHeight));
+    Vector bottomRight = pos.add(new Vector(windowWidth, windowHeight));
+
     // draw the grid border
-    canvas.drawLine(x, y, endX, y, paint);
-    canvas.drawLine(endX, y, endX, endY, paint);
-    canvas.drawLine(endX, endY, x, endY, paint);
-    canvas.drawLine(x, endY, x, y, paint);
+    canvas.drawLine(topLeft, topRight, paintCan);
+    canvas.drawLine(topRight, bottomRight, paintCan);
+    canvas.drawLine(bottomRight, bottomLeft, paintCan);
+    canvas.drawLine(bottomLeft, topLeft, paintCan);
+
     // draw the grid lines
     for (int i = 0; i < width; i += 1) {
-      canvas.drawLine(x + i * tileWidth, y, x + i * tileWidth, endY, paint);
+      Vector hShift = new Vector(i * tileWidth, 0);
+      canvas.drawLine(topLeft.add(hShift), bottomLeft.add(hShift), paintCan);
     }
     for (int j = 0; j < height; j += 1) {
-      canvas.drawLine(x, y + j * tileWidth, endX, y + j * tileWidth, paint);
+      Vector vShift = new Vector(0, j * tileWidth);
+      canvas.drawLine(topLeft.add(vShift), topRight.add(vShift), paintCan);
     }
   }
 
