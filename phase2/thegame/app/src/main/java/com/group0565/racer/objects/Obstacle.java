@@ -6,35 +6,43 @@ import com.group0565.engine.interfaces.Observable;
 import com.group0565.engine.interfaces.ObservationEvent;
 import com.group0565.math.Vector;
 
-/** An Obstacle in the game */
+/** An Obstacle in Racer */
 public abstract class Obstacle extends GameObject implements Observable {
 
 
+  public static final Vector STARTING_RELATIVE_POSITION = new Vector(0, 0);
+  public static final int COLLISION_HIGHER_BOUND = 1550;
+  public static final int COLLISION_LOWER_BOUND = 1700;
+  public static final String COLLISION_MSG = "Collision";
+  public static final int DEAD_POSITION = 1700;
+  public static final String DEAD_MESSAGE = "Dead";
   /**
-   * An ObstacleManager that this object is adopted by
+   * The ObstacleManager for this Obstacle.
    */
   private ObstacleManager obstacleManager;
 
   // Need to add falling faster over time functionality
   /**
-   * The current speed of the object, used for calculations in update method
+   * The current speed of the Obstacle, used for calculations in update method.
    */
   private float speed = 0.5f;
 
   /**
-   * Boolean representing whether or not the Racer has hit this Obstacle
+   * A boolean value representing whether or not the Racer has hit this Obstacle.
    */
   private boolean collided = false;
 
   /**
-   * Constructs a new Obstacle Object
+   * Constructs a new Obstacle Object.
    *
+   * @param obstacleManager The ObstacleManager for this Obstacle.
    */
   Obstacle(ObstacleManager obstacleManager) {
     super();
-    setRelativePosition(new Vector(0, 0));
+    setRelativePosition(STARTING_RELATIVE_POSITION);
     this.obstacleManager = obstacleManager;
   }
+
 
   @Override
   public GameObject setRelativePosition(Vector relativePosition) {
@@ -42,12 +50,12 @@ public abstract class Obstacle extends GameObject implements Observable {
   }
 
   /**
-   * checks if this Obstacle object has collided with a Racer. Returns True if the object has
+   * Checks if this Obstacle object has collided with a Racer. Returns True if the object has
    * collided.
    */
   private boolean checkCollision() {
-    if (obstacleManager.getLane().getIsOccupied() && 1550 <= getRelativePosition().getY() && getRelativePosition().getY() <= 1700) {
-      ObservationEvent event = new ObservationEvent("Collision");
+    if (obstacleManager.getLane().getIsOccupied() && COLLISION_HIGHER_BOUND <= getRelativePosition().getY() && getRelativePosition().getY() <= COLLISION_LOWER_BOUND) {
+      ObservationEvent event = new ObservationEvent(COLLISION_MSG);
       notifyObservers(event);
       return true;
     }
@@ -55,16 +63,16 @@ public abstract class Obstacle extends GameObject implements Observable {
   }
 
   /**
-   * getter method that returns whether or not this object has been collided with
+   * Getter method that returns whether or not this object has been collided with.
    *
-   * @return boolean whether or not this object has been collided with
+   * @return boolean whether or not this object has been collided with.
    */
   boolean isCollided() {
     return collided;
   }
 
   /**
-   * Updates this object in the game
+   * Updates this object in the game.
    *
    * @param ms Milliseconds Since Last Update
    */
@@ -81,9 +89,12 @@ public abstract class Obstacle extends GameObject implements Observable {
     checkDead();
   }
 
+  /**
+   * Check if this Obstacle is dead (off the screen).
+   */
   public void checkDead() {
-    if (getRelativePosition().getY() > 1700) {
-      ObservationEvent event = new ObservationEvent("Dead");
+    if (getRelativePosition().getY() > DEAD_POSITION) {
+      ObservationEvent event = new ObservationEvent(DEAD_MESSAGE);
       notifyObservers(event);
     }
   }

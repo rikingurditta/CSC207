@@ -8,12 +8,8 @@ import com.group0565.engine.interfaces.ObservationEvent;
 import com.group0565.engine.interfaces.Paint;
 import com.group0565.engine.render.ThemedPaintCan;
 import com.group0565.math.Vector;
-import com.group0565.racer.core.RacerGame;
 import com.group0565.racer.objects.Lane;
 import com.group0565.racer.core.RacerEngine;
-import com.group0565.racer.objects.Racer;
-import com.group0565.theme.Themes;
-import com.group0565.tsu.menus.PauseMenu;
 
 import static com.group0565.engine.enums.HorizontalEdge.*;
 import static com.group0565.engine.enums.VerticalEdge.*;
@@ -23,6 +19,13 @@ public class RacerGameMenu extends GameMenu implements Observable {
     private static final ThemedPaintCan BACKGROUND_PAINT_CAN = new ThemedPaintCan("Racer", "Background.Background");
 
     private static final ThemedPaintCan SCORE_PAINT_CAN = new ThemedPaintCan("Racer", "Score.Score");
+    public static final Vector PAUSE_BUTTON_SIZE = new Vector(100, 100);
+    public static final int LEFT_LANE_VALUE = 1;
+    public static final int MIDDLE_LANE_VALUE = 2;
+    public static final int RIGHT_LANE_VALUE = 3;
+    public static final String COLLISION_MESSAGE = "Collision";
+    public static final Vector SCORE_POSITION = new Vector(400, 400);
+    public static final int DIVIDER_BOTTOM = 2500;
 
     /** An engine object */
     private RacerEngine engine;
@@ -70,7 +73,7 @@ public class RacerGameMenu extends GameMenu implements Observable {
                 .addAlignment(Top, THIS, Top)
 
                 .add("Pause Button", new Button(new Vector(900, 150),
-                new Vector(100, 100),
+                                PAUSE_BUTTON_SIZE,
                 getEngine()
                         .getGameAssetManager()
                         .getTileSheet("Racer", "RacerButton")
@@ -135,10 +138,10 @@ public class RacerGameMenu extends GameMenu implements Observable {
         Paint colour = Paint.createInstance();
         colour.setARGB(255, 255, 0, 0);
         // Draw the red lines that separate the lanes
-        canvas.drawRect(canvas.getWidth() / 3 - 15, 0, canvas.getWidth() / 3 + 15, 2500, colour);
+        canvas.drawRect(canvas.getWidth() / 3 - 15, 0, canvas.getWidth() / 3 + 15, DIVIDER_BOTTOM, colour);
         canvas.drawRect(
                 2 * canvas.getWidth() / 3 - 15, 0, 2 * canvas.getWidth() / 3 + 15, 2500, colour);
-        canvas.drawText(Long.toString(engine.getTotalTime()), new Vector(400, 400), SCORE_PAINT_CAN);
+        canvas.drawText(Long.toString(engine.getTotalTime()), SCORE_POSITION, SCORE_PAINT_CAN);
     }
     // 50, 170
 
@@ -152,7 +155,7 @@ public class RacerGameMenu extends GameMenu implements Observable {
             middleLane.setRacerLane(false);
             rightLane.setRacerLane(false);
             leftLane.setRacerLane(true);
-            engine.moveRacer(1);
+            engine.moveRacer(LEFT_LANE_VALUE);
         }
     }
 
@@ -166,7 +169,7 @@ public class RacerGameMenu extends GameMenu implements Observable {
             leftLane.setRacerLane(false);
             rightLane.setRacerLane(false);
             middleLane.setRacerLane(true);
-            engine.moveRacer(2);
+            engine.moveRacer(MIDDLE_LANE_VALUE);
         }
     }
 
@@ -180,7 +183,7 @@ public class RacerGameMenu extends GameMenu implements Observable {
             leftLane.setRacerLane(false);
             middleLane.setRacerLane(false);
             rightLane.setRacerLane(true);
-            engine.moveRacer(3);
+            engine.moveRacer(RIGHT_LANE_VALUE);
         }
     }
 
@@ -206,7 +209,7 @@ public class RacerGameMenu extends GameMenu implements Observable {
      */
 
     public void observeCollision(Observable observable, ObservationEvent observationEvent) {
-        if (observationEvent.getMsg().equals("Collision")) {
+        if (observationEvent.getMsg().equals(COLLISION_MESSAGE)) {
             engine.endGame();
         }
     }

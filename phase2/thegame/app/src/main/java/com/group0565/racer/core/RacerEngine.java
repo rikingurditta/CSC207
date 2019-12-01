@@ -1,11 +1,9 @@
 package com.group0565.racer.core;
 
 import com.group0565.engine.gameobjects.GameObject;
-import com.group0565.engine.interfaces.Canvas;
 import com.group0565.engine.interfaces.EventObserver;
 import com.group0565.engine.interfaces.Observable;
 import com.group0565.engine.interfaces.ObservationEvent;
-import com.group0565.engine.render.ThemedPaintCan;
 import com.group0565.math.Vector;
 import com.group0565.racer.menus.RacerGameMenu;
 import com.group0565.racer.menus.RacerGameOverMenu;
@@ -20,6 +18,13 @@ public class RacerEngine extends GameObject implements EventObserver, Observable
 
   /** Game tag for purposes of database */
   private static final String TAG = "RacerGame";
+
+  private static final Vector RACER_STARTING_POSITION = new Vector(540, 1550);
+  private static final Vector RACER_LEFT_POSITION = new Vector(180, 1550);
+  private static final Vector RACER_MIDDLE_POSITION = new Vector(540, 1550);
+  private static final Vector RACER_RIGHT_POSITION = new Vector(900, 1550);
+  private static final int ACHIVEMENT_15_SEC_VALUE = 15000;
+  private static final int ACHIEVEMENT_60_SEC_VALUE = 60000;
 
   /** Listener that updates database accordingly */
   StatisticRepositoryInjector.RepositoryInjectionListener listener;
@@ -69,7 +74,7 @@ public class RacerEngine extends GameObject implements EventObserver, Observable
     gameMenu = new RacerGameMenu(this);
     this.adopt(gameMenu);
 
-    racer = new Racer(new Vector(540, 1550), 2);
+    racer = new Racer(RACER_STARTING_POSITION, 2);
     this.adopt(racer);
 
     gameOverMenu = new RacerGameOverMenu(null, this);
@@ -113,11 +118,11 @@ public class RacerEngine extends GameObject implements EventObserver, Observable
 
   public void moveRacer(int lane) {
     if (lane == 1) {
-      racer.setAbsolutePosition(new Vector(180, 1550));
+      racer.setAbsolutePosition(RACER_LEFT_POSITION);
     } else if (lane == 2) {
-      racer.setAbsolutePosition(new Vector(540, 1550));
+      racer.setAbsolutePosition(RACER_MIDDLE_POSITION);
     } else {
-      racer.setAbsolutePosition(new Vector(900, 1550));
+      racer.setAbsolutePosition(RACER_RIGHT_POSITION);
     }
   }
 
@@ -137,11 +142,11 @@ public class RacerEngine extends GameObject implements EventObserver, Observable
         spawnDelay -= 1;
       }
 
-      if (!achieved15Sec && totalTime > 15000) {
+      if (!achieved15Sec && totalTime > ACHIVEMENT_15_SEC_VALUE) {
         this.getEngine().getAchievementManager().unlockAchievement("Racer", "15_Seconds");
         achieved15Sec = true;
       }
-      if (!achieved60Sec && totalTime > 60000) {
+      if (!achieved60Sec && totalTime > ACHIEVEMENT_60_SEC_VALUE) {
         this.getEngine().getAchievementManager().unlockAchievement("Racer", "60_Seconds");
         achieved60Sec = true;
       }
