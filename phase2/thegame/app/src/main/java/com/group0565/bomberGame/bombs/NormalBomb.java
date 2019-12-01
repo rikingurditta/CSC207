@@ -7,9 +7,18 @@ import com.group0565.bomberGame.grid.GridObject;
 import com.group0565.engine.interfaces.Canvas;
 import com.group0565.math.Coords;
 import com.group0565.math.Vector;
-
+/** A normal bomb, a detonatable object. */
 public class NormalBomb extends Bomb {
 
+    /**
+     * Constructs a new Bomb.
+     *
+     * @param position The position of this object on the grid.
+     * @param z The z-level of the object.
+     * @param game The game this crate belongs to.
+     * @param grid The grid this crate is within.
+     * @param placedBy The BomberMan who placed this bomb.
+     */
   public NormalBomb(Coords position, int z, BomberEngine game, Grid grid, BomberMan placedBy) {
     super(position, z, game, grid, placedBy);
   }
