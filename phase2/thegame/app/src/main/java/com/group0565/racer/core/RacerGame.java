@@ -12,11 +12,7 @@ public class RacerGame extends GameObject implements Observer {
 
   private RacerEngine engine;
 
-  private RacerPreferences preferences;
-
   public RacerGame() {
-      this.preferences = new RacerPreferences();
-      this.setGlobalPreferences(preferences);
   }
 
   public void init() {
