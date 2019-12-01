@@ -2,7 +2,7 @@ package com.group0565.bomberGame.grid;
 
 import android.util.Log;
 
-import com.group0565.bomberGame.BomberEngine;
+import com.group0565.bomberGame.core.BomberEngine;
 import com.group0565.engine.interfaces.Canvas;
 import com.group0565.engine.render.ThemedPaintCan;
 import com.group0565.math.Coords;

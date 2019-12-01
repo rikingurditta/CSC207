@@ -1,7 +1,7 @@
-package com.group0565.bomberGame.droppables;
+package com.group0565.bomberGame.gridobjects.droppables;
 
-import com.group0565.bomberGame.BomberEngine;
-import com.group0565.bomberGame.BomberMan;
+import com.group0565.bomberGame.core.BomberEngine;
+import com.group0565.bomberGame.gridobjects.BomberMan;
 import com.group0565.bomberGame.grid.Grid;
 import com.group0565.bomberGame.grid.GridObject;
 import com.group0565.math.Coords;

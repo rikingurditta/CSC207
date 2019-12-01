@@ -1,10 +1,11 @@
-package com.group0565.bomberGame;
+package com.group0565.bomberGame.gridobjects;
 
 import android.util.Log;
 
-import com.group0565.bomberGame.bombs.Bomb;
-import com.group0565.bomberGame.bombs.NormalBomb;
-import com.group0565.bomberGame.droppables.Droppable;
+import com.group0565.bomberGame.core.BomberEngine;
+import com.group0565.bomberGame.gridobjects.bombs.Bomb;
+import com.group0565.bomberGame.gridobjects.bombs.NormalBomb;
+import com.group0565.bomberGame.gridobjects.droppables.Droppable;
 import com.group0565.bomberGame.grid.Grid;
 import com.group0565.bomberGame.grid.GridObject;
 import com.group0565.bomberGame.input.BomberInput;

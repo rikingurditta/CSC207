@@ -1,12 +1,10 @@
-package com.group0565.bomberGame.obstacles;
+package com.group0565.bomberGame.gridobjects.obstacles;
 
-import com.group0565.bomberGame.BomberEngine;
-import com.group0565.bomberGame.droppables.Droppable;
-import com.group0565.bomberGame.droppables.FirepowerPowerUp;
-import com.group0565.bomberGame.droppables.MultiplebombPowerUp;
+import com.group0565.bomberGame.core.BomberEngine;
+import com.group0565.bomberGame.gridobjects.droppables.FirepowerPowerUp;
+import com.group0565.bomberGame.gridobjects.droppables.MultiplebombPowerUp;
 import com.group0565.bomberGame.grid.Grid;
 import com.group0565.bomberGame.grid.GridObject;
-import com.group0565.engine.gameobjects.GameObject;
 import com.group0565.engine.interfaces.Canvas;
 import com.group0565.engine.render.ThemedPaintCan;
 import com.group0565.math.Coords;

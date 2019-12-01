@@ -1,6 +1,5 @@
 package com.group0565.bomberGame.core;
 
-import com.group0565.bomberGame.BomberEngine;
 import com.group0565.bomberGame.menus.BomberMenu;
 import com.group0565.engine.gameobjects.GameObject;
 import com.group0565.engine.interfaces.Observable;

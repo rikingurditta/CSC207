@@ -1,25 +1,25 @@
-package com.group0565.bomberGame.droppables;
+package com.group0565.bomberGame.gridobjects.droppables;
 
-import com.group0565.bomberGame.BomberEngine;
-import com.group0565.bomberGame.BomberMan;
+import com.group0565.bomberGame.core.BomberEngine;
+import com.group0565.bomberGame.gridobjects.BomberMan;
 import com.group0565.bomberGame.grid.Grid;
 import com.group0565.engine.interfaces.Canvas;
 import com.group0565.engine.render.ThemedPaintCan;
 import com.group0565.math.Coords;
 import com.group0565.math.Vector;
 
-public class FirepowerPowerUp extends Droppable {
+public class MultiplebombPowerUp extends Droppable {
 
   /** PaintCan for this crate's fill. */
   private ThemedPaintCan paintCan;
 
-  public FirepowerPowerUp(Coords position, double z, Grid grid, BomberEngine game) {
+  public MultiplebombPowerUp(Coords position, double z, Grid grid, BomberEngine game) {
     super(position, z, grid, game);
-    this.paintCan = new ThemedPaintCan("Bomber", "Droppable.FirepowerDroppable");
+    this.paintCan = new ThemedPaintCan("Bomber", "Droppable.MultiplebombDroppable");
   }
 
   public void affectPlayer(BomberMan bm) {
-    bm.setBombStrength(bm.getBombStrength() + 1);
+    bm.setNumSimultaneousBombs(bm.getNumSimultaneousBombs() + 1);
   }
 
   /**

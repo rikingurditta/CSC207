@@ -1,7 +1,7 @@
 package com.group0565.bomberGame.grid;
 
-import com.group0565.bomberGame.BomberEngine;
-import com.group0565.bomberGame.obstacles.Crate;
+import com.group0565.bomberGame.core.BomberEngine;
+import com.group0565.bomberGame.gridobjects.obstacles.Crate;
 import com.group0565.engine.gameobjects.GameObject;
 import com.group0565.math.Coords;
 import com.group0565.math.Vector;
