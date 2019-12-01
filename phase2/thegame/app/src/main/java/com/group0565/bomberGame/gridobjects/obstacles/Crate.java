@@ -17,7 +17,7 @@ public class Crate extends GridObject {
   private BomberEngine game;
 
   /** PaintCan for this crate's fill. */
-  private ThemedPaintCan paintCan = new ThemedPaintCan("Bomber", "Crate.Crate");
+  private final ThemedPaintCan paintCan = new ThemedPaintCan("Bomber", "Crate.Crate");
 
   /**
    * Constructs a new Crate.

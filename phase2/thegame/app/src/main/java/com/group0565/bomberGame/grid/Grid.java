@@ -10,7 +10,6 @@ import com.group0565.math.Coords;
 import com.group0565.math.Vector;
 
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 /** An abstract class for Grids, so that they may be implemented in different shapes. */

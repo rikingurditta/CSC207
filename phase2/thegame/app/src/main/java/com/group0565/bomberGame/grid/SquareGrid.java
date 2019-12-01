@@ -19,7 +19,7 @@ public class SquareGrid extends Grid {
   /** How tall the grid is, in pixels. */
   private float windowHeight;
   /** PaintCan for this grid's lines. */
-  private ThemedPaintCan paintCan = new ThemedPaintCan("Bomber", "Grid.Line");
+  private final ThemedPaintCan paintCan = new ThemedPaintCan("Bomber", "Grid.Line");
 
   /**
    * Create a new SquareGrid.

@@ -24,12 +24,12 @@ public abstract class Bomb extends GridObject {
   private BomberEngine game;
 
   /** PaintCans for the various colour stages of the bomb's life cycle. */
-  private ThemedPaintCan buildup1PaintCan = new ThemedPaintCan("Bomber", "Bomb.Buildup1");
+  private final ThemedPaintCan buildup1PaintCan = new ThemedPaintCan("Bomber", "Bomb.Buildup1");
 
-  private ThemedPaintCan buildup2PaintCan = new ThemedPaintCan("Bomber", "Bomb.Buildup2");
-  private ThemedPaintCan buildup3PaintCan = new ThemedPaintCan("Bomber", "Bomb.Buildup3");
-  private ThemedPaintCan buildup4PaintCan = new ThemedPaintCan("Bomber", "Bomb.Buildup4");
-  private ThemedPaintCan explosionPaintCan = new ThemedPaintCan("Bomber", "Bomb.Explosion");
+  private final ThemedPaintCan buildup2PaintCan = new ThemedPaintCan("Bomber", "Bomb.Buildup2");
+  private final ThemedPaintCan buildup3PaintCan = new ThemedPaintCan("Bomber", "Bomb.Buildup3");
+  private final ThemedPaintCan buildup4PaintCan = new ThemedPaintCan("Bomber", "Bomb.Buildup4");
+  private final ThemedPaintCan explosionPaintCan = new ThemedPaintCan("Bomber", "Bomb.Explosion");
 
   /** PaintCan for the current state of the bomb. */
   ThemedPaintCan currPaintCan = buildup1PaintCan;

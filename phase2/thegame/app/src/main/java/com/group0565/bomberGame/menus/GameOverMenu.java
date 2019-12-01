@@ -15,10 +15,10 @@ import com.group0565.math.Vector;
 /** Menu to show that the game is over and show them their game-end options (e.g. replay). */
 public class GameOverMenu extends GameMenu {
   /** PaintCan for normal text. */
-  private ThemedPaintCan textPaintCan = new ThemedPaintCan("Bomber", "Text.Text");
+  private final ThemedPaintCan textPaintCan = new ThemedPaintCan("Bomber", "Text.Text");
 
   /** PaintCan for the body of the menu. Temporarily using Bomb explosion PaintCan. */
-  private ThemedPaintCan bgPaintCan = new ThemedPaintCan("Bomber", "Bomb.Explosion");
+  private final ThemedPaintCan bgPaintCan = new ThemedPaintCan("Bomber", "Bomb.Explosion");
   // TODO: make new PaintCan for menu body
 
   public GameOverMenu(Vector size) {

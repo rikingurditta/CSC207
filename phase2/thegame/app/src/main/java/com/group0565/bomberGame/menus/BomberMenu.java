@@ -9,7 +9,7 @@ import com.group0565.engine.render.ThemedPaintCan;
 import com.group0565.math.Vector;
 
 public class BomberMenu extends GameMenu {
-  private ThemedPaintCan bgPaintCan = new ThemedPaintCan("Bomber", "Background.Background");
+  private final ThemedPaintCan bgPaintCan = new ThemedPaintCan("Bomber", "Background.Background");
 
   public BomberMenu() {
     super(null);
