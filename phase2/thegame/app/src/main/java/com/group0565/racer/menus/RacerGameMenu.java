@@ -68,9 +68,9 @@ public class RacerGameMenu extends GameMenu implements Observable {
                 )
         .close();
 
-        leftLane.registerObserver(this::observeLane);
-        middleLane.registerObserver(this::observeLane);
-        rightLane.registerObserver(this::observeLane);
+        leftLane.registerObserver(this::observeCollision);
+        middleLane.registerObserver(this::observeCollision);
+        rightLane.registerObserver(this::observeCollision);
 
         middleLane.setRacerLane(true);
     }
@@ -154,7 +154,7 @@ public class RacerGameMenu extends GameMenu implements Observable {
         }
     }
 
-    public void observeLane(Observable observable, ObservationEvent observationEvent) {
+    public void observeCollision(Observable observable, ObservationEvent observationEvent) {
         if (observationEvent.getMsg().equals("Collision")) {
             engine.endGame();
         }
