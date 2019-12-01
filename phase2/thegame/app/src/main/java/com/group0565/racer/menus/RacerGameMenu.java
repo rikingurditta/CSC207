@@ -15,42 +15,52 @@ import static com.group0565.engine.enums.VerticalEdge.*;
 
 public class RacerGameMenu extends GameMenu implements Observable {
 
-
+    /**
+     * ThemedPaintCan for background
+     */
     private static final ThemedPaintCan BACKGROUND_PAINT_CAN = new ThemedPaintCan("Racer", "Background.Background");
+
+    /**
+     * ThemedPaintCan for Score
+     */
     private static final ThemedPaintCan SCORE_PAINT_CAN = new ThemedPaintCan("Racer", "Score.Score");
+
+    /**
+     * ThemedPaintCan for lane dividers
+     */
     private static final ThemedPaintCan LANE_PAINT_CAN = new ThemedPaintCan("Racer", "Divider.Divider");
 
-    /*
+    /**
      * The size of the pause button.
      */
     private static final Vector PAUSE_BUTTON_SIZE = new Vector(100, 100);
 
-    /*
+    /**
      * The value of the left Lane used to move the Racer.
      */
     private static final int LEFT_LANE_VALUE = 1;
 
-    /*
+    /**
      * The value of the middle Lane used to move the Racer.
      */
     private static final int MIDDLE_LANE_VALUE = 2;
 
-    /*
+    /**
      * The value of the right Lane used to move the Racer.
      */
     private static final int RIGHT_LANE_VALUE = 3;
 
-    /*
+    /**
      * The observation message passed when a collision occurs.
      */
     private static final String COLLISION_MESSAGE = "Collision";
 
-    /*
+    /**
      * The position of the score value.
      */
     private static final Vector SCORE_POSITION = new Vector(50, 170);
 
-    /*
+    /**
      * The size of the dividers inbetween the Lanes.
      */
     private static final Vector DIVIDER = new Vector(30, 2500);
@@ -157,9 +167,9 @@ public class RacerGameMenu extends GameMenu implements Observable {
     }
 
     /**
-     *
-     * @param observable
-     * @param event
+     * Observes left lane
+     * @param observable the object being observed
+     * @param event the event being observed
      */
     private void observeLeftLane(Observable observable, ObservationEvent event) {
         if (event.isEvent(Button.EVENT_DOWN)) {
@@ -171,9 +181,9 @@ public class RacerGameMenu extends GameMenu implements Observable {
     }
 
     /**
-     *
-     * @param observable
-     * @param event
+     * Observes mid lane
+     * @param observable the object being observed
+     * @param event the event being observed
      */
     private void observeMiddleLane(Observable observable, ObservationEvent event) {
         if (event.isEvent(Button.EVENT_DOWN)) {
@@ -185,9 +195,9 @@ public class RacerGameMenu extends GameMenu implements Observable {
     }
 
     /**
-     *
-     * @param observable
-     * @param event
+     * Observes right lane
+     * @param observable the object being observed
+     * @param event the event being observed
      */
     private void observeRightLane(Observable observable, ObservationEvent event) {
         if (event.isEvent(Button.EVENT_DOWN)) {
@@ -199,9 +209,9 @@ public class RacerGameMenu extends GameMenu implements Observable {
     }
 
     /**
-     *
-     * @param observable
-     * @param event
+     * Observes pausing
+     * @param observable the object being observed
+     * @param event the event being observed
      */
     private void observePauseButton(Observable observable, ObservationEvent event) {
         if (event.isEvent(Button.EVENT_DOWN)) {
@@ -210,9 +220,9 @@ public class RacerGameMenu extends GameMenu implements Observable {
     }
 
     /**
-     *
-     * @param observable
-     * @param observationEvent
+     * Observes collisions
+     * @param observable the object being observed
+     * @param observationEvent the event that is being observed
      */
 
     private void observeCollision(Observable observable, ObservationEvent observationEvent) {

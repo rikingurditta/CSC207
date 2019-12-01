@@ -1,7 +1,6 @@
 package com.group0565.racer.objects;
 
 import com.group0565.engine.gameobjects.GameObject;
-import com.group0565.engine.gameobjects.MenuObject;
 import com.group0565.engine.interfaces.Observable;
 import com.group0565.engine.interfaces.ObservationEvent;
 import com.group0565.math.Vector;
@@ -39,10 +38,6 @@ public abstract class Obstacle extends GameObject implements Observable {
    */
   private static final Vector SPEED = new Vector(0, 0.5f);
 
-  /**
-   * A boolean value representing whether or not the Racer has hit this Obstacle.
-   */
-  private boolean collided = false;
 
   /**
    * Constructs a new Obstacle Object.

@@ -5,9 +5,8 @@ import com.group0565.engine.interfaces.Observable;
 import com.group0565.engine.interfaces.ObservationEvent;
 import com.group0565.math.Vector;
 
-import java.util.ArrayList;
 
-public class ObstacleManager extends GameMenu implements Observable {
+class ObstacleManager extends GameMenu implements Observable {
 
     /**
      * The observation message passed when a collision occurs.
