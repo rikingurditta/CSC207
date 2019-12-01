@@ -91,6 +91,6 @@
     }
   },
   "Achievements": {
-    "Tsu": "Tsu.json"
+    "Tsu": "Tsu.json", "Racer": "Racer.json"
   }
 }
