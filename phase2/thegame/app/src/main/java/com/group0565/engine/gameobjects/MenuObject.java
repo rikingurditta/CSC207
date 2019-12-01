@@ -45,6 +45,10 @@ public class MenuObject extends GameObject implements Observable {
         return new MenuObjectBuilder();
     }
 
+    protected void observePreferences(Observable observable, ObservationEvent observationEvent){
+        this.updatePosition();
+    }
+
     @Override
     public void init() {
         super.init();
@@ -102,6 +106,8 @@ public class MenuObject extends GameObject implements Observable {
     }
 
     protected void updatePosition(){
+        if (this.size == null)
+            return;
         for (int i = 0; i < 2; i ++){
             if (hAligns[i] != null)
                 hAligns[i].relativeTo.updatePosition();

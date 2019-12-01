@@ -26,6 +26,11 @@
         "TileWidth": 200,
         "TileHeight": 100
       },
+      "Achievements": {
+        "Path": "Achievements.png",
+        "TileWidth": 50,
+        "TileHeight": 50
+      },
       "Umeboshi Chazuke - Bison Charge (_Asha) [Advanced]": {
         "Path": "beatmaps/Umeboshi Chazuke - Bison Charge (_Asha) [Advanced].jpg",
         "TileWidth": -1,

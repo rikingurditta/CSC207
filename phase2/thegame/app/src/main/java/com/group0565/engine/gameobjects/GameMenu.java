@@ -2,6 +2,8 @@ package com.group0565.engine.gameobjects;
 
 import com.group0565.engine.enums.HorizontalEdge;
 import com.group0565.engine.enums.VerticalEdge;
+import com.group0565.engine.interfaces.Observable;
+import com.group0565.engine.interfaces.ObservationEvent;
 import com.group0565.math.Vector;
 import com.group0565.racerGame.Menu;
 
@@ -28,6 +30,11 @@ public class GameMenu extends MenuObject {
     if (this.getSize() == null) {
       this.setSize(getEngine().getSize());
     }
+  }
+
+  protected void observePreferences(Observable observable, ObservationEvent observationEvent){
+        super.observePreferences(observable, observationEvent);
+        this.updateAllPosition();
   }
 
     @Override

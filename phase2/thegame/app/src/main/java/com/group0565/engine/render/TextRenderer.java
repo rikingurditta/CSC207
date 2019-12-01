@@ -2,6 +2,8 @@ package com.group0565.engine.render;
 
 import com.group0565.engine.gameobjects.MenuObject;
 import com.group0565.engine.interfaces.Canvas;
+import com.group0565.engine.interfaces.Observable;
+import com.group0565.engine.interfaces.ObservationEvent;
 import com.group0565.engine.interfaces.Paint;
 import com.group0565.engine.interfaces.Source;
 import com.group0565.math.Vector;
@@ -124,6 +126,18 @@ public class TextRenderer extends MenuObject {
         this.setPaint(paint);
         this.textSource = text;
     }
+
+    @Override
+    protected void updatePosition() {
+        this.last = "";
+        super.updatePosition();
+    }
+
+    protected void observePreferences(Observable observable, ObservationEvent observationEvent){
+        setSize(getSize());
+        super.observePreferences(observable, observationEvent);
+    }
+
 
     @Override
     public void update(long ms) {
