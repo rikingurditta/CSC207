@@ -30,6 +30,7 @@ import java.util.UUID;
 
 public class BomberEngine extends GameObject implements Observable {
   private static final long GAME_DURATION = 120000;
+  public static final String GAME_NAME = "BomberGame";
 
   /** Create a STRONG reference to the listener so it won't get garbage collected */
   StatisticRepositoryInjector.RepositoryInjectionListener listener;
@@ -71,7 +72,7 @@ public class BomberEngine extends GameObject implements Observable {
         repository -> {
           myStatRepo = repository;
         };
-    StatisticRepositoryInjector.inject("BomberEngine", listener);
+    StatisticRepositoryInjector.inject(GAME_NAME, listener);
 
     gameEnded = false;
 
