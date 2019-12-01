@@ -14,6 +14,7 @@ import com.group0565.racer.core.RacerEngine;
 import com.group0565.theme.Themes;
 
 public class RacerGameOverMenu extends GameMenu {
+  public static final Vector BUTTON_SIZE = new Vector(150, 150);
   private Button restartButton;
   private Button exitButton;
   private RacerEngine engine;
@@ -27,7 +28,7 @@ public class RacerGameOverMenu extends GameMenu {
     restartButton =
         new Button(
             new Vector(100, 1750),
-            new Vector(150, 150),
+                BUTTON_SIZE,
             getEngine().getGameAssetManager().getTileSheet("Racer", "RacerButton").getTile(0, 0),
             getEngine().getGameAssetManager().getTileSheet("Racer", "RacerButton").getTile(0, 0));
     this.adopt(restartButton);
@@ -35,7 +36,7 @@ public class RacerGameOverMenu extends GameMenu {
     exitButton =
         new Button(
             new Vector(300, 1750),
-            new Vector(150, 150),
+            BUTTON_SIZE,
             getEngine().getGameAssetManager().getTileSheet("Racer", "RacerButton").getTile(0, 0),
             getEngine().getGameAssetManager().getTileSheet("Racer", "RacerButton").getTile(0, 0));
     this.adopt(exitButton);

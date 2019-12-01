@@ -9,6 +9,9 @@ import java.util.ArrayList;
 
 public class ObstacleManager extends GameMenu implements Observable {
 
+    public static final String DEAD_MESSAGE = "Dead";
+    public static final String COLLISION_MESSAGE = "Collision";
+    public static final Vector STARTING_RELATIVE_POSITION = new Vector(0, 0);
     private Lane lane;
 
     public static int runCounter = 0;
@@ -34,14 +37,14 @@ public class ObstacleManager extends GameMenu implements Observable {
         Obstacle circle = new CircleObstacle(this);
         circle.registerObserver(this::observeObstacle);
         this.adopt(circle);
-        circle.setRelativePosition(new Vector(0, 0));
+        circle.setRelativePosition(STARTING_RELATIVE_POSITION);
     }
 
     public void spawnSquareObstacle() {
         Obstacle square = new SquareObstacle(this);
         square.registerObserver(this::observeObstacle);
         this.adopt(square);
-        square.setRelativePosition(new Vector(0, 0));
+        square.setRelativePosition(STARTING_RELATIVE_POSITION);
     }
 
     public Lane getLane() {
@@ -57,10 +60,10 @@ public class ObstacleManager extends GameMenu implements Observable {
     }
 
     public void observeObstacle(Observable observable, ObservationEvent observationEvent) {
-        if (observationEvent.getMsg().equals("Dead")) {
+        if (observationEvent.getMsg().equals(DEAD_MESSAGE)) {
             Obstacle obstacle = (Obstacle) observable;
             deadObstacles.add(obstacle);
-        } else if (observationEvent.getMsg().equals("Collision")) {
+        } else if (observationEvent.getMsg().equals(COLLISION_MESSAGE)) {
             notifyObservers(observationEvent);
         }
     }
