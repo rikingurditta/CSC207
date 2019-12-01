@@ -17,15 +17,15 @@ import static com.group0565.engine.enums.VerticalEdge.*;
 public class RacerGameMenu extends GameMenu implements Observable {
 
     private static final ThemedPaintCan BACKGROUND_PAINT_CAN = new ThemedPaintCan("Racer", "Background.Background");
-
     private static final ThemedPaintCan SCORE_PAINT_CAN = new ThemedPaintCan("Racer", "Score.Score");
+    private static final ThemedPaintCan LANE_PAINT_CAN = new ThemedPaintCan("Racer", "Divider.Divider");
     public static final Vector PAUSE_BUTTON_SIZE = new Vector(100, 100);
     public static final int LEFT_LANE_VALUE = 1;
     public static final int MIDDLE_LANE_VALUE = 2;
     public static final int RIGHT_LANE_VALUE = 3;
     public static final String COLLISION_MESSAGE = "Collision";
-    public static final Vector SCORE_POSITION = new Vector(400, 400);
-    public static final int DIVIDER_BOTTOM = 2500;
+    public static final Vector SCORE_POSITION = new Vector(50, 170);
+    public static final Vector DIVIDER = new Vector(30, 2500);
 
     /** An engine object */
     private RacerEngine engine;
@@ -95,6 +95,7 @@ public class RacerGameMenu extends GameMenu implements Observable {
 
         BACKGROUND_PAINT_CAN.init(getGlobalPreferences(), getEngine().getGameAssetManager());
         SCORE_PAINT_CAN.init(getGlobalPreferences(), getEngine().getGameAssetManager());
+        LANE_PAINT_CAN.init(getGlobalPreferences(), getEngine().getGameAssetManager());
 
     }
 
@@ -121,29 +122,11 @@ public class RacerGameMenu extends GameMenu implements Observable {
     public void draw(Canvas canvas) {
         super.draw(canvas);
         canvas.drawRGB(BACKGROUND_PAINT_CAN);
-//        Paint time = Paint.createInstance();
-//        if (getGlobalPreferences().getTheme() == Themes.LIGHT) {
-//            // Set background to white
-//            canvas.drawRGB(255, 255, 255);
-//            // Set text colour to black
-//            time.setARGB(255, 0, 0, 0);
-//        } else {
-//            // Set background to black
-//            canvas.drawRGB(0, 0, 0);
-//            // Set text colour to white
-//            time.setARGB(255, 255, 255, 255);
-//        }
-//        time.setTextSize(128);
-        // Set the colour of the lines
-        Paint colour = Paint.createInstance();
-        colour.setARGB(255, 255, 0, 0);
-        // Draw the red lines that separate the lanes
-        canvas.drawRect(canvas.getWidth() / 3 - 15, 0, canvas.getWidth() / 3 + 15, DIVIDER_BOTTOM, colour);
-        canvas.drawRect(
-                2 * canvas.getWidth() / 3 - 15, 0, 2 * canvas.getWidth() / 3 + 15, 2500, colour);
+        canvas.drawRect(new Vector(canvas.getWidth() / 3 - 15, 0),DIVIDER, LANE_PAINT_CAN);
+        canvas.drawRect(new Vector(2 * canvas.getWidth() / 3 - 15, 0), DIVIDER, LANE_PAINT_CAN);
+        SCORE_PAINT_CAN.setTextSize(96);
         canvas.drawText(Long.toString(engine.getTotalTime()), SCORE_POSITION, SCORE_PAINT_CAN);
     }
-    // 50, 170
 
     /**
      *
@@ -194,11 +177,7 @@ public class RacerGameMenu extends GameMenu implements Observable {
      */
     public void observePauseButton(Observable observable, ObservationEvent event) {
         if (event.isEvent(Button.EVENT_DOWN)) {
-            if (engine.isPaused()) {
-                engine.unPauseGame();
-            } else {
-                engine.pauseGame();
-            }
+            engine.pauseGame();
         }
     }
 

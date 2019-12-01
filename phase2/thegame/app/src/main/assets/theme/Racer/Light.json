@@ -7,28 +7,38 @@
         255,
         255
       ]
-    },
-    "Score": {
-      "ScorePaint": {
-        "ARGB": [
-          255,
-          0,
-          255,
-          0
-        ],
-        "TextSize": 96
-      }
-    },
-    "Message": {
-      "MessagePaint": {
-        "ARGB": [
-          255,
-          255,
-          255,
-          255
-        ],
-        "TextSize": 96
-      }
+    }
+  },
+  "Score": {
+    "ScorePaint": {
+      "ARGB": [
+        255,
+        0,
+        0,
+        0
+      ],
+      "TextSize": 96
+    }
+  },
+  "Message": {
+    "MessagePaint": {
+      "ARGB": [
+        255,
+        255,
+        255,
+        255
+      ],
+      "TextSize": 96
+    }
+  },
+  "Divider": {
+    "DividerPaint": {
+      "ARGB": [
+        255,
+        255,
+        0,
+        0
+      ]
     }
   }
 }

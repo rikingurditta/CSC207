@@ -6,6 +6,7 @@ import com.group0565.engine.interfaces.Canvas;
 import com.group0565.engine.interfaces.Observable;
 import com.group0565.engine.interfaces.ObservationEvent;
 import com.group0565.engine.interfaces.Paint;
+import com.group0565.engine.render.ThemedPaintCan;
 import com.group0565.math.Vector;
 import com.group0565.racer.core.RacerEngine;
 import com.group0565.theme.Themes;
@@ -14,6 +15,7 @@ public class RacerPauseMenu extends GameMenu {
     private Button resumeButton;
     private Button exitButton;
     private RacerEngine engine;
+    private static final ThemedPaintCan MESSAGE_PAINT_CAN = new ThemedPaintCan("Racer", "Message.Message");
 
     public RacerPauseMenu(Vector size, RacerEngine engine) {
         super(size);
@@ -36,6 +38,8 @@ public class RacerPauseMenu extends GameMenu {
 
         exitButton = new Button(null);
         this.adopt(exitButton);
+
+        MESSAGE_PAINT_CAN.init(getGlobalPreferences(), getEngine().getGameAssetManager());
     }
 
     public void observe(Observable observable, ObservationEvent observationEvent) {
@@ -50,12 +54,8 @@ public class RacerPauseMenu extends GameMenu {
     @Override
     public void draw(Canvas canvas) {
         super.draw(canvas);
-        Paint font = Paint.createInstance();
-        font.setARGB(255, 255, 255, 255);
-        font.setTextSize(96);
-
         canvas.drawRGB(0, 0, 0);
-        canvas.drawText("PAUSED", 50, 200, font);
-        canvas.drawText("Score: " + engine.getTotalTime(), 50, 400, font);
+        canvas.drawText("PAUSED", new Vector(50, 200), MESSAGE_PAINT_CAN);
+        canvas.drawText("Score: " + engine.getTotalTime(), new Vector(50, 400) , MESSAGE_PAINT_CAN);
     }
 }
