@@ -2,10 +2,16 @@ package com.group0565.racer.objects;
 
 import com.group0565.engine.interfaces.Canvas;
 import com.group0565.engine.interfaces.Paint;
+import com.group0565.engine.render.ThemedPaintCan;
 import com.group0565.math.Vector;
 
 /** A Circle-shaped Obstacle */
 public class CircleObstacle extends Obstacle {
+
+  /**
+   * ThemedPaintCan for the colours of the circle
+   */
+  private static final ThemedPaintCan CIRCLE_PAINT_CAN = new ThemedPaintCan("Racer", "Circle.Circle");
 
   /**
    * Constructor for a CircleObstacle object
@@ -16,23 +22,20 @@ public class CircleObstacle extends Obstacle {
   }
 
   /**
+   * Initializes the ThemedPaintCan for CIRCLE_PAINT_CAN
+   */
+  public void init() {
+    super.init();
+    CIRCLE_PAINT_CAN.init(getGlobalPreferences(), getEngine().getGameAssetManager());
+  }
+
+  /**
    * Renders this object on the screen
    *
    * @param canvas The Canvas on which to draw
    */
   @Override
   public void draw(Canvas canvas) {
-    Paint colour = Paint.createInstance();
-
-    // If this object has been hit, change its colour to green
-    if (isCollided()) {
-      colour.setARGB(255, 0, 255, 0);
-    }
-    // Otherwise it remains red.
-    else {
-      colour.setARGB(255, 255, 0, 0);
-    }
-
-    canvas.drawCircle(getAbsolutePosition().getX() + 75, getAbsolutePosition().getY(), 75, colour);
+    canvas.drawCircle(getAbsolutePosition().add(new Vector(75, 0)), 75, CIRCLE_PAINT_CAN);
   }
 }

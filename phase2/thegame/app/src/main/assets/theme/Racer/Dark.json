@@ -60,5 +60,27 @@
         0
       ]
     }
+  },
+
+  "Circle": {
+    "CirclePaint": {
+      "ARGB": [
+        255,
+        145,
+        0,
+        0
+      ]
+    }
+  },
+
+  "Square": {
+    "SquarePaint": {
+      "ARGB": [
+        255,
+        145,
+        0,
+        0
+      ]
+    }
   }
 }

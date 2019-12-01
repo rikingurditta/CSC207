@@ -1,16 +1,21 @@
 package com.group0565.racer.objects;
 
-import com.group0565.engine.gameobjects.GameObject;
 import com.group0565.engine.interfaces.Canvas;
-import com.group0565.engine.interfaces.Paint;
+import com.group0565.engine.render.ThemedPaintCan;
 import com.group0565.math.Vector;
 
 /** A Square-shaped Obstacle */
 public class SquareObstacle extends Obstacle {
 
-  public static final int SQUARE_BOTTOM = 75;
-  public static final int SQUARE_TOP = 75;
-  public static final int SQUARE_RIGHT = 150;
+  /**
+   * ThemedPaintCan for the colours of the circle
+   */
+  private static final ThemedPaintCan SQUARE_PAINT_CAN = new ThemedPaintCan("Racer", "Square.Square");
+
+  /**
+   * A vector representing the length of each Square
+   */
+  private static final Vector SQUARE_SIDE = new Vector(150);
 
   /**
    * Constructor for a SquareObstacle Object
@@ -21,29 +26,20 @@ public class SquareObstacle extends Obstacle {
   }
 
   /**
+   * Initializes the ThemedPaintCan for CIRCLE_PAINT_CAN
+   */
+  public void init() {
+    super.init();
+    SQUARE_PAINT_CAN.init(getGlobalPreferences(), getEngine().getGameAssetManager());
+  }
+  /**
    * Renders this object on the screen
    *
    * @param canvas The Canvas on which to draw
    */
   @Override
   public void draw(Canvas canvas) {
-    Paint colour = Paint.createInstance();
+    canvas.drawRect(getAbsolutePosition(), SQUARE_SIDE, SQUARE_PAINT_CAN);
 
-    // if the object has been hit, change its colour to green
-    if (isCollided()) {
-      colour.setARGB(255, 0, 255, 0);
-    }
-
-    // Otherwise it remains red
-    else {
-      colour.setARGB(255, 255, 0, 0);
-    }
-
-    canvas.drawRect(
-        getAbsolutePosition().getX(),
-        getAbsolutePosition().getY() - SQUARE_TOP,
-        getAbsolutePosition().getX() + SQUARE_RIGHT,
-        getAbsolutePosition().getY() + SQUARE_BOTTOM,
-        colour);
   }
 }

@@ -37,6 +37,7 @@ public class ObstacleManager extends GameMenu implements Observable {
         Obstacle circle = new CircleObstacle(this);
         circle.registerObserver(this::observeObstacle);
         this.adopt(circle);
+        circle.init();
         circle.setRelativePosition(STARTING_RELATIVE_POSITION);
     }
 
@@ -44,6 +45,7 @@ public class ObstacleManager extends GameMenu implements Observable {
         Obstacle square = new SquareObstacle(this);
         square.registerObserver(this::observeObstacle);
         this.adopt(square);
+        square.init();
         square.setRelativePosition(STARTING_RELATIVE_POSITION);
     }
 
