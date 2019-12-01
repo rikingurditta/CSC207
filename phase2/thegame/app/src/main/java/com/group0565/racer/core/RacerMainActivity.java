@@ -8,12 +8,12 @@ import com.group0565.preferences.PreferencesInjector;
 import com.group0565.theme.Themes;
 
 /**
- *
+ * RacerMainActivity
  */
 public class RacerMainActivity extends GameActivity {
 
   /**
-   *
+   * MainActivity of the Game
    */
   public RacerMainActivity() {
     super(new RacerGame(), 60, Orientation.Portrait);

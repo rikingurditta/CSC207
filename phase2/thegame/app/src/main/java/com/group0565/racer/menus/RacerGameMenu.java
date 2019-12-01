@@ -86,6 +86,9 @@ public class RacerGameMenu extends GameMenu implements Observable {
         this.engine = engine;
     }
 
+    /**
+     * Initializes lanes and ThemedPaintCans
+     */
     @Override
     public void init() {
         super.init();
