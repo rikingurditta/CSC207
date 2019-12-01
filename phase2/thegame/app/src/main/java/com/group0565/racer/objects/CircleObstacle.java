@@ -24,6 +24,8 @@ public class CircleObstacle extends Obstacle {
   /**
    * Initializes the ThemedPaintCan for CIRCLE_PAINT_CAN
    */
+
+  @Override
   public void init() {
     super.init();
     CIRCLE_PAINT_CAN.init(getGlobalPreferences(), getEngine().getGameAssetManager());

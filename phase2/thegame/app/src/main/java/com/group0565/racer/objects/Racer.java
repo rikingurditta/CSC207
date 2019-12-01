@@ -2,36 +2,21 @@ package com.group0565.racer.objects;
 
 import com.group0565.engine.gameobjects.GameObject;
 import com.group0565.engine.interfaces.Canvas;
-import com.group0565.engine.interfaces.Paint;
+import com.group0565.engine.render.ThemedPaintCan;
 import com.group0565.math.Vector;
 
 /** A Racer object (Player-controlled) */
 public class Racer extends GameObject {
 
-  /*
+  /**
    * The radius of the Racer.
    */
-  public static final int RACER_RADIUS = 50;
+  private static final int RACER_RADIUS = 50;
 
-  /*
-   * The blue value of the Racer's colour.
+  /**
+   * ThemedPaintCan for the colours of the racer user
    */
-  public static final int RACER_COLOUR_B = 255;
-
-  /*
-   * The alpha value of the Racer's colour.
-   */
-  public static final int RACER_COLOUR_A = 255;
-
-  /*
-   * The red value of the Racer's colour.
-   */
-  public static final int RACER_COLOUR_R = 77;
-
-  /*
-   * The green value of the Racer's colour.
-   */
-  public static final int RACER_COLOUR_G = 166;
+  private static final ThemedPaintCan RACER_PAINT_CAN = new ThemedPaintCan("Racer", "Racer.Racer");
 
   /**
    * A constructor for a Racer object
@@ -43,6 +28,12 @@ public class Racer extends GameObject {
     super(position, z);
   }
 
+  @Override
+  public void init() {
+    super.init();
+    RACER_PAINT_CAN.init(getGlobalPreferences(), getEngine().getGameAssetManager());
+  }
+
   /**
    * Renders this object on the screen
    *
@@ -50,9 +41,6 @@ public class Racer extends GameObject {
    */
   @Override
   public void draw(Canvas canvas) {
-    Paint colour = Paint.createInstance();
-    colour.setARGB(RACER_COLOUR_A, RACER_COLOUR_R, RACER_COLOUR_G, RACER_COLOUR_B);
-
-    canvas.drawCircle(getAbsolutePosition().getX(), getAbsolutePosition().getY(), RACER_RADIUS, colour);
+    canvas.drawCircle(getAbsolutePosition(), RACER_RADIUS, RACER_PAINT_CAN);
   }
 }

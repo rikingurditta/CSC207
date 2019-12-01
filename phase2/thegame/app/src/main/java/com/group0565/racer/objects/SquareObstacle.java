@@ -28,6 +28,8 @@ public class SquareObstacle extends Obstacle {
   /**
    * Initializes the ThemedPaintCan for CIRCLE_PAINT_CAN
    */
+
+  @Override
   public void init() {
     super.init();
     SQUARE_PAINT_CAN.init(getGlobalPreferences(), getEngine().getGameAssetManager());
