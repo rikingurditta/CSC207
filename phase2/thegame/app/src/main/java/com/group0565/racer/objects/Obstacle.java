@@ -9,22 +9,22 @@ import com.group0565.math.Vector;
 /** An Obstacle in Racer */
 public abstract class Obstacle extends GameObject implements Observable {
 
-  /*
+  /**
    * The starting relative position of the Obstacle.
    */
   private static final Vector STARTING_RELATIVE_POSITION = new Vector(0, 0);
 
-  /*
+  /**
    * The top y-coordinate of the collision hitbox.
    */
-  private static final int COLLISION_HIGHER_BOUND = 1550;
+  private static final int COLLISION_HIGHER_BOUND = 1450;
 
-  /*
+  /**
    * The bottom y-coordinate of the collision hitbox.
    */
-  private static final int COLLISION_LOWER_BOUND = 1700;
+  private static final int COLLISION_LOWER_BOUND = 1550;
 
-  /*
+  /**
    * The observation message passed when a collision occurs.
    */
   private static final String COLLISION_MSG = "Collision";
@@ -34,11 +34,10 @@ public abstract class Obstacle extends GameObject implements Observable {
    */
   private ObstacleManager obstacleManager;
 
-  // Need to add falling faster over time functionality
   /**
    * The current speed of the Obstacle, used for calculations in update method.
    */
-  private float speed = 0.5f;
+  private static final Vector SPEED = new Vector(0, 0.5f);
 
   /**
    * A boolean value representing whether or not the Racer has hit this Obstacle.
@@ -74,15 +73,6 @@ public abstract class Obstacle extends GameObject implements Observable {
   }
 
   /**
-   * Getter method that returns whether or not this object has been collided with.
-   *
-   * @return boolean whether or not this object has been collided with.
-   */
-  boolean isCollided() {
-    return collided;
-  }
-
-  /**
    * Updates this object in the game.
    *
    * @param ms Milliseconds Since Last Update
@@ -91,7 +81,7 @@ public abstract class Obstacle extends GameObject implements Observable {
   public void update(long ms) {
     Vector position = this.getRelativePosition();
     Vector delta = new Vector();
-    delta = delta.add(new Vector(0, speed));
+    delta = delta.add(SPEED);
     delta = delta.multiply(ms);
     this.setRelativePosition(position.add(delta));
 
