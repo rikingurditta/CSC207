@@ -1,6 +1,7 @@
 package com.group0565.bomberGame.droppables;
 
 import com.group0565.bomberGame.BomberEngine;
+import com.group0565.bomberGame.BomberMan;
 import com.group0565.bomberGame.grid.Grid;
 import com.group0565.engine.interfaces.Canvas;
 import com.group0565.engine.render.ThemedPaintCan;
@@ -14,7 +15,11 @@ public class MultiplebombPowerUp extends Droppable {
 
     public MultiplebombPowerUp(Coords position, double z, Grid grid, BomberEngine game) {
         super(position, z, grid, game);
-        this.paintCan = new ThemedPaintCan("Bomber", "Droppable.Droppable");
+        this.paintCan = new ThemedPaintCan("Bomber", "Droppable.MultiplebombDroppable");
+    }
+
+    public void affectPlayer(BomberMan bm){
+        bm.setNumSimultaneousBombs(bm.getNumSimultaneousBombs() + 1);
     }
 
     /**

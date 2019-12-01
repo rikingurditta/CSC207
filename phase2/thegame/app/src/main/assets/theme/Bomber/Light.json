@@ -112,12 +112,20 @@
     }
   },
   "Droppable": {
-    "DroppablePaint": {
+    "FirepowerDroppablePaint": {
+      "ARGB": [
+        255,
+        255,
+        0,
+        255
+      ]
+    },
+    "MultiplebombDroppablePaint": {
       "ARGB": [
         255,
         10,
-        50,
-        210
+        255,
+        250
       ]
     }
   }

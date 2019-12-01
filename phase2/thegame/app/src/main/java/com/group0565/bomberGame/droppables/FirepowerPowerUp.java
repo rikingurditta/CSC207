@@ -1,6 +1,7 @@
 package com.group0565.bomberGame.droppables;
 
 import com.group0565.bomberGame.BomberEngine;
+import com.group0565.bomberGame.BomberMan;
 import com.group0565.bomberGame.grid.Grid;
 import com.group0565.engine.interfaces.Canvas;
 import com.group0565.engine.render.ThemedPaintCan;
@@ -14,8 +15,11 @@ public class FirepowerPowerUp extends Droppable {
 
     public FirepowerPowerUp(Coords position, double z, Grid grid, BomberEngine game) {
         super(position, z, grid, game);
+        this.paintCan = new ThemedPaintCan("Bomber", "Droppable.FirepowerDroppable");
+    }
 
-        this.paintCan = new ThemedPaintCan("Bomber", "Droppable.Droppable");
+    public void affectPlayer(BomberMan bm){
+        bm.setBombStrength(bm.getBombStrength() + 1);
     }
 
     /**
@@ -36,5 +40,5 @@ public class FirepowerPowerUp extends Droppable {
         paintCan.init(getGlobalPreferences(), getEngine().getGameAssetManager());
     }
 
-    
+
 }

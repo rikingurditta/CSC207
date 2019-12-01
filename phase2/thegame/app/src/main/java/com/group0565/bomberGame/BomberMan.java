@@ -3,6 +3,7 @@ package com.group0565.bomberGame;
 import android.util.Log;
 
 import com.group0565.bomberGame.bombs.NormalBomb;
+import com.group0565.bomberGame.droppables.Droppable;
 import com.group0565.bomberGame.grid.Grid;
 import com.group0565.bomberGame.grid.GridObject;
 import com.group0565.bomberGame.input.BomberInput;
@@ -151,7 +152,7 @@ public class BomberMan extends GridObject {
 
       readyToMove = false;
     }
-    recieveDroppable();
+    collectDroppable();
     Vector newPos = pos.add(direction.multiply((float) ms * speed));
 
     // if the calculated position is past the target, only move to the target
@@ -175,14 +176,18 @@ public class BomberMan extends GridObject {
     return true;
   }
 
-  public void recieveDroppable(){
+  public void collectDroppable(){
     Coords pos = gridCoords;
 
     for (GridObject g : grid.getItems()) {
       Coords gPos = g.getGridCoords();
       if (pos.equals(gPos) && g.isDroppable()){
         Log.i("Game Logic", "Recieved droppable");
-        this.bombStrength += 1;
+        // ask rikin better approach
+          // approahc rn is casting. but i can move affect player
+          // to grid obj and just have droppable as an intreface
+        Droppable d = (Droppable)g;
+        d.affectPlayer(this);
         grid.remove(g);
         game.removeLater(g);
       }

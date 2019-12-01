@@ -1,6 +1,7 @@
 package com.group0565.bomberGame.droppables;
 
 import com.group0565.bomberGame.BomberEngine;
+import com.group0565.bomberGame.BomberMan;
 import com.group0565.bomberGame.grid.Grid;
 import com.group0565.bomberGame.grid.GridObject;
 import com.group0565.engine.interfaces.Canvas;
@@ -37,7 +38,8 @@ public abstract class Droppable extends GridObject {
         this(position, 0, grid, game);
     }
 
-
+    /** Decides what happens to a player when this droppable is collected*/
+    public abstract void affectPlayer(BomberMan bm);
 
     /** Destroy this crate if the damage done to it is positive. */
     @Override
@@ -57,4 +59,6 @@ public abstract class Droppable extends GridObject {
     public boolean isDroppable() {
         return true;
     }
+
+
 }
