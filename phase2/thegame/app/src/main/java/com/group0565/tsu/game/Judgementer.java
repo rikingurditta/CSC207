@@ -8,6 +8,7 @@ import com.group0565.engine.interfaces.Paint;
 import com.group0565.engine.interfaces.Source;
 import com.group0565.engine.render.ThemedPaintCan;
 import com.group0565.math.Vector;
+import com.group0565.tsu.core.TsuPreferences;
 import com.group0565.tsu.util.ColorCalculator;
 
 import java.util.ArrayList;
@@ -87,7 +88,7 @@ public class Judgementer extends GameMenu {
             if (object.getHitTime() > 0)
                 continue;
             //Otherwise see if the timing is correct
-            if (computeHitScore(object.getMsStart(), currentTime.getValue(), calculateDistribution(beatmap.getValue().getDifficulty()), false) != null){
+            if (computeHitScore(object.getMsStart(), currentTime.getValue(), calculateDistribution(averageDifficulty(beatmap.getValue().getDifficulty())), false) != null){
                 //Set the object as Hit
                 captureMap.put(event, object);
                 object.setHitTime(currentTime.getValue());
@@ -124,6 +125,14 @@ public class Judgementer extends GameMenu {
                 break;
             }
         }
+    }
+
+    private double averageDifficulty(double difficulty) {
+        if (getGlobalPreferences() instanceof TsuPreferences){
+            TsuPreferences preferences = (TsuPreferences) getGlobalPreferences();
+            return (difficulty + preferences.getDifficulty())/2f;
+        }
+        return difficulty;
     }
 
     @Override

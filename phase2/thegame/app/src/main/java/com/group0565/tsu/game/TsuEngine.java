@@ -180,7 +180,7 @@ public class TsuEngine extends GameMenu {
 
     private void observeJudgement(Observable observable, ObservationEvent<HitObject> event){
         if (event.isEvent(Judgementer.NOTE_HIT)) {
-            lastHit = ScoreCalculator.computeScore(event.getPayload(), ScoreCalculator.calculateDistribution(beatmap.getDifficulty()), true);
+            lastHit = ScoreCalculator.computeScore(event.getPayload(), ScoreCalculator.calculateDistribution(averageDifficulty(beatmap.getDifficulty())), true);
             if (lastHit == S0)
                 combo = 0;
             else{
@@ -188,6 +188,14 @@ public class TsuEngine extends GameMenu {
                 score += lastHit.getScore() * combo;
             }
         }
+    }
+
+    private double averageDifficulty(double difficulty) {
+        if (getGlobalPreferences() instanceof TsuPreferences){
+            TsuPreferences preferences = (TsuPreferences) getGlobalPreferences();
+            return (difficulty + preferences.getDifficulty())/2f;
+        }
+        return difficulty;
     }
 
     private void observePauseButton(Observable observable, ObservationEvent event){
