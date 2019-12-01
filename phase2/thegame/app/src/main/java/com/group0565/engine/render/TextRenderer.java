@@ -71,6 +71,10 @@ public class TextRenderer extends MenuObject {
         this.textSource = text;
     }
 
+    protected TextRenderer(){
+
+    }
+
     @Override
     public void update(long ms) {
         super.update(ms);
@@ -116,5 +120,14 @@ public class TextRenderer extends MenuObject {
 
     protected Paint getPaint() {
         return paintCan != null ? paintCan.getPaint() : paint;
+    }
+
+    /**
+     * Setter for textSource
+     *
+     * @param textSource The new value for textSource
+     */
+    protected void setTextSource(Source<String> textSource) {
+        this.textSource = textSource;
     }
 }

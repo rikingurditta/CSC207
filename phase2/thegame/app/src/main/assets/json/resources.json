@@ -1,7 +1,7 @@
 {
   "TileSheets": {
     "Tsu": {
-      "Score": {
+      "Scores": {
         "Path": "Score.png",
         "TileWidth": 300,
         "TileHeight": 100

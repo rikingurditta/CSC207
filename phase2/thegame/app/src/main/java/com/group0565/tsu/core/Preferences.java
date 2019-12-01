@@ -30,11 +30,10 @@ public class Preferences extends GlobalPreferences implements Observable {
     //Local Copies of the preferences
     private float difficulty;
     private boolean auto;
-
     /**
      * Reload the preferences to match the most updated preferences
      */
-    public void reload(){
+    public Preferences reload(){
         Resources resources = TheGameApplication.getInstance().getResources();
         ThemePrefName = resources.getString(R.string.theme_pref_id);
         LanguagePrefName = resources.getString(R.string.lan_pref_id);
@@ -58,6 +57,8 @@ public class Preferences extends GlobalPreferences implements Observable {
         if (!((auto = prefInter.getPreference(AutoPrefName, false)) instanceof Boolean))
             auto = false;
         this.auto = (boolean) auto;
+
+        return this;
     }
 
     /**

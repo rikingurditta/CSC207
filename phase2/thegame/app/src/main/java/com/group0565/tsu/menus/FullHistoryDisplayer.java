@@ -4,26 +4,25 @@ import android.graphics.Rect;
 import android.graphics.RectF;
 
 import com.group0565.engine.android.AndroidPaint;
-import com.group0565.engine.gameobjects.GameMenu;
 import com.group0565.engine.gameobjects.GameObject;
+import com.group0565.engine.gameobjects.MenuObject;
 import com.group0565.engine.interfaces.Bitmap;
 import com.group0565.engine.interfaces.Canvas;
 import com.group0565.engine.interfaces.Observable;
-import com.group0565.engine.interfaces.ObservationEvent;
 import com.group0565.engine.interfaces.Observer;
 import com.group0565.engine.interfaces.Paint;
 import com.group0565.hitObjectsRepository.SessionHitObjects;
 import com.group0565.math.Vector;
+import com.group0565.racerGame.Menu;
 import com.group0565.theme.Themes;
 import com.group0565.tsu.enums.Grade;
 import com.group0565.tsu.enums.Scores;
 import com.group0565.engine.interfaces.Typeface;
-import com.group0565.tsu.game.HitObject;
-import com.group0565.tsu.game.ScoreCalculator;
+import com.group0565.tsu.menus.StatsMenu;
 
 import java.util.List;
 
-public class FullHistoryDisplayer extends GameMenu implements Observer {
+public class FullHistoryDisplayer extends MenuObject implements Observer {
     private static final float CHEAT_BUF = 10;
     private static final float XMAR = 25;
     private static final float YMAR = 35;
@@ -32,6 +31,7 @@ public class FullHistoryDisplayer extends GameMenu implements Observer {
     private static final float SCORE_HEIGHT = 100;
     private static final float SCORE_YBUFF = 10;
     private static final int SAMPLES = 50;
+    private Vector size;
     private Bitmap cheat;
     private Paint rim;
     private Paint center;
@@ -46,9 +46,9 @@ public class FullHistoryDisplayer extends GameMenu implements Observer {
     private GraphRenderer graphRenderer;
 
 
-    public FullHistoryDisplayer(StatsMenu menu, Vector position, Vector size, HistoryList list) {
-        super(size);
-        this.setRelativePosition(position);
+    public FullHistoryDisplayer(StatsMenu menu, Vector position, Vector size) {
+        super(position);
+        this.size = size;
         this.rim = new AndroidPaint();
         this.rim.setARGB(255, 128, 128, 128);
         this.center = new AndroidPaint();
@@ -71,19 +71,14 @@ public class FullHistoryDisplayer extends GameMenu implements Observer {
         this.datePaint = new AndroidPaint();
         this.datePaint.setTextSize(size.getY() * 0.075f);
         this.datePaint.setARGB(255, 0, 0, 0);
-        list.registerObserver(this::observeChange);
-    }
-
-    private void observeChange(Observable observable, ObservationEvent<SessionHitObjects> event){
-        this.objects = event.getPayload();
     }
 
     @Override
     public void init() {
         float x = getAbsolutePosition().getX();
         float y = getAbsolutePosition().getY();
-        float w = getSize().getX();
-        float h = getSize().getY();
+        float w = size.getX();
+        float h = size.getY();
         this.cheat = getEngine().getGameAssetManager().getTileSheet("Tsu", "Buttons").getTile(21, 0);
         this.graphRenderer = new GraphRenderer(new Vector(x + w / 2, y + h / 2),
                 new Vector(w / 2 - XMAR, h / 2 - YMAR), SAMPLES);
@@ -94,85 +89,85 @@ public class FullHistoryDisplayer extends GameMenu implements Observer {
     @Override
     public void draw(Canvas canvas) {
         super.draw(canvas);
-        float x = getAbsolutePosition().getX();
-        float y = getAbsolutePosition().getY();
-        float w = getSize().getX();
-        float h = getSize().getY();
-        canvas.drawRoundRect(x, y, x + w, y + h, 50, 50, rim);
-        if (getGlobalPreferences().getTheme() == Themes.LIGHT) {
-            center.setARGB(255, 255, 255, 255);
-            countPaint.setARGB(255, 0, 0, 0);
-            this.scorePaint.setARGB(255, 0, 0, 0);
-            this.comboPaint.setARGB(255, 0, 0, 0);
-            this.difficultyPaint.setARGB(255, 0, 0, 0);
-            this.datePaint.setARGB(255, 0, 0, 0);
-        } else if (getGlobalPreferences().getTheme() == Themes.DARK) {
-            center.setARGB(255, 0, 0, 0);
-            countPaint.setARGB(255, 255, 255, 255);
-            this.scorePaint.setARGB(255, 255, 255, 255);
-            this.comboPaint.setARGB(255, 255, 255, 255);
-            this.difficultyPaint.setARGB(255, 255, 255, 255);
-            this.datePaint.setARGB(255, 255, 255, 255);
-        }
-        canvas.drawRoundRect(x + 10, y + 10, x + w - 10, y + h - 10, 50, 50, center);
-
-        if (objects == null)
-            return;
-        float gyb = 0;
-        {
-            Grade grade = Grade.num2Grade(objects.getGrade());
+//        float x = getAbsolutePosition().getX();
+//        float y = getAbsolutePosition().getY();
+//        float w = size.getX();
+//        float h = size.getY();
+//        canvas.drawRoundRect(x, y, x + w, y + h, 50, 50, rim);
+//        if (getGlobalPreferences().getTheme() == Themes.LIGHT) {
+//            center.setARGB(255, 255, 255, 255);
+//            countPaint.setARGB(255, 0, 0, 0);
+//            this.scorePaint.setARGB(255, 0, 0, 0);
+//            this.comboPaint.setARGB(255, 0, 0, 0);
+//            this.difficultyPaint.setARGB(255, 0, 0, 0);
+//            this.datePaint.setARGB(255, 0, 0, 0);
+//        } else if (getGlobalPreferences().getTheme() == Themes.DARK) {
+//            center.setARGB(255, 0, 0, 0);
+//            countPaint.setARGB(255, 255, 255, 255);
+//            this.scorePaint.setARGB(255, 255, 255, 255);
+//            this.comboPaint.setARGB(255, 255, 255, 255);
+//            this.difficultyPaint.setARGB(255, 255, 255, 255);
+//            this.datePaint.setARGB(255, 255, 255, 255);
+//        }
+//        canvas.drawRoundRect(x + 10, y + 10, x + w - 10, y + h - 10, 50, 50, center);
+//
+//        if (objects == null)
+//            return;
+//        float gyb = 0;
+//        {
+//            Grade grade = Grade.num2Grade(objects.getGrade());
 //            gradePaint.setARGB(255, grade.getR(), grade.getG(), grade.getB());
-            String gradeStr = grade.getString();
-            Rect gradeRect = new Rect();
-            this.gradePaint.getTextBounds(gradeStr, 0, gradeStr.length(), gradeRect);
-            canvas.drawText(gradeStr, x + XMAR, y + YMAR + gradeRect.height(), gradePaint);
-            gyb = y + YMAR + gradeRect.height();
-            if (objects.hasCheats()) {
-                canvas.drawBitmap(cheat, null, new RectF(x + XMAR + gradeRect.width() + CHEAT_BUF,
-                        y + YMAR + gradeRect.height() - CHEAT_SIZE, x + XMAR + gradeRect.width() + CHEAT_BUF + CHEAT_SIZE, y + YMAR + gradeRect.height()));
-            }
-        }
-        {
-            int i = 0;
-            for (Scores scores : Scores.values()) {
-                if (scores == Scores.SU)
-                    continue;
-                float fy = gyb + SCORE_YBUFF + i * (SCORE_HEIGHT + SCORE_YBUFF);
-                canvas.drawBitmap(scores.getBitmap(), null, new RectF(x + XMAR, y + fy,
-                        x + XMAR + SCORE_WIDTH, y + fy + SCORE_HEIGHT));
-                int count = getScoreCount(scores);
-                String countStr = ": " + count;
-                Rect countRect = new Rect();
-                this.countPaint.getTextBounds(countStr, 0, countStr.length(), countRect);
-                canvas.drawText(countStr, x + XMAR + SCORE_WIDTH, y + fy + SCORE_HEIGHT, countPaint);
-                i++;
-            }
-            float fy = gyb + SCORE_YBUFF + i * (SCORE_HEIGHT + SCORE_YBUFF);
-            String dateStr = objects.getDatetime();
-            Rect dateRect = new Rect();
-            this.difficultyPaint.getTextBounds(dateStr, 0, dateStr.length(), dateRect);
-            canvas.drawText(dateStr, x + XMAR, y + fy + dateRect.height(), difficultyPaint);
-        }
-        {
-            String scoreStr = getEngine().getGameAssetManager().getLanguagePack("Tsu", getGlobalPreferences().getLanguage()).getToken("Score") + ": " +
-                    objects.getScore();
-            Rect scoreRect = new Rect();
-            this.scorePaint.getTextBounds(scoreStr, 0, scoreStr.length(), scoreRect);
-            canvas.drawText(scoreStr, x + getSize().getX() - scoreRect.width() - XMAR, y + YMAR + scoreRect.height(), scorePaint);
-
-            String comboStr = getEngine().getGameAssetManager().getLanguagePack("Tsu", getGlobalPreferences().getLanguage()).getToken("Combo") + ": " + objects.getMaxCombo();
-            Rect comboRect = new Rect();
-            this.comboPaint.getTextBounds(comboStr, 0, comboStr.length(), comboRect);
-            canvas.drawText(comboStr, x + getSize().getX() - comboRect.width() - XMAR, y + YMAR + scoreRect.height() + comboRect.height() + SCORE_YBUFF, comboPaint);
-
-            String difficultyStr = String.format(getEngine().getGameAssetManager().getLanguagePack("Tsu", getGlobalPreferences().getLanguage()).getToken("Difficulty")
-                            + ": %.1f",
-                    objects.getDifficulty());
-            Rect difficultyRect = new Rect();
-            this.difficultyPaint.getTextBounds(difficultyStr, 0, difficultyStr.length(), difficultyRect);
-            canvas.drawText(difficultyStr, x + getSize().getX() - difficultyRect.width() - XMAR, y + YMAR + scoreRect.height() + comboRect.height() + SCORE_YBUFF
-                    + difficultyRect.height() + SCORE_YBUFF, difficultyPaint);
-        }
+//            String gradeStr = grade.getString();
+//            Rect gradeRect = new Rect();
+//            this.gradePaint.getTextBounds(gradeStr, 0, gradeStr.length(), gradeRect);
+//            canvas.drawText(gradeStr, x + XMAR, y + YMAR + gradeRect.height(), gradePaint);
+//            gyb = y + YMAR + gradeRect.height();
+//            if (objects.hasCheats()) {
+//                canvas.drawBitmap(cheat, null, new RectF(x + XMAR + gradeRect.width() + CHEAT_BUF,
+//                        y + YMAR + gradeRect.height() - CHEAT_SIZE, x + XMAR + gradeRect.width() + CHEAT_BUF + CHEAT_SIZE, y + YMAR + gradeRect.height()));
+//            }
+//        }
+//        {
+//            int i = 0;
+//            for (Scores scores : Scores.values()) {
+//                if (scores == Scores.SU)
+//                    continue;
+//                float fy = gyb + SCORE_YBUFF + i * (SCORE_HEIGHT + SCORE_YBUFF);
+//                canvas.drawBitmap(scores.getBitmap(), null, new RectF(x + XMAR, y + fy,
+//                        x + XMAR + SCORE_WIDTH, y + fy + SCORE_HEIGHT));
+//                int count = getScoreCount(scores);
+//                String countStr = ": " + count;
+//                Rect countRect = new Rect();
+//                this.countPaint.getTextBounds(countStr, 0, countStr.length(), countRect);
+//                canvas.drawText(countStr, x + XMAR + SCORE_WIDTH, y + fy + SCORE_HEIGHT, countPaint);
+//                i++;
+//            }
+//            float fy = gyb + SCORE_YBUFF + i * (SCORE_HEIGHT + SCORE_YBUFF);
+//            String dateStr = objects.getDatetime();
+//            Rect dateRect = new Rect();
+//            this.difficultyPaint.getTextBounds(dateStr, 0, dateStr.length(), dateRect);
+//            canvas.drawText(dateStr, x + XMAR, y + fy + dateRect.height(), difficultyPaint);
+//        }
+//        {
+//            String scoreStr = getEngine().getGameAssetManager().getLanguagePack("Tsu", getGlobalPreferences().getLanguage()).getToken("Score") + ": " +
+//                    objects.getScore();
+//            Rect scoreRect = new Rect();
+//            this.scorePaint.getTextBounds(scoreStr, 0, scoreStr.length(), scoreRect);
+//            canvas.drawText(scoreStr, x + size.getX() - scoreRect.width() - XMAR, y + YMAR + scoreRect.height(), scorePaint);
+//
+//            String comboStr = getEngine().getGameAssetManager().getLanguagePack("Tsu", getGlobalPreferences().getLanguage()).getToken("Combo") + ": " + objects.getMaxCombo();
+//            Rect comboRect = new Rect();
+//            this.comboPaint.getTextBounds(comboStr, 0, comboStr.length(), comboRect);
+//            canvas.drawText(comboStr, x + size.getX() - comboRect.width() - XMAR, y + YMAR + scoreRect.height() + comboRect.height() + SCORE_YBUFF, comboPaint);
+//
+//            String difficultyStr = String.format(getEngine().getGameAssetManager().getLanguagePack("Tsu", getGlobalPreferences().getLanguage()).getToken("Difficulty")
+//                            + ": %.1f",
+//                    objects.getDifficulty());
+//            Rect difficultyRect = new Rect();
+//            this.difficultyPaint.getTextBounds(difficultyStr, 0, difficultyStr.length(), difficultyRect);
+//            canvas.drawText(difficultyStr, x + size.getX() - difficultyRect.width() - XMAR, y + YMAR + scoreRect.height() + comboRect.height() + SCORE_YBUFF
+//                    + difficultyRect.height() + SCORE_YBUFF, difficultyPaint);
+//        }
     }
 
     private int getScoreCount(Scores score) {
@@ -192,20 +187,11 @@ public class FullHistoryDisplayer extends GameMenu implements Observer {
 
     @Override
     public void observe(Observable observable) {
-        if (observable == menu) {
+//        if (observable == menu) {
 //            this.objects = menu.getSelectedObject();
-            if (this.graphRenderer != null)
-                this.graphRenderer.calculate();
-        }
-    }
-
-    /**
-     * Setter for objects.
-     *
-     * @param objects The new value for objects
-     */
-    public void setObjects(SessionHitObjects objects) {
-        this.objects = objects;
+//            if (this.graphRenderer != null)
+//                this.graphRenderer.calculate();
+//        }
     }
 
     private class GraphRenderer extends GameObject {
@@ -234,32 +220,32 @@ public class FullHistoryDisplayer extends GameMenu implements Observer {
         }
 
         public void calculate() {
-            if (objects == null) {
-                this.results = null;
-                return;
-            }
-            List<HitObject> hitObjects = objects.getHitObjects();
-            if (hitObjects.isEmpty()) {
-                this.results = null;
-                return;
-            }
-            this.results = new double[samples];
-            long start = hitObjects.get(0).getMsStart();
-            long end = hitObjects.get(hitObjects.size() - 1).getMsStart();
-            double interval = (end - start) / samples;
-            int counter = 0;
-            for (int i = 0; i < samples; i++) {
-                long istart = start + (long) (i * interval);
-                long iend = istart + (long) interval;
-                int count = 0;
-                double sum = 0;
-                HitObject hitObject;
-                while (counter < hitObjects.size() && (hitObject = hitObjects.get(counter++)).getMsStart() < iend) {
-                    sum += toPct(hitObject.computeScore(ScoreCalculator.calculateDistribution(objects.getDifficulty())));
-                    count++;
-                }
-                results[i] = Math.max(0, Math.max(1, count / sum));
-            }
+//            if (objects == null) {
+//                this.results = null;
+//                return;
+//            }
+//            List<HitObject> hitObjects = objects.getHitObjects();
+//            if (hitObjects.isEmpty()) {
+//                this.results = null;
+//                return;
+//            }
+//            this.results = new double[samples];
+//            long start = hitObjects.get(0).getMsStart();
+//            long end = hitObjects.get(hitObjects.size() - 1).getMsStart();
+//            double interval = (end - start) / samples;
+//            int counter = 0;
+//            for (int i = 0; i < samples; i++) {
+//                long istart = start + (long) (i * interval);
+//                long iend = istart + (long) interval;
+//                int count = 0;
+//                double sum = 0;
+//                HitObject hitObject;
+//                while (counter < hitObjects.size() && (hitObject = hitObjects.get(counter++)).getMsStart() < iend) {
+//                    sum += toPct(hitObject.computeScore(ScoreCalculator.calculateDistribution(objects.getDifficulty())));
+//                    count++;
+//                }
+//                results[i] = Math.max(0, Math.max(1, count / sum));
+//            }
         }
 
         @Override

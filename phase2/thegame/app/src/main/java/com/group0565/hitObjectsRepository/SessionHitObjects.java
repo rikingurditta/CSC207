@@ -1,12 +1,18 @@
 package com.group0565.hitObjectsRepository;
 
+import com.group0565.tsu.enums.Scores;
 import com.group0565.tsu.game.HitObject;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class SessionHitObjects {
-
+  /**
+   * Lambda Map to set scores easier
+   */
+  private HashMap<Scores, Setter<Integer>> scoresSetters = new HashMap<>();
   private List<HitObject> hitObjects;
   private int score;
   private int grade;
@@ -31,6 +37,10 @@ public class SessionHitObjects {
     this.S150 = 0;
     this.S50 = 0;
     this.S0 = 0;
+    scoresSetters.put(Scores.S300, this::setS300);
+    scoresSetters.put(Scores.S150, this::setS150);
+    scoresSetters.put(Scores.S50, this::setS50);
+    scoresSetters.put(Scores.S0, this::setS0);
   }
 
   public SessionHitObjects() {
@@ -121,11 +131,39 @@ public class SessionHitObjects {
     S0 = s0;
   }
 
+  /**
+   * Getter for cheats
+   *
+   * @return cheats
+   */
   public boolean hasCheats() {
     return cheats;
   }
 
+  /**
+   * Setter for cheats
+   *
+   * @param cheats The new value for cheats
+   */
   public void setCheats(boolean cheats) {
     this.cheats = cheats;
+  }
+
+  public void setHitScore(Scores score, int count) {
+    Setter setter = scoresSetters.get(score);
+    if (setter != null)
+      setter.set(count);
+  }
+
+  public void setHitScore(Map<Scores, Integer> scoreCount) {
+    for (Scores score : scoreCount.keySet()) {
+      Integer value = scoreCount.get(score);
+      if (value != null)
+        setHitScore(score, value);
+    }
+  }
+
+  private interface Setter<T>{
+    void set(T t);
   }
 }

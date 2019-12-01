@@ -108,7 +108,7 @@ public class StatsMenu extends GameMenu implements Observable {
                 .close())
             .addCenteredAlignment(ScoreButtonName)
 
-            .add(FullHistoryDisplayerName, new FullHistoryDisplayer(this, new Vector(), new Vector(), historyList).build()
+            .add(FullHistoryDisplayerName, new FullHistoryDisplayer(this, new Vector(), new Vector()).build()
                 .addOffset(MARGIN.getX(), 0)
                 .close())
             .addAlignment(Left, HistoryListName, Right, MARGIN.getX())

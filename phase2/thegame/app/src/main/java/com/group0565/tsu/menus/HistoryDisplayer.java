@@ -14,6 +14,7 @@ import com.group0565.hitObjectsRepository.SessionHitObjects;
 import com.group0565.math.Vector;
 import com.group0565.tsu.enums.ButtonBitmap;
 import com.group0565.tsu.enums.Grade;
+import com.group0565.tsu.render.GradeRenderer;
 
 import static com.group0565.engine.enums.HorizontalEdge.Left;
 import static com.group0565.engine.enums.HorizontalEdge.Right;

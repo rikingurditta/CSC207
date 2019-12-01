@@ -447,4 +447,174 @@ public class TsuEngine extends GameObject implements Observer, Observable {
     public void setAuto(boolean auto) {
         this.auto = auto;
     }
+
+    @Override
+    public void init() {
+        super.init();
+
+        this.build()
+            .add(RendererName, (tsuRenderer = new TsuRenderer(new Vector(PlayAreaWidth, 0), this::getPassedPointer, this::getCurrentTime, this::getHitWindow, this::getHitObjects, this::getBeatmap)))
+            .addAlignment(HCenter, THIS, HCenter)
+            .addAlignment(Top, THIS, Top)
+            .addAlignment(Bottom, THIS, Bottom)
+
+            .add(JudgementName, new Judgementer(new Vector(PlayAreaWidth, HIT_AREA), this::getPassedPointer, this::getBeatmap, this::getHitObjects, this::getCurrentTime).build()
+                .setZ(1)
+                .registerObserver(this::observeJudgement)
+                .close())
+            .addAlignment(HCenter, THIS, HCenter)
+            .addAlignment(Bottom, THIS, Bottom)
+
+            .add(ScoreName, new NumberRenderer(() -> score, ScoreSize).setZ(2))
+            .addAlignment(Right, THIS, Right, -ScoreMargin.getX())
+            .addAlignment(Top, THIS, Top, ScoreMargin.getY())
+
+            .add(HitScoreName, new HitScoreRenderer(HitScoreSize, ()->lastHit).setZ(2))
+            .addAlignment(HCenter, THIS, HCenter, HitScoreMargin.getX())
+            .addAlignment(VCenter, THIS, VCenter, HitScoreMargin.getY())
+
+            .add(ComboName, new NumberRenderer(() -> combo, ComboSize))
+            .addAlignment(HCenter, THIS, HCenter, ComboMargin.getX())
+            .addAlignment(Top, HitScoreName, Bottom, ComboMargin.getY())
+
+            .add(BackgroundName, new BitmapDrawer(new Vector(), () -> background).setZ(-1))
+            .addAlignment(Left, THIS, Left)
+            .addAlignment(Right, THIS, Right)
+            .addAlignment(Top, THIS, Top)
+            .addAlignment(Bottom, THIS, Bottom)
+        .close();
+
+        Beatmap beatmap = new AndroidBeatmap("Tsu", "KOTOKO - unfinished (TV Size) (ljqandylee) [4K Accel]", getEngine().getGameAssetManager());
+        this.setBeatmap(beatmap);
+    }
+
+    @Override
+    public void update(long ms) {
+        super.update(ms);
+        if (running){
+            if (currentTime / 1000 != (currentTime + ms)/1000)
+                System.out.println(currentTime - audio.progress());
+            currentTime += ms;
+            if (currentTime >= 0 && Math.abs(currentTime - audio.progress()) > 50)
+                currentTime = Math.max(0, audio.progress());
+            if (currentTime + ms >= -128 && audio.progress() == 0)
+                audio.play();
+
+            while (passedPointer < hitObjects.size() && hitObjects.get(passedPointer).getMsEnd() < tsuRenderer.getScreenTime()) {
+                HitObject object = hitObjects.get(passedPointer);
+                if (object.getHitTime() < 0)
+                    observeJudgement(this, new ObservationEvent<>(Judgementer.NOTE_HIT, object));
+                passedPointer++;
+            }
+        }
+    }
+
+    public void observeJudgement(Observable observable, ObservationEvent<HitObject> event){
+        if (event.isEvent(Judgementer.NOTE_HIT)) {
+            lastHit = ScoreCalculator.computeScore(event.getPayload(), ScoreCalculator.calculateDistribution(beatmap.getDifficulty()), true);
+            if (lastHit == S0)
+                combo = 0;
+            else{
+                combo += 1;
+                score += lastHit.getScore() * combo;
+            }
+        }
+    }
+
+    @Override
+    public void renderAll(Canvas canvas) {
+        super.renderAll(canvas);
+    }
+
+    public void start(){
+        if (beatmap != null && hitObjects != null && audio != null){
+            audio.seekTo(0);
+            currentTime = -beatmap.getLeadin() - hitWindow;
+            running = true;
+        }
+    }
+
+    /**
+     * Resets the Tsu Engine
+     */
+    public void reset(){
+        this.currentTime = 0;
+        this.passedPointer = 0;
+        this.running = false;
+    }
+
+    /**
+     * Getter for passedPointer
+     *
+     * @return passedPointer
+     */
+    public Integer getPassedPointer() {
+        return passedPointer;
+    }
+
+    /**
+     * Getter for currentTime
+     *
+     * @return currentTime
+     */
+    public Long getCurrentTime() {
+        return currentTime;
+    }
+
+    /**
+     * Setter for currentTime
+     *
+     * @param currentTime The new value for currentTime
+     */
+    public void setCurrentTime(long currentTime) {
+        this.currentTime = currentTime;
+    }
+
+    /**
+     * Getter for hitWindow
+     *
+     * @return hitWindow
+     */
+    public Long getHitWindow() {
+        return hitWindow;
+    }
+
+    /**
+     * Setter for hitWindow
+     *
+     * @param hitWindow The new value for hitWindow
+     */
+    public void setHitWindow(long hitWindow) {
+        this.hitWindow = hitWindow;
+    }
+
+    /**
+     * Getter for hitObjects
+     *
+     * @return hitObjects
+     */
+    public List<HitObject> getHitObjects() {
+        return hitObjects;
+    }
+
+    /**
+     * Getter for beatmap
+     *
+     * @return beatmap
+     */
+    public Beatmap getBeatmap() {
+        return beatmap;
+    }
+
+    /**
+     * Setter for beatmap
+     *
+     * @param beatmap The new value for beatmap
+     */
+    public void setBeatmap(Beatmap beatmap) {
+        this.beatmap = beatmap;
+        this.hitObjects = beatmap.getHitObjects();
+        this.audio = beatmap.getAudio();
+        this.background = beatmap.getBackground();
+    }
 }

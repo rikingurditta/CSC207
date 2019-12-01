@@ -1,4 +1,4 @@
-package com.group0565.tsu.menus;
+package com.group0565.tsu.render;
 
 import com.group0565.engine.gameobjects.MenuObject;
 import com.group0565.engine.interfaces.Canvas;

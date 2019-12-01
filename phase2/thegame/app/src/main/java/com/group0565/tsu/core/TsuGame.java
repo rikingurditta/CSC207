@@ -24,6 +24,7 @@ public class TsuGame extends GameObject implements EventObserver {
     public TsuGame(){
         this.stats = new StatsMenu();
         preferences = new Preferences();
+        preferences.reload();
         this.setGlobalPreferences(preferences);
         HitObjectsRepositoryInjector.inject(
                 repository -> {this.repository = repository;
@@ -46,6 +47,12 @@ public class TsuGame extends GameObject implements EventObserver {
         menu.registerObserver(this);
         stats.registerObserver(this);
         engine.registerObserver(this);
+    }
+
+    @Override
+    public void postInit() {
+        super.postInit();
+        this.engine.start();
     }
 
     @Override
