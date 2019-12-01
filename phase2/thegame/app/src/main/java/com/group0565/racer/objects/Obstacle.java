@@ -12,22 +12,22 @@ public abstract class Obstacle extends GameObject implements Observable {
   /*
    * The starting relative position of the Obstacle.
    */
-  public static final Vector STARTING_RELATIVE_POSITION = new Vector(0, 0);
+  private static final Vector STARTING_RELATIVE_POSITION = new Vector(0, 0);
 
   /*
    * The top y-coordinate of the collision hitbox.
    */
-  public static final int COLLISION_HIGHER_BOUND = 1550;
+  private static final int COLLISION_HIGHER_BOUND = 1550;
 
   /*
    * The bottom y-coordinate of the collision hitbox.
    */
-  public static final int COLLISION_LOWER_BOUND = 1700;
+  private static final int COLLISION_LOWER_BOUND = 1700;
 
   /*
    * The observation message passed when a collision occurs.
    */
-  public static final String COLLISION_MSG = "Collision";
+  private static final String COLLISION_MSG = "Collision";
 
   /**
    * The ObstacleManager for this Obstacle.
@@ -66,13 +66,11 @@ public abstract class Obstacle extends GameObject implements Observable {
    * Checks if this Obstacle object has collided with a Racer. Returns True if the object has
    * collided.
    */
-  private boolean checkCollision() {
+  private void checkCollision() {
     if (obstacleManager.getLane().getIsOccupied() && COLLISION_HIGHER_BOUND <= getRelativePosition().getY() && getRelativePosition().getY() <= COLLISION_LOWER_BOUND) {
       ObservationEvent event = new ObservationEvent(COLLISION_MSG);
       notifyObservers(event);
-      return true;
     }
-    return false;
   }
 
   /**

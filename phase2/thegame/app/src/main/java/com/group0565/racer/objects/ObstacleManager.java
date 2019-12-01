@@ -9,19 +9,19 @@ import java.util.ArrayList;
 
 public class ObstacleManager extends GameMenu implements Observable {
 
-    public static final String COLLISION_MESSAGE = "Collision";
-    public static final Vector STARTING_RELATIVE_POSITION = new Vector(0, 0);
+    private static final String COLLISION_MESSAGE = "Collision";
+    private static final Vector STARTING_RELATIVE_POSITION = new Vector(0, 0);
 
     private Lane lane;
 
     public static int runCounter = 0;
 
-    public ObstacleManager(Vector size, Lane lane) {
+    ObstacleManager(Vector size, Lane lane) {
         super(size);
         this.lane = lane;
     }
 
-    public void spawnObstacle() {
+    void spawnObstacle() {
         double d = Math.random();
 
         if (d > 0.5) {
@@ -31,7 +31,7 @@ public class ObstacleManager extends GameMenu implements Observable {
         }
     }
 
-    public void spawnCircleObstacle() {
+    private void spawnCircleObstacle() {
         Obstacle circle = new CircleObstacle(this);
         circle.registerObserver(this::observeObstacle);
         this.adopt(circle);
@@ -39,7 +39,7 @@ public class ObstacleManager extends GameMenu implements Observable {
         circle.setRelativePosition(STARTING_RELATIVE_POSITION);
     }
 
-    public void spawnSquareObstacle() {
+    private void spawnSquareObstacle() {
         Obstacle square = new SquareObstacle(this);
         square.registerObserver(this::observeObstacle);
         this.adopt(square);
@@ -47,12 +47,12 @@ public class ObstacleManager extends GameMenu implements Observable {
         square.setRelativePosition(STARTING_RELATIVE_POSITION);
     }
 
-    public Lane getLane() {
+    Lane getLane() {
         return lane;
     }
 
 
-    public void observeObstacle(Observable observable, ObservationEvent observationEvent) {
+    private void observeObstacle(Observable observable, ObservationEvent observationEvent) {
         if (observationEvent.getMsg().equals(COLLISION_MESSAGE)) {
             notifyObservers(observationEvent);
         }

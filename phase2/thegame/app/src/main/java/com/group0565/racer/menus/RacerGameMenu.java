@@ -5,7 +5,6 @@ import com.group0565.engine.gameobjects.GameMenu;
 import com.group0565.engine.interfaces.Canvas;
 import com.group0565.engine.interfaces.Observable;
 import com.group0565.engine.interfaces.ObservationEvent;
-import com.group0565.engine.interfaces.Paint;
 import com.group0565.engine.render.ThemedPaintCan;
 import com.group0565.math.Vector;
 import com.group0565.racer.objects.Lane;
@@ -24,37 +23,37 @@ public class RacerGameMenu extends GameMenu implements Observable {
     /*
      * The size of the pause button.
      */
-    public static final Vector PAUSE_BUTTON_SIZE = new Vector(100, 100);
+    private static final Vector PAUSE_BUTTON_SIZE = new Vector(100, 100);
 
     /*
      * The value of the left Lane used to move the Racer.
      */
-    public static final int LEFT_LANE_VALUE = 1;
+    private static final int LEFT_LANE_VALUE = 1;
 
     /*
      * The value of the middle Lane used to move the Racer.
      */
-    public static final int MIDDLE_LANE_VALUE = 2;
+    private static final int MIDDLE_LANE_VALUE = 2;
 
     /*
      * The value of the right Lane used to move the Racer.
      */
-    public static final int RIGHT_LANE_VALUE = 3;
+    private static final int RIGHT_LANE_VALUE = 3;
 
     /*
      * The observation message passed when a collision occurs.
      */
-    public static final String COLLISION_MESSAGE = "Collision";
+    private static final String COLLISION_MESSAGE = "Collision";
 
     /*
      * The position of the score value.
      */
-    public static final Vector SCORE_POSITION = new Vector(50, 170);
+    private static final Vector SCORE_POSITION = new Vector(50, 170);
 
     /*
      * The size of the dividers inbetween the Lanes.
      */
-    public static final Vector DIVIDER = new Vector(30, 2500);
+    private static final Vector DIVIDER = new Vector(30, 2500);
 
     /** An engine object */
     private RacerEngine engine;
@@ -162,7 +161,7 @@ public class RacerGameMenu extends GameMenu implements Observable {
      * @param observable
      * @param event
      */
-    public void observeLeftLane(Observable observable, ObservationEvent event) {
+    private void observeLeftLane(Observable observable, ObservationEvent event) {
         if (event.isEvent(Button.EVENT_DOWN)) {
             middleLane.setRacerLane(false);
             rightLane.setRacerLane(false);
@@ -176,7 +175,7 @@ public class RacerGameMenu extends GameMenu implements Observable {
      * @param observable
      * @param event
      */
-    public void observeMiddleLane(Observable observable, ObservationEvent event) {
+    private void observeMiddleLane(Observable observable, ObservationEvent event) {
         if (event.isEvent(Button.EVENT_DOWN)) {
             leftLane.setRacerLane(false);
             rightLane.setRacerLane(false);
@@ -190,7 +189,7 @@ public class RacerGameMenu extends GameMenu implements Observable {
      * @param observable
      * @param event
      */
-    public void observeRightLane(Observable observable, ObservationEvent event) {
+    private void observeRightLane(Observable observable, ObservationEvent event) {
         if (event.isEvent(Button.EVENT_DOWN)) {
             leftLane.setRacerLane(false);
             middleLane.setRacerLane(false);
@@ -204,7 +203,7 @@ public class RacerGameMenu extends GameMenu implements Observable {
      * @param observable
      * @param event
      */
-    public void observePauseButton(Observable observable, ObservationEvent event) {
+    private void observePauseButton(Observable observable, ObservationEvent event) {
         if (event.isEvent(Button.EVENT_DOWN)) {
             engine.pauseGame();
         }
@@ -216,7 +215,7 @@ public class RacerGameMenu extends GameMenu implements Observable {
      * @param observationEvent
      */
 
-    public void observeCollision(Observable observable, ObservationEvent observationEvent) {
+    private void observeCollision(Observable observable, ObservationEvent observationEvent) {
         if (observationEvent.getMsg().equals(COLLISION_MESSAGE)) {
             engine.endGame();
         }
