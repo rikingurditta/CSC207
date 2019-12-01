@@ -3,8 +3,20 @@
     <!--    Achievement name must begin with the achievement's id -->
     <string name="racer_15_seconds_name">I\'m a Survivor (Amateur)</string>
     <string name="racer_60_seconds_name">I\'m a Survivor (Expert)</string>
+    <string name="bomber_fire_power_6_name">Stronger Than You</string>
+    <string name="bomber_fire_power_max_name">OVER 90000</string>
+    <string name="bomber_multiple_bomb_5_name">Too Many Bombs</string>
+    <string name="bomber_multiple_bomb_6_name">It Goes Boom</string>
+    <string name="bomber_two_bombs_at_once_name">A Company</string>
+    <string name="bomber_three_bombs_at_once_name">A Crowd</string>
 
     <!--    Achievement desc must begin with the achievement's id -->
     <string name="racer_15_seconds_desc">Survive for 15 seconds</string>
     <string name="racer_60_seconds_desc">Survive for 60 seconds</string>
+    <string name="bomber_fire_power_6_desc">Fire Power 6</string>
+    <string name="bomber_fire_power_max_desc">MAX FIRE POWER</string>
+    <string name="bomber_multiple_bomb_5_desc">Multiple Bomb 5</string>
+    <string name="bomber_multiple_bomb_6_desc">Multiple Bomb 6</string>
+    <string name="bomber_two_bombs_at_once_desc">You\'ve placed 2 bombs at once</string>
+    <string name="bomber_three_bombs_at_once_desc">You\'ve placed 3 bombs at once</string>
 </resources>

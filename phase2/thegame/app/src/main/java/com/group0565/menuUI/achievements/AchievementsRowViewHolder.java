@@ -106,7 +106,7 @@ public class AchievementsRowViewHolder extends RecyclerView.ViewHolder
     Resources resources = itemView.getResources();
 
     String packageName = itemView.getContext().getPackageName();
-    String nameId = key + suffix;
+    String nameId = key.toLowerCase() + suffix;
     return resources.getIdentifier(nameId, type, packageName);
   }
 
@@ -117,7 +117,7 @@ public class AchievementsRowViewHolder extends RecyclerView.ViewHolder
    */
   @Override
   public void setImage(String key) {
-    int drawableId = getResourceID(key, "drawable", "_image");
+    int drawableId = getResourceID(key.toLowerCase(), "drawable", "_image");
 
     Drawable image = ResourcesCompat.getDrawable(itemView.getResources(), drawableId, null);
 

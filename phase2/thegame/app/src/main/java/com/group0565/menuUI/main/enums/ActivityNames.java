@@ -1,6 +1,6 @@
 package com.group0565.menuUI.main.enums;
 
-import com.group0565.bomberGame.BomberMainActivity;
+import com.group0565.bomberGame.core.BomberMainActivity;
 import com.group0565.menuUI.achievements.AchievementsActivity;
 import com.group0565.menuUI.settings.SettingsActivity;
 import com.group0565.menuUI.statistics.StatisticsActivity;

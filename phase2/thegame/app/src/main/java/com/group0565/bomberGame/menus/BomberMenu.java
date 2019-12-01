@@ -28,7 +28,7 @@ public class BomberMenu extends GameMenu {
                 .build()
                 .registerObserver(this::observePlayButton)
                 .close())
-        .setCenteredRelativePosition("this")
+        .addCenteredAlignment(THIS)
         .close();
   }
 
