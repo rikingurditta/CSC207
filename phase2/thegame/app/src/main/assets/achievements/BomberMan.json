@@ -1,5 +1,5 @@
 {
-  "Fire Power 6": {
+  "Fire_Power_6": {
     "DisplayName": "Fire Power 6",
     "Icon": {
       "Set": "Tsu",
@@ -10,7 +10,7 @@
     "Description": "Fire Power 6",
     "Hidden": false
   },
-  "Fire Power MAX": {
+  "Fire_Power_MAX": {
     "DisplayName": "MAX FIRE POWER",
     "Icon": {
       "Set": "Tsu",
@@ -21,7 +21,7 @@
     "Description": "Fire Power MAX",
     "Hidden": false
   },
-  "Multiple Bomb 5": {
+  "Multiple_Bomb_5": {
     "DisplayName": "Multiple Bomb 5",
     "Icon": {
       "Set": "Tsu",
@@ -32,7 +32,7 @@
     "Description": "Multiple Bomb 5",
     "Hidden": false
   },
-  "Multiple Bomb 6": {
+  "Multiple_Bomb_6": {
     "DisplayName": "Multiple Bomb 6",
     "Icon": {
       "Set": "Tsu",
@@ -43,7 +43,7 @@
     "Description": "Multiple Bomb 6",
     "Hidden": false
   },
-  "two bombs at once": {
+  "Two_bombs_at_once": {
     "DisplayName": "You've placed 2 bombs at once",
     "Icon": {
       "Set": "Tsu",
@@ -54,7 +54,7 @@
     "Description": "placed three bombs at once",
     "Hidden": false
   },
-  "three bombs at once": {
+  "Three_bombs_at_once": {
     "DisplayName": "You've placed 3 bombs at once",
     "Icon": {
       "Set": "Tsu",

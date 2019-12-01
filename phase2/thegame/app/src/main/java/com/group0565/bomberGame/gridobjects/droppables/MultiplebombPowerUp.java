@@ -22,10 +22,10 @@ public class MultiplebombPowerUp extends Droppable {
     bm.setNumSimultaneousBombs(bm.getNumSimultaneousBombs() + 1);
 
     if (bm.getNumSimultaneousBombs() == 5) {
-      getEngine().getAchievementManager().unlockAchievement("BomberMan", "Multiple Bomb 5");
+      getEngine().getAchievementManager().unlockAchievement("BomberMan", "Multiple_Bomb_5");
     }
     if (bm.getNumSimultaneousBombs() == 6) {
-      getEngine().getAchievementManager().unlockAchievement("BomberMan", "Multiple Bomb 6");
+      getEngine().getAchievementManager().unlockAchievement("BomberMan", "Multiple_Bomb_6");
     }
   }
 

@@ -115,10 +115,10 @@ public class BomberMan extends GridObject {
   public void checkAchievements(){
     if (!(inputSystem instanceof RandomInput)) {
       if (bombs.size() == 2) {
-        getEngine().getAchievementManager().unlockAchievement("BomberMan", "two bombs at once");
+        getEngine().getAchievementManager().unlockAchievement("BomberMan", "Two_bombs_at_once");
       }
       if (bombs.size() == 3) {
-        getEngine().getAchievementManager().unlockAchievement("BomberMan", "three bombs at once");
+        getEngine().getAchievementManager().unlockAchievement("BomberMan", "Three_bombs_at_once");
       }
     }
   }
