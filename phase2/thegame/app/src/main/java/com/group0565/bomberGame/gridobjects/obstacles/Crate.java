@@ -1,13 +1,12 @@
 package com.group0565.bomberGame.gridobjects.obstacles;
 
 import com.group0565.bomberGame.core.BomberEngine;
-import com.group0565.bomberGame.gridobjects.droppables.FirepowerPowerUp;
-import com.group0565.bomberGame.gridobjects.droppables.MultiplebombPowerUp;
 import com.group0565.bomberGame.grid.Grid;
 import com.group0565.bomberGame.gridobjects.GridObject;
+import com.group0565.bomberGame.gridobjects.droppables.FirepowerPowerUp;
+import com.group0565.bomberGame.gridobjects.droppables.MultiplebombPowerUp;
 import com.group0565.engine.interfaces.Bitmap;
 import com.group0565.engine.interfaces.Canvas;
-import com.group0565.engine.render.ThemedPaintCan;
 import com.group0565.math.Coords;
 import com.group0565.math.Vector;
 
@@ -16,9 +15,6 @@ public class Crate extends GridObject {
 
   /** The game this Crate belongs to. */
   private BomberEngine game;
-
-  /** PaintCan for this crate's fill. */
-  private final ThemedPaintCan paintCan = new ThemedPaintCan("Bomber", "Crate.Crate");
 
   private Bitmap IMAGE;
 
@@ -50,7 +46,6 @@ public class Crate extends GridObject {
   @Override
   public void init() {
     super.init();
-    paintCan.init(getGlobalPreferences(), getEngine().getGameAssetManager());
     IMAGE = getEngine().getGameAssetManager().getTileSheet("Bomber", "Grid_Objects").getTile(1, 2);
   }
 
@@ -78,9 +73,6 @@ public class Crate extends GridObject {
    */
   @Override
   public void draw(Canvas canvas) {
-    Vector pos = getAbsolutePosition();
-    // Draw a rectangle at our touch position
-    canvas.drawBitmap(IMAGE, pos, new Vector(grid.getTileWidth(), grid.getTileWidth()));
-//    canvas.drawRect(pos, new Vector(grid.getTileWidth(), grid.getTileWidth()), paintCan);
+    canvas.drawBitmap(IMAGE, getAbsolutePosition(), new Vector(grid.getTileWidth()));
   }
 }

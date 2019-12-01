@@ -51,18 +51,19 @@ public class NormalBomb extends Bomb {
     int scale = grid.getTileWidth();
     if (!duringExplosion) {
       // if not exploding, draw bomb as single tile
-      canvas.drawRect(getAbsolutePosition(), new Vector(scale, scale), currPaintCan);
+      canvas.drawBitmap(currImage, getAbsolutePosition(), new Vector(scale));
     } else {
       // if exploding, draw + shaped explosion
-      // horizontal rectangle 5 tiles wide and 1 tile tall
-      canvas.drawRect(
-          getAbsolutePosition().add(new Vector(-getStrength() * scale, 0)),
-          new Vector(2 * getStrength() * scale + scale, scale),
-          currPaintCan);
-      canvas.drawRect(
-          getAbsolutePosition().add(new Vector(0, -getStrength() * scale)),
-          new Vector(scale, 2 * getStrength() * scale + scale),
-          currPaintCan);
+      // horizontal fire line
+      for (int i = -getStrength(); i <= getStrength(); i += 1) {
+        canvas.drawBitmap(
+            currImage, getAbsolutePosition().add(new Vector(i * scale, 0)), new Vector(scale));
+      }
+      // vertical fire line
+      for (int j = -getStrength(); j <= getStrength(); j += 1) {
+        canvas.drawBitmap(
+            currImage, getAbsolutePosition().add(new Vector(0, j * scale)), new Vector(scale));
+      }
     }
   }
 }
