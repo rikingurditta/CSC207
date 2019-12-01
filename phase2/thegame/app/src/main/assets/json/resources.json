@@ -206,7 +206,7 @@
   },
   "Achievements": {
     "Tsu": "Tsu.json",
-    "Racer": "Racer.json"
+    "Racer": "Racer.json",
     "BomberMan": "BomberMan.json"
   }
 }
