@@ -27,11 +27,21 @@
         "TileHeight": 100
       }
     },
-    "RacerButton": {
+    "Racer": {
       "RacerButton": {
         "Path": "Button.png",
         "TileWidth": 256,
         "TileHeight": 256
+      },
+      "RacerAchievement15": {
+        "Path": "clock15.png",
+        "TileWidth": 280,
+        "TileHeight": 280
+      },
+      "RacerAchievement60": {
+        "Path": "clock60.png",
+        "TileWidth": 280,
+        "TileHeight": 280
       }
     }
   },
@@ -101,6 +111,7 @@
     }
   },
   "Achievements": {
-    "Tsu": "Tsu.json", "Racer": "Racer.json"
+    "Tsu": "Tsu.json",
+    "Racer": "Racer.json"
   }
 }

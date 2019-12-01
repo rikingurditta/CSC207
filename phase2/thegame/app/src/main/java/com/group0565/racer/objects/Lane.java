@@ -33,11 +33,11 @@ public class Lane extends GameMenu implements Observable {
                         new Vector(150, 150),
                         getEngine()
                                 .getGameAssetManager()
-                                .getTileSheet("RacerButton", "RacerButton")
+                                .getTileSheet("Racer", "RacerButton")
                                 .getTile(0, 0),
                         getEngine()
                                 .getGameAssetManager()
-                                .getTileSheet("RacerButton", "RacerButton")
+                                .getTileSheet("Racer", "RacerButton")
                                 .getTile(0, 0)).build()
                                 .registerObserver(buttonObserver)
                         .close()

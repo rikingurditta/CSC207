@@ -68,11 +68,11 @@ public class RacerGameMenu extends GameMenu implements Observable {
                 new Vector(100, 100),
                 getEngine()
                         .getGameAssetManager()
-                        .getTileSheet("RacerButton", "RacerButton")
+                        .getTileSheet("Racer", "RacerButton")
                         .getTile(0, 0),
                 getEngine()
                         .getGameAssetManager()
-                        .getTileSheet("RacerButton", "RacerButton")
+                        .getTileSheet("Racer", "RacerButton")
                         .getTile(0, 0)).build()
                         .registerObserver(this::observePauseButton)
                 .close()

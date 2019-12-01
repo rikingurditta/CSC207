@@ -3,7 +3,7 @@
     "DisplayName": "Survive for 15 seconds",
     "Icon": {
       "Set": "Racer",
-      "Sheet": "clock",
+      "Sheet": "RacerAchievement15",
       "Tile X": 0,
       "Tile Y": 0
     },
@@ -15,7 +15,7 @@
     "DisplayName": "Survive for 60 seconds",
     "Icon": {
       "Set": "Racer",
-      "Sheet": "clock",
+      "Sheet": "RacerAchievement60",
       "Tile X": 0,
       "Tile Y": 0
     },
