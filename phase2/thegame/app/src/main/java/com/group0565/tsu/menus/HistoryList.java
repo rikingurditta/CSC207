@@ -147,7 +147,7 @@ class HistoryList extends GameMenu {
      */
     public void setSelectedObject(SessionHitObjects selectedObject) {
         this.selectedObject = selectedObject;
-        if (getHistory().contains(this.selectedObject)) {
+        if (getHistory() != null && getHistory().contains(this.selectedObject)) {
             int index = getHistory().indexOf(this.selectedObject);
             if (!(scroll <= index && index < scroll + DISPLAYER_COUNT))
                 setScroll(index);

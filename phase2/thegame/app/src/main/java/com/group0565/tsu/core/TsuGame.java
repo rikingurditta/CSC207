@@ -80,6 +80,16 @@ public class TsuGame extends GameObject implements EventObserver {
             if (event.isEvent(StatsMenu.EXIT_EVENT)){
                 beatmapMenu.setEnable(true);
                 stats.setEnable(false);
+            }else if(event.isEvent(StatsMenu.TO_REPLAY)){
+                if (event.getPayload() instanceof SessionHitObjects) {
+                    SessionHitObjects sessionHitObjects = (SessionHitObjects) event.getPayload();
+                    stats.setEnable(false);
+                    engine.setBeatmap(beatmapMenu.getSelectedBeatmap());
+                    engine.setSource(StatsMenu.TO_REPLAY);
+                    engine.setReplayGenerator(sessionHitObjects.getArchive());
+                    engine.setEnable(true);
+                    engine.startGame();
+                }
             }
         }else if (observable == beatmapMenu){
             if (event.isEvent(BeatmapMenu.STATS_EVENT)){
@@ -113,8 +123,13 @@ public class TsuGame extends GameObject implements EventObserver {
                     stats.setHistory(history);
                     stats.setSelectedObject((SessionHitObjects) payload);
                     stats.setEnable(true);
-                }else
+                } else
                     menu.setEnable(true);
+                engine.resetGame();
+                engine.setEnable(false);
+            }
+            else if (event.isEvent(TsuEngine.TO_STATS)) {
+                stats.setEnable(true);
                 engine.resetGame();
                 engine.setEnable(false);
             }

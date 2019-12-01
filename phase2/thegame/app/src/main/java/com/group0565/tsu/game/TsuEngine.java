@@ -14,11 +14,13 @@ import com.group0565.tsu.core.Preferences;
 import com.group0565.tsu.enums.ButtonBitmap;
 import com.group0565.tsu.enums.Scores;
 import com.group0565.tsu.menus.PauseMenu;
+import com.group0565.tsu.menus.StatsMenu;
 import com.group0565.tsu.render.HitScoreRenderer;
 import com.group0565.tsu.render.NumberRenderer;
 import com.group0565.tsu.util.ScoreCalculator;
 
 import java.util.List;
+import java.util.Set;
 
 import static com.group0565.engine.enums.HorizontalEdge.HCenter;
 import static com.group0565.engine.enums.HorizontalEdge.Left;
@@ -31,6 +33,7 @@ import static com.group0565.tsu.enums.Scores.*;
 public class TsuEngine extends GameMenu {
     //Event Constants
     public static final String GAME_END = "Game End";
+    public static final String TO_STATS = "To Stats";
 
     //Renderer Constants
     private static final String RendererName = "Renderer";
@@ -81,6 +84,8 @@ public class TsuEngine extends GameMenu {
     private int score = 0;
     private Scores lastHit = null;
     private InputGenerator generator = null;
+
+    private String source = null;
 
     public TsuEngine() {
         super();
@@ -208,7 +213,7 @@ public class TsuEngine extends GameMenu {
             currentTime = -beatmap.getLeadin() - hitWindow;
             running = true;
 
-            if (getGlobalPreferences() instanceof Preferences){
+            if (generator == null && getGlobalPreferences() instanceof Preferences){
                 Preferences preferences = (Preferences)getGlobalPreferences();
                 if (preferences.getAuto()){
                     generator = new AutoGenerator(this, judgementer.getAbsolutePosition(), judgementer.getSize());
@@ -243,16 +248,20 @@ public class TsuEngine extends GameMenu {
     private void endGame(){
         audio.pause();
         audioPlaying = false;
+        generator = null;
         SessionHitObjects sessionHitObjects = ScoreCalculator.constructSessionHitObjects(beatmap, judgementer.getArchive());
         if (getGlobalPreferences() instanceof Preferences)
             sessionHitObjects.setCheats(((Preferences) getGlobalPreferences()).getAuto());
-        this.notifyObservers(new ObservationEvent<>(GAME_END, sessionHitObjects));
+        this.notifyObservers(new ObservationEvent<>(StatsMenu.TO_REPLAY.equals(source) ? TO_STATS : GAME_END, sessionHitObjects));
+        this.source = null;
     }
 
     private void exitGame(){
         audio.pause();
         audioPlaying = false;
-        this.notifyObservers(new ObservationEvent(GAME_END));
+        generator = null;
+        this.notifyObservers(new ObservationEvent(StatsMenu.TO_REPLAY.equals(source) ? TO_STATS : GAME_END));
+        source = null;
     }
 
     /**
@@ -342,5 +351,38 @@ public class TsuEngine extends GameMenu {
         this.hitObjects = beatmap.getHitObjects();
         this.audio = beatmap.getAudio();
         this.background = beatmap.getBackground();
+    }
+
+    /**
+     * Getter for source.
+     *
+     * @return source
+     */
+    public String getSource() {
+        return source;
+    }
+
+    /**
+     * Setter for source.
+     *
+     * @param source The new value for source
+     */
+    public void setSource(String source) {
+        this.source = source;
+    }
+
+    /**
+     * Setter for generator.
+     *
+     * @param generator The new value for generator
+     */
+    public void setGenerator(InputGenerator generator) {
+        this.generator = generator;
+        this.intercepter.setGenerator(generator);
+    }
+
+    public void setReplayGenerator(Set<ArchiveInputEvent> arhive) {
+        this.generator = new ReplayGenerator(this, arhive, judgementer.getAbsolutePosition(), judgementer.getSize());
+        this.intercepter.setGenerator(generator);
     }
 }

@@ -26,6 +26,7 @@ public class StatsMenu extends GameMenu implements Observable {
     //Event Constants
     public static final String HISTORY_UPDATE_EVENT = "History Updated";
     public static final String EXIT_EVENT = "Stats Exitted";
+    public static final String TO_REPLAY = FullHistoryDisplayer.TO_REPLAY;
 
     private static final Vector BUTTON_SIZE = new Vector(75);
     private static final Vector MARGIN = new Vector(75);
@@ -136,7 +137,9 @@ public class StatsMenu extends GameMenu implements Observable {
                 .close())
             .addCenteredAlignment(ScoreButtonName)
 
-            .add(FullHistoryDisplayerName, new FullHistoryDisplayer(historyList::getSelectedObject, new Vector()))
+            .add(FullHistoryDisplayerName, new FullHistoryDisplayer(historyList::getSelectedObject, new Vector()).build()
+                .registerObserver(this::observeReplay)
+                .close())
             .addAlignment(Left, HistoryListName, Right, INTERNAL_MARGIN.getX())
             .addAlignment(Right, THIS, Right, -MARGIN.getX())
             .addAlignment(Top, BeatmapName, Bottom, INTERNAL_MARGIN.getY())
@@ -167,6 +170,11 @@ public class StatsMenu extends GameMenu implements Observable {
         }
     }
 
+    private void observeReplay(Observable observable, ObservationEvent<SessionHitObjects> event){
+        if (event.isEvent(TO_REPLAY))
+            this.notifyObservers(event);
+    }
+
     public List<SessionHitObjects> getHistory() {
         return history;
     }
@@ -186,7 +194,7 @@ public class StatsMenu extends GameMenu implements Observable {
 
     public void setSelectedObject(SessionHitObjects object) {
         historyList.setSelectedObject(object);
-        this.setSelectedBeatmap(object.getBeatmapName());
+        this.setSelectedBeatmap(object == null ? null : object.getBeatmapName());
         refilter();
     }
 

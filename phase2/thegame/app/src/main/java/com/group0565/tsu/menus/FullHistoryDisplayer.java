@@ -1,12 +1,14 @@
 package com.group0565.tsu.menus;
 
 import com.group0565.engine.android.AndroidPaint;
+import com.group0565.engine.gameobjects.Button;
 import com.group0565.engine.gameobjects.GameMenu;
 import com.group0565.engine.gameobjects.GameObject;
 import com.group0565.engine.gameobjects.MenuObject;
 import com.group0565.engine.interfaces.Bitmap;
 import com.group0565.engine.interfaces.Canvas;
 import com.group0565.engine.interfaces.Observable;
+import com.group0565.engine.interfaces.ObservationEvent;
 import com.group0565.engine.interfaces.Observer;
 import com.group0565.engine.interfaces.Paint;
 import com.group0565.engine.interfaces.Source;
@@ -27,6 +29,8 @@ import static com.group0565.engine.enums.HorizontalEdge.*;
 import static com.group0565.engine.enums.VerticalEdge.*;
 
 public class FullHistoryDisplayer extends GameMenu {
+    //Event Constants
+    public static final String TO_REPLAY = "To Replay";
 
     private static final int SAMPLES = 50;
 
@@ -78,6 +82,9 @@ public class FullHistoryDisplayer extends GameMenu {
     //Cheats Constants
     private static final String CheatName = "Cheat";
     private static final Vector CHEAT_SIZE = new Vector(75);
+    //Replay Constants
+    private static final String ReplayName = "Replay";
+    private static final Vector REPLAY_SIZE = new Vector(75);
 
     private ThemedPaintCan rim;
     private ThemedPaintCan center;
@@ -96,6 +103,7 @@ public class FullHistoryDisplayer extends GameMenu {
     public void init() {
         super.init();
         Grade.init(getGlobalPreferences(), getEngine().getGameAssetManager());
+        ButtonBitmap.init(getEngine().getGameAssetManager());
         rim = new ThemedPaintCan(SET, RimPaintName).init(getGlobalPreferences(), getEngine().getGameAssetManager());
         center = new ThemedPaintCan(SET, CenterPaintName).init(getGlobalPreferences(), getEngine().getGameAssetManager());
         ThemedPaintCan countPaint = new ThemedPaintCan(SET, CountPaintName).init(getGlobalPreferences(), getEngine().getGameAssetManager());
@@ -202,8 +210,21 @@ public class FullHistoryDisplayer extends GameMenu {
                 .close())
             .addAlignment(Left, GradeName, Right, INTERNAL_MARGINS.getX())
             .addAlignment(Bottom, GradeName, Bottom)
+
+            .add(ReplayName, new Button(REPLAY_SIZE, ButtonBitmap.ReplayButton.getBitmap()).build()
+                .setSelfEnable(() -> (true || objectsSource.getValue() != null))
+                .registerObserver(this::observeReplay)
+                .close())
+            .addAlignment(Right, THIS, Right, -MARGINS.getX())
+            .addAlignment(Bottom, THIS, Bottom, -MARGINS.getY())
         .close();
         // @formatter:on
+    }
+
+    private void observeReplay(Observable observable, ObservationEvent observationEvent){
+        if (observationEvent.isEvent(Button.EVENT_DOWN)){
+            this.notifyObservers(new ObservationEvent<>(TO_REPLAY, objectsSource.getValue()));
+        }
     }
 
     private class GraphRenderer extends GameObject {

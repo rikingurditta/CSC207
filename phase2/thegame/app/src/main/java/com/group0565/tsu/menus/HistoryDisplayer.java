@@ -128,6 +128,8 @@ class HistoryDisplayer extends GameMenu {
 
     @Override
     public boolean processInput(InputEvent event) {
+        if (this.objects == null)
+            return super.processInput(event);
         if (!isEnable() || !isSelfEnable())
             return super.processInput(event);
         Vector pos = event.getPos();

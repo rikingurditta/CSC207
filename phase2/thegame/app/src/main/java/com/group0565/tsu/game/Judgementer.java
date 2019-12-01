@@ -85,6 +85,9 @@ public class Judgementer extends GameMenu {
                 object.setHitTime(currentTime.getValue());
                 //And notify everyone about it
                 notifyObservers(new ObservationEvent<>(NOTE_HIT, object));
+                double sp = (event.getPos().getX() - getAbsolutePosition().getX())/getSize().getX();
+                //Also Archive it
+                activeArchiveMap.put(event, new ArchiveInputEvent(sp, currentTime.getValue(), 0));
                 return;
             }
 
@@ -107,8 +110,9 @@ public class Judgementer extends GameMenu {
             //If it is inside the bounds of the object, register it to light up
             if (x <= event.getPos().getX() && event.getPos().getX() <= x + width) {
                 captureMap.put(event, object);
+                double sp = (event.getPos().getX() - getAbsolutePosition().getX())/getSize().getX();
                 //Also archive this event
-                activeArchiveMap.put(event, new ArchiveInputEvent(x + width/2, currentTime.getValue(), 0));
+                activeArchiveMap.put(event, new ArchiveInputEvent(sp, currentTime.getValue(), 0));
                 break;
             }
         }
@@ -124,9 +128,10 @@ public class Judgementer extends GameMenu {
         }
         captureMap.remove(event); //Remove it from capture map. No need to check if its there.
         ArchiveInputEvent archiveInputEvent = activeArchiveMap.remove(event); //Remove the event from the active map
-        if (archiveInputEvent != null) //If it actually exists
+        if (archiveInputEvent != null) { //If it actually exists
             archiveInputEvent.endTime = currentTime.getValue();
-        archive.add(archiveInputEvent);
+            archive.add(archiveInputEvent);
+        }
     }
 
     @Override
