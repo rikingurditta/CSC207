@@ -61,10 +61,10 @@ public class Crate extends GridObject {
       grid.remove(this);
       game.removeLater(this);
       double r = Math.random();
-      if (r < 0.5) {
+      if (r < 0.33) {
         FirepowerPowerUp loot = new FirepowerPowerUp(gridCoords, -2, grid, this.game);
         game.adoptLater(loot);
-      } else if (r < 10) {
+      } else if (r < 0.66) {
         MultiplebombPowerUp loot = new MultiplebombPowerUp(gridCoords, -2, grid, this.game);
         game.adoptLater(loot);
       }
