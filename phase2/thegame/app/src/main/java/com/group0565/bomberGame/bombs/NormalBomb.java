@@ -14,6 +14,7 @@ public class NormalBomb extends Bomb {
     super(position, z, game, grid, placedBy);
   }
 
+  /** Explodes bombs and handles explosion collision by checking gridObjects within the bomb strength.*/
   @Override
   public void explode() {
     for (GridObject g : grid.getItems()) {
