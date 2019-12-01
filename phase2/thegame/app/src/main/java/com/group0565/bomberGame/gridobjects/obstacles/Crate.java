@@ -5,6 +5,7 @@ import com.group0565.bomberGame.gridobjects.droppables.FirepowerPowerUp;
 import com.group0565.bomberGame.gridobjects.droppables.MultiplebombPowerUp;
 import com.group0565.bomberGame.grid.Grid;
 import com.group0565.bomberGame.gridobjects.GridObject;
+import com.group0565.engine.interfaces.Bitmap;
 import com.group0565.engine.interfaces.Canvas;
 import com.group0565.engine.render.ThemedPaintCan;
 import com.group0565.math.Coords;
@@ -18,6 +19,8 @@ public class Crate extends GridObject {
 
   /** PaintCan for this crate's fill. */
   private final ThemedPaintCan paintCan = new ThemedPaintCan("Bomber", "Crate.Crate");
+
+  private Bitmap IMAGE;
 
   /**
    * Constructs a new Crate.
@@ -48,6 +51,7 @@ public class Crate extends GridObject {
   public void init() {
     super.init();
     paintCan.init(getGlobalPreferences(), getEngine().getGameAssetManager());
+    IMAGE = getEngine().getGameAssetManager().getTileSheet("Bomber", "Grid_Objects").getTile(1, 2);
   }
 
   /** Destroy this crate if the damage done to it is positive. */
@@ -56,11 +60,11 @@ public class Crate extends GridObject {
     if (d > 0) {
       grid.remove(this);
       game.removeLater(this);
-      double rannn = Math.random();
-      if (rannn < 0.33) {
+      double r = Math.random();
+      if (r < 0.5) {
         FirepowerPowerUp loot = new FirepowerPowerUp(gridCoords, -2, grid, this.game);
         game.adoptLater(loot);
-      } else if (rannn < 0.66) {
+      } else if (r < 10) {
         MultiplebombPowerUp loot = new MultiplebombPowerUp(gridCoords, -2, grid, this.game);
         game.adoptLater(loot);
       }
@@ -76,6 +80,7 @@ public class Crate extends GridObject {
   public void draw(Canvas canvas) {
     Vector pos = getAbsolutePosition();
     // Draw a rectangle at our touch position
-    canvas.drawRect(pos, new Vector(grid.getTileWidth(), grid.getTileWidth()), paintCan);
+    canvas.drawBitmap(IMAGE, pos, new Vector(grid.getTileWidth(), grid.getTileWidth()));
+//    canvas.drawRect(pos, new Vector(grid.getTileWidth(), grid.getTileWidth()), paintCan);
   }
 }

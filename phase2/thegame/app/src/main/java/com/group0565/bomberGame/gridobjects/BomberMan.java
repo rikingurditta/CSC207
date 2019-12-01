@@ -3,10 +3,10 @@ package com.group0565.bomberGame.gridobjects;
 import android.util.Log;
 
 import com.group0565.bomberGame.core.BomberEngine;
+import com.group0565.bomberGame.grid.Grid;
 import com.group0565.bomberGame.gridobjects.bombs.Bomb;
 import com.group0565.bomberGame.gridobjects.bombs.NormalBomb;
 import com.group0565.bomberGame.gridobjects.droppables.Droppable;
-import com.group0565.bomberGame.grid.Grid;
 import com.group0565.bomberGame.input.BomberInput;
 import com.group0565.bomberGame.input.InputSystem;
 import com.group0565.bomberGame.input.RandomInput;
@@ -62,6 +62,7 @@ public class BomberMan extends GridObject {
 
   /** The list of bombs this BomberMan has placed. */
   private ArrayList<Bomb> bombs = new ArrayList<>();
+
   private boolean two_bombs_at_once_unlocked = false;
   private boolean three_bombs_at_once_unlocked = false;
 
@@ -114,14 +115,14 @@ public class BomberMan extends GridObject {
     canvas.drawText("hp: " + hp, pos, textPaintCan);
   }
 
-  public void checkAchievements(){
+  public void checkAchievements() {
     if (!(inputSystem instanceof RandomInput)) {
       if (bombs.size() == 2 && !two_bombs_at_once_unlocked) {
-        getEngine().getAchievementManager().unlockAchievement("BomberMan", "Two_bombs_at_once");
+        getEngine().getAchievementManager().unlockAchievement("BomberMan", "Bomber_Two_bombs_at_once");
         two_bombs_at_once_unlocked = true;
       }
       if (bombs.size() == 3 && !three_bombs_at_once_unlocked) {
-        getEngine().getAchievementManager().unlockAchievement("BomberMan", "Three_bombs_at_once");
+        getEngine().getAchievementManager().unlockAchievement("BomberMan", "Bomber_Three_bombs_at_once");
         three_bombs_at_once_unlocked = true;
       }
     }
@@ -135,7 +136,6 @@ public class BomberMan extends GridObject {
   public void update(long ms) {
 
     checkAchievements();
-
 
     if (hp <= 0) {
       grid.remove(this);
@@ -170,10 +170,10 @@ public class BomberMan extends GridObject {
 
       readyToMove = false;
     }
-    //after u move to new tile check if theres a droppable there
+    // after u move to new tile check if theres a droppable there
     collectDroppable();
 
-    //graphic move
+    // graphic move
     Vector newPos = pos.add(direction.multiply((float) ms * speed));
 
     // if the calculated position is past the target, only move to the target

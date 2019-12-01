@@ -26,11 +26,11 @@ public class FirepowerPowerUp extends Droppable {
     }
 
     if (bm.getBombStrength() == 6 && !fire_power_6_unlocked) {
-      getEngine().getAchievementManager().unlockAchievement("BomberMan", "Fire_Power_6");
+      getEngine().getAchievementManager().unlockAchievement("BomberMan", "Bomber_Fire_Power_6");
       fire_power_6_unlocked = true;
     }
     if (bm.getBombStrength() == 7 && !fire_power_max_unlocked) {
-      getEngine().getAchievementManager().unlockAchievement("BomberMan", "Fire_Power_MAX");
+      getEngine().getAchievementManager().unlockAchievement("BomberMan", "Bomber_Fire_Power_MAX");
       fire_power_max_unlocked = true;
     }
 
