@@ -25,6 +25,16 @@
         "Path": "Scroll.png",
         "TileWidth": 200,
         "TileHeight": 100
+      },
+      "Umeboshi Chazuke - Bison Charge (_Asha) [Advanced]": {
+        "Path": "beatmaps/Umeboshi Chazuke - Bison Charge (_Asha) [Advanced].jpg",
+        "TileWidth": -1,
+        "TileHeight": -1
+      },
+      "KOTOKO - unfinished (TV Size) (ljqandylee) [4K Accel]": {
+        "Path": "beatmaps/KOTOKO - unfinished (TV Size) (ljqandylee) [4K Accel].jpg",
+        "TileWidth": -1,
+        "TileHeight": -1
       }
     },
     "RacerButton": {
@@ -39,7 +49,15 @@
     "Tsu": {
       "Butterfly": {
         "Path": "Butterfly_Perfect_Final_Version.mp3",
-        "Volume": 1.0
+        "Volume": 1
+      },
+      "Umeboshi Chazuke - Bison Charge (_Asha) [Advanced]": {
+        "Path": "beatmaps/Umeboshi Chazuke - Bison Charge (_Asha) [Advanced].mp3",
+        "Volume": 1
+      },
+      "KOTOKO - unfinished (TV Size) (ljqandylee) [4K Accel]": {
+        "Path": "beatmaps/KOTOKO - unfinished (TV Size) (ljqandylee) [4K Accel].mp3",
+        "Volume": 1
       }
     }
   },

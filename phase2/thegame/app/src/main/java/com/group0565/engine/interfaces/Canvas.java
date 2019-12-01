@@ -173,6 +173,14 @@ public interface Canvas {
     void drawLine(float startX, float startY, float stopX, float stopY, Paint paint);
 
     /**
+     * @see android.graphics.Canvas#drawLine(float, float, float, float, android.graphics.Paint)
+     */
+    default void drawLine(float startX, float startY, float stopX, float stopY, PaintCan paintCan){
+        drawLine(startX, startY, stopX, stopY, paintCan.getPaint());
+    }
+
+
+    /**
      * @see android.graphics.Canvas#drawRGB(int, int, int)
      */
     void drawRGB(int r, int g, int b);

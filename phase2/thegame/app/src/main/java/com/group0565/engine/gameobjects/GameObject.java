@@ -485,6 +485,8 @@ public class GameObject implements LifecycleListener, Drawable {
      * @param visited GameObjects that have been visited.
      */
     protected void invalidateCache(Set<UUID> visited) {
+        if (this.invalidateCache)
+            return;
         this.invalidateCache = true;
         for (GameObject child : this.getChildren().values())
             if (!visited.contains(child.uuid)) {

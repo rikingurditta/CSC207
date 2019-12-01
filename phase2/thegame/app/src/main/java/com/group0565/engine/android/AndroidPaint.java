@@ -45,6 +45,16 @@ public class AndroidPaint extends android.graphics.Paint implements Paint {
         this.setTypeface(((AndroidTypeface) typeface).asNativeTypeface());
     }
 
+    @Override
+    /**
+     * Sets the color with Alpha
+     */
+    public void setColor(int color) {
+        int a = (color >> 24) & 0xFF;
+        super.setColor(color);
+        this.setAlpha(a);
+    }
+
     @NonNull
     @Override
     public AndroidPaint clone(){

@@ -7,7 +7,8 @@ import com.group0565.engine.interfaces.Bitmap;
 import com.group0565.engine.interfaces.Paint;
 
 public enum Scores {
-    SU(0, 255, 0, 0), S300(300, 29, 255, 0), S150(150, 208, 255, 0), S50(50, 255, 170, 0), S0(0, 128, 128, 128);
+    S300(300, 29, 255, 0, 0, 0), S150(150, 208, 255, 0, 0, 1),
+    S50(50, 255, 170, 0, 0, 2), S0(0, 128, 128, 128, 0, 3);
     private Paint paint;
     private int score;
 

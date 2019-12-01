@@ -478,4 +478,11 @@ public class MenuObject extends GameObject implements Observable {
             return this.relativeTo.getEdgePosition(this.targetEdge) + offset;
         }
     }
+
+    @Override
+    public String toString() {
+        return "MenuObject{" +
+                "name='" + name + '\'' +
+                '}';
+    }
 }

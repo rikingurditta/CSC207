@@ -7,9 +7,12 @@ import com.group0565.engine.interfaces.ObservationEvent;
 import com.group0565.hitObjectsRepository.HitObjectsRepositoryInjector;
 import com.group0565.hitObjectsRepository.ISessionHitObjectsRepository;
 import com.group0565.hitObjectsRepository.SessionHitObjects;
+import com.group0565.tsu.game.Beatmap;
+import com.group0565.tsu.game.TsuEngine;
+import com.group0565.tsu.game.TsuRenderer;
+import com.group0565.tsu.menus.BeatmapMenu;
 import com.group0565.tsu.menus.TsuMenu;
 import com.group0565.tsu.menus.StatsMenu;
-import com.group0565.tsu.game.TsuEngine;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -37,13 +40,15 @@ public class TsuGame extends GameObject implements EventObserver {
     public void init() {
         super.init();
         this.menu = new TsuMenu();
+        this.menu.setEnable(true);
+        this.adopt(menu);
 
         this.engine = new TsuEngine();
+        this.adopt(engine);
         this.engine.setEnable(false);
 
         this.stats.setZ(1);
         this.stats.setEnable(false);
-        this.adopt(engine);
         this.adopt(stats);
 
         this.beatmapMenu = new BeatmapMenu();
@@ -68,38 +73,13 @@ public class TsuGame extends GameObject implements EventObserver {
         if (observable == menu) {
             if (event.getMsg().equals(TsuMenu.TO_GAME)) {
                 menu.setEnable(false);
-                engine.setDifficulty(preferences.getDifficulty());
-                engine.setAuto(preferences.getAuto());
-                engine.setEnable(true);
-                if (engine.isPaused())
-                    engine.restartEngine();
-                else
-                    engine.startEngine();
-            } else if (event.getMsg().equals(TsuMenu.TO_STATS)) {
-                menu.setEnable(false);
-                stats.setEnable(true);
+                beatmapMenu.setEnable(true);
             }
-        } else
-        if (observable == stats) {
-//            if (stats.isExit()) {
-//                stats.setExit(false);
-//                stats.setEnable(false);
-//                menu.setEnable(true);
-//            }
-        } else if (observable == engine) {
-            if (engine.hasEnded()) {
-                SessionHitObjects objects = engine.getSessionHitObjects();
-                engine.setEnable(false);
-                engine.setEnded(false);
-                if (objects != null){
-                    if (stats.getHistory() == null)
-                        stats.setHistory(new ArrayList<>());
-                    stats.getHistory().add(objects);
-                    updateStats(stats.getHistory());
-//                    stats.setSelectedObject(objects);
-                    stats.setEnable(true);
-                }else
-                    menu.setEnable(true);
+        }
+        else if (observable == stats) {
+            if (event.isEvent(StatsMenu.EXIT_EVENT)){
+                beatmapMenu.setEnable(true);
+                stats.setEnable(false);
             }
         }else if (observable == beatmapMenu){
             if (event.isEvent(BeatmapMenu.STATS_EVENT)){

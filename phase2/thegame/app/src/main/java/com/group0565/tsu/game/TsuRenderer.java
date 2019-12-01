@@ -1,80 +1,98 @@
 package com.group0565.tsu.game;
 
-import com.group0565.engine.gameobjects.GameObject;
+import com.group0565.engine.gameobjects.GameMenu;
 import com.group0565.engine.interfaces.Canvas;
+import com.group0565.engine.interfaces.Paint;
+import com.group0565.engine.interfaces.Source;
+import com.group0565.engine.render.ThemedPaintCan;
 import com.group0565.math.Vector;
+import com.group0565.tsu.util.ColorCalculator;
 
 import java.util.List;
 
-public class TsuRenderer extends GameObject {
-  private Vector size;
-  private Beatmap beatmap;
-  private TsuEngine engine;
-  private long timer;
-  private List<HitObject> objects;
-  private int lastActive = 0;
-  private long window;
+import static com.group0565.tsu.game.TsuEngine.HIT_AREA;
 
-  public TsuRenderer(TsuEngine engine, Vector position, Beatmap beatmap, Vector size, long window) {
-    super(position);
-    this.engine = engine;
-    this.beatmap = beatmap;
-    this.objects = beatmap.getHitObjects();
-    this.size = size;
-    this.window = window;
-  }
+public class TsuRenderer extends GameMenu {
+    private static final float NOTE_HEIGHT = 60;
+    private static final int TAIL_ALPHA = 100;
 
-  public Vector getSize() {
-    return size;
-  }
+    //Asset Constants
+    private static final String SET = "Tsu";
+    private static final String ThemeFolder = "Renderer.";
+    //Paint Constants
+    private static final String BackgroundPaintName = ThemeFolder + "Background";
 
-  public void setSize(Vector size) {
-    this.size = size;
-  }
+    private Source<Integer> passedPointer;
+    private Source<Long> currentTime;
+    private Source<Long> hitWindow;
+    private Source<List<HitObject>> hitObjects;
+    private Source<Beatmap> beatmap;
 
-  @Override
-  public void draw(Canvas canvas) {
-    super.draw(canvas);
-    if (size == null) {
-      size = new Vector(canvas.getWidth(), canvas.getHeight());
+    private Paint colorPaint = Paint.createInstance();
+    private ThemedPaintCan bgPaint = new ThemedPaintCan(SET, BackgroundPaintName);
+
+    public TsuRenderer(Source<Integer> passedPointer, Source<Long> currentTime, Source<Long> hitWindow, Source<List<HitObject>> hitObjects, Source<Beatmap> beatmap) {
+        this.passedPointer = passedPointer;
+        this.currentTime = currentTime;
+        this.hitWindow = hitWindow;
+        this.hitObjects = hitObjects;
+        this.beatmap = beatmap;
     }
-  }
 
-  public Beatmap getBeatmap() {
-    return beatmap;
-  }
+    public TsuRenderer(Vector size, Source<Integer> passedPointer, Source<Long> currentTime, Source<Long> hitWindow, Source<List<HitObject>> hitObjects, Source<Beatmap> beatmap) {
+        super(size);
+        this.passedPointer = passedPointer;
+        this.currentTime = currentTime;
+        this.hitWindow = hitWindow;
+        this.hitObjects = hitObjects;
+        this.beatmap = beatmap;
+    }
 
-  public long getTimer() {
-    return timer;
-  }
+    @Override
+    public void init() {
+        super.init();
+        bgPaint.init(getGlobalPreferences(), getEngine().getGameAssetManager());
+    }
 
-  public void setTimer(long ms) {
-    this.timer = ms;
-    if (timer <= 0) lastActive = 0;
-    while (lastActive < objects.size() && objects.get(lastActive).getMsEnd() < timer) lastActive++;
-  }
+    @Override
+    public void draw(Canvas canvas, Vector pos, Vector size) {
+        super.draw(canvas, pos, size);
+        canvas.drawRGB(bgPaint);
+        if (!(hitObjects == null || beatmap == null)) {
+            //Number of pixels per every Milliseconds
+            double pxpms = (double) (size.getY() - HIT_AREA) / hitWindow.getValue();
+            //Draw Hit Objects
+            for (int i = passedPointer.getValue(); i < hitObjects.getValue().size(); i++) {
+                HitObject hitObject = hitObjects.getValue().get(i);
+                if (hitObject.getMsStart() > currentTime.getValue() + 1.25*hitWindow.getValue())
+                    break;
+                else if (hitObject.getMsStart() != hitObject.getMsEnd() || hitObject.getHitTime() < 0){
+                    //Otherwise if this is not a long note and we haven't hit it, draw it.
+                    //Actual screen values
+                    float startY = size.getY() - (float) (HIT_AREA + ((hitObject.getMsStart() - currentTime.getValue()) * pxpms));
+                    float finishY = size.getY() - (float)(HIT_AREA + ((hitObject.getMsEnd() - currentTime.getValue()) * pxpms));
 
-  protected List<HitObject> getObjects() {
-    return objects;
-  }
+                    float width = beatmap.getValue().getNoteWidth() * size.getX();
+                    float x = (float) ((hitObject.getPosition() * size.getX()) - width / 2f);
 
-  protected int getLastActive() {
-    return lastActive;
-  }
+                    //Determine the color to draw with
+                    colorPaint.setColor(ColorCalculator.computeColor(hitObject));
+                    //Draw the rectangle for it
+                    canvas.drawRect(pos.add(new Vector(x, startY)), new Vector(width, NOTE_HEIGHT), colorPaint);
+                    //Draw the rectangle
+                    if (hitObject.getMsStart() != hitObject.getMsEnd()) {
+                        colorPaint.setAlpha(TAIL_ALPHA);
+                        canvas.drawRect(pos.add(new Vector(x, startY)), new Vector(width, finishY - startY), colorPaint);
+                    }
+                }
+            }
+        }
+    }
 
-  public long getWindow() {
-    return window;
-  }
-
-  public void setWindow(long window) {
-    this.window = window;
-  }
-
-  public TsuEngine getTsuEngine() {
-    return engine;
-  }
-
-  public void setTsuEngine(TsuEngine engine) {
-    this.engine = engine;
-  }
+    public long getScreenTime(){
+        //Number of Milliseconds each pixel represents
+        double msppx = (double) hitWindow.getValue() / (getSize().getY() - HIT_AREA);
+        //The time at the bottom of the screen
+        return (long) (currentTime.getValue() - (HIT_AREA * msppx));
+    }
 }

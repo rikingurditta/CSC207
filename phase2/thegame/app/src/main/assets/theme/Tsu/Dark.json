@@ -95,7 +95,25 @@
       ]
     }
   },
-
+  "Renderer": {
+    "JudgementLinePaint": {
+      "ARGB": [
+        255,
+        3,
+        219,
+        252
+      ],
+      "StrokeWidth": 20
+    },
+    "BackgroundPaint": {
+      "ARGB": [
+        128,
+        0,
+        0,
+        0
+      ]
+    }
+  },
   "Grade": {
     "SSPaint": {
       "ARGB": [

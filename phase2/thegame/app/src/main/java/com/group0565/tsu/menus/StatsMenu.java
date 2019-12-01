@@ -145,40 +145,6 @@ public class StatsMenu extends GameMenu implements Observable {
         // @formatter:on
     }
 
-//    @Override
-//    public void postInit() {
-//        super.postInit();
-//        List<SessionHitObjects> hitObjects = new ArrayList<>();
-//        SessionHitObjects objects = new SessionHitObjects();
-//        objects.getHitObjects().add(new HitObject());
-//        objects.getHitObjects().add(new HitObject());
-//        objects.setMaxCombo(100);
-//        objects.setBeatmapName("B1");
-//        objects.setCheats(true);
-//        objects.setScore(1000);
-//        objects.setGrade(4);
-//        objects.setDifficulty(5);
-//        objects.setDatetime("ABCD");
-//        SessionHitObjects objects2 = new SessionHitObjects();
-//        objects2.getHitObjects().add(new HitObject());
-//        objects2.getHitObjects().add(new HitObject());
-//        objects2.setMaxCombo(100000000);
-//        objects2.setCheats(true);
-//        objects2.setBeatmapName("KOTOKO - unfinished (TV Size) (ljqandylee) [4K Accel]");
-//        objects2.setScore(1000000000);
-//        objects2.setGrade(5);
-//        objects2.setDifficulty(5);
-//        objects2.setDatetime("ABCD");
-//        hitObjects.add(objects);
-//        hitObjects.add(objects);
-//        hitObjects.add(objects);
-//        hitObjects.add(objects2);
-//        hitObjects.add(objects2);
-//        hitObjects.add(objects2);
-//        this.setHistory(hitObjects);
-//        this.setSelectedObject(objects2);
-//    }
-
     @Override
     public void draw(Canvas canvas) {
         super.draw(canvas);
@@ -190,6 +156,7 @@ public class StatsMenu extends GameMenu implements Observable {
 
     private void observeBack(Observable observable, ObservationEvent<Sort> event){
         if (event.isEvent(Button.EVENT_DOWN)){
+            this.setSelectedObject(null);
             this.notifyObservers(new ObservationEvent(EXIT_EVENT));
         }
     }

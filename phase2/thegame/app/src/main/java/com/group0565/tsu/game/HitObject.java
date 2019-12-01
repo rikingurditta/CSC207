@@ -6,136 +6,118 @@ import com.group0565.tsu.enums.Scores;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-// import com.group0565.tsu.enums.Scores;
-
 public class HitObject {
+  //Json Constants
+  private static final String JsonTime = "Time";
+  private static final String JsonEndTime = "EndTime";
+  private static final String JsonPosition = "Position";
+
+  //Data fields (Stored
   private long msStart;
-  private double positionStart;
+  private double position;
   private long msEnd;
-  private double positionEnd;
-  private boolean passed;
   private long hitTime = -1 << 31;
-  private long holdTime = -1 << 31;
   private long releaseTime = -1 << 31;
-  private InputEvent inputEvent;
 
   /** Default constructor - DO NOT USE! REQUIRED FOR FIREBASE DB */
   public HitObject() {
     // Default constructor required for calls to DataSnapshot.getStatVal(HitObject.class)
   }
 
+  /**
+   * Creates a HitObject from JSONObject
+   * @param jsonObject The JSONObject to read from
+   * @throws JSONException
+   */
   public HitObject(JSONObject jsonObject) throws JSONException {
-    super();
-    this.msStart = jsonObject.getLong("Time");
-    this.msEnd = msStart + jsonObject.getLong("Duration");
-    this.positionStart = jsonObject.getDouble("PositionStart");
-    this.positionEnd = jsonObject.getDouble("PositionEnd");
+    this.msStart = jsonObject.getLong(JsonTime);
+    this.msEnd = jsonObject.has(JsonEndTime) ? jsonObject.getLong(JsonEndTime) : msStart;
+    this.position = jsonObject.getDouble(JsonPosition);
   }
 
-  public HitObject(long msStart, double positionStart, long msEnd, double positionEnd) {
-    super();
+  /**
+   * Creates a HitObject with the parameters
+   * @param msStart The start time in milliseconds
+   * @param position The position on the screen
+   * @param msEnd The end time in milliseconds
+   */
+  public HitObject(long msStart, double position, long msEnd) {
     this.msStart = msStart;
-    this.positionStart = positionStart;
+    this.position = position;
     this.msEnd = msEnd;
-    this.positionEnd = positionEnd;
   }
 
-  public InputEvent getInputEvent() {
-    return inputEvent;
+  /**
+   * Creates a HitObject with the parameters. End time is defaulted to start time
+   * @param msStart The start time in milliseconds
+   * @param position The position on the screen
+   */
+  public HitObject(long msStart, double position) {
+    this.msStart = msStart;
+    this.position = position;
+    this.msEnd = msStart;
   }
 
-  public void setInputEvent(InputEvent inputEvent) {
-    this.inputEvent = inputEvent;
-  }
-
-  public Double calculatePosition(long ms) {
-    double t;
-    if (msStart == msEnd) t = 0;
-    else t = (ms - msStart) / (msEnd - msStart);
-    t = Math.max(0, Math.min(1, t));
-    return positionStart * (1 - t) + positionEnd * t;
-  }
-
-  public Scores computeScore(long[] distribution) {
-    long delta = Math.abs(msStart - hitTime);
-    Scores score = null;
-    if (delta < distribution[0]) score = Scores.S300;
-    else if (delta < distribution[1]) score = Scores.S150;
-    else if (delta < distribution[2]) score = Scores.S50;
-    else score = passed ? Scores.S0 : Scores.SU;
-    if (score != Scores.S0 && score != Scores.SU) {
-      if (releaseTime > 0) {
-        if (Math.abs(releaseTime - msEnd) > distribution[2]) return Scores.S0;
-      }
-    }
-    return score;
-  }
-
+  /**
+   * Getter for msStart
+   *
+   * @return msStart
+   */
   public long getMsStart() {
     return msStart;
   }
 
-  public void setMsStart(long msStart) {
-    this.msStart = msStart;
+  /**
+   * Getter for position
+   *
+   * @return position
+   */
+  public double getPosition() {
+    return position;
   }
 
-  public double getPositionStart() {
-    return positionStart;
-  }
-
-  public void setPositionStart(double positionStart) {
-    this.positionStart = positionStart;
-  }
-
+  /**
+   * Getter for msEnd
+   *
+   * @return msEnd
+   */
   public long getMsEnd() {
     return msEnd;
   }
 
-  public void setMsEnd(long msEnd) {
-    this.msEnd = msEnd;
-  }
-
-  public double getPositionEnd() {
-    return positionEnd;
-  }
-
-  public void setPositionEnd(double positionEnd) {
-    this.positionEnd = positionEnd;
-  }
-
+  /**
+   * Getter for hitTime
+   *
+   * @return hitTime
+   */
   public long getHitTime() {
     return hitTime;
   }
 
-  public void setHitTime(long hitTime) {
-    this.hitTime = hitTime;
-  }
-
-  public long getHoldTime() {
-    return holdTime;
-  }
-
-  public void setHoldTime(long holdTime) {
-    this.holdTime = holdTime;
-  }
-
-  public void addHoldTime(long holdTime) {
-    this.holdTime += holdTime;
-  }
-
+  /**
+   * Getter for releaseTime
+   *
+   * @return releaseTime
+   */
   public long getReleaseTime() {
     return releaseTime;
   }
 
+  /**
+   * Setter for hitTime
+   *
+   * @param hitTime The new value for hitTime
+   */
+  public void setHitTime(long hitTime) {
+    this.hitTime = hitTime;
+  }
+
+  /**
+   * Setter for releaseTime
+   *
+   * @param releaseTime The new value for releaseTime
+   */
   public void setReleaseTime(long releaseTime) {
     this.releaseTime = releaseTime;
-  }
-
-  public boolean isPassed() {
-    return passed;
-  }
-
-  public void setPassed(boolean passed) {
-    this.passed = passed;
   }
 }
