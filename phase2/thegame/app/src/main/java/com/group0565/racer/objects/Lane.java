@@ -63,22 +63,6 @@ public class Lane extends GameMenu implements Observable {
         obstacleManager.spawnObstacle();
     }
 
-    @Override
-    public void draw(Canvas canvas) {
-        com.group0565.engine.interfaces.Paint time = Paint.createInstance();
-//        if (getGlobalPreferences().getTheme() == Themes.LIGHT) {
-//            // Set background to white
-//            canvas.drawRGB(255, 255, 255);
-//            // Set text colour to black
-//            time.setARGB(255, 0, 0, 0);
-//        } else {
-//            // Set background to black
-//            canvas.drawRGB(0, 0, 0);
-//            // Set text colour to white
-//            time.setARGB(255, 255, 255, 255);
-//        }
-    }
-
     public void observeObstacleManager(Observable observable, ObservationEvent observationEvent) {
         if (observationEvent.getMsg().equals("Collision")) {
             notifyObservers(observationEvent);
