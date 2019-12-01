@@ -9,13 +9,11 @@ import com.group0565.math.Vector;
 /** An Obstacle in Racer */
 public abstract class Obstacle extends GameObject implements Observable {
 
-
   public static final Vector STARTING_RELATIVE_POSITION = new Vector(0, 0);
   public static final int COLLISION_HIGHER_BOUND = 1550;
   public static final int COLLISION_LOWER_BOUND = 1700;
   public static final String COLLISION_MSG = "Collision";
-  public static final int DEAD_POSITION = 1700;
-  public static final String DEAD_MESSAGE = "Dead";
+
   /**
    * The ObstacleManager for this Obstacle.
    */
@@ -85,17 +83,5 @@ public abstract class Obstacle extends GameObject implements Observable {
     this.setRelativePosition(position.add(delta));
 
     checkCollision();
-
-    checkDead();
-  }
-
-  /**
-   * Check if this Obstacle is dead (off the screen).
-   */
-  public void checkDead() {
-    if (getRelativePosition().getY() > DEAD_POSITION) {
-      ObservationEvent event = new ObservationEvent(DEAD_MESSAGE);
-      notifyObservers(event);
-    }
   }
 }
