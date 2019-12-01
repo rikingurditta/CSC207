@@ -4,7 +4,7 @@ import com.group0565.bomberGame.BomberMainActivity;
 import com.group0565.menuUI.achievements.AchievementsActivity;
 import com.group0565.menuUI.settings.SettingsActivity;
 import com.group0565.menuUI.statistics.StatisticsActivity;
-import com.group0565.racerGame.RacerMainActivity;
+import com.group0565.racer.core.RacerMainActivity;
 import com.group0565.tsu.core.TsuActivity;
 
 import java.util.HashMap;
