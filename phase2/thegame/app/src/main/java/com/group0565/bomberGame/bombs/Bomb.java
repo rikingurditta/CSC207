@@ -18,11 +18,11 @@ public abstract class Bomb extends GridObject {
     /**
      * The constant time it takes for a bomb to detonate
      */
-    private static long BOMBEXPLODETIME = 5000;
+    private long BOMBEXPLODETIME = 5000;
     /**
      * The constant time it takes for the bomb explosion
      */
-    private static long EXPLOSIONDURATION = 1000;
+    private long EXPLOSIONDURATION = 1000;
     /**
      * The bomb fuse, if < 5000 (about to blow) if 5000 < bombTimer < 6000 (explosion)
      */

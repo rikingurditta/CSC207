@@ -10,7 +10,9 @@ import com.group0565.math.Vector;
 
 public class FirepowerPowerUp extends Droppable {
 
-    /** PaintCan for this crate's fill. */
+    /**
+     * PaintCan for this crate's fill.
+     */
     private ThemedPaintCan paintCan;
 
     public FirepowerPowerUp(Coords position, double z, Grid grid, BomberEngine game) {
@@ -18,7 +20,7 @@ public class FirepowerPowerUp extends Droppable {
         this.paintCan = new ThemedPaintCan("Bomber", "Droppable.FirepowerDroppable");
     }
 
-    public void affectPlayer(BomberMan bm){
+    public void affectPlayer(BomberMan bm) {
         bm.setBombStrength(bm.getBombStrength() + 1);
     }
 
