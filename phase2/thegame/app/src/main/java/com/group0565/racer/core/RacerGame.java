@@ -36,13 +36,6 @@ public class RacerGame extends GameObject implements Observer {
 
     @Override
     public void observe(Observable observable) {
-        if (observable == menu) {
 
-        } else if (observable == engine) {
-            if (engine.hasEnded()) {
-                engine.setEnable(false);
-                engine.setEnded(false);
-            }
-        }
     }
 }

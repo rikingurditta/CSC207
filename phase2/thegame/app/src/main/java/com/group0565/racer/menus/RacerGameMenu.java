@@ -20,16 +20,9 @@ import static com.group0565.engine.enums.VerticalEdge.*;
 public class RacerGameMenu extends GameMenu implements Observable {
 
     private RacerEngine engine;
-
     private Lane leftLane;
-
     private Lane middleLane;
-
     private Lane rightLane;
-
-    private RacerPauseMenu pauseMenu;
-
-    private RacerGameOverMenu gameOverMenu;
 
     public RacerGameMenu(RacerEngine engine) {
         super(null);
@@ -80,6 +73,18 @@ public class RacerGameMenu extends GameMenu implements Observable {
         rightLane.registerObserver(this::observeLane);
 
         middleLane.setRacerLane(true);
+    }
+
+    public void spawnObstacle() {
+        double d = Math.random();
+
+        if (d < 0.3) {
+            leftLane.spawnObstacle();
+        } else if (d < 0.7) {
+            middleLane.spawnObstacle();
+        } else {
+            rightLane.spawnObstacle();
+        }
     }
 
     /**
@@ -142,27 +147,7 @@ public class RacerGameMenu extends GameMenu implements Observable {
 
     public void observePauseButton(Observable observable, ObservationEvent event) {
         if (event.isEvent(Button.EVENT_DOWN)) {
-            if (engine.isPaused()) {
-                engine.setEnable(true);
-                engine.setPaused(false);
-                engine.getPauseMenu().setEnable(false);
-            } else {
-                engine.setEnable(false);
-                engine.setPaused(true);
-                engine.getPauseMenu().setEnable(true);
-            }
-        }
-    }
 
-    public void spawnObstacle() {
-        double d = Math.random();
-
-        if (d < 0.3) {
-            leftLane.spawnObstacle();
-        } else if (d < 0.7) {
-            middleLane.spawnObstacle();
-        } else {
-            rightLane.spawnObstacle();
         }
     }
 
