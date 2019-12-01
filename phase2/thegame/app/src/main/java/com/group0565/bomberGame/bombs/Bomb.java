@@ -18,11 +18,11 @@ public abstract class Bomb extends GridObject {
     /**
      * The constant time it takes for a bomb to detonate
      */
-    private long bombExplodeTime = 5000;
+    private static long BOMBEXPLODETIME = 5000;
     /**
      * The constant time it takes for the bomb explosion
      */
-    private long explosionDuration = 1000;
+    private static long EXPLOSIONDURATION = 1000;
     /**
      * The bomb fuse, if < 5000 (about to blow) if 5000 < bombTimer < 6000 (explosion)
      */
@@ -79,18 +79,18 @@ public abstract class Bomb extends GridObject {
      */
     @Override
     public void update(long ms) {
-        if (bombTimer < bombExplodeTime) {
+        if (bombTimer < BOMBEXPLODETIME) {
             bombTimer += ms;
-            if (bombTimer < bombExplodeTime / 5 * 2) {
+            if (bombTimer < BOMBEXPLODETIME / 5 * 2) {
                 currPaintCan = buildup1PaintCan;
-            } else if (bombTimer < bombExplodeTime / 5 * 3) {
+            } else if (bombTimer < BOMBEXPLODETIME / 5 * 3) {
                 currPaintCan = buildup2PaintCan;
-            } else if (bombTimer < bombExplodeTime / 5 * 4) {
+            } else if (bombTimer < BOMBEXPLODETIME / 5 * 4) {
                 currPaintCan = buildup3PaintCan;
             } else {
                 currPaintCan = buildup4PaintCan;
             }
-        } else if (bombTimer < bombExplodeTime + explosionDuration) {
+        } else if (bombTimer < BOMBEXPLODETIME + EXPLOSIONDURATION) {
             if (!duringExplosion) {
                 // System.out.println("explosion " + this.getUUID());
                 explode();
@@ -101,7 +101,7 @@ public abstract class Bomb extends GridObject {
             duringExplosion = true;
         } else {
             // remove from game
-
+            placedBy.removeBombFromBombList(this);
             grid.remove(this);
             game.removeLater(this);
         }

@@ -3,6 +3,7 @@ package com.group0565.bomberGame.obstacles;
 import com.group0565.bomberGame.BomberEngine;
 import com.group0565.bomberGame.droppables.Droppable;
 import com.group0565.bomberGame.droppables.FirepowerPowerUp;
+import com.group0565.bomberGame.droppables.MultiplebombPowerUp;
 import com.group0565.bomberGame.grid.Grid;
 import com.group0565.bomberGame.grid.GridObject;
 import com.group0565.engine.gameobjects.GameObject;
@@ -57,9 +58,14 @@ public class Crate extends GridObject {
     if (d > 0) {
       grid.remove(this);
       game.removeLater(this);
-
-      GameObject loot = new FirepowerPowerUp(gridCoords, -2, grid, this.game);
-      game.adoptLater(loot);
+      double rannn = Math.random();
+      if (rannn < 0.33) {
+        FirepowerPowerUp loot = new FirepowerPowerUp(gridCoords, -2, grid, this.game);
+        game.adoptLater(loot);
+      } else if (rannn < 0.66){
+        MultiplebombPowerUp loot = new MultiplebombPowerUp(gridCoords, -2, grid, this.game);
+        game.adoptLater(loot);
+      }
     }
   }
 

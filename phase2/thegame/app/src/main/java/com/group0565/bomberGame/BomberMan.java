@@ -2,6 +2,7 @@ package com.group0565.bomberGame;
 
 import android.util.Log;
 
+import com.group0565.bomberGame.bombs.Bomb;
 import com.group0565.bomberGame.bombs.NormalBomb;
 import com.group0565.bomberGame.droppables.Droppable;
 import com.group0565.bomberGame.grid.Grid;
@@ -13,6 +14,8 @@ import com.group0565.engine.interfaces.Canvas;
 import com.group0565.engine.render.ThemedPaintCan;
 import com.group0565.math.Coords;
 import com.group0565.math.Vector;
+
+import java.util.ArrayList;
 
 /** A BomberMan, aka a player in the game. */
 public class BomberMan extends GridObject {
@@ -52,9 +55,13 @@ public class BomberMan extends GridObject {
 
   private ThemedPaintCan textPaintCan = new ThemedPaintCan("Bomber", "Text.Text");
 
-  private int bombStrength = 2;
+  /** The strength of the bombs this player can place. */
+  private int bombStrength = 1;
+  /** The number of simultaneous bombs this player can place at once. */
   private int numSimultaneousBombs = 1;
 
+  /** The list of bombs this BomberMan has placed. */
+  private ArrayList<Bomb> bombs = new ArrayList<>();
 
 
   /**
@@ -152,6 +159,7 @@ public class BomberMan extends GridObject {
 
       readyToMove = false;
     }
+
     collectDroppable();
     Vector newPos = pos.add(direction.multiply((float) ms * speed));
 
@@ -167,11 +175,17 @@ public class BomberMan extends GridObject {
 
   /** Drops bomb at current location. */
   private boolean dropBomb() {
-    if (!grid.canPlaceBomb(gridCoords)) {
-      return false;
+    if (!grid.canPlaceBomb(gridCoords)){
+        return false;
     }
-    GameObject bomb = new NormalBomb(gridCoords, -1, this.game, grid, this);
+    if (bombs.size() >= numSimultaneousBombs){
+        return false;
+    }
+    NormalBomb bomb = new NormalBomb(gridCoords, -1, this.game, grid, this);
     game.adoptLater(bomb);
+    this.bombs.add(bomb);
+    Log.i("bombs size", "size : " + bombs.size());
+    //TODO make stats tracking nicer
     numBombsPlaced += 1;
     return true;
   }
@@ -216,9 +230,7 @@ public class BomberMan extends GridObject {
   }
 
   @Override
-  public boolean isBomb() {
-    return false;
-  }
+  public boolean isBomb() { return false; }
   @Override
   public boolean isDroppable() { return false; }
 
@@ -237,4 +249,6 @@ public class BomberMan extends GridObject {
   public void setNumSimultaneousBombs(int numSimultaneousBombs) {
     this.numSimultaneousBombs = numSimultaneousBombs;
   }
+
+  public void removeBombFromBombList(Bomb bomb){bombs.remove(bomb); }
 }
