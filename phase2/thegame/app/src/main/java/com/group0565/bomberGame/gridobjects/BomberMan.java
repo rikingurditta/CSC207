@@ -62,6 +62,8 @@ public class BomberMan extends GridObject {
 
   /** The list of bombs this BomberMan has placed. */
   private ArrayList<Bomb> bombs = new ArrayList<>();
+  private boolean two_bombs_at_once_unlocked = false;
+  private boolean three_bombs_at_once_unlocked = false;
 
   /**
    * Constructs a new BomberMan.
@@ -114,11 +116,13 @@ public class BomberMan extends GridObject {
 
   public void checkAchievements(){
     if (!(inputSystem instanceof RandomInput)) {
-      if (bombs.size() == 2) {
+      if (bombs.size() == 2 && !two_bombs_at_once_unlocked) {
         getEngine().getAchievementManager().unlockAchievement("BomberMan", "Two_bombs_at_once");
+        two_bombs_at_once_unlocked = true;
       }
-      if (bombs.size() == 3) {
+      if (bombs.size() == 3 && !three_bombs_at_once_unlocked) {
         getEngine().getAchievementManager().unlockAchievement("BomberMan", "Three_bombs_at_once");
+        three_bombs_at_once_unlocked = true;
       }
     }
   }

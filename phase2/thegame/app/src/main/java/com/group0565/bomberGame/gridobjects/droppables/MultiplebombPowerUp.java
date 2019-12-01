@@ -9,6 +9,8 @@ import com.group0565.math.Coords;
 import com.group0565.math.Vector;
 
 public class MultiplebombPowerUp extends Droppable {
+  private boolean multiple_bomb_5_unlocked = false;
+  private boolean multiple_bomb_6_unlocked = false;
 
   /** PaintCan for this crate's fill. */
   private final ThemedPaintCan paintCan;
@@ -21,11 +23,13 @@ public class MultiplebombPowerUp extends Droppable {
   public void affectPlayer(BomberMan bm) {
     bm.setNumSimultaneousBombs(bm.getNumSimultaneousBombs() + 1);
 
-    if (bm.getNumSimultaneousBombs() == 5) {
+    if (bm.getNumSimultaneousBombs() == 5 && !multiple_bomb_5_unlocked) {
       getEngine().getAchievementManager().unlockAchievement("BomberMan", "Multiple_Bomb_5");
+      multiple_bomb_5_unlocked = true;
     }
-    if (bm.getNumSimultaneousBombs() == 6) {
+    if (bm.getNumSimultaneousBombs() == 6 && !multiple_bomb_6_unlocked) {
       getEngine().getAchievementManager().unlockAchievement("BomberMan", "Multiple_Bomb_6");
+      multiple_bomb_6_unlocked = true;
     }
   }
 

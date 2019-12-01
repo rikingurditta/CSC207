@@ -9,6 +9,8 @@ import com.group0565.math.Coords;
 import com.group0565.math.Vector;
 
 public class FirepowerPowerUp extends Droppable {
+  private boolean fire_power_6_unlocked = false;
+  private boolean fire_power_max_unlocked = false;
 
   /** PaintCan for this crate's fill. */
   private final ThemedPaintCan paintCan;
@@ -23,11 +25,13 @@ public class FirepowerPowerUp extends Droppable {
       bm.setBombStrength(bm.getBombStrength() + 1);
     }
 
-    if (bm.getBombStrength() == 6) {
+    if (bm.getBombStrength() == 6 && !fire_power_6_unlocked) {
       getEngine().getAchievementManager().unlockAchievement("BomberMan", "Fire_Power_6");
+      fire_power_6_unlocked = true;
     }
-    if (bm.getBombStrength() == 7) {
+    if (bm.getBombStrength() == 7 && !fire_power_max_unlocked) {
       getEngine().getAchievementManager().unlockAchievement("BomberMan", "Fire_Power_MAX");
+      fire_power_max_unlocked = true;
     }
 
   }
