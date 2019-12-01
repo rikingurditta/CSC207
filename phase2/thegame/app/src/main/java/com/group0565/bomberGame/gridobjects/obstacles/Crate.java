@@ -4,7 +4,7 @@ import com.group0565.bomberGame.core.BomberEngine;
 import com.group0565.bomberGame.gridobjects.droppables.FirepowerPowerUp;
 import com.group0565.bomberGame.gridobjects.droppables.MultiplebombPowerUp;
 import com.group0565.bomberGame.grid.Grid;
-import com.group0565.bomberGame.grid.GridObject;
+import com.group0565.bomberGame.gridobjects.GridObject;
 import com.group0565.engine.interfaces.Canvas;
 import com.group0565.engine.render.ThemedPaintCan;
 import com.group0565.math.Coords;
@@ -65,16 +65,6 @@ public class Crate extends GridObject {
         game.adoptLater(loot);
       }
     }
-  }
-
-  @Override
-  public boolean isBomb() {
-    return false;
-  }
-
-  @Override
-  public boolean isDroppable() {
-    return false;
   }
 
   /**

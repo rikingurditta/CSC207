@@ -1,5 +1,6 @@
-package com.group0565.bomberGame.grid;
+package com.group0565.bomberGame.gridobjects;
 
+import com.group0565.bomberGame.grid.Grid;
 import com.group0565.engine.gameobjects.GameObject;
 import com.group0565.math.Coords;
 
@@ -38,8 +39,4 @@ public abstract class GridObject extends GameObject {
   }
 
   public void damage(int d) {}
-
-  public abstract boolean isBomb();
-
-  public abstract boolean isDroppable();
 }
