@@ -19,11 +19,22 @@ import static com.group0565.engine.enums.VerticalEdge.*;
 
 public class RacerGameMenu extends GameMenu implements Observable {
 
+    /** An engine object */
     private RacerEngine engine;
+
+    /** The left lane of the object */
     private Lane leftLane;
+
+    /** The middle lane of the object */
     private Lane middleLane;
+
+    /** The right lane of the object*/
     private Lane rightLane;
 
+    /**
+     * A RacerGameMenu object for display purposes
+     * @param engine The engine object that controls this game menu
+     */
     public RacerGameMenu(RacerEngine engine) {
         super(null);
         this.engine = engine;
@@ -75,6 +86,9 @@ public class RacerGameMenu extends GameMenu implements Observable {
         middleLane.setRacerLane(true);
     }
 
+    /**
+    Spawns an obstacle in a random lane
+     */
     public void spawnObstacle() {
         double d = Math.random();
 
@@ -117,6 +131,11 @@ public class RacerGameMenu extends GameMenu implements Observable {
         canvas.drawText(Long.toString(engine.getTotalTime()), 50, 170, time);
     }
 
+    /**
+     *
+     * @param observable
+     * @param event
+     */
     public void observeLeftLane(Observable observable, ObservationEvent event) {
         if (event.isEvent(Button.EVENT_DOWN)) {
             middleLane.setRacerLane(false);
@@ -126,6 +145,11 @@ public class RacerGameMenu extends GameMenu implements Observable {
         }
     }
 
+    /**
+     *
+     * @param observable
+     * @param event
+     */
     public void observeMiddleLane(Observable observable, ObservationEvent event) {
         if (event.isEvent(Button.EVENT_DOWN)) {
             leftLane.setRacerLane(false);
@@ -135,6 +159,11 @@ public class RacerGameMenu extends GameMenu implements Observable {
         }
     }
 
+    /**
+     *
+     * @param observable
+     * @param event
+     */
     public void observeRightLane(Observable observable, ObservationEvent event) {
         if (event.isEvent(Button.EVENT_DOWN)) {
             leftLane.setRacerLane(false);
@@ -144,6 +173,11 @@ public class RacerGameMenu extends GameMenu implements Observable {
         }
     }
 
+    /**
+     *
+     * @param observable
+     * @param event
+     */
     public void observePauseButton(Observable observable, ObservationEvent event) {
         if (event.isEvent(Button.EVENT_DOWN)) {
             if (engine.isPaused()) {
@@ -153,6 +187,12 @@ public class RacerGameMenu extends GameMenu implements Observable {
             }
         }
     }
+
+    /**
+     *
+     * @param observable
+     * @param observationEvent
+     */
 
     public void observeCollision(Observable observable, ObservationEvent observationEvent) {
         if (observationEvent.getMsg().equals("Collision")) {
