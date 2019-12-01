@@ -15,39 +15,11 @@ import com.group0565.theme.Themes;
 
 public class RacerGameOverMenu extends GameMenu {
   public static final Vector BUTTON_SIZE = new Vector(150, 150);
-  private Button restartButton;
-  private Button exitButton;
   private RacerEngine engine;
 
   public RacerGameOverMenu(Vector size, RacerEngine engine) {
     super(size);
     this.engine = engine;
-  }
-
-  public void init() {
-    restartButton =
-        new Button(
-            new Vector(100, 1750),
-                BUTTON_SIZE,
-            getEngine().getGameAssetManager().getTileSheet("Racer", "RacerButton").getTile(0, 0),
-            getEngine().getGameAssetManager().getTileSheet("Racer", "RacerButton").getTile(0, 0));
-    this.adopt(restartButton);
-
-    exitButton =
-        new Button(
-            new Vector(300, 1750),
-            BUTTON_SIZE,
-            getEngine().getGameAssetManager().getTileSheet("Racer", "RacerButton").getTile(0, 0),
-            getEngine().getGameAssetManager().getTileSheet("Racer", "RacerButton").getTile(0, 0));
-    this.adopt(exitButton);
-  }
-
-  public void observe(Observable observable, ObservationEvent observationEvent) {
-    if (observable == restartButton && observationEvent.getMsg().equals(Button.EVENT_DOWN)) {
-      setEnable(false);
-    } else if (observable == exitButton && observationEvent.getMsg().equals(Button.EVENT_DOWN)) {
-
-    }
   }
 
   @Override
