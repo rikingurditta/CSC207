@@ -114,7 +114,7 @@ public class RacerGameMenu extends GameMenu implements Observable {
         canvas.drawRect(canvas.getWidth() / 3 - 15, 0, canvas.getWidth() / 3 + 15, 2500, colour);
         canvas.drawRect(
                 2 * canvas.getWidth() / 3 - 15, 0, 2 * canvas.getWidth() / 3 + 15, 2500, colour);
-        canvas.drawText(Long.toString(engine.getTotalTime()), 600, 200, time);
+        canvas.drawText(Long.toString(engine.getTotalTime()), 50, 170, time);
     }
 
     public void observeLeftLane(Observable observable, ObservationEvent event) {

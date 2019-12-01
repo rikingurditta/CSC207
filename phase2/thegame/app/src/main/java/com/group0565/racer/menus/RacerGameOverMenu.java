@@ -63,8 +63,8 @@ public class RacerGameOverMenu extends GameMenu {
         font.setTextSize(96);
 
         canvas.drawRGB(0, 0, 0);
-        canvas.drawText("GAME OVER", 250, 200, font);
-        canvas.drawText("Score: " + engine.getTotalTime(), 100, 400, font);
+        canvas.drawText("GAME OVER", 50, 200, font);
+        canvas.drawText("Score: " + engine.getTotalTime(), 50, 400, font);
 
     }
 }
