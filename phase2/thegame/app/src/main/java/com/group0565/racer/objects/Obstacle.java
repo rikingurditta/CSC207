@@ -36,7 +36,7 @@ public abstract class Obstacle extends GameObject implements Observable {
   /**
    * The current speed of the Obstacle, used for calculations in update method.
    */
-  private static final Vector SPEED = new Vector(0, 0.5f);
+  private static final Vector SPEED = new Vector(0, 0.8f);
 
 
   /**
@@ -50,7 +50,11 @@ public abstract class Obstacle extends GameObject implements Observable {
     this.obstacleManager = obstacleManager;
   }
 
-
+  /**
+   * sets the relative position of this Obstacle to the ObstacleManager
+   * @param relativePosition The relative position of this vector.
+   * @return superclass relative position
+   */
   @Override
   public GameObject setRelativePosition(Vector relativePosition) {
     return super.setRelativePosition(relativePosition);

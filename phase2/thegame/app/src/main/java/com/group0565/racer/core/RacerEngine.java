@@ -77,7 +77,7 @@ public class RacerEngine extends GameObject implements EventObserver, Observable
   /**
    *  The time between each spawn
    */
-  private long spawnDelay = 750;
+  private long spawnDelay = 600;
 
   /**
    * Whether or not this racer is still alive
@@ -165,15 +165,18 @@ public class RacerEngine extends GameObject implements EventObserver, Observable
     paused = true;
     gameMenu.setEnable(false);
     pauseMenu.setEnable(true);
+    racer.setEnable(false);
+
   }
 
   /**
    * Unpauses the game
    */
-  public void unPauseGame() {
+  public void unpauseGame() {
     paused = false;
     gameMenu.setEnable(true);
     pauseMenu.setEnable(false);
+    racer.setEnable(true);
   }
 
   /**
@@ -235,7 +238,6 @@ public class RacerEngine extends GameObject implements EventObserver, Observable
    */
   private void updateDB(long totalTime) {
     if (myStatRepo != null) {
-      // You can always use put (also for new objects) because of the way that Firebase DB works
       myStatRepo.put(
           IStatisticFactory.createGameStatistic(
               StatisticKey.RACER_TIME_SURVIVED.getValue() + startTime, totalTime));
