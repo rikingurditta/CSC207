@@ -108,6 +108,14 @@
       "DARK": {
         "Path": "Tsu/Dark.json"
       }
+    },
+    "Racer": {
+      "LIGHT": {
+        "Path": "Racer/Light.json"
+      },
+      "DARK": {
+        "Path": "Racer/Dark.json"
+      }
     }
   },
   "Achievements": {

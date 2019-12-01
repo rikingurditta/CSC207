@@ -5,6 +5,7 @@ import com.group0565.engine.interfaces.Canvas;
 import com.group0565.engine.interfaces.EventObserver;
 import com.group0565.engine.interfaces.Observable;
 import com.group0565.engine.interfaces.ObservationEvent;
+import com.group0565.engine.render.ThemedPaintCan;
 import com.group0565.math.Vector;
 import com.group0565.racer.menus.RacerGameMenu;
 import com.group0565.racer.menus.RacerGameOverMenu;

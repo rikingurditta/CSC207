@@ -1,21 +1,34 @@
 {
-  "Achievements": {
+  "Background": {
     "BackgroundPaint": {
       "ARGB": [
         255,
-        100,
-        255,
+        0,
+        0,
         0
       ]
     },
-    "TextPaint": {
-      "ARGB": [
-        255,
-        0,
-        0,
-        0
-      ],
-      "TextSize": 50
+    "Score": {
+      "ScorePaint": {
+        "ARGB": [
+          255,
+          255,
+          255,
+          255
+        ],
+        "TextSize": 96
+      }
+    },
+    "Message": {
+      "MessagePaint": {
+        "ARGB": [
+          255,
+          255,
+          255,
+          255
+        ],
+        "TextSize": 96
+      }
     }
   }
 }

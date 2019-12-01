@@ -1,5 +1,7 @@
 package com.group0565.racer.menus;
 
+import android.graphics.Color;
+
 import com.group0565.engine.gameobjects.Button;
 import com.group0565.engine.gameobjects.GameMenu;
 import com.group0565.engine.interfaces.Canvas;
@@ -51,7 +53,7 @@ public class RacerGameOverMenu extends GameMenu {
   public void draw(Canvas canvas) {
     super.draw(canvas);
     Paint font = Paint.createInstance();
-    font.setARGB(255, 255, 255, 255);
+    font.setColor(Color.WHITE);
     font.setTextSize(96);
     canvas.drawRGB(0, 0, 0);
 
