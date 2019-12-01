@@ -73,7 +73,7 @@ class HistoryList extends GameMenu {
 
             .add(ScrollDownName, new Button(SCROLL_BUTTON_SIZE, ScrollBitmap.SCROLL_DOWN.getBitmap(), 1).build()
                     .registerObserver(this::observeScroll)
-                    .setSelfEnable(() -> (getHistory() != null && scroll < getHistory().size()-1-DISPLAYER_COUNT))
+                    .setSelfEnable(() -> (getHistory() != null && scroll < getHistory().size()-DISPLAYER_COUNT))
                     .close())
             .addAlignment(Left, THIS, Left)
             .addAlignment(Right, THIS, Right)
