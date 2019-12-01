@@ -165,6 +165,8 @@ public class RacerEngine extends GameObject implements EventObserver, Observable
     paused = true;
     gameMenu.setEnable(false);
     pauseMenu.setEnable(true);
+    racer.setEnable(false);
+
   }
 
   /**
@@ -174,6 +176,7 @@ public class RacerEngine extends GameObject implements EventObserver, Observable
     paused = false;
     gameMenu.setEnable(true);
     pauseMenu.setEnable(false);
+    racer.setEnable(true);
   }
 
   /**
@@ -235,7 +238,6 @@ public class RacerEngine extends GameObject implements EventObserver, Observable
    */
   private void updateDB(long totalTime) {
     if (myStatRepo != null) {
-      // You can always use put (also for new objects) because of the way that Firebase DB works
       myStatRepo.put(
           IStatisticFactory.createGameStatistic(
               StatisticKey.RACER_TIME_SURVIVED.getValue() + startTime, totalTime));

@@ -20,9 +20,14 @@ public class RacerPauseMenu extends GameMenu {
     private static final Vector PAUSE_POSITION = new Vector(50, 200);
 
     /**
-     * The player's score as of pausing
+     * The vector position of the player's score as of pausing
      */
     private static final Vector SCORE_POSITION = new Vector(50, 400);
+
+    /**
+     * The resume text vector position
+     */
+    private static final Vector RESUME_POSITION = new Vector(450, 1500);
 
     /**
      * A button to resume the game and leave pause menu
@@ -58,7 +63,7 @@ public class RacerPauseMenu extends GameMenu {
      * Initializes the buttons and ThemedPaintCans
      */
     public void init() {
-        resumeButton = new Button(new Vector(520, 1600),
+        resumeButton = new Button(new Vector(510, 1600),
                 new Vector(150, 150),
                 getEngine()
                         .getGameAssetManager()
@@ -96,5 +101,6 @@ public class RacerPauseMenu extends GameMenu {
         canvas.drawRGB(PAUSE_PAINT_CAN);
         canvas.drawText("PAUSED", PAUSE_POSITION, MESSAGE_PAINT_CAN);
         canvas.drawText("Score: " + engine.getTotalTime(), SCORE_POSITION , MESSAGE_PAINT_CAN);
+        canvas.drawText("Resume", RESUME_POSITION, MESSAGE_PAINT_CAN);
     }
 }

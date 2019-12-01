@@ -50,7 +50,11 @@ public abstract class Obstacle extends GameObject implements Observable {
     this.obstacleManager = obstacleManager;
   }
 
-
+  /**
+   * sets the relative position of this Obstacle to the ObstacleManager
+   * @param relativePosition The relative position of this vector.
+   * @return superclass relative position
+   */
   @Override
   public GameObject setRelativePosition(Vector relativePosition) {
     return super.setRelativePosition(relativePosition);
