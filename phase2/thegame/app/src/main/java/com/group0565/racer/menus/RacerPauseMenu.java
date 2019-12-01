@@ -31,6 +31,7 @@ public class RacerPauseMenu extends GameMenu {
                         .getGameAssetManager()
                         .getTileSheet("RacerButton", "RacerButton")
                         .getTile(0, 0));
+        resumeButton.registerObserver(this::observe);
         this.adopt(resumeButton);
 
         exitButton = new Button(null);
@@ -38,9 +39,8 @@ public class RacerPauseMenu extends GameMenu {
     }
 
     public void observe(Observable observable, ObservationEvent observationEvent) {
-        if (observable == resumeButton && observationEvent.getMsg().equals(Button.EVENT_DOWN)) {
-            setEnable(true);
-            engine.setEnable(true);
+        if (observable == resumeButton && observationEvent.isEvent(Button.EVENT_DOWN)) {
+            engine.unPauseGame();
         }
         else if (observable == exitButton && observationEvent.getMsg().equals(Button.EVENT_DOWN)) {
 
