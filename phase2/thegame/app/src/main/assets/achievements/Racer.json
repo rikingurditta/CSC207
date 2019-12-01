@@ -3,8 +3,8 @@
     "DisplayName": "Survive for 15 seconds",
     "Icon": {
       "Set": "Racer",
-      "Sheet": "Buttons",
-      "Tile X": 15,
+      "Sheet": "clock",
+      "Tile X": 0,
       "Tile Y": 0
     },
     "Description": "Survive for 15 seconds",
@@ -15,8 +15,8 @@
     "DisplayName": "Survive for 60 seconds",
     "Icon": {
       "Set": "Racer",
-      "Sheet": "Buttons",
-      "Tile X": 15,
+      "Sheet": "clock",
+      "Tile X": 0,
       "Tile Y": 0
     },
     "Description": "Survive for 60 seconds",

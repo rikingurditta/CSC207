@@ -21,7 +21,7 @@ public class RacerPauseMenu extends GameMenu {
     }
 
     public void init() {
-        resumeButton = new Button(new Vector(500, 800),
+        resumeButton = new Button(new Vector(520, 1600),
                 new Vector(150, 150),
                 getEngine()
                         .getGameAssetManager()
@@ -55,7 +55,7 @@ public class RacerPauseMenu extends GameMenu {
         font.setTextSize(96);
 
         canvas.drawRGB(0, 0, 0);
-        canvas.drawText("Score: " + engine.getTotalTime(), 100, 200, font);
-        canvas.drawText("PAUSED", 100, 25, font);
+        canvas.drawText("PAUSED", 50, 200, font);
+        canvas.drawText("Score: " + engine.getTotalTime(), 50, 400, font);
     }
 }
