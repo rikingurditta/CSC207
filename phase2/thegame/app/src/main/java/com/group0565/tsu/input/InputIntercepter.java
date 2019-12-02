@@ -1,21 +1,24 @@
-package com.group0565.tsu.game;
+package com.group0565.tsu.input;
 
 import com.group0565.engine.gameobjects.GameObject;
 import com.group0565.engine.gameobjects.InputEvent;
 
 import java.util.List;
 
+/**
+ * A class that intercepts inputs and attaches InputGenerators to generate inputs
+ */
 public class InputIntercepter extends GameObject {
+    /**
+     * The InputGenerator to use to generate Inputs
+     */
     private InputGenerator generator = null;
-
-    public void init(){
-
-    }
 
     @Override
     public void update(long ms) {
         super.update(ms);
         if (generator != null){
+            //Obtain the inputEvents for this frame and dispatch it
             List<InputEvent> inputEvents = generator.update(ms);
             if (inputEvents != null)
                 for (InputEvent event : inputEvents)
@@ -25,6 +28,7 @@ public class InputIntercepter extends GameObject {
 
     @Override
     public boolean processInput(InputEvent event) {
+        //If we have a generator, intercept all Input Events
         if (generator != null)
             return false;
         return super.processInput(event);
