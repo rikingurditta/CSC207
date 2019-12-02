@@ -70,7 +70,7 @@ public class SquareGrid extends Grid {
     }
     for (int i = 0; i < width; i += 1) {
       for (int j = 0; j < height; j += 1) {
-        int r = (int) (Math.random() * 4);
+        int r = (int) (Math.random() * tileImages.size());
         tiles[i][j] = tileImages.get(r);
       }
     }

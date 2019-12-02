@@ -8,6 +8,7 @@ import com.group0565.bomberGame.gridobjects.droppables.Droppable;
 import com.group0565.bomberGame.input.BomberInput;
 import com.group0565.bomberGame.input.InputSystem;
 import com.group0565.bomberGame.input.RandomInput;
+import com.group0565.engine.interfaces.Bitmap;
 import com.group0565.engine.interfaces.Canvas;
 import com.group0565.engine.render.ThemedPaintCan;
 import com.group0565.math.Coords;
@@ -49,9 +50,9 @@ public class BomberMan extends GridObject {
   private int damageDealt;
 
   /** PaintCans for this player's appearance and status text. */
-  private ThemedPaintCan bodyPaintCan = new ThemedPaintCan("Bomber", "BomberMan.Body");
+  private Bitmap image;
 
-  private ThemedPaintCan textPaintCan = new ThemedPaintCan("Bomber", "Text.Text");
+  private final ThemedPaintCan textPaintCan = new ThemedPaintCan("Bomber", "Text.Text");
 
   /** The strength of the bombs this player can place. */
   private int bombStrength = 2;
@@ -96,7 +97,7 @@ public class BomberMan extends GridObject {
   @Override
   public void init() {
     super.init();
-    bodyPaintCan.init(getGlobalPreferences(), getEngine().getGameAssetManager());
+    image = getEngine().getGameAssetManager().getTileSheet("Bomber", "BomberMan").getTile(0, 0);
     textPaintCan.init(getGlobalPreferences(), getEngine().getGameAssetManager());
   }
 
@@ -108,9 +109,8 @@ public class BomberMan extends GridObject {
   @Override
   public void draw(Canvas canvas) {
     Vector pos = getAbsolutePosition();
-    // Draw an rectangle at our touch position
-    canvas.drawRect(pos, new Vector(grid.getTileWidth(), grid.getTileWidth()), bodyPaintCan);
-    canvas.drawText("hp: " + hp, pos, textPaintCan);
+    canvas.drawBitmap(image, pos, new Vector(grid.getTileWidth()));
+    canvas.drawText("hp: " + hp, pos.add(new Vector(0, -32)), textPaintCan);
   }
 
   public void checkAchievements() {

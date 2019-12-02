@@ -24,7 +24,7 @@ public class BomberMenu extends GameMenu {
         // Play Button
         .add(
             "PlayButton",
-            new Button(new Vector(593, 249), getEngine().getGameAssetManager(), "Bomber", "Title")
+            new Button(getEngine().getSize(), getEngine().getGameAssetManager(), "Bomber", "Title")
                 .build()
                 .registerObserver(this::observePlayButton)
                 .close())
