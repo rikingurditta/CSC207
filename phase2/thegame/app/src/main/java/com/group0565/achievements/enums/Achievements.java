@@ -17,8 +17,13 @@ public enum Achievements {
   BOMBER_MULTIPLE_BOMB_5(new GameAchievement("Bomber_Multiple_Bomb_5")),
   BOMBER_MULTIPLE_BOMB_6(new GameAchievement("Bomber_Multiple_Bomb_6")),
   BOMBER_TWO_BOMBS_AT_ONCE(new GameAchievement("Bomber_Two_bombs_at_once")),
-  BOMBER_THREE_BOMBS_AT_ONCE(new GameAchievement("Bomber_Three_bombs_at_once")),
-  ;
+  TSU_FIRSTGAME(new GameAchievement("Tsu_FirstGame")),
+  TSU_F(new GameAchievement("Tsu_F")),
+  TSU_C(new GameAchievement("Tsu_C")),
+  TSU_B(new GameAchievement("Tsu_B")),
+  TSU_A(new GameAchievement("Tsu_A")),
+  TSU_S(new GameAchievement("Tsu_S")),
+  TSU_SS(new GameAchievement("Tsu_SS"));
 
   /** A map from achievement key to achievement */
   private static Map map = new HashMap<>();

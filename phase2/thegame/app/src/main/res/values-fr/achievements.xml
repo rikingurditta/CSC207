@@ -9,6 +9,13 @@
     <string name="bomber_multiple_bomb_6_name">Ça va boom</string>
     <string name="bomber_two_bombs_at_once_name">Une entreprise</string>
     <string name="bomber_three_bombs_at_once_name">Une foule</string>
+    <string name="tsu_firstgame_name">Premier jeu!!!</string>
+    <string name="tsu_f_name">Essayez à nouveau la prochaine fois!!</string>
+    <string name="tsu_c_name">Se réchauffer</string>
+    <string name="tsu_b_name">Pas mal</string>
+    <string name="tsu_a_name">Génial!!!</string>
+    <string name="tsu_s_name">Presque parfait</string>
+    <string name="tsu_ss_name">LÉGENDAIRE</string>
 
     <!--    Achievement desc must begin with the achievement's id -->
     <string name="racer_15_seconds_desc">Survivre pendant 15 secondes</string>
@@ -19,4 +26,11 @@
     <string name="bomber_multiple_bomb_6_desc">Plusieurs bombes 6</string>
     <string name="bomber_two_bombs_at_once_desc">Vous avez placé 2 bombes à la fois</string>
     <string name="bomber_three_bombs_at_once_desc">Vous avez placé 3 bombes à la fois</string>
+    <string name="tsu_firstgame_desc">Joué à un jeu de tsu</string>
+    <string name="tsu_f_desc">Obtenu un score F</string>
+    <string name="tsu_c_desc">Obtenu un score C</string>
+    <string name="tsu_b_desc">Obtenu un score B</string>
+    <string name="tsu_a_desc">Obtenu un score A</string>
+    <string name="tsu_s_desc">Obtenu un score S</string>
+    <string name="tsu_ss_desc">Obtenu un score SS</string>
 </resources>

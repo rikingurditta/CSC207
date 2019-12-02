@@ -9,6 +9,13 @@
     <string name="bomber_multiple_bomb_6_name">It Goes Boom</string>
     <string name="bomber_two_bombs_at_once_name">A Company</string>
     <string name="bomber_three_bombs_at_once_name">A Crowd</string>
+    <string name="tsu_firstgame_name">First Game!!!</string>
+    <string name="tsu_f_name">Try again next time!!</string>
+    <string name="tsu_c_name">Getting Warmed Up</string>
+    <string name="tsu_b_name">Not too bad</string>
+    <string name="tsu_a_name">Great!!!</string>
+    <string name="tsu_s_name">Almost Perfect</string>
+    <string name="tsu_ss_name">LEGENDARY</string>
 
     <!--    Achievement desc must begin with the achievement's id -->
     <string name="racer_15_seconds_desc">Survive for 15 seconds</string>
@@ -19,4 +26,11 @@
     <string name="bomber_multiple_bomb_6_desc">Multiple Bomb 6</string>
     <string name="bomber_two_bombs_at_once_desc">You\'ve placed 2 bombs at once</string>
     <string name="bomber_three_bombs_at_once_desc">You\'ve placed 3 bombs at once</string>
+    <string name="tsu_firstgame_desc">Played a game of Tsu</string>
+    <string name="tsu_f_desc">Got An F Score</string>
+    <string name="tsu_c_desc">Got An C Score</string>
+    <string name="tsu_b_desc">Got An B Score</string>
+    <string name="tsu_a_desc">Got An A Score</string>
+    <string name="tsu_s_desc">Got An S Score</string>
+    <string name="tsu_ss_desc">Got An SS Score</string>
 </resources>
