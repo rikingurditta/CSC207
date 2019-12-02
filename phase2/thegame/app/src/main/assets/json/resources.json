@@ -201,9 +201,9 @@
         "TileHeight": 500
       },
       "To_Menu": {
-        "Path": "Bomber_To_Menu_TEMP.png",
-        "TileWidth": 593,
-        "TileHeight": 249
+        "Path": "Bomber_To_Menu.png",
+        "TileWidth": 128,
+        "TileHeight": 64
       },
       "BomberMan": {
         "Path": "Bomber_BomberMan.png",

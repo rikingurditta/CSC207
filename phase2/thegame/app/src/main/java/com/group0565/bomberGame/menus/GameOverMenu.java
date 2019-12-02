@@ -20,7 +20,7 @@ public class GameOverMenu extends GameMenu {
   private final ThemedPaintCan textPaintCan = new ThemedPaintCan("Bomber", "Text.Text");
 
   /** PaintCan for the body of the menu. Temporarily using Bomb explosion PaintCan. */
-  private final ThemedPaintCan bgPaintCan = new ThemedPaintCan("Bomber", "Bomb.Explosion");
+  private final ThemedPaintCan bgPaintCan = new ThemedPaintCan("Bomber", "Background.Background");
   // TODO: make new PaintCan for menu body
 
   public GameOverMenu(Vector size) {
@@ -38,12 +38,11 @@ public class GameOverMenu extends GameMenu {
             getGlobalPreferences(), getEngine().getGameAssetManager(), "Bomber", "Game_Over");
 
     build()
-        .add("GameOverText", new TextRenderer(new Vector(), gameOverLT.getValue(), textPaintCan))
         .add(
             "BackButton",
             new Button(new Vector(593, 249), getEngine().getGameAssetManager(), "Bomber", "To_Menu")
                 .build()
-                .registerObserver(this::observeBackButton).addOffset(500, 325)
+                .registerObserver(this::observeBackButton).addOffset(500, 350)
                 .close())
         .close();
   }
