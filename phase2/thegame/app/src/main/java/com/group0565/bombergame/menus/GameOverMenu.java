@@ -18,7 +18,6 @@ public class GameOverMenu extends GameMenu {
 
   /** PaintCan for the body of the menu. Temporarily using Bomb explosion PaintCan. */
   private final ThemedPaintCan bgPaintCan = new ThemedPaintCan("Bomber", "Background.Background");
-  // TODO: make new PaintCan for menu body
 
   public GameOverMenu(Vector size) {
     super(size);
@@ -30,9 +29,6 @@ public class GameOverMenu extends GameMenu {
 
     textPaintCan.init(getGlobalPreferences(), getEngine().getGameAssetManager());
     bgPaintCan.init(getGlobalPreferences(), getEngine().getGameAssetManager());
-    LanguageText gameOverLT =
-        new LanguageText(
-            getGlobalPreferences(), getEngine().getGameAssetManager(), "Bomber", "Game_Over");
 
     build()
         .add(

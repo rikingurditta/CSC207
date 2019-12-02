@@ -22,7 +22,7 @@ public abstract class GridObject extends GameObject {
     super(grid.gridCoordsToAbsolutePosition(position), z);
     this.gridCoords = position;
     this.grid = grid;
-    grid.addItem(this, position);
+    grid.addItem(this);
   }
   /**
    * Create a new GridObject.

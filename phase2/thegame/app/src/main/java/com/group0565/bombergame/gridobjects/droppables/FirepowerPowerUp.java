@@ -8,13 +8,14 @@ import com.group0565.engine.interfaces.Canvas;
 import com.group0565.math.Coords;
 import com.group0565.math.Vector;
 
+/** A power up that increases the range of Bomb explosions. */
 public class FirepowerPowerUp extends Droppable {
-  /** The booleans that determines whether achievements have been unclocked. */
+  /** The booleans that keep track of whether achievements have been unlocked. */
   private boolean fire_power_6_unlocked = false;
 
   private boolean fire_power_max_unlocked = false;
   /** The bitmap of this Firepower Power up */
-  private Bitmap IMAGE;
+  private Bitmap image;
 
   /**
    * Constructs a new FirepowerPowerUp.
@@ -37,6 +38,7 @@ public class FirepowerPowerUp extends Droppable {
       bm.setBombStrength(bm.getBombStrength() + 1);
     }
 
+    // unlock achievements if condition is met
     if (bm.getBombStrength() == 6 && !fire_power_6_unlocked) {
       getEngine().getAchievementManager().unlockAchievement("BomberMan", "Bomber_Fire_Power_6");
       fire_power_6_unlocked = true;
@@ -56,12 +58,13 @@ public class FirepowerPowerUp extends Droppable {
   public void draw(Canvas canvas) {
     Vector pos = getAbsolutePosition();
     // Draw a rectangle at our touch position
-    canvas.drawBitmap(IMAGE, getAbsolutePosition(), new Vector(grid.getTileWidth()));
+    canvas.drawBitmap(image, getAbsolutePosition(), new Vector(grid.getTileWidth()));
   }
 
+  /** Initialize this FirepowerPowerUp. Set its image. */
   @Override
   public void init() {
     super.init();
-    IMAGE = getEngine().getGameAssetManager().getTileSheet("Bomber", "Grid_Objects").getTile(3, 3);
+    image = getEngine().getGameAssetManager().getTileSheet("Bomber", "Grid_Objects").getTile(3, 3);
   }
 }

@@ -6,6 +6,7 @@ import com.group0565.bombergame.gridobjects.BomberMan;
 import com.group0565.bombergame.gridobjects.GridObject;
 import com.group0565.math.Coords;
 
+/** An object that can be dropped onto the map and picked up. */
 public abstract class Droppable extends GridObject {
   /** The game this Crate belongs to. */
   private BomberEngine game;
@@ -18,10 +19,10 @@ public abstract class Droppable extends GridObject {
    * @param game The game this crate belongs to.
    * @param grid The grid this crate is within.
    */
-  public Droppable(Coords position, double z, Grid grid, BomberEngine game) {
+  Droppable(Coords position, double z, Grid grid, BomberEngine game) {
     super(position, z, grid);
     this.game = game;
-    this.grid.addItem(this, position);
+    this.grid.addItem(this);
   }
 
   /**
@@ -31,7 +32,7 @@ public abstract class Droppable extends GridObject {
    * @param game The game this crate belongs to.
    * @param grid The grid this crate is within.
    */
-  public Droppable(Coords position, Grid grid, BomberEngine game) {
+  Droppable(Coords position, Grid grid, BomberEngine game) {
     this(position, 0, grid, game);
   }
 

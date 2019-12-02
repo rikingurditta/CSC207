@@ -16,7 +16,8 @@ public class Crate extends GridObject {
   /** The game this Crate belongs to. */
   private BomberEngine game;
 
-  private Bitmap IMAGE;
+  /** This Crate's image. */
+  private Bitmap image;
 
   /**
    * Constructs a new Crate.
@@ -29,7 +30,7 @@ public class Crate extends GridObject {
   public Crate(Coords position, double z, Grid grid, BomberEngine game) {
     super(position, z, grid);
     this.game = game;
-    this.grid.addItem(this, position);
+    this.grid.addItem(this);
   }
 
   /**
@@ -43,10 +44,11 @@ public class Crate extends GridObject {
     this(position, 0, grid, game);
   }
 
+  /** Initialize this Crate. Set up its image. */
   @Override
   public void init() {
     super.init();
-    IMAGE = getEngine().getGameAssetManager().getTileSheet("Bomber", "Grid_Objects").getTile(1, 2);
+    image = getEngine().getGameAssetManager().getTileSheet("Bomber", "Grid_Objects").getTile(1, 2);
   }
 
   /** Destroy this crate if the damage done to it is positive. */
@@ -73,6 +75,6 @@ public class Crate extends GridObject {
    */
   @Override
   public void draw(Canvas canvas) {
-    canvas.drawBitmap(IMAGE, getAbsolutePosition(), new Vector(grid.getTileWidth()));
+    canvas.drawBitmap(image, getAbsolutePosition(), new Vector(grid.getTileWidth()));
   }
 }

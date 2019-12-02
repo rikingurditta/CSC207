@@ -46,6 +46,11 @@ public class NormalBomb extends Bomb {
     }
   }
 
+  /**
+   * Draw this NormalBomb based on its strength and which stage it is at in its life cycle.
+   *
+   * @param canvas The Canvas on which to draw
+   */
   @Override
   public void draw(Canvas canvas) {
     int scale = grid.getTileWidth();

@@ -62,7 +62,12 @@ public class BomberMan extends GridObject {
   /** The list of bombs this BomberMan has placed. */
   private ArrayList<Bomb> bombs = new ArrayList<>();
 
+  /**
+   * Flags representing whether or not the "two/three-bombs-at-once" achievements have been
+   * unlocked.
+   */
   private boolean two_bombs_at_once_unlocked = false;
+
   private boolean three_bombs_at_once_unlocked = false;
 
   /**
@@ -113,7 +118,8 @@ public class BomberMan extends GridObject {
     canvas.drawText("hp: " + hp, pos.add(new Vector(0, -32)), textPaintCan);
   }
 
-  public void checkAchievements() {
+  /** Check if this BomberMan should unlock the "two/three-bombs-at-once" achievements. */
+  private void checkAchievements() {
     if (!(inputSystem instanceof RandomInput)) {
       if (bombs.size() == 2 && !two_bombs_at_once_unlocked) {
         getEngine()
@@ -196,12 +202,12 @@ public class BomberMan extends GridObject {
     game.adoptLater(bomb);
     this.bombs.add(bomb);
 
-    // TODO make stats tracking nicer
     numBombsPlaced += 1;
     return true;
   }
+
   /** Helper method in update responsible for collecting Droppables and affecting this bomberMan */
-  public void collectDroppable() {
+  private void collectDroppable() {
     Coords pos = gridCoords;
 
     for (Droppable g : grid.getDroppables()) {
@@ -213,42 +219,52 @@ public class BomberMan extends GridObject {
     }
   }
 
+  /** Decrease this BomberMan's hp by d, the amount it is damaged by. */
   public void damage(int d) {
     hp -= d;
   }
 
+  /** @return the number of bombs this BomberMan has placed this game. */
   public int getNumBombsPlaced() {
     return numBombsPlaced;
   }
 
+  /** @return the amount of damage this BomberMan has dealt this game. */
   public int getDamageDealt() {
     return damageDealt;
   }
 
+  /** Increase the amount of damage that this BomberMan has dealt this game. */
   public void increaseDamageDealt() {
     damageDealt += 1;
   }
 
+  /** @return this BomberMan's hp. */
   public int getHp() {
     return hp;
   }
 
+  /** @return the strength of the Bombs that this BomberMan places. */
   public int getBombStrength() {
     return bombStrength;
   }
 
-  public int getNumSimultaneousBombs() {
-    return numSimultaneousBombs;
-  }
-
+  /** Set the strength of the Bombs this BomberMan places. */
   public void setBombStrength(int bombStrength) {
     this.bombStrength = bombStrength;
   }
 
+  /** @return the number of Bombs this BomberMan is able to have on the grid simultaneously. */
+  public int getNumSimultaneousBombs() {
+    return numSimultaneousBombs;
+  }
+
+  /** Get the number of Bombs this BomberMan is able to have on the grid simultaneously. */
   public void setNumSimultaneousBombs(int numSimultaneousBombs) {
     this.numSimultaneousBombs = numSimultaneousBombs;
   }
 
+  /** Remove a Bomb from the list of Bombs this BomberMan manages. */
   public void removeBombFromBombList(Bomb bomb) {
     bombs.remove(bomb);
   }

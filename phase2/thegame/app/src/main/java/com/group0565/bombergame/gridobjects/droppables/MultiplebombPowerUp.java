@@ -8,13 +8,14 @@ import com.group0565.engine.interfaces.Canvas;
 import com.group0565.math.Coords;
 import com.group0565.math.Vector;
 
+/** A power up that increases the number of Bombs that can be held. */
 public class MultiplebombPowerUp extends Droppable {
-  /** The booleans that determines whether achievements have been unclocked. */
+  /** The booleans that keep track of whether achievements have been unlocked. */
   private boolean multiple_bomb_5_unlocked = false;
 
   private boolean multiple_bomb_6_unlocked = false;
   /** The bitmap of this Firepower Power up */
-  private Bitmap IMAGE;
+  private Bitmap image;
 
   /**
    * Constructs a new MultiplebombPowerUp.
@@ -54,12 +55,13 @@ public class MultiplebombPowerUp extends Droppable {
   public void draw(Canvas canvas) {
     Vector pos = getAbsolutePosition();
     // Draw a rectangle at our touch position
-    canvas.drawBitmap(IMAGE, getAbsolutePosition(), new Vector(grid.getTileWidth()));
+    canvas.drawBitmap(image, getAbsolutePosition(), new Vector(grid.getTileWidth()));
   }
 
+  /** Initialize this MultiplebombPowerUp. Set up its image. */
   @Override
   public void init() {
     super.init();
-    IMAGE = getEngine().getGameAssetManager().getTileSheet("Bomber", "Grid_Objects").getTile(2, 3);
+    image = getEngine().getGameAssetManager().getTileSheet("Bomber", "Grid_Objects").getTile(2, 3);
   }
 }

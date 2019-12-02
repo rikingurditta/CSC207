@@ -23,13 +23,15 @@ public abstract class Bomb extends GridObject {
   /** The game this Bomb belongs to. */
   private BomberEngine game;
 
-  private Bitmap BUILDUP_1_IMAGE;
+  /** This Bomb's current image. */
+  Bitmap currImage;
+
   private Bitmap BUILDUP_2_IMAGE;
   private Bitmap BUILDUP_3_IMAGE;
   private Bitmap BUILDUP_4_IMAGE;
   private Bitmap EXPLOSION_IMAGE;
-
-  Bitmap currImage;
+  /** Images of this Bomb in its various stages before explosion. */
+  private Bitmap BUILDUP_1_IMAGE;
 
   /**
    * Constructs a new Bomb.
@@ -40,12 +42,13 @@ public abstract class Bomb extends GridObject {
    * @param grid The grid this crate is within.
    * @param placedBy The BomberMan who placed this bomb.
    */
-  public Bomb(Coords position, int z, BomberEngine game, Grid grid, BomberMan placedBy) {
+  Bomb(Coords position, int z, BomberEngine game, Grid grid, BomberMan placedBy) {
     super(position, z, grid);
     this.game = game;
     this.placedBy = placedBy;
   }
 
+  /** Initialize this bomb. Set up its images. */
   @Override
   public void init() {
     super.init();
@@ -63,7 +66,8 @@ public abstract class Bomb extends GridObject {
   }
 
   /**
-   * Updates the bomb based how much time has passed since the bomb has been dropped.
+   * Updates the bomb based how much time has passed since the bomb has been dropped. Update the
+   * image corresponding to its current state.
    *
    * @param ms Elapsed time in milliseconds since last update.
    */
@@ -98,31 +102,13 @@ public abstract class Bomb extends GridObject {
   /** Decides what happens to a player when a bomb explodes */
   public abstract void explode();
 
-  public BomberMan getPlacedBy() {
+  /** @return the object that placed this bomb. */
+  BomberMan getPlacedBy() {
     return placedBy;
   }
 
-  public void increaseStrength() {
-    placedBy.setBombStrength(placedBy.getBombStrength() + 1);
-  }
-
-  public void decreaseStrength() {
-    placedBy.setBombStrength(placedBy.getBombStrength() - 1);
-  }
-
-  public void increaseNumSumultaneousBombs() {
-    placedBy.setNumSimultaneousBombs(placedBy.getNumSimultaneousBombs() + 1);
-  }
-
-  public void decreaseNumSumultaneousBombs() {
-    placedBy.setNumSimultaneousBombs(placedBy.getNumSimultaneousBombs() + 1);
-  }
-
-  public int getStrength() {
+  /** @return the radius of this Bomb's explosion. */
+  int getStrength() {
     return placedBy.getBombStrength();
-  }
-
-  public int getNumSimultaneousBombs() {
-    return placedBy.getNumSimultaneousBombs();
   }
 }
