@@ -205,6 +205,11 @@
         "TileWidth": 593,
         "TileHeight": 249
       },
+      "BomberMan": {
+        "Path": "Bomber_BomberMan.png",
+        "TileWidth": 64,
+        "TileHeight": 64
+      },
       "Grid_Objects": {
         "Path": "Bomber_Grid_Objects.png",
         "TileWidth": 64,
