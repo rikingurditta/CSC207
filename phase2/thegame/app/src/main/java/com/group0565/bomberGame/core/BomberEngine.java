@@ -100,7 +100,7 @@ public class BomberEngine extends GameObject implements Observable {
     InputSystem randomInput = new RandomInput(1000);
     adoptLater(randomInput);
     BomberMan bm2 = new BomberMan(new Coords(10, 6), 20, randomInput, this, grid, 10);
-    adoptLater(bm2); /**/
+    adoptLater(bm2);
 
     // make 25 crates
     for (int i = 0; i < 25; i++) grid.makeRandomCrate();

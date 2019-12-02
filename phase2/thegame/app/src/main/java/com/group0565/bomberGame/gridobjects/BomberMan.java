@@ -188,7 +188,7 @@ public class BomberMan extends GridObject {
     if (!grid.canPlaceBomb(gridCoords) | bombs.size() >= numSimultaneousBombs) {
       return false;
     }
-    NormalBomb bomb = new NormalBomb(gridCoords, -1, this.game, grid, this);
+    NormalBomb bomb = new NormalBomb(gridCoords, 25, this.game, grid, this);
     game.adoptLater(bomb);
     this.bombs.add(bomb);
 
