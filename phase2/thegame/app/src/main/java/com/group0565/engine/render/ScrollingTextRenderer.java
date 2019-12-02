@@ -7,18 +7,39 @@ import com.group0565.engine.interfaces.Source;
 import com.group0565.math.LinearTemporalInterpolator;
 import com.group0565.math.Vector;
 
+/** A MenuObject representation of constantly scrolling text */
 public class ScrollingTextRenderer extends MenuObject {
+  /** The time for a single scroll */
   private long scrollTime;
+  /** Time to hold at end */
   private long holdTime;
+  /** Current progress */
   private long timer;
+  /** The text's PaintCan */
   private PaintCan paintCan;
+  /** The background's PaintCan */
   private PaintCan bgPaintCan;
+  /** The text */
   private Source<String> text;
+  /** Last text at end */
   private String lastText = "";
+  /** A movement interpolator */
   private LinearTemporalInterpolator interpolator = null;
+  /** The bitmap to draw on */
   private Bitmap drawableSurface;
+  /** The canvas to draw on */
   private Canvas drawableCanvas;
 
+  /**
+   * Create a new ScrollingTextRenderer
+   *
+   * @param text Text to draw
+   * @param scrollTime The scroll time
+   * @param holdTime The hold time at end
+   * @param paintCan The text paintCan
+   * @param bgPaintCan The background PaintCan
+   * @param size The textbox's size
+   */
   public ScrollingTextRenderer(
       Source<String> text,
       long scrollTime,
@@ -50,6 +71,7 @@ public class ScrollingTextRenderer extends MenuObject {
     }
   }
 
+  /** Recalculate the interpolation at end */
   private void recalculateInterpolation() {
     if (paintCan == null) return;
     Vector bounds = paintCan.getPaint().getTextBounds(text.getValue());

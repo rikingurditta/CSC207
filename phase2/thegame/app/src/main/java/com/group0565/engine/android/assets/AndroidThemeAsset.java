@@ -14,12 +14,24 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.HashMap;
 
+/** An android-specific implementation of ThemeAsset */
 public class AndroidThemeAsset extends ThemeAsset {
+  /** Directory location constant */
   public static final String THEME_FOLDER = "theme/";
+  /** Paint json key suffix */
   private static final String PaintSuffix = "Paint";
+  /** A reference to an AssetManager */
   private AssetManager assetManager;
+  /** A map of name to paint */
   private HashMap<String, AndroidPaint> paints = new HashMap<>();
 
+  /**
+   * Create a new AndroidThemeAsset
+   *
+   * @param name The theme name
+   * @param path The resource path
+   * @param assetManager The calling asset manager
+   */
   public AndroidThemeAsset(String name, String path, AssetManager assetManager) {
     super(name, path);
     this.assetManager = assetManager;
@@ -40,6 +52,13 @@ public class AndroidThemeAsset extends ThemeAsset {
     }
   }
 
+  /**
+   * Read a stack message for theme details
+   *
+   * @param stack The string stack
+   * @param reader A JsonReader for the resource
+   * @throws IOException An error reading a file
+   */
   private void readStack(String stack, JsonReader reader) throws IOException {
     if (reader.peek() != JsonToken.BEGIN_OBJECT) return;
     reader.beginObject();
@@ -52,6 +71,14 @@ public class AndroidThemeAsset extends ThemeAsset {
     reader.endObject();
   }
 
+  /**
+   * Read a stack message for paint
+   *
+   * @param stack The string stack
+   * @param name The theme name
+   * @param reader A JsonReader for the resource
+   * @throws IOException An error reading a file
+   */
   private void readPaint(String stack, String name, JsonReader reader) throws IOException {
     AndroidPaint paint = new AndroidPaint();
     reader.beginObject();

@@ -5,13 +5,13 @@ import com.group0565.engine.gameobjects.GameObject;
 import com.group0565.engine.interfaces.Observable;
 import com.group0565.engine.interfaces.ObservationEvent;
 
+/** The class setting up the menus and main object(s) of the game. */
 public class BomberGame extends GameObject {
-
   private BomberMenu menu;
 
   private BomberEngine engine;
 
-  public BomberGame() {}
+  BomberGame() {}
 
   public void init() {
     menu = new BomberMenu();
@@ -29,7 +29,7 @@ public class BomberGame extends GameObject {
     super.init();
   }
 
-  public void observeMenu(Observable observable, ObservationEvent event) {
+  private void observeMenu(Observable observable, ObservationEvent event) {
     if (event.getMsg().equals("To game")) {
       engine.restartEngine();
       engine.setEnable(true);
@@ -37,7 +37,7 @@ public class BomberGame extends GameObject {
     }
   }
 
-  public void observeEngine(Observable observable, ObservationEvent event) {
+  private void observeEngine(Observable observable, ObservationEvent event) {
     if (event.getMsg().equals("To menu")) {
       engine.setEnable(false);
       menu.setEnable(true);

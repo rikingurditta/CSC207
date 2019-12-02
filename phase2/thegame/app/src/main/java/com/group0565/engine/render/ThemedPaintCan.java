@@ -35,8 +35,7 @@ public class ThemedPaintCan extends PaintCan implements Cloneable {
   /**
    * Initialize a ThemedPaintCan
    *
-   * @param preferences The target preferences
-   * @param assetManager The target asset manager
+   * @param paintCan The target preferences
    * @return This instance of of ThemedPaintCan with the assets loaded
    */
   public ThemedPaintCan(ThemedPaintCan paintCan) {
@@ -46,6 +45,12 @@ public class ThemedPaintCan extends PaintCan implements Cloneable {
     this.registry = paintCan.registry;
   }
 
+  /**
+   * Set this object's preferences and assetManager
+   * @param preferences The preferences
+   * @param assetManager The asset manager
+   * @return This object
+   */
   public ThemedPaintCan init(GlobalPreferences preferences, GameAssetManager assetManager) {
     reloadAssets(assetManager);
     preferences.registerObserver(this::observe);

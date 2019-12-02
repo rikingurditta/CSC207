@@ -59,6 +59,7 @@ public class SquareGrid extends Grid {
     this(position, 0, width, height, tileWidth, game);
   }
 
+  /** Initialize this SquareGrid. Set up its PaintCans and tile images. */
   @Override
   public void init() {
     super.init();
@@ -76,6 +77,11 @@ public class SquareGrid extends Grid {
     }
   }
 
+  /**
+   * Draw this SquareGrid, including its background tiles and grid lines.
+   *
+   * @param canvas The Canvas on which to draw
+   */
   @Override
   public void draw(Canvas canvas) {
     for (int i = 0; i < width; i += 1) {
@@ -87,11 +93,10 @@ public class SquareGrid extends Grid {
       }
     }
 
-    Vector pos = this.getAbsolutePosition();
-    Vector topLeft = pos;
-    Vector topRight = pos.add(new Vector(windowWidth, 0));
-    Vector bottomLeft = pos.add(new Vector(0, windowHeight));
-    Vector bottomRight = pos.add(new Vector(windowWidth, windowHeight));
+    Vector topLeft = this.getAbsolutePosition();
+    Vector topRight = topLeft.add(new Vector(windowWidth, 0));
+    Vector bottomLeft = topLeft.add(new Vector(0, windowHeight));
+    Vector bottomRight = topLeft.add(new Vector(windowWidth, windowHeight));
 
     // draw the grid border
     canvas.drawLine(topLeft, topRight, paintCan);
@@ -117,13 +122,15 @@ public class SquareGrid extends Grid {
 
   /** @return the absolute position of the the tile with coordinates p, whether or not it exists. */
   public Vector gridCoordsToAbsolutePosition(Coords p) {
-    // TODO: maybe throw an error if there is no tile with coordinates p
+    if (!isValidTile(p)) {
+      throw new IllegalArgumentException("Coordinates must be valid coordinates on the grid.");
+    }
     Vector pos = this.getAbsolutePosition();
     return new Vector(pos.getX() + p.x * tileWidth, pos.getY() + p.y * tileWidth);
   }
 
-  @Override
   /** @return The position of a random valid tile on the grid. */
+  @Override
   public Coords randomCoordsInGrid() {
     return Coords.random(0, 0, width, height);
   }

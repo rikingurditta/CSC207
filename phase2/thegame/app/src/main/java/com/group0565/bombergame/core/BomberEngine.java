@@ -28,14 +28,20 @@ import java.util.ArrayList;
 import java.util.Map;
 import java.util.UUID;
 
+/** The class with the main running logic of the game. */
 public class BomberEngine extends GameObject implements Observable {
   private static final long GAME_DURATION = 120000;
-  public static final String GAME_NAME = "BomberGame";
+  private static final String GAME_NAME = "BomberGame";
 
-  /** Create a STRONG reference to the listener so it won't get garbage collected */
+  /**
+   * Create a STRONG reference to the listener so it won't get garbage collected. Keeping it
+   * non-private for that reason as well.
+   */
   StatisticRepositoryInjector.RepositoryInjectionListener listener;
 
+  /** Lists to help manage this Engine's children. */
   private ArrayList<GameObject> itemsToBeAdopted = new ArrayList<>();
+
   private ArrayList<GameObject> itemsToBeRemoved = new ArrayList<>();
 
   /** The user's BomberMan. */
@@ -44,8 +50,12 @@ public class BomberEngine extends GameObject implements Observable {
   /** The timer counting how many ms are left in the game. */
   private long gameTimer;
 
+  /** Whether or not this game has ended. */
   private boolean gameEnded = false;
+
+  /** What time (real world) this game started. */
   private long startTime;
+
   /** The repository to interact with the stats DB */
   private IAsyncStatisticsRepository myStatRepo;
 
@@ -55,7 +65,10 @@ public class BomberEngine extends GameObject implements Observable {
   private LanguageText damageDealtLT;
   private LanguageText hpRemainingLT;
   private LanguageText timeLeftLT;
+
+  /** PaintCans for background and text so that theme switching works. */
   private ThemedPaintCan bgPaintCan;
+
   private ThemedPaintCan textPaintCan;
 
   /** Menu with options for what to do when game is over. */
@@ -79,10 +92,6 @@ public class BomberEngine extends GameObject implements Observable {
     // set time stuff
     gameTimer = GAME_DURATION;
     startTime = System.currentTimeMillis();
-
-    // TODO: reposition, rescale displayed objects based on screen size
-
-    // TODO: figure out how to properly init without using adoptLater
 
     // create grid
     SquareGrid grid = new SquareGrid(new Vector(100, 100), 0, 16, 8, 100, this);
@@ -129,11 +138,17 @@ public class BomberEngine extends GameObject implements Observable {
     super.init();
   }
 
-  public void restartEngine() {
+  /** Reset the game so that it may be played again. */
+  void restartEngine() {
     getChildren().clear();
     init();
   }
 
+  /**
+   * Draw the objects in this game as well as the in-game stats.
+   *
+   * @param canvas The Canvas on which to draw
+   */
   @Override
   public void draw(Canvas canvas) {
     super.draw(canvas);
@@ -161,6 +176,11 @@ public class BomberEngine extends GameObject implements Observable {
         "Bomb Strength: " + meBomberMan.getBombStrength(), new Vector(850, 910), textPaintCan);
   }
 
+  /**
+   * Update the state of the game, including timer and children to manage.
+   *
+   * @param ms Milliseconds Since Last Update
+   */
   @Override
   public void update(long ms) {
     if (!gameEnded) {
@@ -174,6 +194,10 @@ public class BomberEngine extends GameObject implements Observable {
     }
   }
 
+  /**
+   * Update this object's children. Add and remove children to be added/removed. Can cause
+   * ConcurrentModification errors if not called within this game's update function.
+   */
   private void updateChildren() {
     for (GameObject item : itemsToBeAdopted) {
       adopt(item);
@@ -189,7 +213,8 @@ public class BomberEngine extends GameObject implements Observable {
     itemsToBeRemoved.clear();
   }
 
-  public void sendStats() {
+  /** Send game statistics. */
+  private void sendStats() {
     if (myStatRepo != null) {
 
       myStatRepo.put(
@@ -206,34 +231,29 @@ public class BomberEngine extends GameObject implements Observable {
     }
   }
 
+  /** Add obj to list of items to be adopted next time it is safe to do so. */
   public void adoptLater(GameObject obj) {
     itemsToBeAdopted.add(obj);
   }
-
+  /** Add obj to list of items to be removed next time it is safe to do so. */
   public void removeLater(GameObject obj) {
     itemsToBeRemoved.add(obj);
   }
 
-  public void observeGameOverMenu(Observable observable, ObservationEvent event) {
+  /** Method that is called when gameOverMenu needs to notify this object. */
+  private void observeGameOverMenu(Observable observable, ObservationEvent event) {
     if (event.getMsg().equals("To menu")) {
       Log.i("BomberEngine", "To menu");
       notifyObservers(new ObservationEvent("To menu"));
     }
   }
 
+  /** End the game and open gameOverMenu. */
   private void endGame(boolean finished) {
     if (finished) {
       sendStats();
     }
-    setEnded(true);
+    gameEnded = true;
     gameOverMenu.setEnable(true);
-  }
-
-  public boolean hasEnded() {
-    return gameEnded;
-  }
-
-  public void setEnded(boolean ended) {
-    gameEnded = ended;
   }
 }

@@ -74,5 +74,9 @@ public interface Paint extends Cloneable {
    */
   Vector getTextBounds(String text);
 
+  /**
+   * Get the paint's color
+   * @return The color of the paint
+   */
   int getColor();
 }

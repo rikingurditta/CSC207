@@ -6,10 +6,11 @@ import com.group0565.preferences.IPreferenceInteractor;
 import com.group0565.preferences.PreferencesInjector;
 import com.group0565.theme.Themes;
 
+/** The main activity of the game. */
 public class BomberMainActivity extends GameActivity {
 
   public BomberMainActivity() {
-
+    // create a new game and inject global preferences into it
     super(new BomberGame());
     IPreferenceInteractor prefInter = PreferencesInjector.inject();
     this.getGame()

@@ -46,10 +46,9 @@ public abstract class Grid extends GameObject {
    * Add an item to the grid.
    *
    * @param g The object to be added.
-   * @param gridPosition The position in the grid to add the object.
    * @return Whether the item is already in the grid or is already queued to be added.
    */
-  public boolean addItem(GridObject g, Coords gridPosition) {
+  public boolean addItem(GridObject g) {
     if (items.contains(g)) {
       return false;
     }
@@ -66,6 +65,7 @@ public abstract class Grid extends GameObject {
     return itemsToBeRemoved.add(g);
   }
 
+  /** Update this grid, by managing the set of items it is responsible for. */
   @Override
   public void update(long ms) {
     // update the items in the grid
@@ -106,14 +106,17 @@ public abstract class Grid extends GameObject {
     Coords r;
     do {
       done = true;
-      // choose random coords to place the crate on
+      // choose random coordinates to place the crate on
       r = randomCoordsInGrid();
+
       for (GridObject g : items) {
+        // r is invalid if the tile with position r is not empty
         if (g.getGridCoords().equals(r)) {
           done = false;
         }
       }
       for (GridObject g : itemsToBeAdded) {
+        // r is invalid if the tile with position r will soon be not empty
         if (g.getGridCoords().equals(r)) {
           done = false;
         }
@@ -141,6 +144,7 @@ public abstract class Grid extends GameObject {
     return true;
   }
 
+  /** @return all the Droppable items that this Grid manages. */
   public Set<Droppable> getDroppables() {
     Set<Droppable> droppables = new HashSet<>();
     for (GridObject g : items) {
@@ -151,10 +155,12 @@ public abstract class Grid extends GameObject {
     return droppables;
   }
 
+  /** @return the items this Grid manages. */
   public Set<GridObject> getItems() {
     return items;
   }
 
+  /** @return the width of the tiles in this grid. */
   public int getTileWidth() {
     return this.tileWidth;
   }
