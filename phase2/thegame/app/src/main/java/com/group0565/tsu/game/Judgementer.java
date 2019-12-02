@@ -181,7 +181,8 @@ public class Judgementer extends GameMenu {
 
         for (InputEvent event : this.getCapturedEvents())
             canvas.drawCircle(event.getPos(), 20, judgementPaint);
-        canvas.drawLine(pos, pos.add(size.newSetY(0)), judgementPaint);
+        Vector incrementSize = size.elementMultiply(new Vector(0.5f*beatmap.getValue().getNoteWidth(), 0));
+        canvas.drawLine(pos.subtract(incrementSize), pos.add(size.newSetY(0)).add(incrementSize), judgementPaint);
     }
 
     private void drawGlowLine(Canvas canvas, Vector pos, Vector size, float y, HitObject object) {

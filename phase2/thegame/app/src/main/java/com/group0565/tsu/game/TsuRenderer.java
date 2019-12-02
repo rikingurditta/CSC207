@@ -57,8 +57,9 @@ public class TsuRenderer extends GameMenu {
     @Override
     public void draw(Canvas canvas, Vector pos, Vector size) {
         super.draw(canvas, pos, size);
-        canvas.drawRGB(bgPaint);
         if (!(hitObjects == null || beatmap == null)) {
+            Vector incrementSize = size.elementMultiply(new Vector(beatmap.getValue().getNoteWidth(), 0));
+            canvas.drawRect(pos.subtract(incrementSize.multiply(0.5f)), size.add(incrementSize), bgPaint);
             //Number of pixels per every Milliseconds
             double pxpms = (double) (size.getY() - HIT_AREA) / hitWindow.getValue();
             //Draw Hit Objects

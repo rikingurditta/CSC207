@@ -239,6 +239,7 @@ public class StatsMenu extends GameMenu implements Observable {
             if (sessionHitObjects.getBeatmapName().equals(this.selectedBeatmapName))
                 filteredHistory.add(sessionHitObjects);
         }
+        filteredHistory.sort(sort.comparator);
         this.notifyObservers(new ObservationEvent<>(HISTORY_UPDATE_EVENT, filteredHistory));
     }
 

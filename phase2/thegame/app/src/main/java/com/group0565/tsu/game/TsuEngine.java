@@ -13,6 +13,10 @@ import com.group0565.tsu.core.TsuPreferences;
 import com.group0565.tsu.enums.ButtonBitmap;
 import com.group0565.tsu.enums.Grade;
 import com.group0565.tsu.enums.Scores;
+import com.group0565.tsu.input.AutoGenerator;
+import com.group0565.tsu.input.InputGenerator;
+import com.group0565.tsu.input.InputIntercepter;
+import com.group0565.tsu.input.ReplayGenerator;
 import com.group0565.tsu.menus.PauseMenu;
 import com.group0565.tsu.menus.StatsMenu;
 import com.group0565.tsu.render.HitScoreRenderer;
@@ -256,6 +260,7 @@ public class TsuEngine extends GameMenu {
         audio.pause();
         audioPlaying = false;
         generator = null;
+        intercepter.setGenerator(null);
         SessionHitObjects sessionHitObjects = ScoreCalculator.constructSessionHitObjects(beatmap, judgementer.getArchive());
         if (getGlobalPreferences() instanceof TsuPreferences)
             sessionHitObjects.setCheats(((TsuPreferences) getGlobalPreferences()).getAuto());
@@ -268,6 +273,7 @@ public class TsuEngine extends GameMenu {
         audio.pause();
         audioPlaying = false;
         generator = null;
+        intercepter.setGenerator(null);
         this.notifyObservers(new ObservationEvent(StatsMenu.TO_REPLAY.equals(source) ? TO_STATS : GAME_END));
         source = null;
     }

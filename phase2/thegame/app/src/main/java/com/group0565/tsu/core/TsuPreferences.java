@@ -17,6 +17,7 @@ import com.group0565.theme.Themes;
  * Class Responsible for reading and writing preferences to the repository;
  */
 public class TsuPreferences extends GlobalPreferences implements Observable {
+    //Event Constants
     public static final String DIFFICULTY_CHANGE = "Difficulty Changed";
     public static final String AUTO_CHANGE = "Auto Changed";
 
@@ -43,17 +44,24 @@ public class TsuPreferences extends GlobalPreferences implements Observable {
 
         IPreferenceInteractor prefInter = PreferencesInjector.inject();
 
+        //Load Theme, Language and volume
         super.setTheme(Themes.valueOf(prefInter.getTheme()));
         super.setLanguage(prefInter.getLanguage());
-        super.setVolume(prefInter.getVolume() / 100D);
+        super.setVolume(prefInter.getVolume() / 100D); //Volume is stores 0-100 in repo, but engine runs on 0-1
+
+        //Load difficulty
         Object difficulty = prefInter.getPreference(DifficultyPrefName, 5);
+        //If we loaded some garbage from the database, just set difficulty to the default 5
         if (!(difficulty instanceof Double) && !(difficulty instanceof Float))
             difficulty = 0.5D;
+        //If we got a double or a float, use these values
         if (difficulty instanceof Double)
             this.difficulty = ((float) (double) difficulty);
-        else if (difficulty instanceof Float)
+        else
             this.difficulty = ((float) difficulty);
+        //Load Auto
         Object auto;
+        //If we didn't get something usable, use default value of false
         if (!((auto = prefInter.getPreference(AutoPrefName, false)) instanceof Boolean))
             auto = false;
         this.auto = (boolean) auto;
