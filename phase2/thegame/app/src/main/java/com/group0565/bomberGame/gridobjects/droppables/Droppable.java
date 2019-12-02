@@ -4,6 +4,7 @@ import com.group0565.bomberGame.core.BomberEngine;
 import com.group0565.bomberGame.gridobjects.BomberMan;
 import com.group0565.bomberGame.grid.Grid;
 import com.group0565.bomberGame.gridobjects.GridObject;
+import com.group0565.engine.interfaces.Bitmap;
 import com.group0565.math.Coords;
 
 public abstract class Droppable extends GridObject {
