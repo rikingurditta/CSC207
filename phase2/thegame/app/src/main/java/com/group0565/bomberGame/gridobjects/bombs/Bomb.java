@@ -91,7 +91,7 @@ public abstract class Bomb extends GridObject {
       game.removeLater(this);
     }
   }
-
+  /** Decides what happens to a player when a bomb explodes*/
   public abstract void explode();
 
   public BomberMan getPlacedBy() {

@@ -116,11 +116,15 @@ public class BomberMan extends GridObject {
   public void checkAchievements() {
     if (!(inputSystem instanceof RandomInput)) {
       if (bombs.size() == 2 && !two_bombs_at_once_unlocked) {
-        getEngine().getAchievementManager().unlockAchievement("BomberMan", "Bomber_Two_bombs_at_once");
+        getEngine()
+            .getAchievementManager()
+            .unlockAchievement("BomberMan", "Bomber_Two_bombs_at_once");
         two_bombs_at_once_unlocked = true;
       }
       if (bombs.size() == 3 && !three_bombs_at_once_unlocked) {
-        getEngine().getAchievementManager().unlockAchievement("BomberMan", "Bomber_Three_bombs_at_once");
+        getEngine()
+            .getAchievementManager()
+            .unlockAchievement("BomberMan", "Bomber_Three_bombs_at_once");
         three_bombs_at_once_unlocked = true;
       }
     }
@@ -196,7 +200,7 @@ public class BomberMan extends GridObject {
     numBombsPlaced += 1;
     return true;
   }
-
+  /** Helper method in update responsible for collecting Droppables and affecting this bomberMan */
   public void collectDroppable() {
     Coords pos = gridCoords;
 
