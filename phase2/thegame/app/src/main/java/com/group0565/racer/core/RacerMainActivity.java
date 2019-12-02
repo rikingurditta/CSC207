@@ -7,14 +7,10 @@ import com.group0565.preferences.IPreferenceInteractor;
 import com.group0565.preferences.PreferencesInjector;
 import com.group0565.theme.Themes;
 
-/**
- * RacerMainActivity
- */
+/** RacerMainActivity */
 public class RacerMainActivity extends GameActivity {
 
-  /**
-   * MainActivity of the Game
-   */
+  /** MainActivity of the Game */
   public RacerMainActivity() {
     super(new RacerGame(), 60, Orientation.Portrait);
     IPreferenceInteractor prefInter = PreferencesInjector.inject();

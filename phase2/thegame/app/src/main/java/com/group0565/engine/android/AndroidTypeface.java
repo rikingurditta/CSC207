@@ -2,8 +2,6 @@ package com.group0565.engine.android;
 
 import com.group0565.engine.interfaces.Typeface;
 
-import java.lang.reflect.Type;
-
 /** Implementation of Typeface for Android */
 public class AndroidTypeface extends Typeface {
 

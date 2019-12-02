@@ -2,8 +2,6 @@ package com.group0565.achievements;
 
 import androidx.annotation.Nullable;
 
-import java.util.Calendar;
-import java.util.Date;
 import java.util.HashMap;
 
 /** An implementation of IAchievements for GameAchievement */

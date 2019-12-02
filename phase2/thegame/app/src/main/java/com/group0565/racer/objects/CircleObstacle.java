@@ -1,30 +1,22 @@
 package com.group0565.racer.objects;
 
 import com.group0565.engine.interfaces.Canvas;
-import com.group0565.engine.interfaces.Paint;
 import com.group0565.engine.render.ThemedPaintCan;
 import com.group0565.math.Vector;
 
 /** A Circle-shaped Obstacle */
 public class CircleObstacle extends Obstacle {
 
-  /**
-   * ThemedPaintCan for the colours of the circle
-   */
-  private static final ThemedPaintCan CIRCLE_PAINT_CAN = new ThemedPaintCan("Racer", "Circle.Circle");
+  /** ThemedPaintCan for the colours of the circle */
+  private static final ThemedPaintCan CIRCLE_PAINT_CAN =
+      new ThemedPaintCan("Racer", "Circle.Circle");
 
-  /**
-   * Constructor for a CircleObstacle object
-   *
-   */
+  /** Constructor for a CircleObstacle object */
   CircleObstacle(ObstacleManager obstacleManager) {
     super(obstacleManager);
   }
 
-  /**
-   * Initializes the ThemedPaintCan for CIRCLE_PAINT_CAN
-   */
-
+  /** Initializes the ThemedPaintCan for CIRCLE_PAINT_CAN */
   @Override
   public void init() {
     super.init();

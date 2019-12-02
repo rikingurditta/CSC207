@@ -51,7 +51,8 @@ public interface Paint extends Cloneable {
    * @return A new Paint object with the same values
    */
   Paint clone();
-    void setAlpha(int alpha);
+
+  void setAlpha(int alpha);
 
   /**
    * Create a new concrete Paint

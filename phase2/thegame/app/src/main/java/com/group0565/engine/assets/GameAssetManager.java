@@ -1,7 +1,6 @@
 package com.group0565.engine.assets;
 
 import com.group0565.engine.interfaces.LifecycleListener;
-import com.group0565.theme.Themes;
 
 import java.io.Closeable;
 import java.util.HashMap;

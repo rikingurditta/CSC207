@@ -7,28 +7,19 @@ import com.group0565.math.Vector;
 /** A Square-shaped Obstacle */
 public class SquareObstacle extends Obstacle {
 
-  /**
-   * ThemedPaintCan for the colours of the circle
-   */
-  private static final ThemedPaintCan SQUARE_PAINT_CAN = new ThemedPaintCan("Racer", "Square.Square");
+  /** ThemedPaintCan for the colours of the circle */
+  private static final ThemedPaintCan SQUARE_PAINT_CAN =
+      new ThemedPaintCan("Racer", "Square.Square");
 
-  /**
-   * A vector representing the length of each Square
-   */
+  /** A vector representing the length of each Square */
   private static final Vector SQUARE_SIDE = new Vector(150);
 
-  /**
-   * Constructor for a SquareObstacle Object
-
-   */
+  /** Constructor for a SquareObstacle Object */
   SquareObstacle(ObstacleManager obstacleManager) {
     super(obstacleManager);
   }
 
-  /**
-   * Initializes the ThemedPaintCan for CIRCLE_PAINT_CAN
-   */
-
+  /** Initializes the ThemedPaintCan for CIRCLE_PAINT_CAN */
   @Override
   public void init() {
     super.init();
@@ -42,6 +33,5 @@ public class SquareObstacle extends Obstacle {
   @Override
   public void draw(Canvas canvas) {
     canvas.drawRect(getAbsolutePosition(), SQUARE_SIDE, SQUARE_PAINT_CAN);
-
   }
 }

@@ -38,12 +38,9 @@ public class AndroidAudioAsset extends AudioAsset {
     this.fd = null;
   }
 
-  /**
-   * Instead of overriding init, this allows lazy loading of expensive audio assets.
-   */
-  public void initAudioAsset(){
-    if (player != null)
-      return;
+  /** Instead of overriding init, this allows lazy loading of expensive audio assets. */
+  public void initAudioAsset() {
+    if (player != null) return;
     try {
       fd = assetManager.openFd(AUDIO_FOLDER + getPath());
       player = new MediaPlayer();

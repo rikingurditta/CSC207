@@ -10,19 +10,19 @@ public abstract class TileSheet extends Asset implements LifecycleListener {
   /** The length of a single tile */
   private int tileHeight;
 
-    /**
-     * Create a new tileSheet
-     *
-     * @param name The tileSheet name
-     * @param path The tileSheet location
-     * @param tileWidth A single tile width
-     * @param tileHeight A single tile height
-     */
-    public TileSheet(String name, String path, int tileWidth, int tileHeight) {
-        super(name, path);
-        this.tileWidth = tileWidth;
-        this.tileHeight = tileHeight;
-    }
+  /**
+   * Create a new tileSheet
+   *
+   * @param name The tileSheet name
+   * @param path The tileSheet location
+   * @param tileWidth A single tile width
+   * @param tileHeight A single tile height
+   */
+  public TileSheet(String name, String path, int tileWidth, int tileHeight) {
+    super(name, path);
+    this.tileWidth = tileWidth;
+    this.tileHeight = tileHeight;
+  }
 
   /**
    * Get tile at given position
@@ -50,23 +50,23 @@ public abstract class TileSheet extends Asset implements LifecycleListener {
   public int getTileHeight() {
     return tileHeight;
   }
-    /**
-     * Setter for tileWidth
-     *
-     * @param tileWidth The new value for tileWidth
-     */
-    protected void setTileWidth(int tileWidth) {
-        this.tileWidth = tileWidth;
-    }
+  /**
+   * Setter for tileWidth
+   *
+   * @param tileWidth The new value for tileWidth
+   */
+  protected void setTileWidth(int tileWidth) {
+    this.tileWidth = tileWidth;
+  }
 
-    /**
-     * Setter for tileHeight
-     *
-     * @param tileHeight The new value for tileHeight
-     */
-    protected void setTileHeight(int tileHeight) {
-        this.tileHeight = tileHeight;
-    }
+  /**
+   * Setter for tileHeight
+   *
+   * @param tileHeight The new value for tileHeight
+   */
+  protected void setTileHeight(int tileHeight) {
+    this.tileHeight = tileHeight;
+  }
 
   /** An exception for tile sheet errors */
   protected class IllegalTileSetException extends IllegalAssetException {

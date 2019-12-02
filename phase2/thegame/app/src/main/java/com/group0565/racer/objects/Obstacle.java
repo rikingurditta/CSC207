@@ -8,36 +8,21 @@ import com.group0565.math.Vector;
 /** An Obstacle in Racer */
 public abstract class Obstacle extends GameObject implements Observable {
 
-  /**
-   * The starting relative position of the Obstacle.
-   */
+  /** The starting relative position of the Obstacle. */
   private static final Vector STARTING_RELATIVE_POSITION = new Vector(0, 0);
 
-  /**
-   * The top y-coordinate of the collision hitbox.
-   */
+  /** The top y-coordinate of the collision hitbox. */
   private static final int COLLISION_HIGHER_BOUND = 1450;
 
-  /**
-   * The bottom y-coordinate of the collision hitbox.
-   */
+  /** The bottom y-coordinate of the collision hitbox. */
   private static final int COLLISION_LOWER_BOUND = 1550;
 
-  /**
-   * The observation message passed when a collision occurs.
-   */
+  /** The observation message passed when a collision occurs. */
   private static final String COLLISION_MSG = "Collision";
-
-  /**
-   * The ObstacleManager for this Obstacle.
-   */
-  private ObstacleManager obstacleManager;
-
-  /**
-   * The current speed of the Obstacle, used for calculations in update method.
-   */
+  /** The current speed of the Obstacle, used for calculations in update method. */
   private static final Vector SPEED = new Vector(0, 0.8f);
-
+  /** The ObstacleManager for this Obstacle. */
+  private ObstacleManager obstacleManager;
 
   /**
    * Constructs a new Obstacle Object.
@@ -52,6 +37,7 @@ public abstract class Obstacle extends GameObject implements Observable {
 
   /**
    * sets the relative position of this Obstacle to the ObstacleManager
+   *
    * @param relativePosition The relative position of this vector.
    * @return superclass relative position
    */
@@ -65,7 +51,9 @@ public abstract class Obstacle extends GameObject implements Observable {
    * collided.
    */
   private void checkCollision() {
-    if (obstacleManager.getLane().getIsOccupied() && COLLISION_HIGHER_BOUND <= getRelativePosition().getY() && getRelativePosition().getY() <= COLLISION_LOWER_BOUND) {
+    if (obstacleManager.getLane().getIsOccupied()
+        && COLLISION_HIGHER_BOUND <= getRelativePosition().getY()
+        && getRelativePosition().getY() <= COLLISION_LOWER_BOUND) {
       ObservationEvent event = new ObservationEvent(COLLISION_MSG);
       notifyObservers(event);
     }

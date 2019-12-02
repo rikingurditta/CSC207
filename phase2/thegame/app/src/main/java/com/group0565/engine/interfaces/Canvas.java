@@ -17,17 +17,13 @@ public interface Canvas {
     this.drawText(text, position.getX(), position.getY(), paint);
   }
 
-    /**
-     * Wrapper method for {@link #drawText(String, float, float, Paint)}
-     */
-    default void drawText(String text, Vector position, PaintCan paint) {
-        this.drawText(text, position.getX(), position.getY(), paint.getPaint());
-    }
+  /** Wrapper method for {@link #drawText(String, float, float, Paint)} */
+  default void drawText(String text, Vector position, PaintCan paint) {
+    this.drawText(text, position.getX(), position.getY(), paint.getPaint());
+  }
 
-    /**
-     * @see android.graphics.Canvas#drawText(String, float, float, android.graphics.Paint)
-     */
-    void drawText(String text, float x, float y, Paint paint);
+  /** @see android.graphics.Canvas#drawText(String, float, float, android.graphics.Paint) */
+  void drawText(String text, float x, float y, Paint paint);
 
   /** Wrapper method for {@link #drawRect(float, float, float, float, Paint)} */
   default void drawRect(Vector pos, Vector size, Paint paint) {
@@ -78,42 +74,39 @@ public interface Canvas {
     this.drawBitmap(bitmap, null, new RectF(pos.getX(), pos.getY(), sum.getX(), sum.getY()));
   }
 
-    /**
-     * @see android.graphics.Canvas#drawBitmap(android.graphics.Bitmap, Rect, Rect, android.graphics.Paint)
-     */
-    void drawBitmap(Bitmap bitmap, Vector pos, Vector size, Vector bPos, Vector bSize);
+  /**
+   * @see android.graphics.Canvas#drawBitmap(android.graphics.Bitmap, Rect, Rect,
+   *     android.graphics.Paint)
+   */
+  void drawBitmap(Bitmap bitmap, Vector pos, Vector size, Vector bPos, Vector bSize);
 
-
-    /**
-     * @see android.graphics.Canvas#drawBitmap(android.graphics.Bitmap, Rect, Rect, android.graphics.Paint)
-     */
-    default void drawBitmap(Bitmap bitmap, Vector pos, Vector size, boolean aspect){
-        if (!aspect)
-            drawBitmap(bitmap, pos, size);
-        else{
-            double bwidth = bitmap.getWidth();
-            double bheight = bitmap.getHeight();
-            float newWidth;
-            float newHeight;
-            double ratio = ((double) size.getX())/size.getY();
-            if ((bwidth/bheight) < ratio){
-                newWidth = bitmap.getWidth();
-                newHeight = (float) (newWidth / ratio);
-            }else{
-                newHeight = bitmap.getHeight();
-                newWidth = (float) (newHeight * ratio);
-            }
-            drawBitmap(bitmap, pos, size, new Vector(), new Vector(newWidth, newHeight));
-        }
+  /**
+   * @see android.graphics.Canvas#drawBitmap(android.graphics.Bitmap, Rect, Rect,
+   *     android.graphics.Paint)
+   */
+  default void drawBitmap(Bitmap bitmap, Vector pos, Vector size, boolean aspect) {
+    if (!aspect) drawBitmap(bitmap, pos, size);
+    else {
+      double bwidth = bitmap.getWidth();
+      double bheight = bitmap.getHeight();
+      float newWidth;
+      float newHeight;
+      double ratio = ((double) size.getX()) / size.getY();
+      if ((bwidth / bheight) < ratio) {
+        newWidth = bitmap.getWidth();
+        newHeight = (float) (newWidth / ratio);
+      } else {
+        newHeight = bitmap.getHeight();
+        newWidth = (float) (newHeight * ratio);
+      }
+      drawBitmap(bitmap, pos, size, new Vector(), new Vector(newWidth, newHeight));
     }
+  }
 
-
-    /**
-     * Wrapper method for {@link #drawCircle(float, float, float, Paint)}
-     */
-    default void drawCircle(Vector pos, float radius, Paint paint) {
-        this.drawCircle(pos.getX(), pos.getY(), radius, paint);
-    }
+  /** Wrapper method for {@link #drawCircle(float, float, float, Paint)} */
+  default void drawCircle(Vector pos, float radius, Paint paint) {
+    this.drawCircle(pos.getX(), pos.getY(), radius, paint);
+  }
 
   /** Wrapper method for {@link #drawCircle(float, float, float, Paint)} */
   default void drawCircle(Vector pos, float radius, PaintCan paintCan) {
@@ -163,18 +156,13 @@ public interface Canvas {
   /** @see android.graphics.Canvas#drawLine(float, float, float, float, android.graphics.Paint) */
   void drawLine(float startX, float startY, float stopX, float stopY, Paint paint);
 
-    /**
-     * @see android.graphics.Canvas#drawLine(float, float, float, float, android.graphics.Paint)
-     */
-    default void drawLine(float startX, float startY, float stopX, float stopY, PaintCan paintCan){
-        drawLine(startX, startY, stopX, stopY, paintCan.getPaint());
-    }
+  /** @see android.graphics.Canvas#drawLine(float, float, float, float, android.graphics.Paint) */
+  default void drawLine(float startX, float startY, float stopX, float stopY, PaintCan paintCan) {
+    drawLine(startX, startY, stopX, stopY, paintCan.getPaint());
+  }
 
-
-    /**
-     * @see android.graphics.Canvas#drawRGB(int, int, int)
-     */
-    void drawRGB(int r, int g, int b);
+  /** @see android.graphics.Canvas#drawRGB(int, int, int) */
+  void drawRGB(int r, int g, int b);
 
   /**
    * Draw RGB on screen using the color set in Paint

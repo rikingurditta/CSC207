@@ -39,16 +39,16 @@ public class ObservationEvent<T> {
   public String getMsg() {
     return msg;
   }
-    /**
-     * Get the payload object carried by the event
-     *
-     * @return The payload
-     */
-    public T getPayload() {
-        return payload;
-    }
+  /**
+   * Get the payload object carried by the event
+   *
+   * @return The payload
+   */
+  public T getPayload() {
+    return payload;
+  }
 
-    public boolean isEvent(String event) {
-        return getMsg().equals(event);
-    }
+  public boolean isEvent(String event) {
+    return getMsg().equals(event);
+  }
 }

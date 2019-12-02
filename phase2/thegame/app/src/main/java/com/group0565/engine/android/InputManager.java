@@ -10,9 +10,9 @@ import com.group0565.math.Vector;
 
 /** A class in charge of managing any input to the user in the game */
 public class InputManager implements View.OnTouchListener {
-    private static final String TAG = "InputManager";
+  private static final String TAG = "InputManager";
 
-    /** Array to store InputEvents based on their pointerID* */
+  /** Array to store InputEvents based on their pointerID* */
   private SparseArray<InputEvent> eventManager = new SparseArray<>();
   /** The root GameObject to announce input events to* */
   private GameObject game;

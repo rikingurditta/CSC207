@@ -43,22 +43,22 @@ public class PaintCan implements Observable {
     this.paint = (paint == null) ? null : sourcePaint.clone();
   }
 
-    public PaintCan(PaintCan paintCan){
-        this(paintCan.paint);
-        this.a = paintCan.a;
-        this.r = paintCan.r;
-        this.g = paintCan.g;
-        this.b = paintCan.b;
-        this.color = paintCan.color;
-        this.textSize = paintCan.textSize;
-        this.width = paintCan.width;
-        this.typeface = paintCan.typeface;
-        this.setARGB = paintCan.setARGB;
-        this.setColor = paintCan.setColor;
-        this.setTextSize = paintCan.setTextSize;
-        this.setStrokeWidth = paintCan.setStrokeWidth;
-        this.setTextSize = paintCan.setTypeface;
-    }
+  public PaintCan(PaintCan paintCan) {
+    this(paintCan.paint);
+    this.a = paintCan.a;
+    this.r = paintCan.r;
+    this.g = paintCan.g;
+    this.b = paintCan.b;
+    this.color = paintCan.color;
+    this.textSize = paintCan.textSize;
+    this.width = paintCan.width;
+    this.typeface = paintCan.typeface;
+    this.setARGB = paintCan.setARGB;
+    this.setColor = paintCan.setColor;
+    this.setTextSize = paintCan.setTextSize;
+    this.setStrokeWidth = paintCan.setStrokeWidth;
+    this.setTextSize = paintCan.setTypeface;
+  }
   /**
    * Set the ARGB for the paintCan
    *
@@ -210,18 +210,18 @@ public class PaintCan implements Observable {
     if (setColor) this.paint.setColor(color);
     this.notifyObservers();
   }
-    /**
-     * Get the paint of this can
-     *
-     * @return The underlying paint
-     */
-    public Paint getPaint() {
-        return this.paint;
-    }
+  /**
+   * Get the paint of this can
+   *
+   * @return The underlying paint
+   */
+  public Paint getPaint() {
+    return this.paint;
+  }
 
-    @NonNull
-    @Override
-    public PaintCan clone() {
-        return new PaintCan(this);
-    }
+  @NonNull
+  @Override
+  public PaintCan clone() {
+    return new PaintCan(this);
+  }
 }

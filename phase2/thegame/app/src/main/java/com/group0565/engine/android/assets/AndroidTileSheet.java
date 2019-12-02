@@ -40,21 +40,20 @@ public class AndroidTileSheet extends TileSheet {
     this.assetManager = assetManager;
   }
 
-    @Override
-    public void init(){
-        try {
-            bitmap = BitmapFactory.decodeStream(assetManager.open(TILE_FOLDER + this.getPath()));
-            this.width = bitmap.getWidth();
-            this.height = bitmap.getHeight();
-            if (getTileWidth() <= 0)
-                this.setTileWidth(this.width);
-            if (getTileHeight() <= 0)
-                this.setTileHeight(this.height);
-            this.submap = new Bitmap[width/getTileWidth()][height/getTileHeight()];
-        } catch (IOException e) {
-            Log.e(TAG, "Tilesheet " + this.getName() + " at path " + this.getPath() + " is not found.", e);
-        }
+  @Override
+  public void init() {
+    try {
+      bitmap = BitmapFactory.decodeStream(assetManager.open(TILE_FOLDER + this.getPath()));
+      this.width = bitmap.getWidth();
+      this.height = bitmap.getHeight();
+      if (getTileWidth() <= 0) this.setTileWidth(this.width);
+      if (getTileHeight() <= 0) this.setTileHeight(this.height);
+      this.submap = new Bitmap[width / getTileWidth()][height / getTileHeight()];
+    } catch (IOException e) {
+      Log.e(
+          TAG, "Tilesheet " + this.getName() + " at path " + this.getPath() + " is not found.", e);
     }
+  }
 
   /**
    * Create a submap of the tiles from a TileSheet

@@ -283,8 +283,8 @@ public class GameObject implements LifecycleListener, Drawable {
   }
 
   /**
-   * Processes the InputEvent. Return true if this object or it's children has handled the event
-   * and it should not be passed to any other object any more.
+   * Processes the InputEvent. Return true if this object or it's children has handled the event and
+   * it should not be passed to any other object any more.
    *
    * @param event The input to be processed
    * @return Whether or not the event has been captured.
@@ -340,73 +340,71 @@ public class GameObject implements LifecycleListener, Drawable {
     return this;
   }
 
-    /**
-     * Sets the X coordinate of the relative position of this vector to its parent. If parent is null, this becomes
-     * the absolute position.
-     *
-     * @param relativePositionX The X coordinate of the relative position
-     * @return This Object to allow chaining
-     */
-    public GameObject setRelativePositionX(float relativePositionX) {
-        this.relativePosition = new Vector(relativePositionX, this.relativePosition.getY());
-        invalidateCache();
-        return this;
-    }
+  /**
+   * Sets the X coordinate of the relative position of this vector to its parent. If parent is null,
+   * this becomes the absolute position.
+   *
+   * @param relativePositionX The X coordinate of the relative position
+   * @return This Object to allow chaining
+   */
+  public GameObject setRelativePositionX(float relativePositionX) {
+    this.relativePosition = new Vector(relativePositionX, this.relativePosition.getY());
+    invalidateCache();
+    return this;
+  }
 
-    /**
-     * Sets the Y coordinate of the relative position of this vector to its parent. If parent is null, this becomes
-     * the absolute position.
-     *
-     * @param relativePositionY The Y coordinate of the relative position of this vector.
-     * @return This Object to allow chaining
-     */
-    public GameObject setRelativePositionY(float relativePositionY) {
-        this.relativePosition = new Vector(this.relativePosition.getX(), relativePositionY);
-        invalidateCache();
-        return this;
-    }
+  /**
+   * Sets the Y coordinate of the relative position of this vector to its parent. If parent is null,
+   * this becomes the absolute position.
+   *
+   * @param relativePositionY The Y coordinate of the relative position of this vector.
+   * @return This Object to allow chaining
+   */
+  public GameObject setRelativePositionY(float relativePositionY) {
+    this.relativePosition = new Vector(this.relativePosition.getX(), relativePositionY);
+    invalidateCache();
+    return this;
+  }
 
-    /**
-     * Sets the X coordinate of the absolute position of this vector to its parent. If parent is null, this becomes
-     * the absolute position.
-     *
-     * @param absolutePositionX The X coordinate of the absolute position
-     * @return This Object to allow chaining
-     */
-    public GameObject setAbsolutePositionX(float absolutePositionX) {
-        this.setAbsolutePosition(new Vector(absolutePositionX, getAbsolutePosition().getY()));
-        invalidateCache();
-        return this;
-    }
+  /**
+   * Sets the X coordinate of the absolute position of this vector to its parent. If parent is null,
+   * this becomes the absolute position.
+   *
+   * @param absolutePositionX The X coordinate of the absolute position
+   * @return This Object to allow chaining
+   */
+  public GameObject setAbsolutePositionX(float absolutePositionX) {
+    this.setAbsolutePosition(new Vector(absolutePositionX, getAbsolutePosition().getY()));
+    invalidateCache();
+    return this;
+  }
 
-    /**
-     * Sets the Y coordinate of the absolute position of this vector to its parent. If parent is null, this becomes
-     * the absolute position.
-     *
-     * @param absolutePositionY The Y coordinate of the absolute position of this vector.
-     * @return This Object to allow chaining
-     */
-    public GameObject setAbsolutePositionY(float absolutePositionY) {
-        this.setAbsolutePosition(new Vector(getAbsolutePosition().getX(), absolutePositionY));
-        invalidateCache();
-        return this;
-    }
+  /**
+   * Sets the Y coordinate of the absolute position of this vector to its parent. If parent is null,
+   * this becomes the absolute position.
+   *
+   * @param absolutePositionY The Y coordinate of the absolute position of this vector.
+   * @return This Object to allow chaining
+   */
+  public GameObject setAbsolutePositionY(float absolutePositionY) {
+    this.setAbsolutePosition(new Vector(getAbsolutePosition().getX(), absolutePositionY));
+    invalidateCache();
+    return this;
+  }
 
-    /**
-     * Sets the position either relative or absolute
-     *
-     * @param position The position
-     * @param relative Whether position is relative or absolute
-     * @return This Object to allow chaining
-     */
-    public GameObject setPosition(Vector position, boolean relative) {
-        if (relative)
-            this.setRelativePosition(position);
-        else
-            this.setAbsolutePosition(position);
-        invalidateCache();
-        return this;
-    }
+  /**
+   * Sets the position either relative or absolute
+   *
+   * @param position The position
+   * @param relative Whether position is relative or absolute
+   * @return This Object to allow chaining
+   */
+  public GameObject setPosition(Vector position, boolean relative) {
+    if (relative) this.setRelativePosition(position);
+    else this.setAbsolutePosition(position);
+    invalidateCache();
+    return this;
+  }
 
   /**
    * Helper method to check if the parentAbsolutePosition variable needs updating, and update it if
@@ -423,21 +421,20 @@ public class GameObject implements LifecycleListener, Drawable {
     this.invalidateCache(new HashSet<>());
   }
 
-    /**
-     * Invalidates the cache of this object.
-     *
-     * @param visited GameObjects that have been visited.
-     */
-    protected void invalidateCache(Set<UUID> visited) {
-        if (this.invalidateCache)
-            return;
-        this.invalidateCache = true;
-        for (GameObject child : this.getChildren().values())
-            if (!visited.contains(child.uuid)) {
-                visited.add(child.uuid);
-                child.invalidateCache(visited);
-            }
-    }
+  /**
+   * Invalidates the cache of this object.
+   *
+   * @param visited GameObjects that have been visited.
+   */
+  protected void invalidateCache(Set<UUID> visited) {
+    if (this.invalidateCache) return;
+    this.invalidateCache = true;
+    for (GameObject child : this.getChildren().values())
+      if (!visited.contains(child.uuid)) {
+        visited.add(child.uuid);
+        child.invalidateCache(visited);
+      }
+  }
 
   /**
    * Converts the vector in absolute position into relative position
@@ -449,34 +446,34 @@ public class GameObject implements LifecycleListener, Drawable {
     return absolutePosition.subtract(parentAbsolutePosition);
   }
 
-    /**
-     * Converts the vector in relative position into absolute position
-     *
-     * @param relativePosition The relative position
-     * @return The vector in absolute position.
-     */
-    public Vector toAbsolutePosition(Vector relativePosition) {
-        return relativePosition.add(parentAbsolutePosition);
-    }
+  /**
+   * Converts the vector in relative position into absolute position
+   *
+   * @param relativePosition The relative position
+   * @return The vector in absolute position.
+   */
+  public Vector toAbsolutePosition(Vector relativePosition) {
+    return relativePosition.add(parentAbsolutePosition);
+  }
 
-    /**
-     * Getter for this GameObject's Z value
-     *
-     * @return The current z value of this GameObject
-     */
-    public double getZ() {
-        return z;
-    }
+  /**
+   * Getter for this GameObject's Z value
+   *
+   * @return The current z value of this GameObject
+   */
+  public double getZ() {
+    return z;
+  }
 
-    /**
-     * Setter for this GameObject's Z value
-     *
-     * @param z The new Z value
-     */
-    public GameObject setZ(double z) {
-        this.z = z;
-        return this;
-    }
+  /**
+   * Setter for this GameObject's Z value
+   *
+   * @param z The new Z value
+   */
+  public GameObject setZ(double z) {
+    this.z = z;
+    return this;
+  }
 
   /**
    * Getter for the TreeMap of this GameObject's children

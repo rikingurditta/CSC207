@@ -9,12 +9,13 @@ import com.group0565.engine.render.BitmapDrawer;
 import com.group0565.engine.render.ClippedTextRenderer;
 import com.group0565.engine.render.LanguageText;
 import com.group0565.engine.render.PaintCan;
-import com.group0565.engine.render.TextRenderer;
 import com.group0565.engine.render.ThemedPaintCan;
 import com.group0565.math.LinearTemporalInterpolator;
 import com.group0565.math.Vector;
-import static com.group0565.engine.enums.HorizontalEdge.*;
-import static com.group0565.engine.enums.VerticalEdge.*;
+
+import static com.group0565.engine.enums.HorizontalEdge.Left;
+import static com.group0565.engine.enums.HorizontalEdge.Right;
+import static com.group0565.engine.enums.VerticalEdge.VCenter;
 
 /** An Achievement */
 public class Achievement extends GameMenu {
@@ -96,151 +97,152 @@ public class Achievement extends GameMenu {
     this.setEnable(false);
   }
 
-    /**
-     * Initilize the Achievement
-     */
-    public void init(){
-        super.init();
-        GameAssetManager assetManager = getEngine().getGameAssetManager();
-        this.bgPaint = new ThemedPaintCan(SET, BG_Paint).init(getGlobalPreferences(), assetManager);
-        PaintCan textPaint = new ThemedPaintCan(SET, TEXT_Paint).init(getGlobalPreferences(), assetManager);
-        Source<String> unlockText = new LanguageText(getGlobalPreferences(), assetManager, SET, UNLOCK_STRING_NAME);
-        Source<Bitmap> icon = () -> assetManager.getTileSheet(set, sheet).getTile(tilex, tiley);
-        // @formatter:off
-        this.build()
-            //Icon
-            .add(ICON_NAME, new BitmapDrawer(new Vector(getSize().getY()), icon))
-            .addAlignment(Left, THIS, Left)
-            .addAlignment(VCenter, THIS, VCenter)
+  /** Initilize the Achievement */
+  public void init() {
+    super.init();
+    GameAssetManager assetManager = getEngine().getGameAssetManager();
+    this.bgPaint = new ThemedPaintCan(SET, BG_Paint).init(getGlobalPreferences(), assetManager);
+    PaintCan textPaint =
+        new ThemedPaintCan(SET, TEXT_Paint).init(getGlobalPreferences(), assetManager);
+    Source<String> unlockText =
+        new LanguageText(getGlobalPreferences(), assetManager, SET, UNLOCK_STRING_NAME);
+    Source<Bitmap> icon = () -> assetManager.getTileSheet(set, sheet).getTile(tilex, tiley);
+    // @formatter:off
+    this.build()
+        // Icon
+        .add(ICON_NAME, new BitmapDrawer(new Vector(getSize().getY()), icon))
+        .addAlignment(Left, THIS, Left)
+        .addAlignment(VCenter, THIS, VCenter)
 
-            //Text
-            .add(STRING_NAME, new ClippedTextRenderer(() -> (timer < UNLOCK_TIME ? unlockText.getValue() : displayName), getSize().getX(), textPaint).build()
+        // Text
+        .add(
+            STRING_NAME,
+            new ClippedTextRenderer(
+                    () -> (timer < UNLOCK_TIME ? unlockText.getValue() : displayName),
+                    getSize().getX(),
+                    textPaint)
+                .build()
                 .addOffset(STRING_HBUFFER, 0)
                 .close())
-            .addAlignment(Left, ICON_NAME, Right)
-            .addAlignment(VCenter, ICON_NAME, VCenter)
+        .addAlignment(Left, ICON_NAME, Right)
+        .addAlignment(VCenter, ICON_NAME, VCenter)
         .close();
-        // @formatter:on
+    // @formatter:on
 
-        Vector restPos = new Vector((getEngine().getSize().getX() - getSize().getX()) / 2f, -getSize().getY());
-        this.interpolator = new LinearTemporalInterpolator(restPos, new Vector(restPos.getX(), 0), TRANSITION_TIME);
-    }
+    Vector restPos =
+        new Vector((getEngine().getSize().getX() - getSize().getX()) / 2f, -getSize().getY());
+    this.interpolator =
+        new LinearTemporalInterpolator(restPos, new Vector(restPos.getX(), 0), TRANSITION_TIME);
+  }
 
-    @Override
-    public void update(long ms) {
-        super.update(ms);
-        if (isEnable())
-            timer += ms;
-        else
-            timer = 0;
-        long at;
-        if (timer < FDOWN_TIME)
-            at = timer;
-        else if(timer < NAME_TIME)
-            at = TRANSITION_TIME;
-        else if(timer < FUP_TIME)
-            at = TRANSITION_TIME - (timer - NAME_TIME);
-        else{
-            at = 0;
-            setEnable(false);
-        }
-        setRelativePosition(interpolator.interpolate(at));
+  @Override
+  public void update(long ms) {
+    super.update(ms);
+    if (isEnable()) timer += ms;
+    else timer = 0;
+    long at;
+    if (timer < FDOWN_TIME) at = timer;
+    else if (timer < NAME_TIME) at = TRANSITION_TIME;
+    else if (timer < FUP_TIME) at = TRANSITION_TIME - (timer - NAME_TIME);
+    else {
+      at = 0;
+      setEnable(false);
     }
+    setRelativePosition(interpolator.interpolate(at));
+  }
 
-    /**
-     * Getter for name.
-     *
-     * @return name
-     */
-    public String getName() {
-        return name;
-    }
+  /**
+   * Getter for name.
+   *
+   * @return name
+   */
+  public String getName() {
+    return name;
+  }
 
-    /**
-     * Setter for name.
-     *
-     * @param name The new value for name
-     */
-    public void setName(String name) {
-        this.name = name;
-    }
+  /**
+   * Setter for name.
+   *
+   * @param name The new value for name
+   */
+  public void setName(String name) {
+    this.name = name;
+  }
 
-    @Override
-    public void draw(Canvas canvas, Vector pos, Vector size) {
-        super.draw(canvas, pos, size);
-        canvas.drawRect(pos, size, bgPaint);
-    }
+  @Override
+  public void draw(Canvas canvas, Vector pos, Vector size) {
+    super.draw(canvas, pos, size);
+    canvas.drawRect(pos, size, bgPaint);
+  }
 
-    /**
-     * Getter for displayName.
-     *
-     * @return displayName
-     */
-    public String getDisplayName() {
-        return displayName;
-    }
+  /**
+   * Getter for displayName.
+   *
+   * @return displayName
+   */
+  public String getDisplayName() {
+    return displayName;
+  }
 
-    /**
-     * Setter for displayName.
-     *
-     * @param displayName The new value for displayName
-     */
-    public void setDisplayName(String displayName) {
-        this.displayName = displayName;
-    }
+  /**
+   * Setter for displayName.
+   *
+   * @param displayName The new value for displayName
+   */
+  public void setDisplayName(String displayName) {
+    this.displayName = displayName;
+  }
 
-    /**
-     * Getter for unlocked.
-     *
-     * @return unlocked
-     */
-    public boolean isUnlocked() {
-        return unlocked;
-    }
+  /**
+   * Getter for unlocked.
+   *
+   * @return unlocked
+   */
+  public boolean isUnlocked() {
+    return unlocked;
+  }
 
-    /**
-     * Getter for description
-     *
-     * @return description
-     */
-    public String getDescription() {
-        return description;
-    }
+  /**
+   * Getter for description
+   *
+   * @return description
+   */
+  public String getDescription() {
+    return description;
+  }
 
-    /**
-     * Setter for description
-     *
-     * @param description The new value for description
-     */
-    public void setDescription(String description) {
-        this.description = description;
-    }
+  /**
+   * Setter for description
+   *
+   * @param description The new value for description
+   */
+  public void setDescription(String description) {
+    this.description = description;
+  }
 
-    /**
-     * Getter for hidden
-     *
-     * @return hidden
-     */
-    public boolean isHidden() {
-        return hidden;
-    }
+  /**
+   * Getter for hidden
+   *
+   * @return hidden
+   */
+  public boolean isHidden() {
+    return hidden;
+  }
 
-    /**
-     * Setter for hidden
-     *
-     * @param hidden The new value for hidden
-     */
-    public void setHidden(boolean hidden) {
-        this.hidden = hidden;
-    }
+  /**
+   * Setter for hidden
+   *
+   * @param hidden The new value for hidden
+   */
+  public void setHidden(boolean hidden) {
+    this.hidden = hidden;
+  }
 
-    /**
-     * Unlocks this Achievement
-     */
-    public void unlock() {
-        if (!this.unlocked) {
-            this.unlocked = true;
-            this.setEnable(true);
-        }
+  /** Unlocks this Achievement */
+  public void unlock() {
+    if (!this.unlocked) {
+      this.unlocked = true;
+      this.setEnable(true);
     }
+  }
 }

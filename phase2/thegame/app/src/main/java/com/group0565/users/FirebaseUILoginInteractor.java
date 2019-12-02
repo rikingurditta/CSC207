@@ -4,7 +4,6 @@ import android.content.Context;
 
 import com.firebase.ui.auth.AuthUI;
 
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 

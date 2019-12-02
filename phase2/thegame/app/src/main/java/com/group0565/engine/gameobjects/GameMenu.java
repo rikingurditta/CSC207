@@ -6,22 +6,22 @@ import com.group0565.engine.interfaces.Observable;
 import com.group0565.engine.interfaces.ObservationEvent;
 import com.group0565.math.Vector;
 
-import static com.group0565.engine.enums.HorizontalEdge.*;
-import static com.group0565.engine.enums.VerticalEdge.*;
-
 import java.util.HashMap;
 
+import static com.group0565.engine.enums.HorizontalEdge.HCenter;
+import static com.group0565.engine.enums.VerticalEdge.VCenter;
+
 public class GameMenu extends MenuObject {
-    public static final String THIS = "this";
-    private HashMap<String, MenuObject> menuComponents;
+  public static final String THIS = "this";
+  private HashMap<String, MenuObject> menuComponents;
 
-    public GameMenu() {
-        super();
-    }
+  public GameMenu() {
+    super();
+  }
 
-    public GameMenu(Vector size) {
-        super(size);
-    }
+  public GameMenu(Vector size) {
+    super(size);
+  }
 
   @Override
   public void preInit() {
@@ -31,16 +31,16 @@ public class GameMenu extends MenuObject {
     }
   }
 
-  protected void observePreferences(Observable observable, ObservationEvent observationEvent){
-        super.observePreferences(observable, observationEvent);
-        this.updateAllPosition();
+  protected void observePreferences(Observable observable, ObservationEvent observationEvent) {
+    super.observePreferences(observable, observationEvent);
+    this.updateAllPosition();
   }
 
-    @Override
-    public void postInit() {
-        super.postInit();
-        updateAllPosition();
-    }
+  @Override
+  public void postInit() {
+    super.postInit();
+    updateAllPosition();
+  }
 
   /**
    * Begin build process
@@ -61,79 +61,84 @@ public class GameMenu extends MenuObject {
     return menuComponents.get(name);
   }
 
-    public void updateAllPosition(){
-        super.updatePosition();
-        if (this.menuComponents != null)
-            for (MenuObject obj : this.menuComponents.values())
-                obj.updatePosition();
+  public void updateAllPosition() {
+    super.updatePosition();
+    if (this.menuComponents != null)
+      for (MenuObject obj : this.menuComponents.values()) obj.updatePosition();
+  }
+
+  protected class MenuBuilder extends MenuObjectBuilder {
+    private HashMap<String, MenuObject> buildComponents;
+    private MenuObject activeObject = null;
+
+    protected MenuBuilder() {
+      buildComponents = new HashMap<>();
+      buildComponents.put(THIS, GameMenu.this);
     }
 
-    protected class MenuBuilder extends MenuObjectBuilder{
-        private HashMap<String, MenuObject> buildComponents;
-        private MenuObject activeObject = null;
-        protected MenuBuilder(){
-            buildComponents = new HashMap<>();
-            buildComponents.put(THIS, GameMenu.this);
-        }
+    public MenuBuilder add(String name, MenuObject object) {
+      if (name.equals(THIS)) throw new MenuBuilderException("Name \"" + THIS + "\" is reserved.");
+      buildComponents.put(name, object);
+      activeObject = object;
+      activeObject.setName(name);
+      return this;
+    }
 
-        public MenuBuilder add(String name, MenuObject object){
-            if (name.equals(THIS))
-                throw new MenuBuilderException("Name \"" + THIS + "\" is reserved.");
-            buildComponents.put(name, object);
-            activeObject = object;
-            activeObject.setName(name);
-            return this;
-        }
+    public MenuBuilder addAlignment(
+        HorizontalEdge sourceEdge, String relativeTo, HorizontalEdge targetEdge) {
+      return addAlignment(sourceEdge, relativeTo, targetEdge, 0);
+    }
 
-        public MenuBuilder addAlignment(HorizontalEdge sourceEdge, String relativeTo, HorizontalEdge targetEdge){
-            return addAlignment(sourceEdge, relativeTo, targetEdge, 0);
-        }
+    public MenuBuilder addAlignment(
+        VerticalEdge sourceEdge, String relativeTo, VerticalEdge targetEdge) {
+      return addAlignment(sourceEdge, relativeTo, targetEdge, 0);
+    }
 
-        public MenuBuilder addAlignment(VerticalEdge sourceEdge, String relativeTo, VerticalEdge targetEdge){
-            return addAlignment(sourceEdge, relativeTo, targetEdge, 0);
-        }
+    public MenuBuilder addAlignment(
+        HorizontalEdge sourceEdge, String relativeTo, HorizontalEdge targetEdge, float offset) {
+      if (activeObject == null)
+        throw new MenuBuilderException(
+            "Unable to set relative position when no previous object has been added.");
+      MenuObject object = buildComponents.get(relativeTo);
+      if (object == null)
+        throw new MenuBuilderException("No MenuObject with name" + relativeTo + " is found");
+      activeObject.addAlignment(new HorizontalAlignment(sourceEdge, object, targetEdge, offset));
+      return this;
+    }
 
-        public MenuBuilder addAlignment(HorizontalEdge sourceEdge, String relativeTo, HorizontalEdge targetEdge, float offset){
-            if (activeObject == null)
-                throw new MenuBuilderException("Unable to set relative position when no previous object has been added.");
-            MenuObject object = buildComponents.get(relativeTo);
-            if (object == null)
-                throw new MenuBuilderException("No MenuObject with name" + relativeTo + " is found");
-            activeObject.addAlignment(new HorizontalAlignment(sourceEdge, object, targetEdge, offset));
-            return this;
-        }
+    public MenuBuilder addAlignment(
+        VerticalEdge sourceEdge, String relativeTo, VerticalEdge targetEdge, float offset) {
+      if (activeObject == null)
+        throw new MenuBuilderException(
+            "Unable to set relative position when no previous object has been added.");
+      MenuObject object = buildComponents.get(relativeTo);
+      if (object == null)
+        throw new MenuBuilderException("No MenuObject with name" + relativeTo + " is found");
+      activeObject.addAlignment(new VerticalAlignment(sourceEdge, object, targetEdge, offset));
+      return this;
+    }
 
-        public MenuBuilder addAlignment(VerticalEdge sourceEdge, String relativeTo, VerticalEdge targetEdge, float offset){
-            if (activeObject == null)
-                throw new MenuBuilderException("Unable to set relative position when no previous object has been added.");
-            MenuObject object = buildComponents.get(relativeTo);
-            if (object == null)
-                throw new MenuBuilderException("No MenuObject with name" + relativeTo + " is found");
-            activeObject.addAlignment(new VerticalAlignment(sourceEdge, object, targetEdge, offset));
-            return this;
-        }
+    public MenuBuilder addCenteredAlignment(String relativeTo) {
+      addAlignment(HCenter, relativeTo, HCenter);
+      addAlignment(VCenter, relativeTo, VCenter);
+      return this;
+    }
 
-        public MenuBuilder addCenteredAlignment(String relativeTo){
-            addAlignment(HCenter, relativeTo, HCenter);
-            addAlignment(VCenter, relativeTo, VCenter);
-            return this;
-        }
+    public MenuBuilder addCenteredAlignment(String relativeTo, float offset) {
+      addAlignment(HCenter, relativeTo, HCenter, offset);
+      addAlignment(VCenter, relativeTo, VCenter, offset);
+      return this;
+    }
 
-        public MenuBuilder addCenteredAlignment(String relativeTo, float offset){
-            addAlignment(HCenter, relativeTo, HCenter, offset);
-            addAlignment(VCenter, relativeTo, VCenter, offset);
-            return this;
-        }
-
-        public GameMenu close(){
-            super.close();
-            buildComponents.remove(THIS);
-            menuComponents = buildComponents;
-            for (MenuObject menuComponent:menuComponents.values()) {
-                adopt(menuComponent);
-            }
-            return GameMenu.this;
-        }
+    public GameMenu close() {
+      super.close();
+      buildComponents.remove(THIS);
+      menuComponents = buildComponents;
+      for (MenuObject menuComponent : menuComponents.values()) {
+        adopt(menuComponent);
+      }
+      return GameMenu.this;
+    }
 
     /** An exception for errors in building process */
     protected class MenuBuilderException extends MenuObjectBuilderException {

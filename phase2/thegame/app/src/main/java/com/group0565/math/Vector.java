@@ -9,192 +9,186 @@ import static java.lang.Math.sqrt;
 
 /**
  * A Class to represent a two dimensional Vector.
- * <p>
- * Contains relevant functions to do vector computation.
- * <p>
- * Vectors are immutable. All methods return a new Vector Object.
+ *
+ * <p>Contains relevant functions to do vector computation.
+ *
+ * <p>Vectors are immutable. All methods return a new Vector Object.
  */
 public class Vector {
-    private float x, y;
+  private float x, y;
 
-    /**
-     * Create a new 2d vector using parameters x and y.
-     *
-     * @param x The x Coordinate of the vector.
-     * @param y The y Coordinate of the vector.
-     */
-    public Vector(float x, float y) {
-        this.x = x;
-        this.y = y;
-    }
+  /**
+   * Create a new 2d vector using parameters x and y.
+   *
+   * @param x The x Coordinate of the vector.
+   * @param y The y Coordinate of the vector.
+   */
+  public Vector(float x, float y) {
+    this.x = x;
+    this.y = y;
+  }
 
-    /**
-     * Create a new 2d vector of (0, 0)
-     */
-    public Vector() {
-        this(0F, 0F);
-    }
+  /** Create a new 2d vector of (0, 0) */
+  public Vector() {
+    this(0F, 0F);
+  }
 
-    /**
-     * Create a new 2d vector of (d, d)
-     */
-    public Vector(float d) {
-        this(d, d);
-    }
+  /** Create a new 2d vector of (d, d) */
+  public Vector(float d) {
+    this(d, d);
+  }
 
-    /**
-     * Create a new random vector with x and y between 0 and 1.
-     * <p>
-     * If r is null, Math.random is used.
-     *
-     * @param r The random number generator to use. Can be null.
-     */
-    public Vector(Random r) {
-        this.x = r == null ? (float) Math.random() : r.nextFloat();
-        this.y = r == null ? (float) Math.random() : r.nextFloat();
-    }
+  /**
+   * Create a new random vector with x and y between 0 and 1.
+   *
+   * <p>If r is null, Math.random is used.
+   *
+   * @param r The random number generator to use. Can be null.
+   */
+  public Vector(Random r) {
+    this.x = r == null ? (float) Math.random() : r.nextFloat();
+    this.y = r == null ? (float) Math.random() : r.nextFloat();
+  }
 
+  /**
+   * Check if point is in the bounds
+   *
+   * @param boundPos The position of the bounds
+   * @param boundSize The size of the bounds
+   * @param point The point to check
+   * @return True iff point is in the rectangle described by the bounds
+   */
+  public static boolean inBounds(Vector boundPos, Vector boundSize, Vector point) {
+    float x = boundPos.getX();
+    float y = boundPos.getY();
+    float px = point.getX();
+    float py = point.getY();
+    float w = boundSize.getX();
+    float h = boundSize.getY();
+    return (x <= px && px <= x + w && y <= py && py <= y + h);
+  }
 
-    /**
-     * Add this vector and other together and return a new vector as the result
-     *
-     * @param other The other vector to add
-     * @return A new vector containing the result
-     */
-    public Vector add(final Vector other) {
-        return new Vector(this.x + other.x, this.y + other.y);
-    }
+  /**
+   * Add this vector and other together and return a new vector as the result
+   *
+   * @param other The other vector to add
+   * @return A new vector containing the result
+   */
+  public Vector add(final Vector other) {
+    return new Vector(this.x + other.x, this.y + other.y);
+  }
 
-    /**
-     * Subtract other vector from this vector and return a new vector as the result
-     *
-     * @param other The other vector to Subtract
-     * @return A new vector containing the result
-     */
-    public Vector subtract(final Vector other) {
-        return new Vector(this.x - other.x, this.y - other.y);
-    }
+  /**
+   * Subtract other vector from this vector and return a new vector as the result
+   *
+   * @param other The other vector to Subtract
+   * @return A new vector containing the result
+   */
+  public Vector subtract(final Vector other) {
+    return new Vector(this.x - other.x, this.y - other.y);
+  }
 
-    /**
-     * Dot this vector and other and return the result
-     *
-     * @param other The other vector to add
-     * @return The dot product of the two vectors
-     */
-    public float dot(final Vector other) {
-        return (this.x * other.x + this.y * other.y);
-    }
+  /**
+   * Dot this vector and other and return the result
+   *
+   * @param other The other vector to add
+   * @return The dot product of the two vectors
+   */
+  public float dot(final Vector other) {
+    return (this.x * other.x + this.y * other.y);
+  }
 
-    /**
-     * Multiply this vector by a constant and return a new Vector containing the result
-     *
-     * @param c The constant
-     * @return A new vector containing the result
-     */
-    public Vector multiply(final float c) {
-        return new Vector(c * this.x, c * this.y);
-    }
+  /**
+   * Multiply this vector by a constant and return a new Vector containing the result
+   *
+   * @param c The constant
+   * @return A new vector containing the result
+   */
+  public Vector multiply(final float c) {
+    return new Vector(c * this.x, c * this.y);
+  }
 
-    /**
-     * Multiply this vector and another Vector element wise.
-     *
-     * @param other The vector to multiply
-     * @return A new vector containing the result
-     */
-    public Vector elementMultiply(final Vector other) {
-        return new Vector(this.x * other.x, this.y * other.y);
-    }
+  /**
+   * Multiply this vector and another Vector element wise.
+   *
+   * @param other The vector to multiply
+   * @return A new vector containing the result
+   */
+  public Vector elementMultiply(final Vector other) {
+    return new Vector(this.x * other.x, this.y * other.y);
+  }
 
-    /**
-     * Multiply this vector by another Vector element wise.
-     *
-     * @param other The vector to multiply
-     * @return A new vector containing the result
-     */
-    public Vector elementDivide(final Vector other) {
-        return new Vector(this.x / other.x, this.y / other.y);
-    }
+  /**
+   * Multiply this vector by another Vector element wise.
+   *
+   * @param other The vector to multiply
+   * @return A new vector containing the result
+   */
+  public Vector elementDivide(final Vector other) {
+    return new Vector(this.x / other.x, this.y / other.y);
+  }
 
-    /**
-     * Compute the Euclidean norm of this vector
-     *
-     * @return The norm of this vector
-     */
-    public float norm() {
-        return (float) sqrt(dot(this));
-    }
+  /**
+   * Compute the Euclidean norm of this vector
+   *
+   * @return The norm of this vector
+   */
+  public float norm() {
+    return (float) sqrt(dot(this));
+  }
 
-    /**
-     * Check if point is in the bounds
-     * @param boundPos The position of the bounds
-     * @param boundSize The size of the bounds
-     * @param point The point to check
-     * @return True iff point is in the rectangle described by the bounds
-     */
-    public static boolean inBounds(Vector boundPos, Vector boundSize, Vector point){
-        float x = boundPos.getX();
-        float y = boundPos.getY();
-        float px = point.getX();
-        float py = point.getY();
-        float w = boundSize.getX();
-        float h = boundSize.getY();
-        return (x <= px && px <= x + w && y <= py && py <= y + h);
-    }
+  /**
+   * Getter for the x coordinate
+   *
+   * @return The x coordinate of this vector
+   */
+  public float getX() {
+    return x;
+  }
 
-    /**
-     * Getter for the x coordinate
-     *
-     * @return The x coordinate of this vector
-     */
-    public float getX() {
-        return x;
-    }
+  /**
+   * Getter for the y coordinate
+   *
+   * @return The y coordinate of this vector
+   */
+  public float getY() {
+    return y;
+  }
 
-    /**
-     * Getter for the y coordinate
-     *
-     * @return The y coordinate of this vector
-     */
-    public float getY() {
-        return y;
-    }
+  /**
+   * Returns a new Vector with this vector's y
+   *
+   * @param x The new Vector's x
+   */
+  public Vector newSetX(float x) {
+    return new Vector(x, y);
+  }
 
-    /**
-     * Returns a new Vector with this vector's y
-     * @param x The new Vector's x
-     */
-    public Vector newSetX(float x) {
-        return new Vector(x, y);
-    }
+  /**
+   * Returns a new Vector with this vector's x
+   *
+   * @param y The new Vector's y
+   */
+  public Vector newSetY(float y) {
+    return new Vector(x, y);
+  }
 
-    /**
-     * Returns a new Vector with this vector's x
-     * @param y The new Vector's y
-     */
-    public Vector newSetY(float y) {
-        return new Vector(x, y);
-    }
+  @NonNull
+  @Override
+  public String toString() {
+    return "Vector{" + "x=" + x + ", y=" + y + '}';
+  }
 
-    @NonNull
-    @Override
-    public String toString() {
-        return "Vector{" +
-                "x=" + x +
-                ", y=" + y +
-                '}';
-    }
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) return true;
+    if (o == null || getClass() != o.getClass()) return false;
+    Vector vector = (Vector) o;
+    return Float.compare(vector.x, x) == 0 && Float.compare(vector.y, y) == 0;
+  }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Vector vector = (Vector) o;
-        return Float.compare(vector.x, x) == 0 &&
-                Float.compare(vector.y, y) == 0;
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(x, y);
-    }
+  @Override
+  public int hashCode() {
+    return Objects.hash(x, y);
+  }
 }

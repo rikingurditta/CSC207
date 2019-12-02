@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.group0565.menuUI.statistics.StatisticsActivity">
+    tools:context="com.group0565.ui.statistics.StatisticsActivity">
 
     <TextView
         android:id="@+id/textView"

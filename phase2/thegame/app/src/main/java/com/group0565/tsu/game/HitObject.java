@@ -3,16 +3,14 @@ package com.group0565.tsu.game;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-/**
- * Contains Information on a single object to be hit
- */
+/** Contains Information on a single object to be hit */
 public class HitObject {
-  //Json Constants
+  // Json Constants
   private static final String JsonTime = "Time";
   private static final String JsonEndTime = "EndTime";
   private static final String JsonPosition = "Position";
 
-  //Data fields (Stored
+  // Data fields (Stored
   private long msStart;
   private double position;
   private long msEnd;
@@ -26,6 +24,7 @@ public class HitObject {
 
   /**
    * Creates a HitObject from JSONObject
+   *
    * @param jsonObject The JSONObject to read from
    * @throws JSONException
    */
@@ -37,6 +36,7 @@ public class HitObject {
 
   /**
    * Creates a HitObject with the parameters
+   *
    * @param msStart The start time in milliseconds
    * @param position The position on the screen
    * @param msEnd The end time in milliseconds
@@ -49,6 +49,7 @@ public class HitObject {
 
   /**
    * Creates a HitObject with the parameters. End time is defaulted to start time
+   *
    * @param msStart The start time in milliseconds
    * @param position The position on the screen
    */

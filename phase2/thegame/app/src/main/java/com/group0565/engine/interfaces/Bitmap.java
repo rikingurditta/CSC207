@@ -3,22 +3,23 @@ package com.group0565.engine.interfaces;
 import com.group0565.engine.android.AndroidBitmap;
 import com.group0565.math.Vector;
 
-public interface Bitmap{
+public interface Bitmap {
 
-    int getWidth();
-    int getHeight();
+  static Bitmap createBitmap(int width, int height) {
+    return new AndroidBitmap(width, height);
+  }
 
-    int getPixel(int x, int y);
+  static Bitmap createBitmap(Vector size) {
+    return createBitmap((int) size.getX(), (int) size.getY());
+  }
 
-    static Bitmap createBitmap(int width, int height){
-        return new AndroidBitmap(width, height);
-    }
+  int getWidth();
 
-    static Bitmap createBitmap(Vector size){
-        return createBitmap((int) size.getX(), (int) size.getY());
-    }
+  int getHeight();
 
-    Canvas getCanvas();
+  int getPixel(int x, int y);
 
-    void recycle();
+  Canvas getCanvas();
+
+  void recycle();
 }

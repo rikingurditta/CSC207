@@ -4,7 +4,7 @@
     package="com.example.thegame">
 
     <application
-        android:name="com.group0565.menuUI.TheGameApplication"
+        android:name="com.group0565.ui.TheGameApplication"
         android:allowBackup="true"
         android:configChanges="keyboardHidden|orientation"
         android:fullBackupContent="@xml/backup_descriptor"
@@ -15,16 +15,16 @@
         android:theme="@style/Theme.AppCompat"
         tools:ignore="GoogleAppIndexingWarning">
         <activity
-            android:name="com.group0565.menuUI.achievements.AchievementsActivity"
+            android:name="com.group0565.ui.achievements.AchievementsActivity"
             android:launchMode="singleTop"
-            android:parentActivityName="com.group0565.menuUI.main.MainActivity"
+            android:parentActivityName="com.group0565.ui.main.MainActivity"
             android:screenOrientation="portrait">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.group0565.menuUI.main.MainActivity" />
+                android:value="com.group0565.ui.main.MainActivity" />
         </activity>
         <activity
-            android:name="com.group0565.menuUI.main.MainActivity"
+            android:name="com.group0565.ui.main.MainActivity"
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -33,54 +33,54 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="com.group0565.menuUI.settings.SettingsActivity"
+            android:name="com.group0565.ui.settings.SettingsActivity"
             android:launchMode="singleTop"
-            android:parentActivityName="com.group0565.menuUI.main.MainActivity"
+            android:parentActivityName="com.group0565.ui.main.MainActivity"
             android:screenOrientation="portrait">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.group0565.menuUI.main.MainActivity" />
+                android:value="com.group0565.ui.main.MainActivity" />
         </activity>
         <activity
-            android:name="com.group0565.menuUI.statistics.StatisticsActivity"
-            android:parentActivityName="com.group0565.menuUI.main.MainActivity"
+            android:name="com.group0565.ui.statistics.StatisticsActivity"
+            android:parentActivityName="com.group0565.ui.main.MainActivity"
             android:screenOrientation="portrait">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.group0565.menuUI.main.MainActivity" />
+                android:value="com.group0565.ui.main.MainActivity" />
         </activity>
         <activity
             android:name="com.group0565.tsu.core.TsuActivity"
             android:configChanges="keyboardHidden|orientation"
             android:launchMode="singleTop"
-            android:parentActivityName="com.group0565.menuUI.main.MainActivity"
+            android:parentActivityName="com.group0565.ui.main.MainActivity"
             android:persistent="true"
             android:theme="@style/Theme.AppCompat.NoActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.group0565.menuUI.main.MainActivity" />
+                android:value="com.group0565.ui.main.MainActivity" />
         </activity>
         <activity
-            android:name="com.group0565.bomberGame.core.BomberMainActivity"
+            android:name="com.group0565.bombergame.core.BomberMainActivity"
             android:configChanges="keyboardHidden|orientation"
             android:launchMode="singleTop"
-            android:parentActivityName="com.group0565.menuUI.main.MainActivity"
+            android:parentActivityName="com.group0565.ui.main.MainActivity"
             android:persistent="true"
             android:theme="@style/Theme.AppCompat.NoActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.group0565.menuUI.main.MainActivity" />
+                android:value="com.group0565.ui.main.MainActivity" />
         </activity>
         <activity
             android:name="com.group0565.racer.core.RacerMainActivity"
             android:configChanges="keyboardHidden|orientation"
             android:launchMode="singleTop"
-            android:parentActivityName="com.group0565.menuUI.main.MainActivity"
+            android:parentActivityName="com.group0565.ui.main.MainActivity"
             android:persistent="true"
             android:theme="@style/Theme.AppCompat.NoActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.group0565.menuUI.main.MainActivity" />
+                android:value="com.group0565.ui.main.MainActivity" />
         </activity>
     </application>
 

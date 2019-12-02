@@ -8,14 +8,10 @@ import com.group0565.math.Vector;
 /** A Racer object (Player-controlled) */
 public class Racer extends GameObject {
 
-  /**
-   * The radius of the Racer.
-   */
+  /** The radius of the Racer. */
   private static final int RACER_RADIUS = 50;
 
-  /**
-   * ThemedPaintCan for the colours of the racer user
-   */
+  /** ThemedPaintCan for the colours of the racer user */
   private static final ThemedPaintCan RACER_PAINT_CAN = new ThemedPaintCan("Racer", "Racer.Racer");
 
   /**
