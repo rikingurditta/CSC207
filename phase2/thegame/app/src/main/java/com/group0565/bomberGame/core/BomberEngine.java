@@ -145,14 +145,14 @@ public class BomberEngine extends GameObject implements Observable {
         textPaintCan);
     canvas.drawText(
         bombsPlacedLT.getValue() + ": " + meBomberMan.getNumBombsPlaced(),
-        new Vector(500, 0),
+        new Vector(550, 0),
         textPaintCan);
     canvas.drawText(
         damageDealtLT.getValue() + ": " + meBomberMan.getDamageDealt(),
-        new Vector(900, 0),
+        new Vector(1000, 0),
         textPaintCan);
     canvas.drawText(
-        hpRemainingLT.getValue() + ": " + meBomberMan.getHp(), new Vector(1300, 0), textPaintCan);
+        hpRemainingLT.getValue() + ": " + meBomberMan.getHp(), new Vector(1450, 0), textPaintCan);
 
     canvas.drawText(
         "Max Bombs: " + meBomberMan.getNumSimultaneousBombs(), new Vector(450, 920), textPaintCan);
