@@ -256,6 +256,7 @@ public class TsuEngine extends GameMenu {
         audio.pause();
         audioPlaying = false;
         generator = null;
+        intercepter.setGenerator(null);
         SessionHitObjects sessionHitObjects = ScoreCalculator.constructSessionHitObjects(beatmap, judgementer.getArchive());
         if (getGlobalPreferences() instanceof TsuPreferences)
             sessionHitObjects.setCheats(((TsuPreferences) getGlobalPreferences()).getAuto());
@@ -268,6 +269,7 @@ public class TsuEngine extends GameMenu {
         audio.pause();
         audioPlaying = false;
         generator = null;
+        intercepter.setGenerator(null);
         this.notifyObservers(new ObservationEvent(StatsMenu.TO_REPLAY.equals(source) ? TO_STATS : GAME_END));
         source = null;
     }

@@ -53,7 +53,7 @@ public class AutoGenerator extends InputGenerator {
                 objectIterator.remove();
             }
             if (object.getMsStart() > getEngine().getCurrentTime())
-                break;;
+                break;
         }
 
         return outEvent;
