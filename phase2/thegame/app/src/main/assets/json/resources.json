@@ -196,9 +196,9 @@
     },
     "Bomber": {
       "Title": {
-        "Path": "Bomber_Title_TEMP.png",
-        "TileWidth": 593,
-        "TileHeight": 249
+        "Path": "Bomber_Title.png",
+        "TileWidth": 1000,
+        "TileHeight": 500
       },
       "To_Menu": {
         "Path": "Bomber_To_Menu_TEMP.png",
