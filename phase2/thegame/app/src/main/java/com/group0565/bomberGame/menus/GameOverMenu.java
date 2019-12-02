@@ -2,6 +2,8 @@ package com.group0565.bomberGame.menus;
 
 import android.util.Log;
 
+import com.group0565.engine.enums.HorizontalEdge;
+import com.group0565.engine.enums.VerticalEdge;
 import com.group0565.engine.gameobjects.Button;
 import com.group0565.engine.gameobjects.GameMenu;
 import com.group0565.engine.interfaces.Canvas;
@@ -39,14 +41,9 @@ public class GameOverMenu extends GameMenu {
         .add("GameOverText", new TextRenderer(new Vector(), gameOverLT.getValue(), textPaintCan))
         .add(
             "BackButton",
-            new Button(
-                    new Vector(593, 249).multiply(0.75f),
-                    getEngine().getGameAssetManager(),
-                    "Bomber",
-                    "To_Menu")
+            new Button(new Vector(593, 249), getEngine().getGameAssetManager(), "Bomber", "To_Menu")
                 .build()
-                .registerObserver(this::observeBackButton)
-                .addOffset(new Vector(0, 150))
+                .registerObserver(this::observeBackButton).addOffset(500, 325)
                 .close())
         .close();
   }

@@ -107,7 +107,8 @@ public class BomberEngine extends GameObject implements Observable {
 
     // create game over menu
     gameOverMenu = new GameOverMenu(new Vector(625, 625));
-    gameOverMenu.setAbsolutePosition(new Vector(500, 250));
+    gameOverMenu.updateAllPosition();
+    gameOverMenu.setOffset(new Vector(500, 250));
     gameOverMenu.setZ(1000);
     gameOverMenu.setEnable(false);
     gameOverMenu.registerObserver(this::observeGameOverMenu);
