@@ -1,10 +1,76 @@
 {
-  "FirstGame": {
-    "DisplayName": "First Play",
+  "Tsu_FirstGame": {
+    "DisplayName": "First Game!!!",
     "Icon": {
       "Set": "Tsu",
-      "Sheet": "Buttons",
-      "Tile X": 15,
+      "Sheet": "Achievements",
+      "Tile X": 0,
+      "Tile Y": 0
+    },
+    "Description": "Play A Game",
+    "Hidden": false
+  },
+  "Tsu_F": {
+    "DisplayName": "Try again next time!!",
+    "Icon": {
+      "Set": "Tsu",
+      "Sheet": "Achievements",
+      "Tile X": 1,
+      "Tile Y": 0
+    },
+    "Description": "Play A Game",
+    "Hidden": false
+  },
+  "Tsu_C": {
+    "DisplayName": "Getting Warmed Up",
+    "Icon": {
+      "Set": "Tsu",
+      "Sheet": "Achievements",
+      "Tile X": 2,
+      "Tile Y": 0
+    },
+    "Description": "Play A Game",
+    "Hidden": false
+  },
+  "Tsu_B": {
+    "DisplayName": "Not too bad",
+    "Icon": {
+      "Set": "Tsu",
+      "Sheet": "Achievements",
+      "Tile X": 3,
+      "Tile Y": 0
+    },
+    "Description": "Play A Game",
+    "Hidden": false
+  },
+  "Tsu_A": {
+    "DisplayName": "Great!!!",
+    "Icon": {
+      "Set": "Tsu",
+      "Sheet": "Achievements",
+      "Tile X": 4,
+      "Tile Y": 0
+    },
+    "Description": "Play A Game",
+    "Hidden": false
+  },
+  "Tsu_S": {
+    "DisplayName": "Almost Perfect",
+    "Icon": {
+      "Set": "Tsu",
+      "Sheet": "Achievements",
+      "Tile X": 5,
+      "Tile Y": 0
+    },
+    "Description": "Play A Game",
+    "Hidden": false
+  },
+  "Tsu_SS": {
+    "DisplayName": "LEGENDARY",
+    "Icon": {
+      "Set": "Tsu",
+      "Sheet": "Achievements",
+      "Tile X": 6,
       "Tile Y": 0
     },
     "Description": "Play A Game",

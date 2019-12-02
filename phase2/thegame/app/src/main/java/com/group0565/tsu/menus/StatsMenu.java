@@ -187,8 +187,8 @@ public class StatsMenu extends GameMenu implements Observable {
 
     public void setSort(Sort sort) {
         this.sort = sort;
-        if (history != null)
-            Collections.sort(history, sort.comparator);
+        if (filteredHistory != null)
+            Collections.sort(filteredHistory, sort.comparator);
         this.notifyObservers(new ObservationEvent<>(HISTORY_UPDATE_EVENT, history));
     }
 
@@ -239,7 +239,7 @@ public class StatsMenu extends GameMenu implements Observable {
             if (sessionHitObjects.getBeatmapName().equals(this.selectedBeatmapName))
                 filteredHistory.add(sessionHitObjects);
         }
-        this.notifyObservers(new ObservationEvent<>(HISTORY_UPDATE_EVENT, history));
+        this.notifyObservers(new ObservationEvent<>(HISTORY_UPDATE_EVENT, filteredHistory));
     }
 
     private enum Sort {

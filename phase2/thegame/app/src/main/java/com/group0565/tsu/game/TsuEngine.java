@@ -11,6 +11,7 @@ import com.group0565.hitObjectsRepository.SessionHitObjects;
 import com.group0565.math.Vector;
 import com.group0565.tsu.core.TsuPreferences;
 import com.group0565.tsu.enums.ButtonBitmap;
+import com.group0565.tsu.enums.Grade;
 import com.group0565.tsu.enums.Scores;
 import com.group0565.tsu.menus.PauseMenu;
 import com.group0565.tsu.menus.StatsMenu;
@@ -179,7 +180,7 @@ public class TsuEngine extends GameMenu {
 
     private void observeJudgement(Observable observable, ObservationEvent<HitObject> event){
         if (event.isEvent(Judgementer.NOTE_HIT)) {
-            lastHit = ScoreCalculator.computeScore(event.getPayload(), ScoreCalculator.calculateDistribution(beatmap.getDifficulty()), true);
+            lastHit = ScoreCalculator.computeScore(event.getPayload(), ScoreCalculator.calculateDistribution(averageDifficulty(beatmap.getDifficulty())), true);
             if (lastHit == S0)
                 combo = 0;
             else{
@@ -187,6 +188,14 @@ public class TsuEngine extends GameMenu {
                 score += lastHit.getScore() * combo;
             }
         }
+    }
+
+    private double averageDifficulty(double difficulty) {
+        if (getGlobalPreferences() instanceof TsuPreferences){
+            TsuPreferences preferences = (TsuPreferences) getGlobalPreferences();
+            return (difficulty + preferences.getDifficulty())/2f;
+        }
+        return difficulty;
     }
 
     private void observePauseButton(Observable observable, ObservationEvent event){
@@ -210,7 +219,6 @@ public class TsuEngine extends GameMenu {
             audio.seekTo(0);
             currentTime = -beatmap.getLeadin() - hitWindow;
             running = true;
-            this.hitObjects = hitObjects.subList(0, 20);
             if (generator == null && getGlobalPreferences() instanceof TsuPreferences){
                 TsuPreferences preferences = (TsuPreferences)getGlobalPreferences();
                 if (preferences.getAuto()){
@@ -221,6 +229,7 @@ public class TsuEngine extends GameMenu {
 
             if (generator != null)
                 generator.init();
+            getEngine().getAchievementManager().unlockAchievement("Tsu", "Tsu_FirstGame");
         }
     }
 
@@ -250,6 +259,7 @@ public class TsuEngine extends GameMenu {
         SessionHitObjects sessionHitObjects = ScoreCalculator.constructSessionHitObjects(beatmap, judgementer.getArchive());
         if (getGlobalPreferences() instanceof TsuPreferences)
             sessionHitObjects.setCheats(((TsuPreferences) getGlobalPreferences()).getAuto());
+        checkAchivements(sessionHitObjects.getGrade());
         this.notifyObservers(new ObservationEvent<>(StatsMenu.TO_REPLAY.equals(source) ? TO_STATS : GAME_END, sessionHitObjects));
         this.source = null;
     }
@@ -274,6 +284,12 @@ public class TsuEngine extends GameMenu {
         this.running = false;
         pauseMenu.setEnable(false);
         judgementer.reset();
+    }
+
+    private void checkAchivements(int grade){
+        Grade gradeEnum = Grade.num2Grade(grade);
+        String gradeString = gradeEnum.getString();
+        getEngine().getAchievementManager().unlockAchievement("Tsu", "Tsu_" + gradeString);
     }
 
     /**

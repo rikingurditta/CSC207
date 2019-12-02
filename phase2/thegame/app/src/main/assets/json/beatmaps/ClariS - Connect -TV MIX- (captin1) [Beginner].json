@@ -1,0 +1,429 @@
+{
+ "Name": "ClariS - Connect -TV MIX- (captin1) [Beginner]",
+ "AudioSet": "Tsu",
+ "AudioFile": "ClariS - Connect -TV MIX- (captin1) [Beginner]",
+ "Title": "\u30b3\u30cd\u30af\u30c8 -TV MIX-",
+ "Artist": "ClariS",
+ "Creator": "captin1",
+ "Difficulty": 1,
+ "NoteWidth": 0.3333333333333333,
+ "Background": {
+  "Set": "Tsu",
+  "Name": "ClariS - Connect -TV MIX- (captin1) [Beginner]",
+  "tileX": 0,
+  "tileY": 0
+ },
+ "LeadIn": 2000,
+ "HitObjects": [
+  {
+   "Time": 1359,
+   "EndTime": 1359,
+   "Position": 0.15625
+  },
+  {
+   "Time": 2730,
+   "EndTime": 2730,
+   "Position": 0.6484375
+  },
+  {
+   "Time": 4101,
+   "EndTime": 4101,
+   "Position": 0.4921875
+  },
+  {
+   "Time": 5473,
+   "EndTime": 5473,
+   "Position": 0.578125
+  },
+  {
+   "Time": 6844,
+   "EndTime": 6844,
+   "Position": 0.4296875
+  },
+  {
+   "Time": 8216,
+   "EndTime": 8216,
+   "Position": 0.8828125
+  },
+  {
+   "Time": 9587,
+   "EndTime": 9587,
+   "Position": 0.8125
+  },
+  {
+   "Time": 10787,
+   "EndTime": 10787,
+   "Position": 0.3671875
+  },
+  {
+   "Time": 12330,
+   "EndTime": 12330,
+   "Position": 0.3125
+  },
+  {
+   "Time": 13016,
+   "EndTime": 13016,
+   "Position": 0.4140625
+  },
+  {
+   "Time": 14387,
+   "EndTime": 14387,
+   "Position": 0.28125
+  },
+  {
+   "Time": 15073,
+   "EndTime": 15073,
+   "Position": 0.0546875
+  },
+  {
+   "Time": 15759,
+   "EndTime": 15759,
+   "Position": 0.28125
+  },
+  {
+   "Time": 17130,
+   "EndTime": 17130,
+   "Position": 0.1484375
+  },
+  {
+   "Time": 17816,
+   "EndTime": 17816,
+   "Position": 0.140625
+  },
+  {
+   "Time": 18501,
+   "EndTime": 18501,
+   "Position": 0.421875
+  },
+  {
+   "Time": 19873,
+   "EndTime": 19873,
+   "Position": 0.328125
+  },
+  {
+   "Time": 20559,
+   "EndTime": 20559,
+   "Position": 0.5078125
+  },
+  {
+   "Time": 21930,
+   "EndTime": 21930,
+   "Position": 0.5078125
+  },
+  {
+   "Time": 23644,
+   "EndTime": 23644,
+   "Position": 0.6171875
+  },
+  {
+   "Time": 25359,
+   "EndTime": 25359,
+   "Position": 0.5078125
+  },
+  {
+   "Time": 26044,
+   "EndTime": 26044,
+   "Position": 0.2265625
+  },
+  {
+   "Time": 27416,
+   "EndTime": 27416,
+   "Position": 0.6328125
+  },
+  {
+   "Time": 28787,
+   "EndTime": 28787,
+   "Position": 0.5078125
+  },
+  {
+   "Time": 30159,
+   "EndTime": 30159,
+   "Position": 0.828125
+  },
+  {
+   "Time": 31530,
+   "EndTime": 31530,
+   "Position": 0.2265625
+  },
+  {
+   "Time": 32901,
+   "EndTime": 32901,
+   "Position": 0.453125
+  },
+  {
+   "Time": 33587,
+   "EndTime": 33587,
+   "Position": 0.625
+  },
+  {
+   "Time": 34616,
+   "EndTime": 34616,
+   "Position": 0.9296875
+  },
+  {
+   "Time": 36330,
+   "EndTime": 36330,
+   "Position": 0.25
+  },
+  {
+   "Time": 37016,
+   "EndTime": 37016,
+   "Position": 0.28125
+  },
+  {
+   "Time": 38387,
+   "EndTime": 38387,
+   "Position": 0.0859375
+  },
+  {
+   "Time": 39759,
+   "EndTime": 39759,
+   "Position": 0.2265625
+  },
+  {
+   "Time": 41130,
+   "EndTime": 41130,
+   "Position": 0.8203125
+  },
+  {
+   "Time": 41816,
+   "EndTime": 41816,
+   "Position": 0.802734375
+  },
+  {
+   "Time": 42501,
+   "EndTime": 42501,
+   "Position": 0.783203125
+  },
+  {
+   "Time": 43873,
+   "EndTime": 43873,
+   "Position": 0.9296875
+  },
+  {
+   "Time": 44559,
+   "EndTime": 44559,
+   "Position": 0.9453125
+  },
+  {
+   "Time": 45244,
+   "EndTime": 45244,
+   "Position": 0.703125
+  },
+  {
+   "Time": 46616,
+   "EndTime": 46616,
+   "Position": 0.5078125
+  },
+  {
+   "Time": 47301,
+   "EndTime": 47301,
+   "Position": 0.2109375
+  },
+  {
+   "Time": 47987,
+   "EndTime": 47987,
+   "Position": 0.28125
+  },
+  {
+   "Time": 49359,
+   "EndTime": 49359,
+   "Position": 0.421875
+  },
+  {
+   "Time": 50044,
+   "EndTime": 50044,
+   "Position": 0.7265625
+  },
+  {
+   "Time": 50730,
+   "EndTime": 50730,
+   "Position": 0.515625
+  },
+  {
+   "Time": 52273,
+   "EndTime": 52273,
+   "Position": 0.7421875
+  },
+  {
+   "Time": 52787,
+   "EndTime": 52787,
+   "Position": 0.7734375
+  },
+  {
+   "Time": 53473,
+   "EndTime": 53473,
+   "Position": 0.8984375
+  },
+  {
+   "Time": 54844,
+   "EndTime": 54844,
+   "Position": 0.3125
+  },
+  {
+   "Time": 55873,
+   "EndTime": 55873,
+   "Position": 0.3125
+  },
+  {
+   "Time": 56216,
+   "EndTime": 56216,
+   "Position": 0.4609375
+  },
+  {
+   "Time": 57587,
+   "EndTime": 57587,
+   "Position": 0.875
+  },
+  {
+   "Time": 58273,
+   "EndTime": 58273,
+   "Position": 0.9140625
+  },
+  {
+   "Time": 58959,
+   "EndTime": 58959,
+   "Position": 0.6796875
+  },
+  {
+   "Time": 60330,
+   "EndTime": 60330,
+   "Position": 0.6796875
+  },
+  {
+   "Time": 61016,
+   "EndTime": 61016,
+   "Position": 0.5390625
+  },
+  {
+   "Time": 61701,
+   "EndTime": 61701,
+   "Position": 0.3984375
+  },
+  {
+   "Time": 63073,
+   "EndTime": 63073,
+   "Position": 0.3125
+  },
+  {
+   "Time": 64444,
+   "EndTime": 64444,
+   "Position": 0.77734375
+  },
+  {
+   "Time": 65816,
+   "EndTime": 65816,
+   "Position": 0.5
+  },
+  {
+   "Time": 67187,
+   "EndTime": 67187,
+   "Position": 0.703125
+  },
+  {
+   "Time": 67873,
+   "EndTime": 67873,
+   "Position": 0.828125
+  },
+  {
+   "Time": 68559,
+   "EndTime": 68559,
+   "Position": 0.5625
+  },
+  {
+   "Time": 69930,
+   "EndTime": 69930,
+   "Position": 0.71875
+  },
+  {
+   "Time": 71301,
+   "EndTime": 71301,
+   "Position": 0.21875
+  },
+  {
+   "Time": 72673,
+   "EndTime": 72673,
+   "Position": 0.3984375
+  },
+  {
+   "Time": 73359,
+   "EndTime": 73359,
+   "Position": 0.6953125
+  },
+  {
+   "Time": 74044,
+   "EndTime": 74044,
+   "Position": 0.8671875
+  },
+  {
+   "Time": 75416,
+   "EndTime": 75416,
+   "Position": 0.9140625
+  },
+  {
+   "Time": 77473,
+   "EndTime": 77473,
+   "Position": 0.375
+  },
+  {
+   "Time": 78159,
+   "EndTime": 78159,
+   "Position": 0.3203125
+  },
+  {
+   "Time": 78844,
+   "EndTime": 78844,
+   "Position": 0.5625
+  },
+  {
+   "Time": 79530,
+   "EndTime": 79530,
+   "Position": 0.828125
+  },
+  {
+   "Time": 80387,
+   "EndTime": 80387,
+   "Position": 0.5
+  },
+  {
+   "Time": 80730,
+   "EndTime": 80730,
+   "Position": 0.375
+  },
+  {
+   "Time": 82273,
+   "EndTime": 82273,
+   "Position": 0.2109375
+  },
+  {
+   "Time": 83644,
+   "EndTime": 83644,
+   "Position": 0.34375
+  },
+  {
+   "Time": 84330,
+   "EndTime": 84330,
+   "Position": 0.5
+  },
+  {
+   "Time": 85016,
+   "EndTime": 85016,
+   "Position": 0.65625
+  },
+  {
+   "Time": 86387,
+   "EndTime": 86387,
+   "Position": 0.62109375
+  },
+  {
+   "Time": 87416,
+   "EndTime": 87416,
+   "Position": 0.5
+  },
+  {
+   "Time": 87759,
+   "EndTime": 87759,
+   "Position": 0.5
+  }
+ ]
+}
