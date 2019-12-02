@@ -14,6 +14,11 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * A set of information related to a playable song.
+ *
+ * Contains information such as Name, Audio, and Background
+ */
 public class Beatmap {
     //Tag used for error reporting
     private static final String TAG = "AndroidBeatmap";
@@ -36,6 +41,7 @@ public class Beatmap {
 
     //Beatmap Information
     private String name;
+    //Audio information
     private String audioSet;
     private String audioFile;
     private AudioAsset audio;
@@ -43,18 +49,28 @@ public class Beatmap {
     private String artist;
     private String creator;
     private double difficulty;
+    //Length of time before the start of the song
     private long leadin;
+    //The width of a note in how much of the total width
     private float noteWidth;
     private Bitmap background;
     private List<HitObject> hitObjects;
 
+    //HitObject in Json
     private JSONArray hitObjectsJson;
 
+    /**
+     * Creates a Beatmap
+     * @param set The set the Json file is
+     * @param name The name of the Json file
+     * @param manager The GameAssetManager to load the json from
+     */
     public Beatmap(String set, String name, GameAssetManager manager) {
         super();
         JsonFile jsonFile = manager.getJsonFile(set, name);
         JSONObject jsonObject = jsonFile.getJsonObject();
         try {
+            //Load Beatmap from the Json file
             this.setName(jsonObject.getString(JsonName));
             this.setAudioSet(jsonObject.getString(JsonAudioSetName));
             this.setAudioFile(jsonObject.getString(JsonAudioFileName));
@@ -78,6 +94,9 @@ public class Beatmap {
         }
     }
 
+    /***
+     * Loads HitObjects from Json. Allows lazy loading.
+     */
     public void initBeatmap() {
         try {
             List<HitObject> hitObjects = new ArrayList<>(hitObjectsJson.length());

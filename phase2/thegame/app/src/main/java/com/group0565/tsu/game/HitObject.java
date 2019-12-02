@@ -1,11 +1,11 @@
 package com.group0565.tsu.game;
 
-import com.group0565.engine.gameobjects.InputEvent;
-import com.group0565.tsu.enums.Scores;
-
 import org.json.JSONException;
 import org.json.JSONObject;
 
+/**
+ * Contains Information on a single object to be hit
+ */
 public class HitObject {
   //Json Constants
   private static final String JsonTime = "Time";
