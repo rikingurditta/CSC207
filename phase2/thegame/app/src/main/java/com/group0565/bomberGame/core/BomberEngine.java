@@ -85,7 +85,7 @@ public class BomberEngine extends GameObject implements Observable {
     // TODO: figure out how to properly init without using adoptLater
 
     // create grid
-    SquareGrid grid = new SquareGrid(new Vector(100, 100), 0, 17, 8, 100, this);
+    SquareGrid grid = new SquareGrid(new Vector(100, 100), 0, 16, 8, 100, this);
     adoptLater(grid);
 
     // create player
@@ -141,18 +141,18 @@ public class BomberEngine extends GameObject implements Observable {
 
     canvas.drawText(
         timeLeftLT.getValue() + ": " + Math.floor(gameTimer / 1000) + "s",
-        new Vector(1600, 200),
+        new Vector(100, 10),
         textPaintCan);
     canvas.drawText(
         bombsPlacedLT.getValue() + ": " + meBomberMan.getNumBombsPlaced(),
-        new Vector(1600, 260),
+        new Vector(500, 0),
         textPaintCan);
     canvas.drawText(
         damageDealtLT.getValue() + ": " + meBomberMan.getDamageDealt(),
-        new Vector(1600, 320),
+        new Vector(900, 0),
         textPaintCan);
     canvas.drawText(
-        hpRemainingLT.getValue() + ": " + meBomberMan.getHp(), new Vector(1600, 380), textPaintCan);
+        hpRemainingLT.getValue() + ": " + meBomberMan.getHp(), new Vector(1300, 0), textPaintCan);
 
     canvas.drawText(
         "Max Bombs: " + meBomberMan.getNumSimultaneousBombs(), new Vector(450, 920), textPaintCan);
