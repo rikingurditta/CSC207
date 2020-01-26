@@ -1,0 +1,36 @@
+Dear group_0565
+
+This semester, we talked about MVP, the Model-View-Presenter architecture. It has many advantages, particularly when working with Android. As you can see from your project, your activity classes have methods that are specific to Android. If you encapsulate the rest of your code sufficiently, it is possible to port it to another platform simply by creating a new UI (for example, a website).
+
+Encapsulation can take on many forms. You can package your View classes together. You can ensure that your dependencies go one-way, towards the inner more abstract layers. You can incorporate SOLID principles as much as possible and design patterns where they make sense.
+Here is feedback that is specific to your project:
+
+You made good use of…
++ Abstraction:
+  - GameObject is the super object with all the other game components as its children. 
+  - An abstract class called Droppable for BomberMan was a good idea because all Droppables have common behaviour except for their effect on the user (which is represented as an abstract method) 
+  - An abstract InputSystem method allows there to be both real player input as well as AI input. 
+  - Swapability of game engines so that the games can be reused in different platforms. 
++ Extendibilty: Game Menu and updateAll gives flexibility when adding adding new things. Lane and Obstacle manager handle their own responsibilities. Strategy in the bomber game could be easily changed which was very impressive.
++ Readability: Size of classes, Javadoc and comments were very good.
++ Replay system deserves a special mention. Well done!
++ Design patterns:
+  - Builder pattern for constructing grids
+  - Repository pattern for storing game statistics
++ Solid principles:
+  - Dependency inversion so that the games rely on an abstract engine rather than a concrete engine (so that engines can be swapped out)
+  - Open/closed principle: easy to add new game objects (such as new droppables in BomberMan)
+
+The user sees…
++ A good user interface and enjoyable games
++ Customizable themes: Dark and light mode and customizable volume
+
+A good next step would be to…
++ Make use of interfaces; it wasn’t clear why some of the abstractions were represented as abstract classes instead of interfaces. For instance, could GridObject be replaced by an interface rather than an abstract class? Droppable sounds like the name of an interface. If you want to keep it as an abstract class, it should be a noun phrase like DroppableCharacter.
++ You may want to add graphs or a dynamic leaderboard so that the user can make sense of the statistics better.
+
+We hope that you enjoyed working on this project and found it a useful learning experience.
+
+Cheers,
+The CSC207 Instructional Team
+
